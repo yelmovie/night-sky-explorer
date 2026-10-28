@@ -1,0 +1,152 @@
+/* Local feedback for the observation flow; loaded after classroom.css. */
+.companion-dock { pointer-events: none; }
+.companion-button { pointer-events: auto; }
+.learning-v2 {
+  --flow-mint: #a9dfc6;
+  --flow-gold: #f4d28b;
+  --flow-ink: #264e48;
+}
+.learning-v2 .inline-feedback {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border: 1px solid #a1c1a4;
+  border-radius: 12px;
+  background: #e1efdf;
+  color: var(--flow-ink);
+  font-size: var(--classroom-small);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+.learning-v2 .inline-feedback:empty { display: none; }
+.learning-v2 .inline-feedback[data-tone='hint'] {
+  color: #735025;
+  background: #fff0d3;
+  border-color: #d2b275;
+}
+.learning-v2 .inline-feedback[data-tone='success'] {
+  border-left: 4px solid #45866a;
+  animation: flow-confirm 220ms ease-out;
+}
+.learning-v2 .body-fact {
+  min-width: 0;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid #a1c1b7;
+  border-left: 4px solid #548b7b;
+  border-radius: 12px;
+  background: #e7eee3;
+  color: #274d48;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+.learning-v2 .body-fact h3 {
+  margin: 0 0 8px;
+  font-family: var(--heading-font);
+  font-size: clamp(23px, 1.65vw, 30px);
+  font-weight: 400;
+  line-height: 1.3;
+}
+.learning-v2 .body-fact p { margin: 0; }
+.learning-v2 .body-fact p + p { margin-top: 8px; }
+.learning-v2 .body-fact .planet-image,
+.learning-v2 .body-fact .star-orb {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 0 8px;
+}
+.learning-v2 .sky-body.selected,
+.learning-v2 .sky-body[aria-pressed='true'] {
+  border-color: var(--flow-gold);
+  background: #294c52;
+  box-shadow: inset 0 0 0 2px var(--flow-gold);
+}
+.learning-v2 .sky-body.selected small,
+.learning-v2 .sky-body[aria-pressed='true'] small { color: #fff0bc; }
+.learning-v2 .day-shortcuts .chip {
+  min-height: 48px;
+  gap: 6px;
+  align-items: center;
+}
+.learning-v2 .day-shortcuts .chip.recorded,
+.learning-v2 .day-shortcuts .chip[aria-pressed='true'] {
+  background: #d7e9dc;
+  border-color: #62917c;
+  color: #285545;
+  box-shadow: inset 0 -2px 0 #9cbeaa;
+}
+.learning-v2 .day-shortcuts .moon-art {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+}
+.learning-v2 .answer-target.is-correct {
+  border-style: solid;
+  border-color: var(--flow-mint);
+  background: #254f4b;
+  box-shadow: inset 0 -3px 0 #91bfa9;
+}
+.learning-v2 .answer-target.needs-review {
+  border-style: dashed;
+  border-color: var(--flow-gold);
+  background: #4d493b;
+}
+.learning-v2 .planet-chip.is-placed {
+  border-color: #99b9a6;
+  background: #dfebdf;
+  color: #345d4b;
+}
+.learning-v2 .planet-chip.selected {
+  border-color: var(--flow-gold);
+  background: #fff0bf;
+  color: #30485a;
+  box-shadow: inset 0 0 0 2px #d6a956, 0 3px 0 #9b773d;
+}
+.learning-v2 .planet-chip:disabled { box-shadow: none; }
+.learning-v2 .flow-progress {
+  flex: 0 0 auto;
+  margin: 0 0 12px;
+  color: #d6e8db;
+  font-size: var(--classroom-small);
+  line-height: 1.4;
+  text-align: center;
+}
+.learning-v2 .toolbox .flow-progress { color: #385f52; text-align: left; }
+.learning-v2.is-advancing .toolbox .choice-card:disabled,
+.learning-v2.is-advancing .toolbox .choice-card[aria-disabled='true'] {
+  cursor: default;
+  opacity: .65;
+  transform: none;
+  box-shadow: none;
+}
+.learning-v2.is-advancing .toolbox .choice-card.selected { opacity: 1; }
+@keyframes flow-confirm {
+  from { opacity: .7; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (min-width: 701px) and (max-height: 700px) {
+  .learning-v2 .activity-heading { top: 14px; }
+  .learning-v2 .activity-heading > p { font-size: 14px; margin-bottom: 4px; }
+  .learning-v2 .activity-heading h1 { line-height: 1.25; }
+  .learning-v2 .activity-layout { top: 120px; }
+  .learning-v2[data-scene='s3b'] .experiment-zone { justify-content: flex-start; overflow: auto; }
+  .learning-v2[data-scene='s3b'] .piece-tray { flex: 0 0 auto; gap: 4px; margin-top: 8px; }
+  .learning-v2[data-scene='s3b'] .planet-chip { min-width: 52px; padding: 4px; }
+  .learning-v2[data-scene='s3b'] .planet-chip strong { font-size: 14px; }
+  .learning-v2 .body-fact { padding: 8px 12px; margin-bottom: 12px; }
+  .learning-v2 .body-fact h3 { margin-bottom: 4px; }
+  .learning-v2 .inline-feedback { padding: 8px 12px; margin: 8px 0; }
+  .learning-v2 .flow-progress { margin-bottom: 8px; }
+}
+@media (max-width: 700px) {
+  .learning-v2 { padding-bottom: 16px; }
+  .companion-dock { position: relative; inset: auto; max-width: none; margin: 16px; }
+  .learning-v2 .body-fact { padding: 12px; }
+  .learning-v2 .day-shortcuts { gap: 8px; }
+  .learning-v2 .toolbox .day-shortcuts .chip { flex-basis: 28%; min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .learning-v2 .inline-feedback { animation: none; }
+}
+body.reduce-motion .learning-v2 .inline-feedback { animation: none; }

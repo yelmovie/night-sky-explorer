@@ -1,0 +1,770 @@
+{
+  "schemaVersion": "1.0",
+  "project": {
+    "title": "별빛 관측 연구소",
+    "englishTitle": "Starlight Observation Lab",
+    "repository": "starlight-observation-lab",
+    "description": "An interactive science learning game for 4th-grade students to observe the Moon, explore lunar changes, investigate the Solar System, compare stars and planets, and examine constellations around Polaris.",
+    "topicId": "topic-13-night-sky",
+    "scienceWorldRegion": "지구·우주",
+    "grade": 4,
+    "semester": "4-2",
+    "unit": "밤하늘 관찰",
+    "stageCount": 5,
+    "screenCount": 10,
+    "formFactor": "tablet-landscape-16:9",
+    "backendRequired": false
+  },
+  "standards": [
+    {
+      "code": "4과13-01",
+      "text": "달의 모양과 표면, 달의 위상변화를 관찰하여 밤하늘 관찰에 흥미를 가질 수 있다."
+    },
+    {
+      "code": "4과13-02",
+      "text": "태양계 구성원을 알고, 태양과 행성을 조사할 수 있다."
+    },
+    {
+      "code": "4과13-03",
+      "text": "별의 정의를 알고, 북극성 주변의 별자리를 관찰할 수 있다."
+    }
+  ],
+  "designSystem": {
+    "visualDirection": "밝고 세련된 프리미엄 어린이용 과학 관측 연구소. 짙은 남색과 보라, 달빛 청백색, 청록, 절제된 금색 포인트. 과도하게 어둡거나 공포스러운 우주 분위기를 피한다.",
+    "textPolicy": "모든 한글 텍스트는 DOM/CSS/SVG로 구현하고 이미지·GLB 텍스처에 굽지 않는다.",
+    "assetPolicy": "원본 수업자료의 캐릭터·레이아웃·문항·앱 UI를 복제하지 않고 학습 구조와 기능만 벤치마킹한다.",
+    "interactionPolicy": "클릭 정답형은 보조 평가에만 사용하며 본편은 관찰·조작·예측·검증·증거연결·구성을 중심으로 한다.",
+    "threeDPolicy": {
+      "core": [
+        6,
+        7,
+        10
+      ],
+      "light": [
+        1,
+        9
+      ],
+      "twoPointFiveD": [
+        2,
+        3,
+        8
+      ],
+      "twoD": [
+        4,
+        5
+      ]
+    }
+  },
+  "globalLearningLoop": [
+    "관찰",
+    "증거 수집",
+    "비교",
+    "규칙 발견",
+    "예상 또는 구성",
+    "검증",
+    "기록",
+    "수정"
+  ],
+  "globalScopeGuards": [
+    "달 위상변화의 원인을 태양-지구-달 위치 관계로 설명하는 것을 핵심 평가로 사용하지 않는다.",
+    "달의 자전·공전 및 달 뒷면이 보이지 않는 이유를 본편 평가에 넣지 않는다.",
+    "행성의 정확한 질량·지름·거리·공전주기 계산을 요구하지 않는다.",
+    "북쪽 하늘 별자리를 이용해 북극성을 찾는 것을 필수 미션으로 만들지 않는다.",
+    "별자리 선은 사람이 별의 배열을 이해하기 위해 덧붙인 표현임을 유지한다.",
+    "학습용 태양계 모형은 실제 크기·거리 비례가 아님을 표시한다."
+  ],
+  "pages": [
+    {
+      "pageNumber": 1,
+      "pageId": "p01-observatory-hub",
+      "section": "main",
+      "stage": 0,
+      "stageName": "MAIN",
+      "title": "별빛 관측 연구소",
+      "standardCodes": [],
+      "runtime": "threejs-dom",
+      "threeDLevel": "light",
+      "threeDReason": "다섯 관측 장치와 진행 상태를 하나의 연구소 공간으로 보여주기 위한 경량 3D 허브.",
+      "learningGoal": "단원 전체 미션 흐름을 이해하고 연구 진행 상태를 확인한다.",
+      "studentMission": "고장 난 다섯 관측 장치를 순서대로 복구해 중앙 천문 돔을 다시 작동시켜라.",
+      "coreInteractions": [
+        "3D 장치 hotspot 선택",
+        "완료 상태 확인",
+        "연구노트 열기",
+        "이어하기",
+        "카메라 focus/reset"
+      ],
+      "layout": {
+        "top": "제목·관측 데이터 0/5·설정",
+        "center": "고정 3/4 카메라 3D 연구소",
+        "left": "연구노트",
+        "right": "선택 Stage 목표",
+        "bottom": "시작/이어하기·공통 내비게이션"
+      },
+      "gameLogic": [
+        "초기에는 Stage 1만 활성화한다.",
+        "Stage 완료 시 해당 장치 조명과 중앙 돔 잠금 표시가 켜진다.",
+        "카메라는 자유 이동이 아니라 짧은 focus tween만 사용한다.",
+        "잠긴 Stage는 필요한 이전 연구 데이터만 안내한다.",
+        "교사용 전체 해금은 Science World 공통 flag를 사용한다."
+      ],
+      "completionRules": [
+        "Stage 1 진입"
+      ],
+      "feedback": {
+        "locked": "이 장치를 작동하려면 앞 단계의 관측 데이터가 더 필요해.",
+        "ready": "관측 준비가 완료됐어. 연구를 시작하자."
+      },
+      "visualPrompt": "산 정상의 밝은 미래형 천문 연구소 내부를 프리미엄 3D 디오라마처럼 보여준다. 중앙에는 닫힌 흰색+청록 천문 돔과 어두운 별빛 코어, 주변에는 달 망원경 구역, 시간 기록 장치, 행성 홀로그램실, 별빛 판별실, 별자리 관측 돔이 방사형으로 배치된다. 짙은 남색·보라, 달빛 청백색, 절제된 금색 포인트. 유아적 장식 없이 세련된 어린이 과학 게임. 고정 3/4 카메라, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Three.js로 observatory_hub.glb를 로드하고 named node 또는 별도 hitbox를 Raycaster에 연결한다. stage state에 따라 emissive/light만 바꾼다. DOM Overlay에 ProgressBar, MissionPanel, ResearchNotebook을 렌더링한다. Screen 10에서 scene을 재사용할 수 있도록 worldState를 data-driven으로 만든다.",
+      "assetsNeeded": [
+        "observatory_hub.glb",
+        "stage_device_icons.svg",
+        "research_data_icons.svg"
+      ],
+      "nonGoals": [
+        "3D 자유 이동",
+        "긴 프롤로그 영상",
+        "처음부터 모든 개념 설명"
+      ],
+      "accessibility": [
+        "3D hotspot과 동등한 DOM 버튼 제공",
+        "잠금 상태를 아이콘+텍스트로 표시"
+      ]
+    },
+    {
+      "pageNumber": 2,
+      "pageId": "p02-moon-acquire",
+      "section": "stage",
+      "stage": 1,
+      "stageName": "달 표면 관측",
+      "title": "망원경으로 달을 포착하라",
+      "standardCodes": [
+        "4과13-01"
+      ],
+      "runtime": "phaser-dom",
+      "threeDLevel": "2.5d",
+      "learningGoal": "달의 전체 모양을 관측하고 시야·배율·초점을 조절한다.",
+      "studentMission": "흐릿한 밤하늘에서 망원경을 움직여 달을 포착하고 관측 가능한 상태로 초점을 맞춰라.",
+      "coreInteractions": [
+        "망원경 drag",
+        "pinch zoom",
+        "원형 focus ring drag",
+        "관측 유지",
+        "capture"
+      ],
+      "layout": {
+        "top": "Stage 1·관측 상태",
+        "center": "원형 망원경 viewport",
+        "right": "배율·초점 상태",
+        "bottom": "초점링·촬영",
+        "corner": "연구노트"
+      },
+      "gameLogic": [
+        "달은 초기 화면 중앙에 두지 않는다.",
+        "달 중심·배율·focusScore가 허용 범위일 때 관측 가능 상태가 된다.",
+        "초점 성공 구간은 충분히 넓게 둔다.",
+        "과도한 확대는 달 전체 관찰이 어렵다는 시각 피드백을 준다.",
+        "관측 가능 상태를 짧게 유지하면 촬영이 열린다."
+      ],
+      "completionRules": [
+        "달 포착",
+        "적정 배율",
+        "focusScore 통과",
+        "관측사진 1장 저장"
+      ],
+      "feedback": {
+        "search": "망원경을 천천히 움직이며 밝은 천체를 살펴봐.",
+        "zoom": "달 전체 모양이 보이도록 배율을 조절해 봐.",
+        "focus": "거의 선명해졌어. 초점링을 조금만 더 조절해 봐.",
+        "complete": "달을 또렷하게 포착했어. 이제 표면을 자세히 조사하자."
+      },
+      "visualPrompt": "짙은 남보라 밤하늘을 향한 천체망원경 관측 화면. 중앙에는 큰 원형 렌즈 시야, 주변에는 얇은 금속 링과 청록 계측 표시. 달은 처음엔 시야 밖에 있다가 조작으로 들어온다. 고해상도 2.5D 달 자료, 과도한 SF 홀로그램 없음, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Phaser panorama camera + circular mask viewport. 두 pointer 거리로 pinch scale을 계산하고 circular drag로 focusValue를 변경한다. blur가 무거우면 단계별 texture/filter를 사용한다. capture는 crop metadata로 저장한다.",
+      "assetsNeeded": [
+        "night_sky_panorama.webp",
+        "moon_full_highres.webp",
+        "telescope_overlay.webp",
+        "focus_ring.svg"
+      ],
+      "nonGoals": [
+        "망원경 광학 원리",
+        "달 위상 원인",
+        "실시간 달 위치 계산"
+      ],
+      "accessibility": [
+        "+/- 확대 버튼",
+        "focus slider/keyboard fallback"
+      ]
+    },
+    {
+      "pageNumber": 3,
+      "pageId": "p03-moon-surface-analysis",
+      "section": "stage",
+      "stage": 1,
+      "stageName": "달 표면 관측",
+      "title": "달 표면의 증거를 기록하라",
+      "standardCodes": [
+        "4과13-01"
+      ],
+      "runtime": "phaser-svg-dom",
+      "threeDLevel": "2.5d",
+      "learningGoal": "달 표면의 서로 다른 영역을 확대 관찰하고 특징을 비교한다.",
+      "studentMission": "달 표면에서 서로 다른 세 곳을 골라 확대·스캔하고 두 관측사진의 공통점과 차이점을 기록하라.",
+      "coreInteractions": [
+        "관찰 영역 선택",
+        "돋보기 drag",
+        "scan",
+        "관측핀",
+        "snapshot crop",
+        "A/B 비교",
+        "특징 태그"
+      ],
+      "layout": {
+        "left": "고해상도 달 표면",
+        "center": "이동형 관측 돋보기",
+        "right": "관측사진 3칸·특징 기록",
+        "bottom": "A/B 비교 보드"
+      },
+      "gameLogic": [
+        "정답 좌표 한 점이 아니라 넓은 valid observation zone을 사용한다.",
+        "밝고 어두운 부분·움푹 팬 형태처럼 화면에서 관찰 가능한 특징만 태그로 사용한다.",
+        "3곳 중 최소 2곳은 서로 다른 특징 영역이어야 한다.",
+        "학생이 찍은 crop을 실제 비교 보드에 사용한다.",
+        "공통점 1개와 차이점 1개 이상 기록한다."
+      ],
+      "completionRules": [
+        "관측 지점 3곳 이상",
+        "특징 태그 2종 이상",
+        "비교 기록 1세트"
+      ],
+      "feedback": {
+        "needVariety": "비슷한 곳만 보았어. 다른 밝기나 모양의 부분도 조사해 보자.",
+        "needEvidence": "네가 찍은 두 사진을 다시 확대해 비교해 봐.",
+        "complete": "서로 다른 표면을 직접 비교한 관측 기록이 완성됐어."
+      },
+      "visualPrompt": "고해상도 달 표면이 크게 보이는 밝은 과학 분석 화면. 원형 관측 돋보기와 청록 스캔 링, 오른쪽에는 학생 관측사진 슬롯. 탐정 보드보다 실제 관측 기록실의 느낌, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Phaser texture crop + SVG annotation. 위치는 normalized coordinates로 저장하고 valid zone은 JSON polygon으로 정의한다. ResearchNotebook에 snapshot metadata와 tags를 저장한다.",
+      "assetsNeeded": [
+        "moon_surface_detail.webp",
+        "scan_ring.svg",
+        "observation_pin.svg",
+        "comparison_frame.svg"
+      ],
+      "nonGoals": [
+        "달 지질학 심화",
+        "충돌구 형성 원인 심화",
+        "객관식 특징 맞히기"
+      ]
+    },
+    {
+      "pageNumber": 4,
+      "pageId": "p04-moon-timeline",
+      "section": "stage",
+      "stage": 2,
+      "stageName": "달빛 시간 기록",
+      "title": "여러 날의 달을 기록하라",
+      "standardCodes": [
+        "4과13-01"
+      ],
+      "runtime": "phaser-dom",
+      "threeDLevel": "none",
+      "learningGoal": "여러 날 동안 달의 모양이 달라지는 모습을 연속적으로 관찰하고 변화 흐름을 기록한다.",
+      "studentMission": "시간 기록기를 움직여 서로 떨어진 여러 관측일의 달을 촬영하고 나만의 관측 달력을 완성하라.",
+      "coreInteractions": [
+        "timeline scrub",
+        "관측 시점 이동",
+        "capture",
+        "관측 달력 저장",
+        "전후 비교"
+      ],
+      "layout": {
+        "top": "Stage 2·기록 수",
+        "center": "밤하늘과 큰 달",
+        "bottom": "시간 타임라인",
+        "right": "개인 관측 달력",
+        "left": "이전 관측 비교"
+      },
+      "gameLogic": [
+        "기본 구현은 검수된 학습용 관측 시퀀스다.",
+        "서로 붙은 시점만 촬영하지 못하도록 최소 간격 조건을 둔다.",
+        "5개 이상 시점을 기록하면 전체 흐름 재생을 연다.",
+        "달 이름 암기보다 밝은 부분의 변화 관찰을 우선한다.",
+        "학습용 시퀀스임을 UI에 표시한다."
+      ],
+      "completionRules": [
+        "서로 떨어진 관측 시점 5개 이상",
+        "관측 달력 5칸 이상",
+        "처음/중간/나중 구간 확인"
+      ],
+      "feedback": {
+        "tooClose": "비슷한 때만 기록했어. 시간이 더 지난 뒤의 달도 관찰해 보자.",
+        "compare": "처음 기록한 달과 지금 달의 밝은 부분을 비교해 봐.",
+        "complete": "여러 날의 달이 어떻게 달라지는지 한눈에 볼 수 있게 됐어."
+      },
+      "visualPrompt": "밤하늘 관측 화면 아래에 긴 시간 레일이 있고 중앙 달의 모양이 부드럽게 변한다. 오른쪽에는 학생 촬영 기록이 채워지는 디지털 관측 달력. 종이 달력 복제가 아닌 세련된 과학 소프트웨어형 2D UI, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Phaser TimelineScrubber와 moon_observation_sequence.json을 연결한다. discrete keyframe + mask interpolation. capture는 stepId/phaseKey를 저장한다. 실시간 천문 계산이 아니면 '학습용 시간 압축 관측' label을 DOM으로 강제한다.",
+      "assetsNeeded": [
+        "moon_phase_masks.webp",
+        "night_sky_gradient.webp",
+        "timeline_knob.svg",
+        "observation_calendar.svg"
+      ],
+      "nonGoals": [
+        "실시간 천문력",
+        "음력 날짜 암기",
+        "달 위상 원인 애니메이션"
+      ]
+    },
+    {
+      "pageNumber": 5,
+      "pageId": "p05-moon-prediction",
+      "section": "stage",
+      "stage": 2,
+      "stageName": "달빛 시간 기록",
+      "title": "다음 달 모습을 예측하라",
+      "standardCodes": [
+        "4과13-01"
+      ],
+      "runtime": "phaser-svg-dom",
+      "threeDLevel": "none",
+      "learningGoal": "변화 규칙을 바탕으로 이후 달 모습을 예상하고 실제 관측 상태와 비교한다.",
+      "studentMission": "비어 있는 관측 시점의 달 모습을 직접 만들어 예상한 뒤 시간을 진행해 실제 결과와 겹쳐 확인하라.",
+      "coreInteractions": [
+        "관측기록 비교",
+        "달 모양 조절",
+        "예측 잠금",
+        "시간 진행",
+        "alpha overlay",
+        "예측 수정"
+      ],
+      "layout": {
+        "left": "앞선 관측사진",
+        "center": "학생 예측 달 편집기",
+        "right": "실제 관측 결과",
+        "bottom": "예측 저장·시간 진행·비교"
+      },
+      "gameLogic": [
+        "4지선다 대신 밝은 영역 모양을 직접 조절한다.",
+        "예측 잠금 전 실제 상태를 노출하지 않는다.",
+        "시간 진행 후 predicted/actual mask를 반투명 중첩한다.",
+        "similarity는 자기점검용이며 벌점으로 쓰지 않는다.",
+        "차이가 크면 앞 기록을 다시 보고 1회 이상 수정 가능하다."
+      ],
+      "completionRules": [
+        "서로 다른 두 시점 예측",
+        "예측→실제 비교 2회",
+        "수정 또는 확인 기록"
+      ],
+      "feedback": {
+        "needPattern": "앞선 두 관측사진에서 밝은 부분이 어떻게 달라졌는지 먼저 비교해 봐.",
+        "revise": "예상과 조금 달랐어. 겹쳐 보고 다시 조절해 보자.",
+        "complete": "관측한 변화의 규칙을 이용해 다음 모습을 예상하고 확인했어."
+      },
+      "visualPrompt": "세 부분으로 나뉜 달 변화 예측실. 왼쪽 관측사진, 중앙 큰 달 편집기, 오른쪽 잠겨 있다가 열리는 실제 결과. 두 달을 반투명으로 겹치는 비교 레이어가 핵심. 밝은 청록 계열 UI, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Phaser mask + SVG guide. predictionShape를 normalized state로 저장하고 actualShape는 JSON에서 읽는다. overlay alpha slider를 제공한다. misconception tag는 변화 방향 혼동 등 의미 있는 오류를 기록한다.",
+      "assetsNeeded": [
+        "prediction_moon_base.webp",
+        "moon_phase_masks.webp",
+        "overlay_grid.svg",
+        "prediction_controls.svg"
+      ],
+      "nonGoals": [
+        "픽셀 정확도 경쟁",
+        "원인 설명",
+        "고정 4지선다"
+      ]
+    },
+    {
+      "pageNumber": 6,
+      "pageId": "p06-planet-analysis-3d",
+      "section": "stage",
+      "stage": 3,
+      "stageName": "태양계 연구",
+      "title": "미확인 행성을 분석하라",
+      "standardCodes": [
+        "4과13-02"
+      ],
+      "runtime": "threejs-dom",
+      "threeDLevel": "core",
+      "threeDReason": "행성의 표면·고리·색을 여러 방향에서 회전·확대하여 조사하는 행동 자체가 학습이므로 3D가 핵심 기능이다.",
+      "learningGoal": "행성의 눈에 보이는 특징을 조사하고 관측 증거를 바탕으로 행성을 판별한다.",
+      "studentMission": "이름이 가려진 행성 학습모형을 돌리고 확대·스캔해 특징을 모은 뒤 알맞은 후보를 판단하라.",
+      "coreInteractions": [
+        "3D rotate",
+        "pinch zoom",
+        "hotspot scan",
+        "관측사진 저장",
+        "증거 카드",
+        "후보 판정"
+      ],
+      "layout": {
+        "top": "UNKNOWN PLANET·증거 수",
+        "center": "큰 3D 행성",
+        "left": "관측 도구·reset",
+        "right": "증거·후보",
+        "bottom": "scan·기록 저장"
+      },
+      "gameLogic": [
+        "행성 이름은 처음 숨긴다.",
+        "후보 제출 전 2~3개 증거를 확보해야 한다.",
+        "색·줄무늬·고리 등 관찰 가능한 특징만 핵심 증거로 사용한다.",
+        "질량·지름·거리·공전주기를 정답 근거로 사용하지 않는다.",
+        "틀리면 부족한 증거 유형을 안내한다.",
+        "모형은 '관측자료를 바탕으로 만든 학습모형'으로 표시한다."
+      ],
+      "completionRules": [
+        "행성 3종 이상 조사",
+        "각 행성 증거 2종 이상",
+        "근거 기반 판정"
+      ],
+      "feedback": {
+        "needEvidence": "이름을 고르기 전에 표면을 더 돌려 보고 다른 특징도 기록해 봐.",
+        "ringHint": "한 방향에서만 보지 말고 행성을 돌려 주변 구조도 살펴봐.",
+        "complete": "관측 증거를 근거로 행성을 판단했어."
+      },
+      "visualPrompt": "밝은 천문 연구실 중앙에 하나의 행성 학습모형이 크게 떠 있는 프리미엄 3D 분석 화면. 청록 스캔 링과 얇은 금색 데이터 마커, 오른쪽 증거 패널 공간. 실제 특징을 알아볼 수 있으면서 어린이용으로 정돈된 과학 시각화, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Three.js 공통 sphere geometry와 행성별 texture/material을 재사용한다. 제한된 custom orbit controls, pinch zoom, Raycaster hotspot을 사용한다. 고리는 별도 ring mesh. texture는 lazy load/dispose한다.",
+      "assetsNeeded": [
+        "planet_textures_8set.webp",
+        "saturn_ring.webp",
+        "planet_scan_marker.svg",
+        "planet_evidence_icons.svg"
+      ],
+      "nonGoals": [
+        "행성 물리량 암기",
+        "실제 크기 계산",
+        "우주선 조종"
+      ],
+      "accessibility": [
+        "좌/우 회전 버튼",
+        "+/- 확대 버튼"
+      ]
+    },
+    {
+      "pageNumber": 7,
+      "pageId": "p07-solar-system-builder-3d",
+      "section": "stage",
+      "stage": 3,
+      "stageName": "태양계 연구",
+      "title": "태양계 홀로그램을 완성하라",
+      "standardCodes": [
+        "4과13-02"
+      ],
+      "runtime": "threejs-dom",
+      "threeDLevel": "core",
+      "threeDReason": "태양과 행성을 공간에 배치하고 완성 모형을 여러 방향에서 살펴보는 제작 경험을 위해 3D를 사용한다.",
+      "learningGoal": "태양계 구성원을 확인하고 앞에서 조사한 행성 자료를 활용해 학습용 태양계 모형을 구성한다.",
+      "studentMission": "태양과 행성 모형을 학습용 궤도 슬롯에 배치하고 필요한 경우 앞선 관측자료를 다시 열어 모형을 완성하라.",
+      "coreInteractions": [
+        "3D token 선택",
+        "drag 또는 select→slot",
+        "관측자료 호출",
+        "모형 회전",
+        "배치 수정",
+        "완성 실행"
+      ],
+      "layout": {
+        "top": "구성 진행도·학습용 모형 표시",
+        "center": "태양+8개 궤도 슬롯",
+        "left": "행성 트레이",
+        "right": "Screen 06 관측자료",
+        "bottom": "확인·수정·전체 보기"
+      },
+      "gameLogic": [
+        "태양과 8개 행성을 사용한다.",
+        "실제 크기·거리 비례가 아님을 항상 표시한다.",
+        "최소 두 행성은 Screen 06 관측자료를 다시 열어야 배치 확정 가능하다.",
+        "잘못 배치 시 정답 이름보다 확인할 관측 특징을 안내한다.",
+        "완성 후 전체 모델을 회전 관찰한다."
+      ],
+      "completionRules": [
+        "태양과 8개 행성 구성",
+        "관측자료 2회 이상 재사용",
+        "완성 모형 전체 보기"
+      ],
+      "feedback": {
+        "needRecord": "앞에서 조사했던 행성 기록을 다시 열어 특징을 확인해 보자.",
+        "notScale": "이 모형은 구성원을 살펴보기 위한 학습용 모형이야. 실제 거리와 크기 비율은 아니야.",
+        "complete": "관측자료를 이용해 태양계 홀로그램을 완성했어."
+      },
+      "visualPrompt": "원형 홀로그램 작업대 중앙에 태양, 여덟 개의 얇은 빛 궤도와 행성 모형이 배치되는 3D 제작실. 행성은 손으로 옮기기 충분히 크게 보이고 오른쪽에는 이전 관측사진 패널 공간. 청록·보라·금색의 세련된 과학 게임, 실제 축척처럼 보이는 수치 표시는 없음, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Three.js orbit slot을 data-driven node로 생성한다. 태블릿 drag가 불안정하면 select→slot도 지원한다. SolarSystemBuilderService가 구성원/순서를 검증하고 isNotToScale=true를 강제한다. Screen 06 evidence store를 읽는다.",
+      "assetsNeeded": [
+        "solar_system_table.glb",
+        "planet_textures_8set.webp",
+        "orbit_glow.webp",
+        "observation_record_frame.svg"
+      ],
+      "nonGoals": [
+        "실제 축척",
+        "행성 거리 계산",
+        "공전 속도 비교"
+      ]
+    },
+    {
+      "pageNumber": 8,
+      "pageId": "p08-star-planet-evidence",
+      "section": "stage",
+      "stage": 4,
+      "stageName": "별빛 판별",
+      "title": "별과 행성을 증거로 판별하라",
+      "standardCodes": [
+        "4과13-03"
+      ],
+      "runtime": "phaser-svg-dom",
+      "threeDLevel": "2.5d",
+      "learningGoal": "별의 정의를 알고 별과 행성의 공통점과 차이점을 근거로 설명한다.",
+      "studentMission": "밤하늘 관측대상을 조사한 뒤 별 또는 행성으로 판정하고 판단 근거를 연결하라.",
+      "coreInteractions": [
+        "sky drag",
+        "pinch zoom",
+        "target tracking",
+        "증거 카드",
+        "별/행성 claim",
+        "SVG reason connection"
+      ],
+      "layout": {
+        "left": "밤하늘 관측 창",
+        "center": "선택 천체 자료",
+        "right": "판정+근거 카드",
+        "bottom": "증거 연결·제출"
+      },
+      "gameLogic": [
+        "별과 행성 모두 밤하늘에서 빛나는 작은 점으로 보일 수 있다는 공통 관찰에서 시작한다.",
+        "판정과 근거를 모두 제출해야 한다.",
+        "별의 핵심 근거는 '스스로 빛을 내는 천체'이다.",
+        "밝기·크기·색 하나만으로 무조건 판정하지 않는다.",
+        "최소 4개 관측대상을 조사하고 라운드 순서는 seed로 바꿀 수 있다."
+      ],
+      "completionRules": [
+        "대상 4개 이상 조사",
+        "claim+reason 3개 이상 검증",
+        "별 정의 근거 1회 이상 사용"
+      ],
+      "feedback": {
+        "claimOnly": "판정은 했어. 어떤 증거가 그 판단을 뒷받침하는지 연결해 봐.",
+        "weakReason": "밝아 보인다는 것만으로는 충분하지 않아. 별의 정의를 다시 확인해 보자.",
+        "complete": "관측 결과와 정의를 근거로 별과 행성을 구분했어."
+      },
+      "visualPrompt": "넓은 밤하늘 관측창과 과학 증거 패널이 결합된 2.5D 화면. 별과 행성이 작은 점처럼 보이는 하늘, 오른쪽에는 선택한 대상과 근거를 연결할 연구 보드. 탐정 장식·빨간 X 없이 청록 라인과 별빛 흰색 중심, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Phaser로 starfield pan/zoom과 target hit area, DOM/SVG로 claim/reason UI. StarPlanetClaimService가 requiredReasonId를 검증한다. target type이 시각적 크기만으로 노출되지 않게 한다.",
+      "assetsNeeded": [
+        "starfield_tile.webp",
+        "celestial_target_icons.svg",
+        "evidence_cards.svg",
+        "connection_nodes.svg"
+      ],
+      "nonGoals": [
+        "별 거리 계산",
+        "행성 궤도 추론",
+        "밝기만으로 분류"
+      ]
+    },
+    {
+      "pageNumber": 9,
+      "pageId": "p09-polaris-constellation-dome",
+      "section": "stage",
+      "stage": 5,
+      "stageName": "북극성 주변 관측",
+      "title": "북극성 주변 별자리를 관찰하라",
+      "standardCodes": [
+        "4과13-03"
+      ],
+      "runtime": "threejs-canvas-dom",
+      "threeDLevel": "light",
+      "threeDReason": "반구형 밤하늘을 움직이며 북극성 주변 별 배열을 공간적으로 관찰하는 데 입체 돔이 효과적이지만 북극성 찾기 추론이 목적은 아니므로 경량 3D로 제한한다.",
+      "learningGoal": "북극성 주변의 별 배열과 별자리를 관찰하고 자신이 본 패턴을 기록한 뒤 기준 자료와 비교한다.",
+      "studentMission": "연구소가 지정한 북극성 주변 영역을 움직여 별 배열을 보고 눈에 띄는 별들을 연결한 뒤 기준 별자리 레이어와 비교하라.",
+      "coreInteractions": [
+        "manual sky rotate",
+        "별 확대/선택",
+        "star-to-star trace",
+        "reference layer on/off",
+        "alpha overlay",
+        "optional device orientation"
+      ],
+      "layout": {
+        "top": "Stage 5·관측 영역",
+        "center": "반구형 별자리 돔",
+        "left": "수동/센서 모드",
+        "right": "내 패턴·기준 레이어",
+        "bottom": "undo·비교·관측기록"
+      },
+      "gameLogic": [
+        "시스템이 북극성 주변 관측 영역과 시작점을 제공한다.",
+        "처음에는 별자리 연결선을 숨긴다.",
+        "학생이 먼저 패턴을 저장한 뒤 기준 레이어를 켠다.",
+        "선 일치율은 자기점검용으로만 사용한다.",
+        "DeviceOrientation은 선택 기능이며 manual drag와 완료 조건이 동일하다.",
+        "북쪽 하늘 별자리로 북극성을 찾아내는 상위 학년 미션은 사용하지 않는다."
+      ],
+      "completionRules": [
+        "별 5개 이상 관찰",
+        "학생 패턴 1개 이상 저장",
+        "기준 레이어 비교",
+        "별자리 1개 이상 관측 기록"
+      ],
+      "feedback": {
+        "observeFirst": "선부터 잇기보다 별들의 간격과 배열을 먼저 천천히 살펴봐.",
+        "compare": "네가 본 패턴과 기준 선을 겹쳐 보며 같은 점과 다른 점을 확인해 봐.",
+        "sensorDenied": "센서 없이도 괜찮아. 손가락으로 하늘을 움직이며 관찰할 수 있어.",
+        "complete": "북극성 주변의 별 배열을 직접 관찰하고 기준 자료와 비교했어."
+      },
+      "visualPrompt": "둥근 천문 돔 안에서 위를 올려다보는 넓은 3D 밤하늘. 북극성 주변의 별들이 검수된 위치 관계를 유지하고 처음에는 연결선이 없다. 학생 선은 얇은 청록빛, 기준 별자리 레이어는 은은한 금빛으로 겹쳐진다. 신화 캐릭터 그림 없이 과학 관측 중심, 장면 안 텍스트 없음.",
+      "implementationPrompt": "Three.js Points/instanced sprites로 constellation_data.json 좌표를 표시한다. manual drag 기본, DeviceOrientation은 capability check 후 사용자 선택 시 권한 요청. 연결선은 Canvas/SVG overlay에 starId edge로 저장하고 reference edge set과 비교한다.",
+      "assetsNeeded": [
+        "constellation_data.json",
+        "star_sprite.webp",
+        "dome_interior.glb",
+        "trace_line_fx.webp",
+        "reference_layer_icons.svg"
+      ],
+      "nonGoals": [
+        "북극성 직접 추론 찾기",
+        "계절별 별자리",
+        "신화 암기",
+        "GPS 필수"
+      ],
+      "accessibility": [
+        "센서 없이 완주",
+        "별 확대 hit area",
+        "trace undo"
+      ]
+    },
+    {
+      "pageNumber": 10,
+      "pageId": "p10-final-restoration",
+      "section": "final",
+      "stage": null,
+      "stageName": "FINAL",
+      "title": "별빛 관측 연구소 복구",
+      "standardCodes": [
+        "4과13-01",
+        "4과13-02",
+        "4과13-03"
+      ],
+      "runtime": "threejs-dom",
+      "threeDLevel": "core-reuse",
+      "threeDReason": "Screen 01 연구소를 그대로 재사용해 다섯 연구 데이터가 연결되고 돔이 열리는 공간 변화 자체를 최종 보상으로 보여주기 위해 3D를 사용한다.",
+      "learningGoal": "자신의 관측·예측·판별 기록을 되돌아보고 필요한 부분을 수정한 뒤 단원 학습을 통합한다.",
+      "studentMission": "남아 있는 오류 신호가 있다면 최대 세 개를 다시 관측해 수정하고 다섯 연구 데이터를 중앙 장치에 연결해 연구소를 복구하라.",
+      "coreInteractions": [
+        "개인 오류복구",
+        "이전 관측자료 호출",
+        "증거 수정",
+        "5종 데이터 연결",
+        "3D dome open",
+        "개인 기록 확인",
+        "선택 이름 입력 후 결과 카드 저장"
+      ],
+      "layout": {
+        "phase1": "개인 오류복구 패널",
+        "phase2": "Screen 01 재사용 3D 연구소",
+        "phase3": "나의 밤하늘 관측 기록",
+        "bottom": "다시 관측·저장·허브로 돌아가기"
+      },
+      "gameLogic": [
+        "misconceptionTags가 있으면 최대 3개 수행형 micro mission을 생성한다.",
+        "오류가 거의 없으면 고정 복습문항을 주지 않는다.",
+        "복구는 앞 Stage 조작의 축약 재수행형이다.",
+        "다섯 데이터가 모두 있을 때만 dome open sequence를 실행한다.",
+        "결과 패널은 학생이 실제로 만든 관측 기록을 사용한다.",
+        "이름은 PNG/인쇄 직전에만 입력하고 영구 저장하지 않는다.",
+        "MissionResult는 idempotent하게 1회 생성한다."
+      ],
+      "completionRules": [
+        "필요 오류복구 완료",
+        "5개 연구 데이터 연결",
+        "dome restoration 완료",
+        "MissionResult 생성"
+      ],
+      "feedback": {
+        "recovery": "이 기록은 한 번 더 관찰하면 더 정확해질 수 있어. 네가 남긴 자료를 다시 확인해 보자.",
+        "complete": "다섯 관측 데이터가 연결되면서 별빛 관측 연구소가 다시 작동하기 시작했어.",
+        "review": "원하는 관측실로 돌아가 다른 기록을 만들어 볼 수 있어."
+      },
+      "visualPrompt": "Screen 01과 같은 3D 연구소가 완전히 복구된 최종 장면. 다섯 관측 장치의 달빛 청백색·청록·보라·금빛 신호가 중앙 코어로 연결되고 천문 돔이 천천히 열려 넓은 밤하늘이 드러난다. 폭죽·코인보다 연구소 조명과 하늘 변화로 성취감을 만든다. 결과 패널 공간 확보, 장면 안 텍스트 없음.",
+      "implementationPrompt": "P01 scene을 재사용하고 worldState='restored'로 렌더링한다. RecoveryMissionService가 misconception tag 기반 최대 3개 micro mission을 생성한다. MissionResultAdapter로 허브 결과를 생성하고 Canvas 2D로 선택 저장용 PNG를 만든다. 이름은 메모리 값만 사용한다.",
+      "assetsNeeded": [
+        "observatory_hub.glb",
+        "restoration_core.webp",
+        "dome_open_fx.webp",
+        "result_badges.svg",
+        "result_frame.webp"
+      ],
+      "nonGoals": [
+        "고정 20문항 평가",
+        "모든 학생 동일 복습",
+        "학생 이름 영구 저장",
+        "과도한 폭죽"
+      ],
+      "accessibility": [
+        "dome open skip",
+        "reduced motion에서 카메라 이동 최소화",
+        "결과는 DOM text 제공"
+      ]
+    }
+  ],
+  "sourceBenchmarkNotes": [
+    {
+      "source": "초등학교_교과별_성취기준_2025.pdf",
+      "usedFor": "[4과13-01]~[4과13-03] 직접 범위",
+      "notCopied": "해당 없음 — 성취기준 원문 근거"
+    },
+    {
+      "source": "과학(이)_4-2-1_7차시_에듀테크수업_별과_행성_비교하기.pptx",
+      "usedFor": "시간 변경·확대축소·별과 행성 비교라는 디지털 관측 구조",
+      "transformedInto": "Screen 08 관측→증거→판정+근거",
+      "notCopied": "Stellarium UI, QR/쿠키/권한, 영어 검색, 슬라이드 레이아웃"
+    },
+    {
+      "source": "과학(정)_4-2-1_9차시_에듀테크수업_밤하늘_탐색기_별자리_추적하기 (2).pptx",
+      "usedFor": "확대축소·드래그·실제 하늘 비교·북극성 주변 관찰",
+      "transformedInto": "Screen 09 학생 패턴→기준 레이어 중첩",
+      "notCopied": "Sky Tonight UI, 설치 절차, 앱 화면"
+    },
+    {
+      "source": "(보완-밤하늘관찰) 달의 모양 변화.pptx",
+      "usedFor": "여러 날 달 모양 변화와 관찰 달력",
+      "transformedInto": "Screen 04 시간 관측 + Screen 05 예상→검증",
+      "notCopied": "스티커, 음력 암기, 달 자전·공전, 원본 슬라이드"
+    },
+    {
+      "source": "여러 날 동안 달의 모양 관찰하기기.pptx",
+      "usedFor": "여러 시점 비교와 변화 규칙 탐색",
+      "transformedInto": "개인 관측 달력과 비어 있는 시점 예측",
+      "notCopied": "6학년 표기, 시 수업, 날짜표, 문예 활동 형식"
+    },
+    {
+      "source": "2단원 단원정리 어벤져스 (2) (1).pptx",
+      "usedFor": "짧은 개념 회상의 역할",
+      "transformedInto": "Screen 10 개인 오류복구의 보조 문제 풀",
+      "notCopied": "캐릭터 IP, 배틀/점수 규칙, 원본 문항, 6학년 내용"
+    },
+    {
+      "source": "1단원. 밤하늘 관찰_달,더 알아보기 (나혼자산다,서프라이즈).pdf",
+      "usedFor": "호기심 확장 질문 방식",
+      "transformedInto": "선택형 더 알아보기 후보",
+      "notCopied": "방송 소재·문항·UFO/외계인 추측을 과학 사실로 제시"
+    },
+    {
+      "source": "언노운_우주를_보는_타임머신_활동지_A4.pdf",
+      "usedFor": "우주 호기심 질문과 관찰 후 생각 기록",
+      "transformedInto": "선택형 비밀 연구노트 후보",
+      "notCopied": "제임스 웹 빈칸·적외선 내용을 본편 필수 평가로 사용"
+    }
+  ],
+  "acceptanceChecklist": [
+    "5 Stages / 10 Screens 구조 유지",
+    "본편 핵심 성취기준은 4과13-01~03만 사용",
+    "Screen 06·07·10의 3D가 학습 기능과 연결",
+    "Screen 09는 센서 없이 완주 가능",
+    "동일 카드 그리드·단순 drag 정답 게임 반복 금지",
+    "앞 단계 데이터가 뒤 단계에서 최소 2회 재사용",
+    "실제 관측자료·학습모형·학습용 시간 시퀀스 구분",
+    "저장/복구 및 route guard 동작",
+    "Android Chrome·iPad Safari 핵심 흐름 검수",
+    "모든 한글 텍스트 DOM/CSS/SVG 렌더링"
+  ]
+}

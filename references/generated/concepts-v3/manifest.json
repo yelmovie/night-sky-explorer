@@ -1,0 +1,86 @@
+[
+  {
+    "id": "moon-surface-v3",
+    "prompt": "Use case: scientific-educational. Asset type: a single transparent lunar surface illustration for an elementary astronomy observation game; used as the SAME fixed lunar disk under mathematically animated phase masks and in magnified surface comparisons. Create ONE complete front-facing circular near-side Moon, orthographic face-on view, centered, full-moon illumination across the disk, neutral natural grey with clearly distinct broad darker lunar maria and lighter cratered highlands, detailed round impact craters with subtle rims, especially small sharp craters in the southern highlands. Subtle recognizable near-side maria distribution, restrained scientific textbook quality, realistic materials rendered as a refined soft 2D game illustration, matching premium navy-and-brass observatory art. Surface must be legible at 300px and remain detailed when enlarged. Flat frontal lighting with only very mild limb falloff: no crescent, no directional cast shadow, no external glow. Complete perfect circular disk, generous clear transparent padding, square 1024x1024 composition. TRUE transparent RGBA background including corners. No stars, scenery, other bodies, text, numbers, arrows, labels, borders, UI, watermark, checkerboard. This is an illustrative teaching model, not a claimed scientific lunar map.",
+    "source": "C:/Users/user/.codex/generated_images/01a18111-20b7-7920-a04b-1ed3e25131ca/exec-750d0e14-d042-4385-b20d-0899f15459e1.png",
+    "width": 1024,
+    "tool": "OpenAI built-in image_gen",
+    "date": "2026-10-28",
+    "raw": "references/generated/concepts-v3/moon-surface-v3.png",
+    "target": "public/assets/generated/moon-surface-v3.webp",
+    "sha256": "d9fe90475ddf80ea9466d77a8c0e4a5c9464b00d82d5c601790be8a8d33755c9",
+    "height": 1024,
+    "hasAlpha": true,
+    "bytes": 322292,
+    "subjectBounds": {
+      "x": 35,
+      "y": 38,
+      "width": 955,
+      "height": 946
+    },
+    "transparentFraction": 0.3162822723388672
+  },
+  {
+    "id": "sun-v3",
+    "prompt": "Use case: scientific-educational. Asset type: one isolated Sun for an elementary astronomy game, reused at 45px solar-order tokens and 170px observation views. ONE complete spherical Sun centered in a square 1024x1024 transparent image. Refined soft 2D scientific illustration with warm pale-gold luminous core, restrained amber-orange solar granulation and fine mottled plasma surface, subtle darker small sunspot groups, a very fine low corona close to its circular silhouette and just two tiny graceful edge prominences. Self-luminous, no external light source, no hemisphere cast shadow; avoid a fireball or explosion look. Detailed yet readable at small size, matches premium navy/antique-brass/cream observatory game assets. Sun disk fills about 78 percent of canvas width with the entire glow comfortably within margins. TRUE transparent RGBA background. No other planets, stars, space backdrop, orbit rings, faces, text, labels, numbers, arrows, panels, UI, watermark, checkerboard.",
+    "source": "C:/Users/user/.codex/generated_images/01a18111-20b7-7920-a04b-1ed3e25131ca/exec-8c7bbf63-8203-4ab0-a3bf-ecab874cc2bf.png",
+    "width": 640,
+    "tool": "OpenAI built-in image_gen",
+    "date": "2026-10-28",
+    "raw": "references/generated/concepts-v3/sun-v3.png",
+    "target": "public/assets/generated/sun-v3.webp",
+    "sha256": "bedfcfabefbf0a6ac30705e3ee653defbb53e82e4a09f8deff9ab445d351ae8a",
+    "height": 640,
+    "hasAlpha": true,
+    "bytes": 160128,
+    "subjectBounds": {
+      "x": 52,
+      "y": 55,
+      "width": 559,
+      "height": 527
+    },
+    "transparentFraction": 0.30725341796875
+  },
+  {
+    "id": "starlight-v3",
+    "prompt": "Use case: scientific-educational. Asset type: a single distant-star sprite for an elementary astronomy game's exact-coordinate sky map and star observation cards. ONE small bright white star light source centered on a TRUE transparent square RGBA background, refined astronomical 2D game art. Tiny concentrated white core, delicate ivory-to-icy-blue inner glow, soft restrained radial bloom with four short faint tapered diffraction rays. High-quality luminous texture with organic soft light, not a flat CSS dot, not a decorative five-point star, not a rocky planet, no visible detailed planetary surface, no dramatic explosion. The whole glow is isolated within the central 70 percent with ample clear transparent margins; all pixels at outer edges transparent. No additional stars, nebula, landscape, text, arrows, UI, border, watermark or checkerboard. White/neutral light so the map can preserve its magnitude sizes and use separate colored selection rings. This is an illustrative enlarged light point, not a real telescope photograph.",
+    "source": "C:/Users/user/.codex/generated_images/01a18111-20b7-7920-a04b-1ed3e25131ca/exec-7162ece6-369b-4b8e-b90f-b03959856f69.png",
+    "width": 256,
+    "tool": "OpenAI built-in image_gen",
+    "date": "2026-10-28",
+    "raw": "references/generated/concepts-v3/starlight-v3.png",
+    "target": "public/assets/generated/starlight-v3.webp",
+    "sha256": "8ef7a19f1db2e6d1341702890860ed186f396ee8a6f6cd8a6c4de75b6e9a447a",
+    "height": 256,
+    "hasAlpha": true,
+    "bytes": 5714,
+    "subjectBounds": {
+      "x": 105,
+      "y": 105,
+      "width": 46,
+      "height": 44
+    },
+    "transparentFraction": 0.9019775390625
+  },
+  {
+    "id": "core-dial-v3",
+    "prompt": "Use case: illustration-story. Asset type: one front-facing calibration instrument housing for a premium elementary astronomy observatory game. A complete circular scientific instrument, centered in square 1024x1024 composition. Refined soft 2D game illustration with richly crafted dark navy enamel, muted teal metal, antique brass rings, subtle screws and small mechanical details, dimensional highlights. Camera perfectly orthographic from directly above/front; no tilted perspective. LARGE perfectly round empty transparent central aperture, about 62 percent of instrument diameter: the app will render its own precise moving needle and target inside. Medium-narrow brass rim with small evenly spaced unnumbered engraved radial ticks, modest glass-like rim gleam only, nothing crossing or filling the center. Full exterior ring fits comfortably with 8 percent transparent margins. TRUE transparent RGBA background both outside AND through the entire central opening. No pointer/needle, no compass letters or numbers, no gold target mark, no text, no characters, no planets, no stars, no background scene, no UI buttons, no watermark, no checkerboard.",
+    "source": "C:/Users/user/.codex/generated_images/01a18111-20b7-7920-a04b-1ed3e25131ca/exec-08bfac8d-027f-4cd1-bfb4-8551b9984f1c.png",
+    "width": 640,
+    "tool": "OpenAI built-in image_gen",
+    "date": "2026-10-28",
+    "raw": "references/generated/concepts-v3/core-dial-v3.png",
+    "target": "public/assets/generated/core-dial-v3.webp",
+    "sha256": "9fafa870ab9bc3248addf5ef7f80b41c42f40018f47d3ace0fa4250e02a9f24c",
+    "height": 640,
+    "hasAlpha": true,
+    "bytes": 87386,
+    "subjectBounds": {
+      "x": 7,
+      "y": 6,
+      "width": 626,
+      "height": 623
+    },
+    "transparentFraction": 0.649873046875
+  }
+]

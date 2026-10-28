@@ -1,0 +1,338 @@
+[
+  {
+    "OriginalPath": "files/별빛_관측_연구소_심화_통합_설계_v2.md",
+    "CurrentPath": "references/documents/별빛_관측_연구소_심화_통합_설계_v2.md",
+    "Bytes": 38841,
+    "SHA256": "355F58A3B132BA488B390C61446ED6DBF5B3307DF09C8824DF8711A0C3A8B3FB",
+    "Category": "references/documents"
+  },
+  {
+    "OriginalPath": "files/starlight-observation-lab_design_bundle.zip",
+    "CurrentPath": "references/archives/starlight-observation-lab_design_bundle.zip",
+    "Bytes": 29160,
+    "SHA256": "D4DA44CAAD167F1FBC5E3FF195C9BB9B9C804F992CD5EC94318CBA619F9E6B62",
+    "Category": "references/archives"
+  },
+  {
+    "OriginalPath": "files/starlight-observation-lab_page_design_prompts.json",
+    "CurrentPath": "references/documents/starlight-observation-lab_page_design_prompts.json",
+    "Bytes": 37259,
+    "SHA256": "F1ED145DFF70728970E4265BC3DDFF8C79F79F9BDAB288AD7B766A130B4095C0",
+    "Category": "references/documents"
+  },
+  {
+    "OriginalPath": "files/starlight-observation-lab_PRD.md",
+    "CurrentPath": "references/documents/starlight-observation-lab_PRD.md",
+    "Bytes": 20035,
+    "SHA256": "ADDD38B53E5DF252712DDB1CB8959490514A62547A8D130A6F357D58CA5A96AC",
+    "Category": "references/documents"
+  },
+  {
+    "OriginalPath": "files/starlight-observation-lab_TRD.md",
+    "CurrentPath": "references/documents/starlight-observation-lab_TRD.md",
+    "Bytes": 21345,
+    "SHA256": "8C60397ADD58FD70FF2BB7A6BC488EA8ADA830B6355ABC5C2FF724583CDDEEE3",
+    "Category": "references/documents"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_01.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_01.png",
+    "Bytes": 1920661,
+    "SHA256": "A16D165BD0108FFDA3AA97CEC2950D5B1549421E577DEECF29B5F7DA3C0210FC",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_02.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_02.png",
+    "Bytes": 2206820,
+    "SHA256": "A7B52116CE91584C480DDA517641E3833C993BCF19CBA5B3CBB6F9989D78665E",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_03.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_03.png",
+    "Bytes": 2035752,
+    "SHA256": "6BA3256A8633A9001DF8CCD76CA6CA1A6101A652D35D11DB0A8770AF5BE85127",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_04.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_04.png",
+    "Bytes": 1926445,
+    "SHA256": "670445D224010E0B3DBD6C420E0F14F899F0A1745699A5205025EA44E53C63AB",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_05.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_05.png",
+    "Bytes": 2001392,
+    "SHA256": "DFF786C946D8B27A8BDCA625B728A0D806BFF76E64880564E7A6EB67065B578B",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_06.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_06.png",
+    "Bytes": 2204579,
+    "SHA256": "A796BB607B951A977A195851F8239588CA323F3109386272D1BFACC625CC7558",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_07.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_07.png",
+    "Bytes": 2061106,
+    "SHA256": "5E690CD2CAAD87C6D03F73C75D2794759BB59DCE203488CF47B9871026F7075A",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_08.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_08.png",
+    "Bytes": 1943943,
+    "SHA256": "E1F0AF2168BE1E8D37DB064E8C432D2293FBC55BA9F6CD8DCAE0ECE8DD1DEE54",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_09.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_09.png",
+    "Bytes": 1940331,
+    "SHA256": "18D09ABE3EFF3BD9798B2B6673D19802CBBC118C68A1917D6D019B86688DA465",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_10.png",
+    "CurrentPath": "references/images/screens-legacy/chatgpt_generated_10.png",
+    "Bytes": 2035090,
+    "SHA256": "90A79BC7731FA9755061BB20741E2F56750C223094049511EBF476D426692C34",
+    "Category": "references/images/screens-legacy"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_11.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_11.png",
+    "Bytes": 1968603,
+    "SHA256": "F99402507F7BBAEBF27CB2CA1656A09E03D83BC770E01D30C3437A34E131BD4B",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_12.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_12.png",
+    "Bytes": 2210759,
+    "SHA256": "20A2E27548090134BDABCA646510CBFE4B45B13DBC42778FFD8CA4D6F589E499",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_13.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_13.png",
+    "Bytes": 1963149,
+    "SHA256": "2AD8A4A9343242C605AF804DA4AA580791ED4AD4A63C5661B956F1F24C498AE2",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_14.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_14.png",
+    "Bytes": 1911599,
+    "SHA256": "B50A76C186B0AD78D2B775D0DB333FE4E0D98CED7FD9E3388D2C20F66105AC62",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_15.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_15.png",
+    "Bytes": 2026074,
+    "SHA256": "1276F5AC5529CDD61C159F7A9DAB89E0BFD22A9E6C01D2D9CE7C36FB44A90A36",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_16.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_16.png",
+    "Bytes": 2189276,
+    "SHA256": "6C2928BE52A8C1EC7E7A2089C661AC8F1B10EC51F8C9E37B57C1FCA22DBF454E",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_17.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_17.png",
+    "Bytes": 1918851,
+    "SHA256": "FE48B8E38E4404ABA2C0D1AA822D98B50695B8886240C2A3DF1EB9AFED4EA3F8",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_18.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_18.png",
+    "Bytes": 1912327,
+    "SHA256": "89A2572BAF87FAE71438D49FD1AA73F0D8974A33C79BE3A9C8E10552285ED6FB",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_19.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_19.png",
+    "Bytes": 2049752,
+    "SHA256": "A64158E1A08237651FC424A710A711C21CB3672FF434C66B0047078EB6409CE2",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_20.png",
+    "CurrentPath": "references/images/screens-variation/chatgpt_generated_20.png",
+    "Bytes": 2028538,
+    "SHA256": "6E619E72A33DB12DA99D138DA8B5E0109FAF0F88E30BA04C5ADF29BF77615D31",
+    "Category": "references/images/screens-variation"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_21.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_21.png",
+    "Bytes": 1949023,
+    "SHA256": "8AA1C561E580583CD4AD80E5AE6EE8A123CED95F7DF88427BCBB46BDBD97A6C6",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_22.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_22.png",
+    "Bytes": 2019500,
+    "SHA256": "512FC8012BD13D142C38F6214FB34E84BCFBD1D9365C196547B1CA40FB6233E7",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_23.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_23.png",
+    "Bytes": 1998817,
+    "SHA256": "9CCCBDF95642142A4145F1063223ECED9B1D0858C005AC7D755CDC7BC4AE2E34",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_24.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_24.png",
+    "Bytes": 1932529,
+    "SHA256": "26F50AEDA37F2892C67F68A0096F3BDA1E593C930948584CBFD8F29668D18261",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_25.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_25.png",
+    "Bytes": 2132576,
+    "SHA256": "B124A825837D5324A2CFE7851123E149E5EE88E312DC73CD78101A2D0FEBCB70",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_26.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_26.png",
+    "Bytes": 2184367,
+    "SHA256": "79D742A964B6A50F65813383A517D2EF1C588E04B731877A7CAF0D82AD1A6429",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_27.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_27.png",
+    "Bytes": 1969114,
+    "SHA256": "A33FB602F5E4A21463585B75C6C9E4AC06C3E0109A5683BF907C36D636C56B10",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_28.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_28.png",
+    "Bytes": 1938640,
+    "SHA256": "9BFE87BDD3A0FD9967A51408FAF2AE06E5C61753D24CB238CA6634D6E203E458",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_29.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_29.png",
+    "Bytes": 2108820,
+    "SHA256": "90D73E66C2CDA5FE083A39D2E5A03283614703A7CD018042655BC961341F08E7",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_30.png",
+    "CurrentPath": "references/images/screens-latest/chatgpt_generated_30.png",
+    "Bytes": 2016801,
+    "SHA256": "41D1973338BBDCD19509DB864F56B5DB8A71F8A80CD32B567B25EF146E3E88B2",
+    "Category": "references/images/screens-latest"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_31.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_31.png",
+    "Bytes": 2373226,
+    "SHA256": "176818B20E3C5102201E49509A3C47EC2942C444D4042060445FF78A4DB38A76",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_32.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_32.png",
+    "Bytes": 2319310,
+    "SHA256": "AF443FD7DEE8AB71BF5A4A68413662C91C3A552099FB1694B071230645BF08E2",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_33.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_33.png",
+    "Bytes": 2454123,
+    "SHA256": "FEAD8F465EBBB9D016A94AB6083694E3EBFDFEED09DB2C0035C5B3ED8FEEB50A",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_34.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_34.png",
+    "Bytes": 2368400,
+    "SHA256": "9AC699AD556D3096BB2D15B8D1D3DB1AB24A93D0319A32369D7ADF78CBFB89D1",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_35.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_35.png",
+    "Bytes": 2347691,
+    "SHA256": "DE9910AF73445E521A1057DEB0F70810D9F9310DAC3D4347CB3887DE27BBB12C",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_36.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_36.png",
+    "Bytes": 2429119,
+    "SHA256": "AA47D6598C305BCB82FF3D41AB187C0F48B64A9D1F6804AA425C7887E431A169",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_37.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_37.png",
+    "Bytes": 2463000,
+    "SHA256": "5894595405EDCBE95321E186217B86969D24442DAA3C3C88C60C3E13D1746D87",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_38.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_38.png",
+    "Bytes": 2314998,
+    "SHA256": "6C8AB8A991E6A34FAFACE7FFF5896104F1C3CD5B90BB9477A8225C5EB237A981",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_39.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_39.png",
+    "Bytes": 2354475,
+    "SHA256": "EF48D89A0A3398F70FA9FF28E0D1D4F54183BE6BF3AC156C7D1DD634B0939BAE",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_40.png",
+    "CurrentPath": "references/images/backgrounds/chatgpt_generated_40.png",
+    "Bytes": 2438913,
+    "SHA256": "DAC59BD8AD1458A9B2D30580D7219A0CDC1E0D8DF0E7AA463FE1FC5D19664456",
+    "Category": "references/images/backgrounds"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_41.png",
+    "CurrentPath": "references/images/branding/chatgpt_generated_41.png",
+    "Bytes": 1929790,
+    "SHA256": "1ADF27B54584CA5FF4E14C7A12234F4848F8FFB03E6496EF18EDB7162E68526D",
+    "Category": "references/images/branding"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_42.png",
+    "CurrentPath": "references/images/characters/chatgpt_generated_42.png",
+    "Bytes": 1804148,
+    "SHA256": "474A457A2AA01D1B1503CC82CFD903F1D4F760E6498B0C921C5818697766B901",
+    "Category": "references/images/characters"
+  },
+  {
+    "OriginalPath": "image/chatgpt_generated_43.png",
+    "CurrentPath": "references/images/characters/chatgpt_generated_43.png",
+    "Bytes": 1633818,
+    "SHA256": "E4F367572C465671152979EF2EB7E3FE477230B5D17832E9FFC9B16FF88E7E8A",
+    "Category": "references/images/characters"
+  }
+]

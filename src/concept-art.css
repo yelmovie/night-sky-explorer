@@ -1,0 +1,35 @@
+/* Generated teaching assets; interactive geometry and labels remain live. */
+.celestial-art { display: inline-block; object-fit: contain; user-select: none; pointer-events: none; }
+.star-orb.celestial-art, .sun-token.celestial-art { background: none; border-radius: 0; box-shadow: none; }
+.moon-art image, .star-chart image, .star-chart use { pointer-events: none; }
+.light-lab { background: #132e43; border-color: #8aa8ae; }
+.light-lab .light-lab-art { display: block; width: 100%; height: clamp(140px, 19vh, 180px); margin: 0 auto 8px; }
+.light-lab .btn { width: 100%; }
+.learning-v2 .light-lab p { color: #dfebe6; font-size: var(--classroom-small); line-height: 1.45; margin: 8px 0 0; }
+.core-v3 .calibration { width: min(180px, 24vh); height: auto; aspect-ratio: 1; border: 0; box-shadow: none; background: #10283b; margin: 16px auto; }
+.calibration-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.core-v3 #calibration-pointer { inset: 22%; z-index: 1; }
+.core-v3 #calibration-pointer::after { height: 50%; top: 0; background: #a5f1e4; box-shadow: 0 0 8px #84d9cc55; }
+.core-v3 #calibration-pointer::before { content: ''; position: absolute; width: 12px; height: 12px; left: calc(50% - 6px); top: calc(50% - 6px); border-radius: 50%; background: #f2db9b; border: 2px solid #617e83; }
+.core-v3 .calibration-target { width: 16px; height: 8px; bottom: 19%; left: calc(50% - 8px); border-radius: 4px; background: #ffda72; box-shadow: 0 0 8px #ffd96c77; }
+.record-planet-strip { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.record-planet-strip > span { display: grid; justify-items: center; gap: 4px; min-width: 48px; }
+.record-planet-strip img { width: 48px; height: 48px; object-fit: contain; }
+.record-planet-strip strong { font-size: 14px; font-weight: 500; }
+.record-light-pair { display: flex; align-items: center; justify-content: center; gap: 24px; margin: 12px 0; }
+.record-light-pair figure { margin: 0; text-align: center; }
+.record-light-pair img { display: block; width: 72px; height: 72px; object-fit: contain; margin: auto auto 4px; }
+.record-light-pair figcaption { font-size: 15px; }
+.report-page .certificate { display: block; overflow-wrap: anywhere; }
+.report-page .certificate p, .report-page .certificate small { color: #425e6c; }
+.report-page .certificate small { display: block; font-size: 14px; line-height: 1.5; }
+.report-card .record-strip { flex-wrap: wrap; justify-content: flex-start; overflow: visible; gap: 8px; }
+.pattern-report .star-chart { flex: 0 0 120px; min-height: 0; max-height: 100px; background: #102c43; border: 1px solid #77909e; border-radius: 12px; }
+@media (min-width: 701px) and (max-height: 700px) {
+  .light-lab .light-lab-art { height: 132px; }
+  .core-v3 .calibration { width: 136px; margin: 12px auto; }
+}
+@media (max-width: 700px) {
+  .light-lab .light-lab-art { height: auto; max-height: 200px; }
+  .core-v3 .calibration { width: 180px; }
+}
