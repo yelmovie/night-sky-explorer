@@ -13,7 +13,7 @@ export function mountPlanet(host, planet, onView) {
       '<p class="empty">이 기기에서는 3D 화면을 열 수 없어.<br>다른 WebGL 지원 브라우저에서 회전 관찰을 해 줘. 아래 자료는 읽을 수 있어.</p>';
     return { dispose() {}, setView() {}, available: false };
   }
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.setClearColor(0, 0);
   host.appendChild(renderer.domElement);
   renderer.domElement.setAttribute(

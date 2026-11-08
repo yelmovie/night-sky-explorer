@@ -231,3 +231,12 @@ test("손상된 사전 항목을 정리하고 나머지 유효한 증거는 유�
   raw.drafts.classification.answers = [null];
   assert.doesNotThrow(() => restore(raw));
 });
+
+test('re-completing a stage preserves first submitted evidence', () => {
+  const s = studied();
+  assert.ok(completeStage(s, 1));
+  const original = structuredClone(s.evidence[1]);
+  s.drafts.moon.comparisons[0].observation = '다시 관찰해서 새롭게 적은 내용';
+  assert.ok(completeStage(s, 1));
+  assert.deepEqual(s.evidence[1], original);
+});

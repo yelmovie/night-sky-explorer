@@ -26,6 +26,7 @@ export function freshState() {
     scene: "home",
     resume: "map",
     started: false,
+    intro: false,
     settings: {
       muted: false, reducedMotion: false, adminUnlock: false,
       bgm: true, sfx: true, bgmVolume: 25,
@@ -49,13 +50,19 @@ export function freshState() {
       },
     },
     challengeAnswers: { 1: "", 2: "", 3: "", 4: "", 5: "" },
+    // Behaviour counts only shape the non-ranking inquiry style on the certificate.
+    stats: { observations: 0, reviews: 0, retries: 0, hints: 0 },
+    bonus: { cloudy: "", planet: "" },
     evidence: {},
-    core: { connections: {}, angle: 15, restored: false },
+    core: { connections: {}, angle: 15, restored: false, reportSeen: false },
     legacyV1: null,
     updatedAt: null,
   };
 }
 export const clone = (value) => structuredClone(value);
+export function track(s, kind) {
+  if (Object.hasOwn(s.stats, kind)) s.stats[kind] = Math.min(9999, (Number(s.stats[kind]) || 0) + 1);
+}
 export function completedCount(s) {
   return stageIds.filter((n) => !!s.evidence[n]).length;
 }
@@ -158,6 +165,7 @@ export function coreReady(s, core = s.core) {
 }
 export function completeStage(s, n) {
   if (!stageReady(s, n)) return false;
+  if (s.evidence[n]) return true; // Keep the first completed observation as evidence.
   s.evidence[n] = {
     data: clone(s.drafts[stageKeys[n]]),
     date: new Date().toISOString(),
@@ -321,6 +329,8 @@ export function restore(raw) {
     };
   }
   s.core.angle = bounded(s.core.angle, 0, 360, 15);
+  for (const key of Object.keys(s.stats)) s.stats[key] = Math.round(bounded(s.stats[key], 0, 9999, 0));
+  for (const key of Object.keys(s.bonus)) s.bonus[key] = s.bonus[key] === "done" ? "done" : "";
   s.core.restored = !!s.core.restored && coreReady(s);
   s.visited = [...new Set(s.visited.filter((n) => stageIds.includes(n)))];
   s.name = s.name.trim().slice(0, 20) || "별빛 연구원";

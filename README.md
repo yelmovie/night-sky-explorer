@@ -54,6 +54,12 @@ D: 임시 폴더 존재·쓰기 권한을 먼저 확인해. 결과·다운로드
 
 `npm run concepts:render`로 영상을 다시 만들 수 있어. `FFMPEG` 환경 변수로 실행 파일을 지정하며, 기본값은 D:의 기존 FFmpeg 도구야. [영상 설계](docs/CONCEPT_STORYBOARD.md) · [검증 기록](docs/VALIDATION.md) · [효과음 CC0 원문](public/assets/audio/Kenney-CC0.txt).
 
+## 2026-10-30 심화 설계 v2 퀘스트 흐름
+
+[심화 통합 설계 v2](references/documents/별빛_관측_연구소_심화_통합_설계_v2.md)에 맞춰 10개 학습 화면은 그대로 두고 **사건 도입 → 미션별 EVIDENCE·연구소 변화 → 연구 키트 → 최종 보고서 → 최종 미션(채널 연결 + 손으로 돌리는 보정 링) → 엔딩 영상 → 별빛 관측 연구원 인증서 → 보너스 퀘스트**를 더했어. 인증서의 학년·반·번호·이름은 출력 직전에만 적고 저장하지 않아. 자세한 변경과 검증은 [검증 기록](docs/VALIDATION.md) 맨 위 항목에 있어.
+
+브라우저 검증 스크립트는 `PLAYWRIGHT_MODULE`(playwright-core `index.mjs`), `BROWSER_EXECUTABLE`(Chrome/Edge 실행 파일), `TEST_URL`을 지정해 실행해. `scripts/verify-playthrough.mjs`(실제 조작 완주), `scripts/verify-quest.mjs`(보너스·엔딩), `scripts/shot-scenes.mjs`(화면 캡처, `TEST_SIZES=1280x800,1024x600`)가 있어.
+
 ## 문서·원본
 
 - [디자인 기준](docs/DESIGN.md) · [공통 SVG아이콘](docs/icon-prompts.md)

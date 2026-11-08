@@ -5,7 +5,7 @@ import { freshState, SAVE_KEY } from '../src/state.js';
 import { planets, bodies, solarOrder, patternRegions } from '../src/data.js';
 const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
 console.log('Starting browser playthrough');
-const browser = await chromium.launch({ executablePath: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+const browser = await chromium.launch({ executablePath: process.env.BROWSER_EXECUTABLE || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, hasTouch: true });
 const page = await context.newPage();
 const touch = await context.newCDPSession(page);
@@ -40,6 +40,7 @@ async function complete(number) {
   await page.keyboard.press('Escape'); await page.locator('[data-action="reward-video-' + number + '"]').waitFor();
   await click('continue-stage-' + number);
   if (number < 5) await scene(`s${number + 1}a`); else await page.locator('.core-v3').waitFor();
+  if (number === 5) { await page.locator('.final-report').waitFor(); await page.locator('.dialog-footer [data-action="close-modal"]').click(); }
   pass('Stage ' + number + ': real completion, optional concept, direct continuation');
 }
 await mkdir(new URL('../.cache/classroom-qa/', import.meta.url), { recursive: true });
@@ -47,7 +48,11 @@ try {
   await page.goto(base);
   const initial = freshState(); initial.settings.reducedMotion = true; initial.settings.muted = true;
   await page.evaluate(({ key, state }) => localStorage.setItem(key, JSON.stringify(state)), { key: SAVE_KEY, state: initial });
-  await page.reload(); await click('start'); await page.locator('#next-destination').click(); await scene('s1a');
+  await page.reload(); await click('start');
+  await page.locator('.story-dialog').waitFor(); await click('story-next-1-0'); await click('story-next-2-0'); await click('story-done');
+  assert.equal((await stored()).intro, true);
+  pass('Incident intro plays once before the first mission and is saved');
+  await page.locator('#next-destination').click(); await scene('s1a');
   assert.equal(await page.locator('#enter-room').count(), 0);
   pass('Unfinished map destination enters directly without an entry confirmation');
   for (let count = 0; count < 4; count++) await learn('pan-left');
@@ -170,6 +175,8 @@ try {
   await scene('s5b');
   for (const [round, region] of Object.values(patternRegions).entries()) {
     await drag(page.locator(`[data-star="${region.stars[0]}"]`), page.locator(`[data-star="${region.stars[1]}"]`));
+    // The drag's own click is swallowed for 100 ms; a person never taps the next star that fast.
+    await page.waitForTimeout(150);
     await page.locator(`[data-star="${region.stars[2]}"]`).click();
     const key = Object.keys(patternRegions)[round];
     assert.equal((await stored()).drafts.pattern.cases[key].lines.length, 2);
@@ -178,12 +185,25 @@ try {
   }
   pass('Keyboard star observation and continuous star lines without reselecting the shared endpoint');
   await complete(5);
+  assert.equal((await stored()).core.reportSeen, true);
+  await click('record-1'); await click('socket-2');
+  assert.equal((await stored()).core.connections[2], undefined);
+  pass('Final report opens once and a record in the wrong channel is refused with a hint');
   for (let number = 1; number <= 5; number++) { await click('record-' + number); await click('socket-' + number); }
-  await setRange('core-angle', 180); await click('restore'); await click('results');
+  const dial = await page.locator('#calibration').boundingBox(), centre = { x: dial.x + dial.width / 2, y: dial.y + dial.height / 2 }, radius = dial.width * .35;
+  await page.mouse.move(centre.x, centre.y - radius); await page.mouse.down();
+  for (let degree = 0; degree <= 165; degree += 15) await page.mouse.move(centre.x + Math.sin(degree * Math.PI / 180) * radius, centre.y - Math.cos(degree * Math.PI / 180) * radius, { steps: 3 });
+  await page.mouse.up();
+  assert.ok(Math.abs((await stored()).core.angle - 180) <= 10, 'ring turned by dragging');
+  pass('Calibration ring turns by dragging around the dial');
+  await click('restore'); await page.locator('.final-movie').waitFor(); await page.locator('#movie-done').click();
   assert.equal(await page.locator('.certificate').count(), 1);
   const finalState = await stored();
   assert.equal(finalState.core.restored, true); assert.equal(Object.keys(finalState.evidence).length, 5); assert.equal(finalState.settings.adminUnlock, false);
+  await page.locator('.cert-name input').fill('테스트');
+  assert.equal(JSON.stringify(await stored()).includes('테스트'), false);
   await page.reload(); await page.locator('.certificate').waitFor();
+  assert.equal(await page.locator('.cert-name input').inputValue(), '');
   pass('Five real records, restored core, certificate, and reload persistence in normal student mode');
   assert.deepEqual(errors, []);
   await writeFile(new URL('../.cache/classroom-qa/playthrough.json', import.meta.url), JSON.stringify({ passed, errors }, null, 2));

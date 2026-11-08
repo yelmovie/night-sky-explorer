@@ -1,0 +1,204 @@
+/* Observation surfaces grow; repeated prose and secondary documents stay outside the canvas. */
+.learning-v2[data-scene^='s3'] .experiment-zone,
+.learning-v2[data-scene^='s4'] .experiment-zone,
+.learning-v2[data-scene^='s5'] .experiment-zone { gap: 6px; }
+.learning-v2[data-scene^='s3'] .model-note,
+.learning-v2[data-scene^='s4'] .model-note,
+.learning-v2[data-scene^='s5'] .model-note { flex: 0 0 auto; margin: 0; font-size: 14px; line-height: 1.3; }
+.learning-v2[data-scene^='s3'] .toolbox .btn,
+.learning-v2[data-scene^='s4'] .toolbox .btn,
+.learning-v2[data-scene^='s5'] .toolbox .btn { min-height: 44px; margin: 0; padding: 7px 12px; }
+.learning-v2[data-scene^='s3'] .toolbox .field-label,
+.learning-v2[data-scene^='s4'] .toolbox .field-label,
+.learning-v2[data-scene^='s5'] .toolbox .field-label { margin: 0; font-size: 17px; line-height: 1.3; }
+.learning-v2[data-scene^='s3'] .flow-progress,
+.learning-v2[data-scene^='s4'] .flow-progress,
+.learning-v2[data-scene^='s5'] .flow-progress { margin: 0; font-size: 16px; line-height: 1.3; }
+.learning-v2[data-scene='s3a'] .planet-choices { flex: 0 0 auto; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; }
+.learning-v2[data-scene='s3a'] .planet-choice { min-width: 0; min-height: 60px; padding: 4px 2px; gap: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 11px; font-size: 15px; line-height: 1.2; }
+.learning-v2[data-scene='s3a'] .planet-choice .planet-image { width: 30px; height: 30px; }
+.learning-v2[data-scene='s3a'] .planet-choice span { line-height: 1.2; }
+.learning-v2[data-scene='s3a'] .planet-exhibit { flex: 1 1 0; min-height: 0; height: auto; width: 100%; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 4px; padding: 4px; margin: 0; background: radial-gradient(ellipse at 50% 50%, #31546b65, #10293e20 70%); border-radius: 16px; }
+.learning-v2[data-scene='s3a'] .planet-viewport { position: relative; grid-area: auto; min-height: 0; min-width: 0; overflow: hidden; display: grid; place-items: center; }
+.learning-v2[data-scene='s3a'] .planet-viewport > .planet-portrait,
+.learning-v2[data-scene='s3a'] .planet-viewport > .planet-viewer { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; max-height: 100%; max-width: 100%; object-fit: contain; margin: 0; }
+.learning-v2[data-scene='s3a'] .planet-exhibit .model-note { position: static; grid-area: auto; text-align: center; }
+.learning-v2[data-scene='s3a'] .toolbox { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.learning-v2[data-scene='s3a'] #planet-feature { min-height: 44px; height: 44px; padding: 6px; font-size: 16px; }
+.learning-v2[data-scene='s3a'] .inline-feedback { margin: 0; padding: 5px 8px; font-size: 15px; line-height: 1.35; }
+.learning-v2[data-scene='s3a'] .inline-feedback:empty { display: none; }
+.learning-v2[data-scene='s3a'] .viewer-toolbar { display: flex; flex-direction: column; align-items: stretch; gap: 5px; margin: 0; }
+.learning-v2[data-scene='s3a'] .viewer-toolbar > .btn { width: 100%; font-size: 16px; }
+.learning-v2[data-scene='s3a'] .viewer-settings { display: flex; gap: 10px; min-width: 0; }
+.learning-v2[data-scene='s3a'] .viewer-setting { flex: 1 1 0; min-width: 0; }
+.learning-v2[data-scene='s3a'] .viewer-setting .range-label { display: flex; justify-content: space-between; color: #38516a; font-size: 16px; line-height: 1.3; margin: 0; }
+.learning-v2[data-scene='s3a'] .viewer-setting output { color: #755523; font-size: 16px; }
+.learning-v2[data-scene='s3a'] .viewer-setting input { width: 100%; margin: 0; min-height: 44px; height: 44px; }
+.learning-v2[data-scene='s3a'] .planet-note-row,
+.learning-v2[data-scene='s4b'] .body-note-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.learning-v2[data-scene='s3a'] .planet-note-row .btn,
+.learning-v2[data-scene='s4b'] .body-note-row .btn { width: auto; min-width: 0; flex: 1 1 auto; }
+.learning-v2[data-scene='s3a'] .planet-note-row .flow-progress,
+.learning-v2[data-scene='s4b'] .body-note-row .flow-progress { flex: 0 0 auto; }
+
+/* The sorting board and sky map use the full width, with a slim action row. */
+.learning-v2[data-scene='s3b'] .activity-layout,
+.learning-v2[data-scene='s5a'] .activity-layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 52px; }
+.learning-v2[data-scene='s3b'] .toolbox,
+.learning-v2[data-scene='s5a'] .toolbox { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 10px; }
+.learning-v2[data-scene='s3b'] .toolbox > .btn { flex: 0 0 auto; width: auto; }
+.learning-v2[data-scene='s3b'] .toolbox .inline-feedback { flex: 1 1 auto; margin: 0; padding: 3px 8px; font-size: 15px; line-height: 1.3; }
+.learning-v2[data-scene='s3b'] .case-tabs { margin-bottom: 2px; }
+.learning-v2[data-scene='s3b'] .order-slots { flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); align-items: stretch; gap: 5px; }
+.learning-v2[data-scene='s3b'] .order-slots .answer-target { min-width: 0; min-height: 58px; padding: 4px 2px; gap: 3px; flex-direction: column; font-size: 16px; }
+.learning-v2[data-scene='s3b'] .order-slots .planet-image,
+.learning-v2[data-scene='s3b'] .order-slots .sun-token { width: 36px; height: 36px; }
+.learning-v2[data-scene='s3b'] .order-slots strong { font-size: 16px; line-height: 1.2; }
+.learning-v2[data-scene='s3b'] .order-slots small { font-size: 14px; line-height: 1.2; }
+.learning-v2[data-scene='s3b'] .piece-tray { flex: 0 0 auto; display: flex; flex-wrap: nowrap; justify-content: center; gap: 5px; padding: 5px; margin: 0; border: 1px solid #b0ced02e; border-radius: 12px; background: #071e3066; }
+.learning-v2[data-scene='s3b'] .piece-tray .planet-chip { flex: 1 1 0; min-width: 0; min-height: 54px; gap: 2px; padding: 4px 2px; flex-direction: column; }
+.learning-v2[data-scene='s3b'] .piece-tray .planet-image,
+.learning-v2[data-scene='s3b'] .piece-tray .sun-token { width: 26px; height: 26px; }
+.learning-v2[data-scene='s3b'] .piece-tray strong { font-size: 15px; line-height: 1.2; }
+.learning-v2[data-scene='s3b'] .group-targets { flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.learning-v2[data-scene='s3b'] .group-target { min-width: 0; min-height: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; gap: 4px; padding: 6px; }
+.learning-v2[data-scene='s3b'] .group-target > strong { font-size: 20px; line-height: 1.2; }
+.learning-v2[data-scene='s3b'] .group-cue { color: #dbe9e5; font-size: 14px; line-height: 1.3; }
+.learning-v2[data-scene='s3b'] .group-target .placed-planets { display: flex; flex-wrap: wrap; align-content: center; align-items: center; justify-content: center; gap: 4px 10px; min-width: 0; min-height: 0; width: 100%; margin: auto 0 0; }
+.learning-v2[data-scene='s3b'] .placed-planets > span { display: grid; justify-items: center; min-width: 0; gap: 2px; }
+.learning-v2[data-scene='s3b'] .placed-planets .planet-image { width: 28px; height: 28px; }
+.learning-v2[data-scene='s3b'] .placed-planets > span > span { font-size: 14px; line-height: 1.2; color: #f2ead5; }
+.learning-v2[data-scene='s3b'] .placed-planets .group-empty { display: block; color: #bcd5d7; font-size: 14px; line-height: 1.3; }
+
+.learning-v2[data-scene='s4a'] .sky-bodies { flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.learning-v2[data-scene='s4a'] .sky-body { display: grid; grid-template-columns: 54px minmax(0, 1fr); grid-template-rows: auto auto auto; align-items: center; gap: 2px 8px; min-width: 0; min-height: 0; padding: 7px; }
+.learning-v2[data-scene='s4a'] .sky-body > :first-child { grid-column: 1; grid-row: 1 / 4; width: 54px; height: 54px; object-fit: contain; }
+.learning-v2[data-scene='s4a'] .sky-body strong { grid-column: 2; grid-row: 1; font-size: 20px; line-height: 1.2; }
+.learning-v2[data-scene='s4a'] .sky-body > span:not(.star-orb) { display: block; grid-column: 2; grid-row: 2; color: #dbe9e5; font-size: 15px; line-height: 1.3; }
+.learning-v2[data-scene='s4a'] .sky-body small { grid-column: 2; grid-row: 3; font-size: 14px; line-height: 1.3; }
+.learning-v2[data-scene='s4a'] .toolbox { display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+.learning-v2[data-scene='s4a'] .body-fact { display: flex; align-items: center; gap: 8px; padding: 5px 8px; margin: 0; font-size: 16px; line-height: 1.3; }
+.learning-v2[data-scene='s4a'] .body-fact b { flex: 0 0 auto; }
+.learning-v2[data-scene='s4a'] .body-fact p { margin: 0; font-size: 16px; line-height: 1.3; }
+.learning-v2[data-scene='s4a'] .light-lab { margin: 0; padding: 7px; background: #102c42; border: 1px solid #5e8d9a; border-radius: 14px; }
+.learning-v2[data-scene='s4a'] .light-lab .light-lab-art { display: block; width: 100%; height: 142px; max-height: 142px; min-height: 0; margin: 0; }
+.learning-v2[data-scene='s4a'] .light-lab p { margin: 4px 0 0; color: #e4eee8; font-size: 15px; line-height: 1.3; }
+.learning-v2[data-scene='s4a'] .light-flow { stroke-dasharray: 9 6; animation: space-light-flow 1.8s linear infinite; }
+.learning-v2[data-scene='s4a'] [data-light-blocked='true'] .light-flow { animation: none; stroke-dasharray: none; }
+.learning-v2[data-scene='s4b'] .body-tabs { flex: 0 0 auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; margin: 0; }
+.learning-v2[data-scene='s4b'] .body-tabs .btn { min-width: 0; min-height: 44px; font-size: 16px; padding: 5px; margin: 0; }
+.learning-v2[data-scene='s4b'] .classification-exhibit { flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 48px; gap: 6px 12px; padding: 4px; align-items: center; }
+.learning-v2[data-scene='s4b'] .classification-exhibit > .planet-image,
+.learning-v2[data-scene='s4b'] .classification-exhibit > .star-orb { grid-column: 1; grid-row: 1; width: 100%; height: 100%; max-height: 100%; min-height: 0; object-fit: contain; }
+.learning-v2[data-scene='s4b'] .claim-target { grid-column: 2; grid-row: 1; min-height: 44px; padding: 8px; width: 100%; font-size: 20px; text-align: center; }
+.learning-v2[data-scene='s4b'] .claim-tray { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; margin: 0; }
+.learning-v2[data-scene='s4b'] .claim-tray .choice-card { min-width: 0; min-height: 44px; padding: 6px 20px; }
+.learning-v2[data-scene='s4b'] .toolbox { display: flex; flex-direction: column; justify-content: center; gap: 7px; }
+.learning-v2[data-scene='s4b'] .reason-choices { display: grid; gap: 5px; margin: 0; }
+.learning-v2[data-scene='s4b'] .reason-choices .choice-card { min-height: 44px; min-width: 0; font-size: 16px; line-height: 1.25; padding: 6px 26px 6px 9px; }
+.learning-v2[data-scene='s4b'] .inline-feedback { font-size: 15px; line-height: 1.3; margin: 0; padding: 5px 8px; }
+.learning-v2[data-scene='s4b'] .body-note-row .btn { font-size: 15px; padding-inline: 8px; }
+
+.learning-v2[data-scene^='s5'] #star-view { flex: 1 1 0; min-height: 0; display: flex; align-items: stretch; position: relative; isolation: isolate; border: 1px solid #8cbbc436; border-radius: 14px; overflow: hidden; margin: 0; background: radial-gradient(ellipse at 52% 40%, #29456880, #081c32d9 76%); }
+.learning-v2[data-scene^='s5'] #star-view .star-chart { display: block; width: 100%; height: 100%; min-height: 0; }
+.learning-v2[data-scene^='s5'] .chart-legend { display: flex; flex: 0 0 auto; align-items: center; justify-content: center; gap: 10px; min-height: 20px; font-size: 14px; line-height: 1.3; margin: 0; }
+.learning-v2[data-scene^='s5'] .chart-legend span { display: inline-flex; align-items: center; gap: 5px; min-width: 0; }
+.learning-v2[data-scene^='s5'] .chart-legend i { display: inline-block; flex-shrink: 0; }
+.learning-v2[data-scene^='s5'] .legend-observed,
+.learning-v2[data-scene^='s5'] .legend-selected { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #80e0c5; }
+.learning-v2[data-scene^='s5'] .legend-selected { border-color: #ffd771; }
+.learning-v2[data-scene^='s5'] .legend-mine,
+.learning-v2[data-scene^='s5'] .legend-reference { width: 22px; height: 0; border-top: 3px solid #80e0c5; }
+.learning-v2[data-scene^='s5'] .legend-reference { border-top-color: #ffd771; border-top-style: dashed; }
+.learning-v2[data-scene='s5a'] #star-observation { flex: 1 1 auto; min-width: 0; padding: 4px 8px; font-size: 16px; line-height: 1.3; margin: 0; }
+.learning-v2[data-scene='s5a'] .toolbox .flow-progress { flex: 0 0 auto; }
+.learning-v2[data-scene='s5b'] .chart-tools { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.learning-v2[data-scene='s5b'] .chart-actions { display: flex; gap: 5px; margin: 0; }
+.learning-v2[data-scene='s5b'] .chart-actions .btn { min-width: 0; min-height: 44px; font-size: 15px; padding: 5px 8px; margin: 0; }
+.learning-v2[data-scene='s5b'] .toolbox { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.learning-v2[data-scene='s5b'] .drawing-tip,
+.learning-v2[data-scene='s5b'] .reference-name { font-size: 16px; line-height: 1.35; margin: 0; }
+.learning-v2[data-scene='s5b'] .field-label { margin: 0; }
+.learning-v2[data-scene='s5b'] textarea { min-height: 64px; height: 80px; max-height: 100%; margin: 0; resize: none; }
+.learning-v2[data-scene='s5b'] .toolbox .model-note { color: #526379; text-align: left; }
+
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .planet-choices { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .planet-choice { min-height: 44px; flex-direction: row; font-size: 15px; padding: 3px 1px; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .planet-choice .planet-image { width: 20px; height: 20px; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .toolbox { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: center; gap: 5px 8px; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .field-label,
+.learning-v2[data-layout='portrait'][data-scene='s3a'] #planet-feature,
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .inline-feedback { grid-column: 1 / -1; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .viewer-toolbar { grid-column: 1; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .planet-note-row { grid-column: 2; flex-direction: column; align-items: stretch; justify-content: center; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .planet-note-row .flow-progress { text-align: center; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .viewer-settings { gap: 6px; }
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .viewer-setting .range-label,
+.learning-v2[data-layout='portrait'][data-scene='s3a'] .viewer-setting output { font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .activity-layout,
+.learning-v2[data-layout='portrait'][data-scene='s5a'] .activity-layout { grid-template-rows: minmax(0, 1fr) 58px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .order-slots { flex: 1 1 0; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .order-slots .answer-target { display: grid; grid-template-columns: 26px minmax(0, 1fr); grid-template-rows: auto auto; justify-items: center; gap: 1px 3px; min-height: 48px; padding: 3px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .order-slots small { grid-column: 2; font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .order-slots .planet-image,
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .order-slots .sun-token,
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .order-slots .slot-plus { grid-column: 1; grid-row: 1 / 3; width: 26px; height: 26px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .order-slots strong { grid-column: 2; font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .piece-tray { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 3px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .piece-tray .planet-chip { min-height: 44px; flex-direction: row; gap: 3px; padding: 3px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .piece-tray .planet-image,
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .piece-tray .sun-token { width: 25px; height: 25px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .piece-tray strong { font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .group-targets { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .group-target { padding: 4px; gap: 4px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .group-target > strong { font-size: 18px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .group-cue { font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .group-target .placed-planets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 3px; margin: auto 0; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .placed-planets .planet-image { width: 25px; height: 25px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .placed-planets > span > span { font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .toolbox { gap: 5px; padding: 4px 6px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .toolbox .btn { font-size: 14px; padding: 4px 7px; }
+.learning-v2[data-layout='portrait'][data-scene='s3b'] .toolbox .inline-feedback { font-size: 14px; padding: 3px 5px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-body { grid-template-columns: 38px minmax(0, 1fr); padding: 5px; gap: 2px 5px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-body > :first-child { width: 38px; height: 38px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-body strong { font-size: 17px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-body > span:not(.star-orb) { display: none; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-body small { grid-row: 2; font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .toolbox { gap: 5px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .body-fact { padding: 4px 6px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .light-lab { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-rows: 44px auto; align-items: center; gap: 5px; padding: 5px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .light-lab .light-lab-art { grid-column: 1; grid-row: 1 / 3; width: 100%; height: 132px; max-height: 132px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .light-lab .btn { grid-column: 2; grid-row: 1; font-size: 15px; padding: 5px; }
+.learning-v2[data-layout='portrait'][data-scene='s4a'] .light-lab p { grid-column: 2; grid-row: 2; margin: 0; font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s4b'] .body-tabs .btn { font-size: 15px; }
+.learning-v2[data-layout='portrait'][data-scene='s4b'] .classification-exhibit { grid-template-rows: minmax(0, 1fr) 44px; }
+.learning-v2[data-layout='portrait'][data-scene='s4b'] .toolbox { gap: 5px; }
+.learning-v2[data-layout='portrait'][data-scene='s4b'] .reason-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.learning-v2[data-layout='portrait'][data-scene='s4b'] .reason-choices .choice-card { font-size: 15px; min-height: 48px; }
+.learning-v2[data-layout='portrait'][data-scene='s4b'] .inline-feedback { font-size: 14px; padding: 4px 6px; }
+.learning-v2[data-layout='portrait'][data-scene='s5b'] .chart-tools { align-items: center; flex-wrap: wrap; gap: 4px; }
+.learning-v2[data-layout='portrait'][data-scene='s5b'] .chart-actions { margin-left: auto; }
+.learning-v2[data-layout='portrait'][data-scene='s5b'] .chart-actions .btn { font-size: 14px; padding: 4px 7px; }
+.learning-v2[data-layout='portrait'][data-scene='s5b'] .toolbox { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-content: center; gap: 5px 8px; }
+.learning-v2[data-layout='portrait'][data-scene='s5b'] .drawing-tip,
+.learning-v2[data-layout='portrait'][data-scene='s5b'] .reference-name,
+.learning-v2[data-layout='portrait'][data-scene='s5b'] .toolbox .model-note { grid-column: 1 / -1; font-size: 14px; }
+.learning-v2[data-layout='portrait'][data-scene='s5b'] [data-learning='compare-pattern'] { grid-column: 1 / -1; }
+.learning-v2[data-layout='portrait'][data-scene='s5b'] .field-label { grid-column: 2; }
+.learning-v2[data-layout='portrait'][data-scene='s5b'] textarea { grid-column: 1 / -1; min-height: 64px; height: 64px; }
+@container (min-height: 760px) {
+  .learning-v2[data-scene='s3a'] .planet-choice { min-height: 74px; font-size: 18px; }
+  .learning-v2[data-scene='s3a'] .planet-choice .planet-image { width: 38px; height: 38px; }
+  .learning-v2[data-scene='s3b'] .order-slots .planet-image,
+  .learning-v2[data-scene='s3b'] .order-slots .sun-token { width: 54px; height: 54px; }
+  .learning-v2[data-scene='s3b'] .piece-tray .planet-chip { min-height: 72px; }
+  .learning-v2[data-scene='s3b'] .piece-tray .planet-image,
+  .learning-v2[data-scene='s3b'] .piece-tray .sun-token { width: 38px; height: 38px; }
+  .learning-v2[data-scene='s4a'] .light-lab .light-lab-art { height: 220px; max-height: 220px; }
+  .learning-v2[data-scene='s4a'] .sky-body strong { font-size: 28px; }
+  .learning-v2[data-scene='s4a'] .sky-body > :first-child { width: 72px; height: 72px; }
+  .learning-v2[data-scene='s4a'] .sky-body { grid-template-columns: 72px minmax(0, 1fr); }
+}
+@keyframes space-light-flow { to { stroke-dashoffset: -30; } }
+@media (prefers-reduced-motion: reduce) { .learning-v2[data-scene='s4a'] .light-flow { animation: none; } }
+body.reduce-motion .learning-v2[data-scene='s4a'] .light-flow { animation: none; }

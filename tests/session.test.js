@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createResearchSession } from '../src/session.js';
+import { SAVE_KEY, freshState } from '../src/state.js';
+const memory = () => { const map = new Map(); return { map, getItem:k=>map.get(k)??null, setItem:(k,v)=>map.set(k,v) }; };
+test('session saves and reloads student draft',()=>{const store=memory(), a=createResearchSession(store);a.state.name='루미';assert.ok(a.save(a.state));assert.equal(createResearchSession(store).state.name,'루미');});
+test('second tab cannot overwrite newer student progress',()=>{const store=memory(),a=createResearchSession(store),b=createResearchSession(store);a.state.name='첫째';assert.ok(a.save(a.state));assert.equal(b.save(b.state),false);assert.equal(JSON.parse(store.getItem(SAVE_KEY)).name,'첫째');assert.match(b.warning,/다른 창/);});
+test('invalid source stays byte-identical, automatic save blocked',()=>{const store=memory();store.setItem(SAVE_KEY,'{broken');const s=createResearchSession(store);assert.equal(s.save(s.state),false);assert.equal(store.getItem(SAVE_KEY),'{broken');assert.equal(s.backup(),false);});
+test('reset backup preserves prior record and never overwrites backup',()=>{const store=memory(),s=createResearchSession(store);s.save(s.state);const before=store.getItem(SAVE_KEY);assert.ok(s.backup());assert.ok(s.backup());assert.equal([...store.map.keys()].filter(k=>k.includes(':before-reset:')).length,2);assert.ok([...store.map.values()].every(x=>x===before));});
+test('blocked storage remains available as unsaved session',()=>{const s=createResearchSession({getItem(){throw Error('no');}});assert.ok(s.state);assert.equal(s.save(s.state),false);assert.ok(s.warning);});
+test('stored teacher unlock never resumes as student mode unlock',()=>{const store=memory(),state=freshState();state.settings.adminUnlock=true;store.setItem(SAVE_KEY,JSON.stringify(state));assert.equal(createResearchSession(store).state.settings.adminUnlock,false);});

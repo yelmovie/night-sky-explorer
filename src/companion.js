@@ -1,4 +1,5 @@
-import { firstReady, stageReady } from './state.js';
+import { firstReady, stageReady, completedCount } from './state.js';
+import { icon } from './drawing.js';
 import { planets, solarOrder, bodies } from './data.js';
 
 export function nextTask(state) {
@@ -39,5 +40,5 @@ export function hints(state) {
 }
 
 export function companionMarkup(state) {
-  return `<aside class="companion-dock" aria-label="탐구 동행 루미"><button class="companion-button" data-action="hint" aria-label="달토끼 루미에게 힌트 받기"><i class="rabbit-portrait" aria-hidden="true"></i><span>루미 · 힌트</span></button><p id="companion-task" role="status">${nextTask(state)}</p></aside>`;
+  return `<aside class="companion-dock" aria-label="탐구 동행 루미"><button class="companion-button" data-action="hint" aria-label="달토끼 루미에게 힌트 받기"><i class="rabbit-portrait" aria-hidden="true"></i><span>루미 · 힌트</span></button><p id="companion-task" role="status">${nextTask(state)}</p><button class="kit-button" data-action="kit" aria-label="연구 키트 열기, 관측 데이터 ${completedCount(state)}개 확보">${icon('book', 20)}<span>연구 키트</span><b>${completedCount(state)}/5</b></button></aside>`;
 }
