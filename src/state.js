@@ -21,7 +21,7 @@ export const scenes = [
 ];
 export function freshState() {
   return {
-    version: 2,
+    version: 2, mapRepairs: [],
     name: "별빛 연구원",
     scene: "home",
     resume: "map",
@@ -303,6 +303,7 @@ export function restore(raw) {
   if (!raw || ![1, 2].includes(raw.version)) return freshState();
   const s = raw.version === 1 ? migrateV1(raw) : clean(freshState(), raw);
   restoreDictionaries(s, raw);
+ s.mapRepairs=Array.isArray(raw.mapRepairs)?[...new Set(raw.mapRepairs.filter(n=>Number.isInteger(n)&&n>=0&&n<5))]:[];
   normalizeDrafts(s);
   s.settings.bgmVolume = bounded(s.settings.bgmVolume, 0, 100, 25);
   s.evidence = {};

@@ -1,3 +1,4 @@
+import {mountRepair} from './map-repair.js';
 import "./styles.css";
 import {
   chapters,
@@ -833,6 +834,7 @@ function bindControls(id) {
       },
       selectSite,
     );
+    mountRepair(document.querySelector('.map-page'),{state,save:persist,kind:'focus',preview:state.settings.adminUnlock,available:chapters.filter(c=>state.settings.adminUnlock||state.evidence[c.id]).map(c=>({id:c.id-1,label:c.place}))});
     cleanup = () => mapViewer?.dispose();
     $$("[data-site]").forEach((el) =>
       listen(el, "click", () => selectSite(+el.dataset.site)),
