@@ -1,3 +1,4 @@
+import {bindConceptFocus} from './concept-focus.js';
 export const concepts = {
   1: { title: '같은 달, 더 자세히 보기', seconds: 10, cues: [
     [0, '배율을 높이면 같은 달의 표면이 더 크게 보여요.'],
@@ -34,6 +35,8 @@ export function mountConcept(host, number, { reduced = false, sound, onClose } =
   const end = host.querySelector('.concept-end');
   const play = host.querySelector('.concept-play');
   let lastCue = -1, closed = false, failed = false;
+  let releaseFocus=()=>{};
+  reduced=reduced||matchMedia('(prefers-reduced-motion: reduce)').matches;
   function caption() {
     const index = clip.cues.findLastIndex(([at]) => at <= video.currentTime);
     if (index === lastCue) return;
@@ -43,7 +46,7 @@ export function mountConcept(host, number, { reduced = false, sound, onClose } =
   }
   function fallback() {
     if (closed || failed) return;
-    failed = true;
+    failed = true;releaseFocus();
     video.pause();
     video.querySelectorAll('source').forEach(source => source.removeAttribute('src'));
     video.load();
@@ -71,8 +74,11 @@ export function mountConcept(host, number, { reduced = false, sound, onClose } =
   document.addEventListener('visibilitychange', visibility);
   sound?.setDucked(true);
   caption();
+  const labels=[[],['배율','표면의 특징','같은 달'],['날짜 순서','밝은 부분','다음 모습 예상'],['태양과 행성','가까운 순서','모형의 한계'],['스스로 빛내는 별','빛을 반사하는 행성','빛의 근원'],['간격과 방향','다양한 연결','사람이 그은 선']][number];
+  const terms=[[],['배율','표면','무늬','밝은 곳','어두운 곳','구덩이'],['여러 날','날짜 순서','밝게 보이는 부분','예상'],['태양','행성','크기와 거리','모형'],['별','스스로 빛','행성','반사','빛의 근원'],['간격','방향','사람이 더한 표현','배열','별']][number];
+  releaseFocus=bindConceptFocus(host,video,{steps:clip.cues.map(([at],i)=>({at,term:labels[i]})),terms,caption:host.querySelector('.concept-caption'),anchor:host.querySelector('.concept-picture'),controls:false,reduced});
   return () => {
-    closed = true;
+    releaseFocus();closed = true;
     clearTimeout(timer);
     document.removeEventListener('visibilitychange', visibility);
     video.pause();
