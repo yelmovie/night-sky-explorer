@@ -40,7 +40,7 @@ export function playbackMarkup(state, ui = {}) {
   if (!availability.supported) return '';
   const playback = ui.playback?.scene === state.scene ? ui.playback : {};
   const playing = availability.enabled && playback.playing === true;
-  const label = playing ? '일시정지' : playback.finished ? '다시 보기' : '자동 관찰';
+  const label = playing ? '직접 해보기' : playback.finished ? '다시 보기' : '자동 관찰';
   const disabled = availability.enabled ? '' : ' disabled';
   return `<div class="observation-playback playback-controls" data-playback-scene="${state.scene}"><button type="button" class="btn secondary playback-toggle" id="play-time" data-learning="play-time" aria-pressed="${playing}"${availability.reason ? ` aria-describedby="playback-reason"` : ''}${disabled}>${playbackIcon(playing)}<span>${label}</span></button><label class="playback-speed"><span class="sr-only">자동 관찰 속도</span><select id="playback-speed" aria-label="자동 관찰 속도"${disabled}>${PLAYBACK_SPEEDS.map(speed => `<option value="${speed}"${speed === validSpeed(playback.speed) ? ' selected' : ''}>${speed}×</option>`).join('')}</select></label>${availability.reason ? `<small id="playback-reason" class="playback-reason">${availability.reason}</small>` : ''}</div>`;
 }
