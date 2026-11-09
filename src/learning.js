@@ -71,7 +71,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   }
   function playbackStateChanged(playback){
     const control=$('#play-time');
-    if(control){control.setAttribute('aria-pressed',String(playback.playing));const label=control.querySelector('span');if(label)label.textContent=playback.playing?'일시정지':playback.finished?'다시 보기':'자동 관찰';const path=control.querySelector('svg');if(path)path.innerHTML=playback.playing?'<path d="M8 5v14M16 5v14"/>':'<path d="m8 4 12 8-12 8Z"/>';}
+    if(control){control.setAttribute('aria-pressed',String(playback.playing));const label=control.querySelector('span');if(label)label.textContent=playback.playing?'직접 해보기':playback.finished?'다시 보기':'자동 관찰';const path=control.querySelector('svg');if(path)path.innerHTML=playback.playing?'<path d="M8 5v14M16 5v14"/>':'<path d="m8 4 12 8-12 8Z"/>';}
     if($('#playback-speed'))$('#playback-speed').value=playback.speed;
     $('.learning-v2')?.setAttribute('data-playing',String(playback.playing));
   }
