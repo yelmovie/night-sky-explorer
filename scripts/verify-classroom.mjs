@@ -3,12 +3,13 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { freshState, completeStage, SAVE_KEY } from '../src/state.js';
 import { planets, bodies, solarOrder, patternRegions } from '../src/data.js';
+import { concepts } from '../src/concepts.js';
 
 const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
 const base = process.env.TEST_URL || 'http://127.0.0.1:4183';
 const output = new URL('../.cache/classroom-qa/', import.meta.url);
 await mkdir(output, { recursive: true });
-const browser = await chromium.launch({ executablePath: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+const browser = await chromium.launch({ executablePath: process.env.BROWSER_EXECUTABLE || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
 const page = await context.newPage();
 const errors = [], layouts = [], media = [];
@@ -80,19 +81,19 @@ await openScene('s1b');
 await page.locator('[data-action="complete"]').click(); await layout('reward');
 await page.locator('[data-action="reward-video-1"]').click();
 await page.waitForFunction(() => document.querySelector('video')?.readyState >= 2);
-await page.locator('video').evaluate(video => { video.currentTime = 7; });
+await page.locator('video').evaluate((video, at) => { video.currentTime = at + .5; }, concepts[1].cues.at(-1)[0]);
 await page.waitForFunction(() => document.querySelector('.concept-caption')?.textContent.includes('원래'));
 await page.screenshot({ path: new URL('1280-concept.png', output).pathname.replace(/^\/(\w:)/, '$1').replaceAll('%20', ' ') });
 await page.keyboard.press('Escape');
 await page.locator('[data-action="reward-video-1"]').waitFor();
 for (let number = 1; number <= 5; number++) {
   const info = await page.evaluate(async number => {
-    const video = document.createElement('video'); video.muted = true; video.src = `/assets/concepts/stage-${number}.mp4`;
+    const video = document.createElement('video'); video.muted = true; video.src = `/assets/concepts/stage-${number}.webm`;
     await new Promise((resolve, reject) => { video.onloadeddata = resolve; video.onerror = reject; });
     const info = { number, duration: video.duration, width: video.videoWidth, height: video.videoHeight };
     video.removeAttribute('src'); video.load(); return info;
   }, number);
-  media.push(info); assert.equal(info.duration, 10); assert.equal(info.width, 1280); assert.equal(info.height, 720);
+  media.push(info); assert.ok(Math.abs(info.duration - concepts[number].seconds) < .1, `stage-${number} duration ${info.duration}`); assert.equal(info.width, 1280); assert.equal(info.height, 720);
 }
 const audioFiles = ['click', 'capture', 'place', 'discover', 'success', 'hint'];
 for (const name of audioFiles) {
@@ -110,13 +111,14 @@ await page.route('**/assets/concepts/stage-3.webm', route => route.abort());
 await page.route('**/assets/concepts/stage-3.mp4', route => route.abort());
 await page.locator('[data-action="library-3"]').click();
 await page.locator('.concept-fallback').waitFor({ state: 'visible' });
-assert.equal(await page.locator('.concept-fallback li').count(), 3);
+assert.equal(await page.locator('.concept-fallback li').count(), concepts[3].cues.length);
 await page.keyboard.press('Escape'); await page.locator('[data-action="library-1"]').waitFor();
 await page.emulateMedia({ reducedMotion: 'reduce' });
 await page.locator('[data-action="library-1"]').click();
 await page.waitForFunction(() => document.querySelector('video')?.readyState >= 2);
 assert.equal(await page.locator('video').evaluate(video => video.paused), true);
-await page.locator('.concept-play').click();
+// 재생 버튼은 concept-focus.css가 숨기고 영상 기본 컨트롤로 재생한다(d0e9a8d).
+await page.locator('video').evaluate(video => video.play());
 await page.waitForFunction(() => document.querySelector('video')?.paused === false);
 await context.close(); await browser.close();
 await writeFile(new URL(process.env.TEST_FOCUS ? 'focused-report.json' : 'report.json', output), JSON.stringify({ layouts, media, audioFiles, fallback: true, reducedMotion: true, errors }, null, 2));
