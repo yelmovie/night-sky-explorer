@@ -354,7 +354,7 @@ small {
   background:
     linear-gradient(90deg, #0b142beb 0%, #0b142b88 48%, #0b142b22 100%),
     linear-gradient(0deg, #0a1127 0%, #0a112744 55%, #0a11272b 100%),
-    url("/assets/observatory.png") center 44% / cover;
+    url("/assets/observatory.webp") center 44% / cover;
   opacity: 0.95;
 }
 .home-hero {
@@ -442,10 +442,10 @@ small {
   height: 233px;
 }
 .fox {
-  background-image: url("/assets/fox.png");
+  background-image: url("/assets/fox.webp");
 }
 .rabbit {
-  background-image: url("/assets/rabbit.png");
+  background-image: url("/assets/rabbit.webp");
 }
 .hero-npc {
   margin: -64px auto 0;

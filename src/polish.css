@@ -444,7 +444,7 @@ dialog::backdrop { background: #06101dd1; backdrop-filter: blur(4px); }
 .toggle-row input[type="checkbox"]::after { content: ""; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #f9f3e4; transition: transform .16s; }
 .toggle-row input[type="checkbox"]:checked { background: #397c69; border-color: #b4e6cd; }
 .toggle-row input[type="checkbox"]:checked::after { transform: translateX(24px); }
-.report-page { position: relative; min-height: 100dvh; padding: 105px max(30px, calc((100vw - 1420px) / 2)) 45px; background: linear-gradient(#10233be8, #142a40f0), url("/assets/observatory.png") center / cover fixed; color: #fff9ec; }
+.report-page { position: relative; min-height: 100dvh; padding: 105px max(30px, calc((100vw - 1420px) / 2)) 45px; background: linear-gradient(#10233be8, #142a40f0), url("/assets/observatory.webp") center / cover fixed; color: #fff9ec; }
 .report-page h1 { text-align: center; margin-bottom: 12px; font-size: 38px; }
 .report-page > .subtitle, .report-page > p { max-width: 880px; margin: 0 auto 25px; text-align: center; font-size: 19px; color: #d8e7e9; }
 .report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
@@ -466,7 +466,7 @@ dialog::backdrop { background: #06101dd1; backdrop-filter: blur(4px); }
 .reward-dialog .btn { min-width: 210px; }
 .reward-dialog .reward-note { color: #c8e1d6; font-size: 17px; }
 /* Learning rooms use the supplied 2D illustration; the map alone uses the RPG view. */
-.learning-v2 .room-bg { background-image: linear-gradient(#09193235, #0c203550), url('/assets/observatory.png'); }
+.learning-v2 .room-bg { background-image: linear-gradient(#09193235, #0c203550), url('/assets/observatory.webp'); }
 .learning-v2 .experiment-zone { background: #0d213b8c; border-color: #bfd8dc52; }
 .learning-v2 .case-tabs { flex: 0 0 auto; justify-content: center; }
 .learning-v2 .model-note { flex: 0 0 auto; margin: 10px 0 0; color: #d6e6e9; font-size: 15px; text-align: center; line-height: 1.5; }

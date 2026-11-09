@@ -21,8 +21,8 @@
 .report-page > .kit-meter { margin: 0 auto 22px; }
 
 .npc-line { display: grid; grid-template-columns: 76px 1fr; gap: 14px; align-items: center; margin: 16px 0 0; }
-.sprite { display: block; aspect-ratio: 334 / 470; background: url('/assets/fox.png') no-repeat; background-size: 500% 200%; background-position: calc(var(--col) * 25%) calc(var(--row) * 100%); }
-.sprite-rabbit { background-image: url('/assets/rabbit.png'); }
+.sprite { display: block; aspect-ratio: 334 / 470; background: url('/assets/fox.webp') no-repeat; background-size: 500% 200%; background-position: calc(var(--col) * 25%) calc(var(--row) * 100%); }
+.sprite-rabbit { background-image: url('/assets/rabbit.webp'); }
 .npc-portrait { position: relative; display: block; width: 76px; height: 76px; overflow: hidden; border-radius: 50%; border: 2px solid #dcc18b; background: radial-gradient(circle at 50% 35%, #2a5a6a, #12304a); }
 .npc-portrait .sprite { position: absolute; width: 128%; left: -14%; top: -2%; }
 .movie-rabbit { position: absolute; right: 5vw; bottom: 12vh; width: min(150px, 20vh); filter: drop-shadow(0 6px 10px #0008); }
@@ -153,7 +153,7 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
 .movie-stage { position: absolute; inset: 0; }
 .movie-scene { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity .8s ease; pointer-events: none; }
 .final-movie[data-scene="0"] .scene-error, .final-movie[data-scene="1"] .scene-evidence, .final-movie[data-scene="2"] .scene-connect, .final-movie[data-scene="3"] .scene-dome, .final-movie[data-scene="4"] .scene-restored { opacity: 1; }
-.movie-room { position: absolute; inset: 0; background: url('/assets/observatory.png') center / cover; filter: brightness(.45) saturate(.6); }
+.movie-room { position: absolute; inset: 0; background: url('/assets/observatory.webp') center / cover; filter: brightness(.45) saturate(.6); }
 .movie-room.dim { filter: brightness(.3) saturate(.5); }
 .scene-error .movie-room { filter: brightness(.35) saturate(.4) sepia(.35); }
 .error-lines { position: relative; display: grid; gap: 10px; }

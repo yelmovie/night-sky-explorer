@@ -55,7 +55,7 @@ export function evidenceVisual(n, data) {
   const lines = data?.cases?.cassiopeia?.lines || [];
   return `<div class="ev-visual ev-stars">${starChart({ lines, region: 'cassiopeia', interactive: false })}</div>`;
 }
-// fox.png and rabbit.png are pose sheets laid out on a 5×2 grid; a pose is picked by its cell.
+// fox.webp and rabbit.webp are pose sheets laid out on a 5×2 grid; a pose is picked by its cell.
 const poses = {
   fox: { neutral: [0, 0], point: [2, 0], map: [3, 0], think: [4, 0], surprise: [0, 1], cheer: [1, 1], welcome: [2, 1] },
   // The rabbit sheet's lower row holds six uneven poses, so only its even top row is used.
