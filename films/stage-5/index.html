@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>같은 별, 다양한 패턴 · 개념영상 5</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+/* 관측 노트 공용 스타일: 크림 노트 + 남색 잉크 + 금색 강조. 하늘 그림은 남색 창 안에만. */
+@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-korean-400.woff2') format('woff2');font-weight:400;unicode-range:U+1100-11FF,U+3130-318F,U+A960-A97F,U+AC00-D7AF,U+D7B0-D7FF}
+@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-latin-400.woff2') format('woff2');font-weight:400;unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+00D7}
+:root{--ink:#1c2a4a;--paper:#f6f0dd;--grid:#e6dec7;--gold:#d3922a;--sky:#15254a;--teal:#23807a;--soft:#efe2bd;--white:#fffdf6}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:"Lab Display",sans-serif;color:var(--ink)}
+.full{position:absolute;inset:0}
+.paper{background-color:var(--paper);background-image:linear-gradient(var(--grid) 2px,transparent 2px),linear-gradient(90deg,var(--grid) 2px,transparent 2px);background-size:64px 64px;background-position:-2px -2px}
+.margin-line{position:absolute;left:150px;top:0;bottom:0;width:4px;background:#e9b9a4}
+.head{position:absolute;left:64px;top:44px;font-size:38px;line-height:1.2;padding:10px 26px;background:var(--soft);border:4px solid var(--ink);border-radius:16px;white-space:nowrap}
+.char{position:absolute;transform-origin:50% 100%;display:block}
+.bubble{position:absolute;background:var(--white);border:6px solid var(--ink);border-radius:40px;padding:44px 58px;font-size:76px;line-height:1.22;box-shadow:0 10px 0 rgba(28,42,74,.16);word-break:keep-all}
+.bubble::before{content:"";position:absolute;left:-46px;top:110px;border:22px solid transparent;border-right:26px solid var(--ink)}
+.bubble.small{font-size:52px;padding:22px 34px;border-radius:30px}
+.bubble.small::before{left:auto;right:-46px;top:34px;border:20px solid transparent;border-left:26px solid var(--ink)}
+.window{position:absolute;background:var(--sky);border:6px solid var(--ink);border-radius:30px;overflow:hidden;box-shadow:0 12px 0 rgba(28,42,74,.18)}
+.tag{position:absolute;background:var(--white);border:4px solid var(--ink);border-radius:16px;padding:8px 22px;font-size:44px;line-height:1.15;white-space:nowrap;box-shadow:0 6px 0 rgba(28,42,74,.14)}
+.tag.gold{background:#fff1cf;border-color:var(--gold)}
+.tag.teal{background:#e3f4ef;border-color:var(--teal)}
+.tag.small{font-size:36px;padding:6px 16px;border-width:3px}
+.leader{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
+.answer{position:absolute;left:0;right:0;top:170px;text-align:center;font-size:96px;line-height:1.15;white-space:nowrap}
+.answer b{color:#9c5a08;font-weight:400}
+.rule{position:absolute;left:560px;width:800px;top:300px;height:10px;border-radius:5px;background:var(--gold);transform-origin:0 50%}
+.note{position:absolute;font-size:38px;line-height:1.25;color:#4a5878;white-space:nowrap}
+.fill{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.photo{position:absolute;background:var(--white);border:5px solid var(--ink);border-radius:18px;padding:14px 14px 0;box-shadow:0 10px 0 rgba(28,42,74,.16)}
+.photo .shot{position:relative;width:100%;background:var(--sky);border-radius:10px;overflow:hidden}
+.photo .cap{font-size:40px;text-align:center;padding:8px 0 10px}
+
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16" data-width="1920" data-height="1080" data-fps="30">
+      <div id="paper" class="clip full paper" data-start="0" data-duration="16" data-track-index="1" style="z-index:1"><div class="margin-line"></div></div>
+      <div id="header" class="clip full" data-start="0" data-duration="16" data-track-index="2" style="z-index:2"><div id="head-tag" class="head">별여우의 관측 노트 · 북쪽 전망대</div></div>
+      <div id="ask" class="clip full" data-start="0" data-duration="3.6" data-track-index="3" style="z-index:3"><img id="ask-char" class="char" src="assets/img/fox-ask.webp" alt="" style="left:170px;top:320px;height:720px">
+<div id="ask-bubble" class="bubble" style="left:760px;top:330px;max-width:1040px">북극성 주변 별은 어떻게 찾을까?</div></div>
+      <div id="sky" class="clip full" data-start="3.6" data-duration="8.6" data-track-index="4" style="z-index:4"><div id="k-win" class="window" style="left:260px;top:160px;width:1400px;height:780px">
+  <svg class="leader" style="width:1400px;height:780px" viewBox="0 0 1400 780">
+    <g stroke="#9fd8cf" stroke-width="6" stroke-linecap="round"><line id="k-l0" x1="147.63550083649193" y1="316.0811627978758" x2="109.973364254638" y2="233.32646306465313"/><line id="k-l1" x1="109.973364254638" y1="233.32646306465313" x2="190.96297870061727" y2="210.39183530411037"/><line id="k-l2" x1="190.96297870061727" y1="210.39183530411037" x2="203.22493894733964" y2="144.28040832859529"/><line id="k-l3" x1="203.22493894733964" y1="144.28040832859529" x2="284.838533345593" y2="113.7141147800246"/><line id="k-l4" x1="1184.0809453319596" y1="215.8326062699989" x2="1275.5578472301986" y2="187.82633807504953"/><line id="k-l5" x1="1275.5578472301986" y1="187.82633807504953" x2="1342.3287075739527" y2="320.65940286629143"/><line id="k-l6" x1="1342.3287075739527" y1="320.65940286629143" x2="1281.8203888469243" y2="377.52082010466665"/><line id="k-l7" x1="1281.8203888469243" y1="377.52082010466665" x2="1184.0809453319596" y2="215.8326062699989"/><line id="k-l8" x1="1281.8203888469243" y1="377.52082010466665" x2="1285.4858214608187" y2="479.57567036156524"/><line id="k-l9" x1="1285.4858214608187" y1="479.57567036156524" x2="1279.2638860799364" y2="561.602910542251"/><line id="k-l10" x1="1279.2638860799364" y1="561.602910542251" x2="1342.2746611481073" y2="665.5531961710672"/></g>
+    <g stroke="#f2c66a" stroke-width="6" stroke-linecap="round" stroke-dasharray="14 14"><line id="k-a0" x1="147.63550083649193" y1="316.0811627978758" x2="190.96297870061727" y2="210.39183530411037"/><line id="k-a1" x1="109.973364254638" y1="233.32646306465313" x2="203.22493894733964" y2="144.28040832859529"/><line id="k-a2" x1="190.96297870061727" y1="210.39183530411037" x2="284.838533345593" y2="113.7141147800246"/></g>
+    <g fill="#fffdf6"><circle id="k-c0" cx="147.63550083649193" cy="316.0811627978758" r="8.2"/><circle id="k-c1" cx="109.973364254638" cy="233.32646306465313" r="8.3"/><circle id="k-c2" cx="190.96297870061727" cy="210.39183530411037" r="8.5"/><circle id="k-c3" cx="203.22493894733964" cy="144.28040832859529" r="7.4"/><circle id="k-c4" cx="284.838533345593" cy="113.7141147800246" r="5.9"/><circle id="k-c5" cx="686" cy="330" r="8.9"/><circle id="k-c6" cx="1275.5578472301986" cy="187.82633807504953" r="8.1"/><circle id="k-c7" cx="1184.0809453319596" cy="215.8326062699989" r="9.3"/><circle id="k-c8" cx="1342.3287075739527" cy="320.65940286629143" r="7.9"/><circle id="k-c9" cx="1281.8203888469243" cy="377.52082010466665" r="5.9"/><circle id="k-c10" cx="1285.4858214608187" cy="479.57567036156524" r="9.4"/><circle id="k-c11" cx="1279.2638860799364" cy="561.602910542251" r="8.3"/><circle id="k-c12" cx="1342.2746611481073" cy="665.5531961710672" r="9.2"/></g>
+    <circle id="k-ring" cx="686" cy="330" r="58" fill="none" stroke="#f2c66a" stroke-width="6"/>
+  </svg>
+  <img id="k-s0" src="assets/img/star.webp" alt="" style="position:absolute;left:59.63550083649193px;top:228.08116279787578px;width:176px;height:176px"><img id="k-s1" src="assets/img/star.webp" alt="" style="position:absolute;left:20.973364254638px;top:144.32646306465313px;width:178px;height:178px"><img id="k-s2" src="assets/img/star.webp" alt="" style="position:absolute;left:99.96297870061727px;top:119.39183530411037px;width:182px;height:182px"><img id="k-s3" src="assets/img/star.webp" alt="" style="position:absolute;left:124.22493894733964px;top:65.28040832859529px;width:158px;height:158px"><img id="k-s4" src="assets/img/star.webp" alt="" style="position:absolute;left:221.83853334559302px;top:50.7141147800246px;width:126px;height:126px"><img id="k-s5" src="assets/img/star.webp" alt="" style="position:absolute;left:591px;top:235px;width:190px;height:190px"><img id="k-s6" src="assets/img/star.webp" alt="" style="position:absolute;left:1189.0578472301986px;top:101.32633807504953px;width:173px;height:173px"><img id="k-s7" src="assets/img/star.webp" alt="" style="position:absolute;left:1085.0809453319596px;top:116.8326062699989px;width:198px;height:198px"><img id="k-s8" src="assets/img/star.webp" alt="" style="position:absolute;left:1257.3287075739527px;top:235.65940286629143px;width:170px;height:170px"><img id="k-s9" src="assets/img/star.webp" alt="" style="position:absolute;left:1218.3203888469243px;top:314.02082010466665px;width:127px;height:127px"><img id="k-s10" src="assets/img/star.webp" alt="" style="position:absolute;left:1185.4858214608187px;top:379.57567036156524px;width:200px;height:200px"><img id="k-s11" src="assets/img/star.webp" alt="" style="position:absolute;left:1190.2638860799364px;top:472.60291054225104px;width:178px;height:178px"><img id="k-s12" src="assets/img/star.webp" alt="" style="position:absolute;left:1244.2746611481073px;top:567.5531961710672px;width:196px;height:196px">
+  <div id="k-alt-tag" class="tag gold" style="left:700px;top:36px">다르게 이어도 별은 그대로</div>
+</div>
+<svg class="leader" viewBox="0 0 1920 1080"><line id="k0-line" x1="1541.5578472301986" y1="323.82633807504953" x2="1580" y2="280" stroke="#1c2a4a" stroke-width="5" stroke-linecap="round"/><circle id="k0-dot" cx="1541.5578472301986" cy="323.82633807504953" r="14" fill="#d3922a" stroke="#1c2a4a" stroke-width="4"/></svg>
+<div id="k0" class="tag " style="left:1580px;top:280px">북두칠성</div>
+<svg class="leader" viewBox="0 0 1920 1080"><line id="k1-line" x1="413.63550083649193" y1="512.0811627978758" x2="480" y2="620" stroke="#1c2a4a" stroke-width="5" stroke-linecap="round"/><circle id="k1-dot" cx="413.63550083649193" cy="512.0811627978758" r="14" fill="#d3922a" stroke="#1c2a4a" stroke-width="4"/></svg>
+<div id="k1" class="tag " style="left:480px;top:620px">카시오페이아자리</div>
+<svg class="leader" viewBox="0 0 1920 1080"><line id="k2-line" x1="952" y1="558" x2="952" y2="700" stroke="#1c2a4a" stroke-width="5" stroke-linecap="round"/><circle id="k2-dot" cx="952" cy="558" r="14" fill="#d3922a" stroke="#1c2a4a" stroke-width="4"/></svg>
+<div id="k2" class="tag gold" style="left:952px;top:700px">북극성</div></div>
+      <div id="answer" class="clip full" data-start="12.2" data-duration="3.8" data-track-index="5" style="z-index:5"><div id="answer-text" class="answer">선은 <b>사람이 그린 것</b>이에요</div>
+<div id="answer-rule" class="rule" style="top:300px"></div>
+<div id="proof0" class="tag " style="left:260px;top:420px">별의 자리는 그대로</div>
+<div id="proof1" class="tag gold" style="left:260px;top:520px">북극성은 두 별자리 사이</div>
+
+<img id="react-char" class="char" src="assets/img/fox-react.webp" alt="" style="left:1420px;top:460px;height:600px">
+<div id="react-bubble" class="bubble small" style="right:520px;top:560px">북극성 찾았다!</div></div>
+    <audio id="sfx0" class="clip" src="assets/sfx/hint.ogg" data-start="0.813" data-duration="0.49" data-track-index="60" data-volume="0.75"></audio>
+    <audio id="sfx1" class="clip" src="assets/sfx/discover.ogg" data-start="8.693" data-duration="0.27" data-track-index="61" data-volume="0.7"></audio>
+    <audio id="sfx2" class="clip" src="assets/sfx/place.ogg" data-start="9.293" data-duration="0.19" data-track-index="62" data-volume="0.7"></audio>
+    <audio id="sfx3" class="clip" src="assets/sfx/discover.ogg" data-start="4.233" data-duration="0.27" data-track-index="63" data-volume="0.6"></audio>
+    <audio id="sfx4" class="clip" src="assets/sfx/place.ogg" data-start="5.233" data-duration="0.19" data-track-index="64" data-volume="0.6"></audio>
+    <audio id="sfx5" class="clip" src="assets/sfx/place.ogg" data-start="6.633" data-duration="0.19" data-track-index="65" data-volume="0.5"></audio>
+    <audio id="sfx6" class="clip" src="assets/sfx/place.ogg" data-start="9.933" data-duration="0.19" data-track-index="66" data-volume="0.6"></audio>
+    <audio id="sfx7" class="clip" src="assets/sfx/success.ogg" data-start="12.533" data-duration="0.53" data-track-index="67" data-volume="0.8"></audio>
+    <audio id="sfx8" class="clip" src="assets/sfx/hint.ogg" data-start="13.833" data-duration="0.49" data-track-index="68" data-volume="0.6"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo('#head-tag',{opacity:0,y:-20},{opacity:1,y:0,duration:.5,ease:'expo.out'},.05);
+      tl.fromTo('#ask-char',{x:-520},{x:0,duration:.55,ease:'expo.out'},.15);
+      tl.fromTo('#ask-char',{scaleY:1},{scaleY:.94,duration:.12,ease:'power2.out'},.68);tl.to('#ask-char',{scaleY:1,duration:.28,ease:'back.out(1.6)'},.8);
+      tl.fromTo('#ask-bubble',{opacity:0,scale:.84},{opacity:1,scale:1,duration:.42,ease:'back.out(1.6)'},.78);
+      tl.to('#ask-char',{x:-560,duration:.32,ease:'power3.in'},3.18);tl.to('#ask-bubble',{opacity:0,y:-24,duration:.26,ease:'power3.in'},3.22);
+      tl.fromTo('#k0-dot',{opacity:0,scale:0,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.22,ease:'back.out(2)'},8.4);
+      tl.fromTo('#k0-line',{attr:{x2:1541.5578472301986,y2:323.82633807504953}},{attr:{x2:1580,y2:280},duration:.24,ease:'power2.out'},8.48);
+      tl.fromTo('#k0',{opacity:0,scale:.72,xPercent:-50,yPercent:-50},{opacity:1,scale:1,xPercent:-50,yPercent:-50,duration:.3,ease:'back.out(1.8)'},8.66);
+      tl.fromTo('#k1-dot',{opacity:0,scale:0,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.22,ease:'back.out(2)'},9);
+      tl.fromTo('#k1-line',{attr:{x2:413.63550083649193,y2:512.0811627978758}},{attr:{x2:480,y2:620},duration:.24,ease:'power2.out'},9.08);
+      tl.fromTo('#k1',{opacity:0,scale:.72,xPercent:-50,yPercent:-50},{opacity:1,scale:1,xPercent:-50,yPercent:-50,duration:.3,ease:'back.out(1.8)'},9.26);
+      tl.fromTo('#k2-dot',{opacity:0,scale:0,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.22,ease:'back.out(2)'},9.6);
+      tl.fromTo('#k2-line',{attr:{x2:952,y2:558}},{attr:{x2:952,y2:700},duration:.24,ease:'power2.out'},9.68);
+      tl.fromTo('#k2',{opacity:0,scale:.72,xPercent:-50,yPercent:-50},{opacity:1,scale:1,xPercent:-50,yPercent:-50,duration:.3,ease:'back.out(1.8)'},9.86);
+      tl.fromTo('#k-win',{opacity:0,y:60},{opacity:1,y:0,duration:.5,ease:'expo.out'},3.75);
+      tl.fromTo(['#k-s0','#k-c0'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.20);
+      tl.fromTo(['#k-s1','#k-c1'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.27);
+      tl.fromTo(['#k-s2','#k-c2'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.34);
+      tl.fromTo(['#k-s3','#k-c3'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.41);
+      tl.fromTo(['#k-s4','#k-c4'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.48);
+      tl.fromTo(['#k-s5','#k-c5'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.55);
+      tl.fromTo(['#k-s6','#k-c6'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.62);
+      tl.fromTo(['#k-s7','#k-c7'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.69);
+      tl.fromTo(['#k-s8','#k-c8'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.76);
+      tl.fromTo(['#k-s9','#k-c9'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.83);
+      tl.fromTo(['#k-s10','#k-c10'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.90);
+      tl.fromTo(['#k-s11','#k-c11'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},4.97);
+      tl.fromTo(['#k-s12','#k-c12'],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'},5.04);
+      tl.fromTo('#k-l0',{strokeDasharray:'90.9 90.9',strokeDashoffset:90.9},{strokeDashoffset:0,duration:.25,ease:'none'},6.60);
+      tl.fromTo('#k-l1',{strokeDasharray:'84.2 84.2',strokeDashoffset:84.2},{strokeDashoffset:0,duration:.25,ease:'none'},6.80);
+      tl.fromTo('#k-l2',{strokeDasharray:'67.2 67.2',strokeDashoffset:67.2},{strokeDashoffset:0,duration:.25,ease:'none'},7.00);
+      tl.fromTo('#k-l3',{strokeDasharray:'87.1 87.1',strokeDashoffset:87.1},{strokeDashoffset:0,duration:.25,ease:'none'},7.20);
+      tl.fromTo('#k-l4',{strokeDasharray:'95.7 95.7',strokeDashoffset:95.7},{strokeDashoffset:0,duration:.25,ease:'none'},5.20);
+      tl.fromTo('#k-l5',{strokeDasharray:'148.7 148.7',strokeDashoffset:148.7},{strokeDashoffset:0,duration:.25,ease:'none'},5.40);
+      tl.fromTo('#k-l6',{strokeDasharray:'83.0 83.0',strokeDashoffset:83.0},{strokeDashoffset:0,duration:.25,ease:'none'},5.60);
+      tl.fromTo('#k-l7',{strokeDasharray:'188.9 188.9',strokeDashoffset:188.9},{strokeDashoffset:0,duration:.25,ease:'none'},5.80);
+      tl.fromTo('#k-l8',{strokeDasharray:'102.1 102.1',strokeDashoffset:102.1},{strokeDashoffset:0,duration:.25,ease:'none'},6.00);
+      tl.fromTo('#k-l9',{strokeDasharray:'82.3 82.3',strokeDashoffset:82.3},{strokeDashoffset:0,duration:.25,ease:'none'},6.20);
+      tl.fromTo('#k-l10',{strokeDasharray:'121.6 121.6',strokeDashoffset:121.6},{strokeDashoffset:0,duration:.25,ease:'none'},6.40);
+      tl.fromTo('#k-ring',{opacity:0,scale:.5,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.35,ease:'back.out(1.8)'},9.55);
+      tl.fromTo('#k-a0',{opacity:0},{opacity:1,duration:.25},9.90);
+      tl.fromTo('#k-a1',{opacity:0},{opacity:1,duration:.25},10.02);
+      tl.fromTo('#k-a2',{opacity:0},{opacity:1,duration:.25},10.14);
+      tl.fromTo('#k-alt-tag',{opacity:0,y:20,xPercent:-50},{opacity:1,y:0,xPercent:-50,duration:.35,ease:'expo.out'},10);
+      tl.to(["#k-win","#k0","#k1","#k2",".leader"],{opacity:0,y:-28,duration:.3,ease:'power3.in'},11.78);
+      tl.fromTo('#answer-text',{opacity:0,filter:'blur(8px)'},{opacity:1,filter:'blur(0px)',duration:.2,ease:'power4.out'},12.5);
+      tl.fromTo('#answer-rule',{scaleX:0},{scaleX:1,duration:.5,ease:'power2.inOut'},12.8);
+      tl.fromTo('#proof0',{opacity:0,y:40},{opacity:1,y:0,duration:.45,ease:'expo.out'},13);
+      tl.fromTo('#proof1',{opacity:0,y:40},{opacity:1,y:0,duration:.45,ease:'expo.out'},13.25);
+      tl.fromTo('#react-char',{y:680},{y:0,duration:.55,ease:'back.out(1.3)'},13.25);
+      tl.fromTo('#react-char',{scaleY:1},{scaleY:.93,duration:.12,ease:'power2.out'},13.8);tl.to('#react-char',{scaleY:1,duration:.26,ease:'back.out(1.6)'},13.92);
+      tl.fromTo('#react-bubble',{opacity:0,scale:.8},{opacity:1,scale:1,duration:.38,ease:'back.out(1.7)'},13.8);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

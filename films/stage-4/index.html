@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>빛은 어디에서 올까? · 개념영상 4</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+/* 관측 노트 공용 스타일: 크림 노트 + 남색 잉크 + 금색 강조. 하늘 그림은 남색 창 안에만. */
+@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-korean-400.woff2') format('woff2');font-weight:400;unicode-range:U+1100-11FF,U+3130-318F,U+A960-A97F,U+AC00-D7AF,U+D7B0-D7FF}
+@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-latin-400.woff2') format('woff2');font-weight:400;unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+00D7}
+:root{--ink:#1c2a4a;--paper:#f6f0dd;--grid:#e6dec7;--gold:#d3922a;--sky:#15254a;--teal:#23807a;--soft:#efe2bd;--white:#fffdf6}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:"Lab Display",sans-serif;color:var(--ink)}
+.full{position:absolute;inset:0}
+.paper{background-color:var(--paper);background-image:linear-gradient(var(--grid) 2px,transparent 2px),linear-gradient(90deg,var(--grid) 2px,transparent 2px);background-size:64px 64px;background-position:-2px -2px}
+.margin-line{position:absolute;left:150px;top:0;bottom:0;width:4px;background:#e9b9a4}
+.head{position:absolute;left:64px;top:44px;font-size:38px;line-height:1.2;padding:10px 26px;background:var(--soft);border:4px solid var(--ink);border-radius:16px;white-space:nowrap}
+.char{position:absolute;transform-origin:50% 100%;display:block}
+.bubble{position:absolute;background:var(--white);border:6px solid var(--ink);border-radius:40px;padding:44px 58px;font-size:76px;line-height:1.22;box-shadow:0 10px 0 rgba(28,42,74,.16);word-break:keep-all}
+.bubble::before{content:"";position:absolute;left:-46px;top:110px;border:22px solid transparent;border-right:26px solid var(--ink)}
+.bubble.small{font-size:52px;padding:22px 34px;border-radius:30px}
+.bubble.small::before{left:auto;right:-46px;top:34px;border:20px solid transparent;border-left:26px solid var(--ink)}
+.window{position:absolute;background:var(--sky);border:6px solid var(--ink);border-radius:30px;overflow:hidden;box-shadow:0 12px 0 rgba(28,42,74,.18)}
+.tag{position:absolute;background:var(--white);border:4px solid var(--ink);border-radius:16px;padding:8px 22px;font-size:44px;line-height:1.15;white-space:nowrap;box-shadow:0 6px 0 rgba(28,42,74,.14)}
+.tag.gold{background:#fff1cf;border-color:var(--gold)}
+.tag.teal{background:#e3f4ef;border-color:var(--teal)}
+.tag.small{font-size:36px;padding:6px 16px;border-width:3px}
+.leader{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
+.answer{position:absolute;left:0;right:0;top:170px;text-align:center;font-size:96px;line-height:1.15;white-space:nowrap}
+.answer b{color:#9c5a08;font-weight:400}
+.rule{position:absolute;left:560px;width:800px;top:300px;height:10px;border-radius:5px;background:var(--gold);transform-origin:0 50%}
+.note{position:absolute;font-size:38px;line-height:1.25;color:#4a5878;white-space:nowrap}
+.fill{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.photo{position:absolute;background:var(--white);border:5px solid var(--ink);border-radius:18px;padding:14px 14px 0;box-shadow:0 10px 0 rgba(28,42,74,.16)}
+.photo .shot{position:relative;width:100%;background:var(--sky);border-radius:10px;overflow:hidden}
+.photo .cap{font-size:40px;text-align:center;padding:8px 0 10px}
+
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16" data-width="1920" data-height="1080" data-fps="30">
+      <div id="paper" class="clip full paper" data-start="0" data-duration="16" data-track-index="1" style="z-index:1"><div class="margin-line"></div></div>
+      <div id="header" class="clip full" data-start="0" data-duration="16" data-track-index="2" style="z-index:2"><div id="head-tag" class="head">루미의 관측 노트 · 빛의 실험실</div></div>
+      <div id="ask" class="clip full" data-start="0" data-duration="3.6" data-track-index="3" style="z-index:3"><img id="ask-char" class="char" src="assets/img/rabbit-ask.webp" alt="" style="left:170px;top:320px;height:720px">
+<div id="ask-bubble" class="bubble" style="left:760px;top:330px;max-width:1040px">밝게 보이면 모두 별일까?</div></div>
+      <div id="light" class="clip full" data-start="3.6" data-duration="8.6" data-track-index="4" style="z-index:4"><div id="l-win" class="window" style="left:120px;top:190px;width:1680px;height:640px">
+  <svg class="leader" style="width:1680px;height:640px" viewBox="0 0 1680 640">
+    <path id="l-beam" d="M330 250 L1160 280 L1160 370 L330 390 Z" fill="#f2c66a" opacity=".32"/>
+    <path id="l-in" d="M350 320 H 1120 M1094 302 L1120 320 L1094 338" stroke="#e6a93a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path id="l-out" d="M1260 420 L 1480 540 M1450 540 L1480 540 L1466 512" stroke="#7fd0c4" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <g id="l-eye" transform="translate(1540 560)"><path d="M-60 0 Q0 -46 60 0 Q0 46 -60 0 Z" fill="#fffdf6" stroke="#1c2a4a" stroke-width="6"/><circle r="17" fill="#1c2a4a"/></g>
+  </svg>
+  <img id="l-sun" src="assets/img/sun.webp" alt="" style="position:absolute;left:40px;top:130px;width:380px;height:380px">
+  <div style="position:absolute;left:1110px;top:170px;width:300px;height:300px">
+    <img id="l-venus" src="assets/img/venus.webp" alt="" style="position:absolute;inset:0;width:300px;height:300px">
+    <div id="l-night" style="position:absolute;inset:4px;border-radius:50%;background:linear-gradient(90deg,rgba(11,20,44,0) 46%,rgba(11,20,44,.72) 58%)"></div>
+    <div id="l-dark" style="position:absolute;inset:2px;border-radius:50%;background:#0b142c"></div>
+  </div>
+  <div class="tag small gold" style="left:175px;top:530px">태양</div>
+  <div class="tag small" style="left:1205px;top:490px">금성</div>
+  <div id="l-board" style="position:absolute;left:690px;top:120px;width:70px;height:400px;border-radius:14px;background:#55617d;border:6px solid #1c2a4a"></div>
+  <div id="l-board-tag" class="tag small" style="left:640px;top:540px">가림판</div>
+  <div id="l-dim-tag" class="tag teal" style="left:1260px;top:40px">행성이 어두워져요</div>
+</div>
+<svg class="leader" viewBox="0 0 1920 1080"><line id="l0-line" x1="350" y1="510" x2="470" y2="900" stroke="#1c2a4a" stroke-width="5" stroke-linecap="round"/><circle id="l0-dot" cx="350" cy="510" r="14" fill="#d3922a" stroke="#1c2a4a" stroke-width="4"/></svg>
+<div id="l0" class="tag gold" style="left:470px;top:900px">스스로 빛을 내요</div>
+<svg class="leader" viewBox="0 0 1920 1080"><line id="l1-line" x1="1340" y1="460" x2="1150" y2="900" stroke="#1c2a4a" stroke-width="5" stroke-linecap="round"/><circle id="l1-dot" cx="1340" cy="460" r="14" fill="#d3922a" stroke="#1c2a4a" stroke-width="4"/></svg>
+<div id="l1" class="tag teal" style="left:1150px;top:900px">태양빛을 반사해요</div></div>
+      <div id="answer" class="clip full" data-start="12.2" data-duration="3.8" data-track-index="5" style="z-index:5"><div id="answer-text" class="answer"><b>빛의 근원</b>으로 구별해요</div>
+<div id="answer-rule" class="rule" style="top:300px"></div>
+<div id="proof0" class="tag gold" style="left:260px;top:420px">별: 스스로 빛을 내요</div>
+<div id="proof1" class="tag teal" style="left:260px;top:520px">행성: 태양빛을 반사해요</div>
+
+<img id="react-char" class="char" src="assets/img/rabbit-react.webp" alt="" style="left:1420px;top:460px;height:600px">
+<div id="react-bubble" class="bubble small" style="right:520px;top:560px">금성은 행성이구나!</div></div>
+    <audio id="sfx0" class="clip" src="assets/sfx/hint.ogg" data-start="0.813" data-duration="0.49" data-track-index="60" data-volume="0.75"></audio>
+    <audio id="sfx1" class="clip" src="assets/sfx/discover.ogg" data-start="9.543" data-duration="0.27" data-track-index="61" data-volume="0.7"></audio>
+    <audio id="sfx2" class="clip" src="assets/sfx/place.ogg" data-start="10.443" data-duration="0.19" data-track-index="62" data-volume="0.7"></audio>
+    <audio id="sfx3" class="clip" src="assets/sfx/capture.ogg" data-start="4.833" data-duration="0.61" data-track-index="63" data-volume="0.75"></audio>
+    <audio id="sfx4" class="clip" src="assets/sfx/place.ogg" data-start="7.083" data-duration="0.19" data-track-index="64" data-volume="0.6"></audio>
+    <audio id="sfx5" class="clip" src="assets/sfx/discover.ogg" data-start="8.333" data-duration="0.27" data-track-index="65" data-volume="0.7"></audio>
+    <audio id="sfx6" class="clip" src="assets/sfx/success.ogg" data-start="12.533" data-duration="0.53" data-track-index="66" data-volume="0.8"></audio>
+    <audio id="sfx7" class="clip" src="assets/sfx/hint.ogg" data-start="13.833" data-duration="0.49" data-track-index="67" data-volume="0.6"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo('#head-tag',{opacity:0,y:-20},{opacity:1,y:0,duration:.5,ease:'expo.out'},.05);
+      tl.fromTo('#ask-char',{x:-520},{x:0,duration:.55,ease:'expo.out'},.15);
+      tl.fromTo('#ask-char',{scaleY:1},{scaleY:.94,duration:.12,ease:'power2.out'},.68);tl.to('#ask-char',{scaleY:1,duration:.28,ease:'back.out(1.6)'},.8);
+      tl.fromTo('#ask-bubble',{opacity:0,scale:.84},{opacity:1,scale:1,duration:.42,ease:'back.out(1.6)'},.78);
+      tl.to('#ask-char',{x:-560,duration:.32,ease:'power3.in'},3.18);tl.to('#ask-bubble',{opacity:0,y:-24,duration:.26,ease:'power3.in'},3.22);
+      tl.fromTo('#l0-dot',{opacity:0,scale:0,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.22,ease:'back.out(2)'},9.25);
+      tl.fromTo('#l0-line',{attr:{x2:350,y2:510}},{attr:{x2:470,y2:900},duration:.24,ease:'power2.out'},9.33);
+      tl.fromTo('#l0',{opacity:0,scale:.72,xPercent:-50,yPercent:-50},{opacity:1,scale:1,xPercent:-50,yPercent:-50,duration:.3,ease:'back.out(1.8)'},9.51);
+      tl.fromTo('#l1-dot',{opacity:0,scale:0,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.22,ease:'back.out(2)'},10.15);
+      tl.fromTo('#l1-line',{attr:{x2:1340,y2:460}},{attr:{x2:1150,y2:900},duration:.24,ease:'power2.out'},10.23);
+      tl.fromTo('#l1',{opacity:0,scale:.72,xPercent:-50,yPercent:-50},{opacity:1,scale:1,xPercent:-50,yPercent:-50,duration:.3,ease:'back.out(1.8)'},10.41);
+      tl.fromTo('#l-win',{opacity:0,y:60},{opacity:1,y:0,duration:.5,ease:'expo.out'},3.75);
+      tl.fromTo('#l-dark',{opacity:0},{opacity:0,duration:.01},3.6);
+      tl.fromTo('#l-in',{opacity:0},{opacity:0,duration:.01},3.6);tl.fromTo('#l-out',{opacity:0},{opacity:0,duration:.01},3.6);tl.fromTo('#l-eye',{opacity:0},{opacity:0,duration:.01},3.6);
+      tl.fromTo('#l-board',{y:-560},{y:-560,duration:.01},3.6);tl.fromTo('#l-board-tag',{opacity:0},{opacity:0,duration:.01},3.6);tl.fromTo('#l-dim-tag',{opacity:0,xPercent:-50},{opacity:0,xPercent:-50,duration:.01},3.6);
+      tl.to('#l-board',{y:0,duration:.5,ease:'power3.out'},4.8);tl.to('#l-board-tag',{opacity:1,duration:.2},5.1);
+      tl.to('#l-beam',{attr:{d:'M330 250 L690 262 L690 382 L330 390 Z'},duration:.35,ease:'power2.out'},5.1);tl.to('#l-dark',{opacity:.78,duration:.4,ease:'power2.out'},5.2);
+      tl.fromTo('#l-dim-tag',{opacity:0,y:-16,xPercent:-50},{opacity:1,y:0,xPercent:-50,duration:.3,ease:'expo.out'},5.55);
+      tl.to('#l-board',{y:-560,duration:.45,ease:'power3.in'},7.050000000000001);tl.to('#l-board-tag',{opacity:0,duration:.15},7);tl.to('#l-dim-tag',{opacity:0,duration:.2},7);
+      tl.to('#l-beam',{attr:{d:'M330 250 L1160 280 L1160 370 L330 390 Z'},duration:.4,ease:'power2.out'},7.45);tl.to('#l-dark',{opacity:0,duration:.4,ease:'power2.out'},7.5);
+      tl.to('#l-in',{opacity:1,duration:.05},8.3);tl.fromTo('#l-in',{strokeDasharray:'850 850',strokeDashoffset:850},{strokeDashoffset:0,duration:.5,ease:'power2.inOut'},8.3);
+      tl.to('#l-eye',{opacity:1,duration:.3},8.7);tl.to('#l-out',{opacity:1,duration:.05},8.9);tl.fromTo('#l-out',{strokeDasharray:'320 320',strokeDashoffset:320},{strokeDashoffset:0,duration:.35,ease:'power2.out'},8.9);
+      tl.to(["#l-win","#l0","#l1",".leader"],{opacity:0,y:-28,duration:.3,ease:'power3.in'},11.78);
+      tl.fromTo('#answer-text',{opacity:0,filter:'blur(8px)'},{opacity:1,filter:'blur(0px)',duration:.2,ease:'power4.out'},12.5);
+      tl.fromTo('#answer-rule',{scaleX:0},{scaleX:1,duration:.5,ease:'power2.inOut'},12.8);
+      tl.fromTo('#proof0',{opacity:0,y:40},{opacity:1,y:0,duration:.45,ease:'expo.out'},13);
+      tl.fromTo('#proof1',{opacity:0,y:40},{opacity:1,y:0,duration:.45,ease:'expo.out'},13.25);
+      tl.fromTo('#react-char',{y:680},{y:0,duration:.55,ease:'back.out(1.3)'},13.25);
+      tl.fromTo('#react-char',{scaleY:1},{scaleY:.93,duration:.12,ease:'power2.out'},13.8);tl.to('#react-char',{scaleY:1,duration:.26,ease:'back.out(1.6)'},13.92);
+      tl.fromTo('#react-bubble',{opacity:0,scale:.8},{opacity:1,scale:1,duration:.38,ease:'back.out(1.7)'},13.8);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+/* 관측 노트 공용 스타일: 크림 노트 + 남색 잉크 + 금색 강조. 하늘 그림은 남색 창 안에만. */
+@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-korean-400.woff2') format('woff2');font-weight:400;unicode-range:U+1100-11FF,U+3130-318F,U+A960-A97F,U+AC00-D7AF,U+D7B0-D7FF}
+@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-latin-400.woff2') format('woff2');font-weight:400;unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+00D7}
+:root{--ink:#1c2a4a;--paper:#f6f0dd;--grid:#e6dec7;--gold:#d3922a;--sky:#15254a;--teal:#23807a;--soft:#efe2bd;--white:#fffdf6}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:"Lab Display",sans-serif;color:var(--ink)}
+.full{position:absolute;inset:0}
+.paper{background-color:var(--paper);background-image:linear-gradient(var(--grid) 2px,transparent 2px),linear-gradient(90deg,var(--grid) 2px,transparent 2px);background-size:64px 64px;background-position:-2px -2px}
+.margin-line{position:absolute;left:150px;top:0;bottom:0;width:4px;background:#e9b9a4}
+.head{position:absolute;left:64px;top:44px;font-size:38px;line-height:1.2;padding:10px 26px;background:var(--soft);border:4px solid var(--ink);border-radius:16px;white-space:nowrap}
+.char{position:absolute;transform-origin:50% 100%;display:block}
+.bubble{position:absolute;background:var(--white);border:6px solid var(--ink);border-radius:40px;padding:44px 58px;font-size:76px;line-height:1.22;box-shadow:0 10px 0 rgba(28,42,74,.16);word-break:keep-all}
+.bubble::before{content:"";position:absolute;left:-46px;top:110px;border:22px solid transparent;border-right:26px solid var(--ink)}
+.bubble.small{font-size:52px;padding:22px 34px;border-radius:30px}
+.bubble.small::before{left:auto;right:-46px;top:34px;border:20px solid transparent;border-left:26px solid var(--ink)}
+.window{position:absolute;background:var(--sky);border:6px solid var(--ink);border-radius:30px;overflow:hidden;box-shadow:0 12px 0 rgba(28,42,74,.18)}
+.tag{position:absolute;background:var(--white);border:4px solid var(--ink);border-radius:16px;padding:8px 22px;font-size:44px;line-height:1.15;white-space:nowrap;box-shadow:0 6px 0 rgba(28,42,74,.14)}
+.tag.gold{background:#fff1cf;border-color:var(--gold)}
+.tag.teal{background:#e3f4ef;border-color:var(--teal)}
+.tag.small{font-size:36px;padding:6px 16px;border-width:3px}
+.leader{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
+.answer{position:absolute;left:0;right:0;top:170px;text-align:center;font-size:96px;line-height:1.15;white-space:nowrap}
+.answer b{color:#9c5a08;font-weight:400}
+.rule{position:absolute;left:560px;width:800px;top:300px;height:10px;border-radius:5px;background:var(--gold);transform-origin:0 50%}
+.note{position:absolute;font-size:38px;line-height:1.25;color:#4a5878;white-space:nowrap}
+.fill{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.photo{position:absolute;background:var(--white);border:5px solid var(--ink);border-radius:18px;padding:14px 14px 0;box-shadow:0 10px 0 rgba(28,42,74,.16)}
+.photo .shot{position:relative;width:100%;background:var(--sky);border-radius:10px;overflow:hidden}
+.photo .cap{font-size:40px;text-align:center;padding:8px 0 10px}

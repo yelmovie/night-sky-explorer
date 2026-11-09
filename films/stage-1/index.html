@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>같은 달, 더 자세히 보기 · 개념영상 1</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+/* 관측 노트 공용 스타일: 크림 노트 + 남색 잉크 + 금색 강조. 하늘 그림은 남색 창 안에만. */
+@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-korean-400.woff2') format('woff2');font-weight:400;unicode-range:U+1100-11FF,U+3130-318F,U+A960-A97F,U+AC00-D7AF,U+D7B0-D7FF}
+@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-latin-400.woff2') format('woff2');font-weight:400;unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+00D7}
+:root{--ink:#1c2a4a;--paper:#f6f0dd;--grid:#e6dec7;--gold:#d3922a;--sky:#15254a;--teal:#23807a;--soft:#efe2bd;--white:#fffdf6}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:"Lab Display",sans-serif;color:var(--ink)}
+.full{position:absolute;inset:0}
+.paper{background-color:var(--paper);background-image:linear-gradient(var(--grid) 2px,transparent 2px),linear-gradient(90deg,var(--grid) 2px,transparent 2px);background-size:64px 64px;background-position:-2px -2px}
+.margin-line{position:absolute;left:150px;top:0;bottom:0;width:4px;background:#e9b9a4}
+.head{position:absolute;left:64px;top:44px;font-size:38px;line-height:1.2;padding:10px 26px;background:var(--soft);border:4px solid var(--ink);border-radius:16px;white-space:nowrap}
+.char{position:absolute;transform-origin:50% 100%;display:block}
+.bubble{position:absolute;background:var(--white);border:6px solid var(--ink);border-radius:40px;padding:44px 58px;font-size:76px;line-height:1.22;box-shadow:0 10px 0 rgba(28,42,74,.16);word-break:keep-all}
+.bubble::before{content:"";position:absolute;left:-46px;top:110px;border:22px solid transparent;border-right:26px solid var(--ink)}
+.bubble.small{font-size:52px;padding:22px 34px;border-radius:30px}
+.bubble.small::before{left:auto;right:-46px;top:34px;border:20px solid transparent;border-left:26px solid var(--ink)}
+.window{position:absolute;background:var(--sky);border:6px solid var(--ink);border-radius:30px;overflow:hidden;box-shadow:0 12px 0 rgba(28,42,74,.18)}
+.tag{position:absolute;background:var(--white);border:4px solid var(--ink);border-radius:16px;padding:8px 22px;font-size:44px;line-height:1.15;white-space:nowrap;box-shadow:0 6px 0 rgba(28,42,74,.14)}
+.tag.gold{background:#fff1cf;border-color:var(--gold)}
+.tag.teal{background:#e3f4ef;border-color:var(--teal)}
+.tag.small{font-size:36px;padding:6px 16px;border-width:3px}
+.leader{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
+.answer{position:absolute;left:0;right:0;top:170px;text-align:center;font-size:96px;line-height:1.15;white-space:nowrap}
+.answer b{color:#9c5a08;font-weight:400}
+.rule{position:absolute;left:560px;width:800px;top:300px;height:10px;border-radius:5px;background:var(--gold);transform-origin:0 50%}
+.note{position:absolute;font-size:38px;line-height:1.25;color:#4a5878;white-space:nowrap}
+.fill{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.photo{position:absolute;background:var(--white);border:5px solid var(--ink);border-radius:18px;padding:14px 14px 0;box-shadow:0 10px 0 rgba(28,42,74,.16)}
+.photo .shot{position:relative;width:100%;background:var(--sky);border-radius:10px;overflow:hidden}
+.photo .cap{font-size:40px;text-align:center;padding:8px 0 10px}
+
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16" data-width="1920" data-height="1080" data-fps="30">
+      <div id="paper" class="clip full paper" data-start="0" data-duration="16" data-track-index="1" style="z-index:1"><div class="margin-line"></div></div>
+      <div id="header" class="clip full" data-start="0" data-duration="16" data-track-index="2" style="z-index:2"><div id="head-tag" class="head">루미의 관측 노트 · 달 관측대</div></div>
+      <div id="ask" class="clip full" data-start="0" data-duration="3.6" data-track-index="3" style="z-index:3"><img id="ask-char" class="char" src="assets/img/rabbit-ask.webp" alt="" style="left:170px;top:320px;height:720px">
+<div id="ask-bubble" class="bubble" style="left:760px;top:330px;max-width:1040px">배율을 높이면 달이 더 커질까?</div></div>
+      <div id="replay" class="clip full" data-start="3.6" data-duration="4.4" data-track-index="4" style="z-index:4"><div id="r-win" class="window" style="left:150px;top:190px;width:1000px;height:760px">
+  <div style="position:absolute;left:200px;top:80px;width:600px;height:600px;border-radius:50%;overflow:hidden;background:#0b1630;border:12px solid #d3922a">
+    <img id="r-moon" src="assets/img/moon.webp" alt="" style="position:absolute;left:30px;top:30px;width:540px;height:540px">
+    <div style="position:absolute;left:285px;top:250px;width:6px;height:76px;background:#9fc3d6;opacity:.6"></div><div style="position:absolute;left:250px;top:285px;width:76px;height:6px;background:#9fc3d6;opacity:.6"></div>
+  </div>
+  <div id="r-x1" class="tag gold" style="left:40px;top:36px">배율 1배</div>
+  <div id="r-x2" class="tag gold" style="left:40px;top:36px">배율 2배</div>
+</div>
+<div id="r-p1" class="photo" style="left:1250px;top:190px;width:500px"><div class="shot" style="height:250px"><img src="assets/img/moon.webp" alt="" style="position:absolute;left:180px;top:55px;width:140px;height:140px"></div><div class="cap">1배 사진</div></div>
+<div id="r-p2" class="photo" style="left:1250px;top:580px;width:500px"><div class="shot" style="height:250px"><img src="assets/img/moon.webp" alt="" style="position:absolute;left:110px;top:-15px;width:280px;height:280px"></div><div class="cap">2배 사진</div></div></div>
+      <div id="zoom" class="clip full" data-start="8" data-duration="4.2" data-track-index="5" style="z-index:5"><img id="z-moon" src="assets/img/moon.webp" alt="" style="position:absolute;left:580px;top:190px;width:760px;height:760px">
+<svg class="leader" viewBox="0 0 1920 1080"><line id="z0-line" x1="1036" y1="433.20000000000005" x2="1600" y2="380" stroke="#1c2a4a" stroke-width="5" stroke-linecap="round"/><circle id="z0-dot" cx="1036" cy="433.20000000000005" r="14" fill="#d3922a" stroke="#1c2a4a" stroke-width="4"/></svg>
+<div id="z0" class="tag " style="left:1600px;top:380px">어두운 곳</div>
+<svg class="leader" viewBox="0 0 1920 1080"><line id="z1-line" x1="830.8" y1="494" x2="330" y2="500" stroke="#1c2a4a" stroke-width="5" stroke-linecap="round"/><circle id="z1-dot" cx="830.8" cy="494" r="14" fill="#d3922a" stroke="#1c2a4a" stroke-width="4"/></svg>
+<div id="z1" class="tag " style="left:330px;top:500px">둥근 구덩이</div>
+<svg class="leader" viewBox="0 0 1920 1080"><line id="z2-line" x1="960" y1="798" x2="1580" y2="860" stroke="#1c2a4a" stroke-width="5" stroke-linecap="round"/><circle id="z2-dot" cx="960" cy="798" r="14" fill="#d3922a" stroke="#1c2a4a" stroke-width="4"/></svg>
+<div id="z2" class="tag gold" style="left:1580px;top:860px">밝은 곳</div></div>
+      <div id="answer" class="clip full" data-start="12.2" data-duration="3.8" data-track-index="6" style="z-index:6"><div id="answer-text" class="answer">달은 그대로, <b>무늬</b>가 또렷해져요</div>
+<div id="answer-rule" class="rule" style="top:300px"></div>
+<div id="proof0" class="tag " style="left:260px;top:420px">배율: 크게 보는 정도</div>
+<div id="proof1" class="tag gold" style="left:260px;top:520px">달의 크기는 그대로</div>
+
+<img id="react-char" class="char" src="assets/img/rabbit-react.webp" alt="" style="left:1420px;top:460px;height:600px">
+<div id="react-bubble" class="bubble small" style="right:520px;top:560px">무늬가 보여!</div></div>
+    <audio id="sfx0" class="clip" src="assets/sfx/hint.ogg" data-start="0.813" data-duration="0.49" data-track-index="60" data-volume="0.75"></audio>
+    <audio id="sfx1" class="clip" src="assets/sfx/capture.ogg" data-start="4.633" data-duration="0.61" data-track-index="61" data-volume="0.75"></audio>
+    <audio id="sfx2" class="clip" src="assets/sfx/capture.ogg" data-start="6.633" data-duration="0.61" data-track-index="62" data-volume="0.65"></audio>
+    <audio id="sfx3" class="clip" src="assets/sfx/discover.ogg" data-start="9.193" data-duration="0.27" data-track-index="63" data-volume="0.7"></audio>
+    <audio id="sfx4" class="clip" src="assets/sfx/place.ogg" data-start="9.993" data-duration="0.19" data-track-index="64" data-volume="0.7"></audio>
+    <audio id="sfx5" class="clip" src="assets/sfx/discover.ogg" data-start="10.793" data-duration="0.27" data-track-index="65" data-volume="0.7"></audio>
+    <audio id="sfx6" class="clip" src="assets/sfx/success.ogg" data-start="12.533" data-duration="0.53" data-track-index="66" data-volume="0.8"></audio>
+    <audio id="sfx7" class="clip" src="assets/sfx/hint.ogg" data-start="13.833" data-duration="0.49" data-track-index="67" data-volume="0.6"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo('#head-tag',{opacity:0,y:-20},{opacity:1,y:0,duration:.5,ease:'expo.out'},.05);
+      tl.fromTo('#ask-char',{x:-520},{x:0,duration:.55,ease:'expo.out'},.15);
+      tl.fromTo('#ask-char',{scaleY:1},{scaleY:.94,duration:.12,ease:'power2.out'},.68);tl.to('#ask-char',{scaleY:1,duration:.28,ease:'back.out(1.6)'},.8);
+      tl.fromTo('#ask-bubble',{opacity:0,scale:.84},{opacity:1,scale:1,duration:.42,ease:'back.out(1.6)'},.78);
+      tl.to('#ask-char',{x:-560,duration:.32,ease:'power3.in'},3.18);tl.to('#ask-bubble',{opacity:0,y:-24,duration:.26,ease:'power3.in'},3.22);
+      tl.fromTo('#r-win',{opacity:0,y:60},{opacity:1,y:0,duration:.5,ease:'expo.out'},3.75);
+      tl.fromTo('#r-moon',{scale:.5},{scale:.5,duration:.01},3.7);
+      tl.fromTo('#r-x1',{opacity:0},{opacity:1,duration:.2},4.05);
+      tl.fromTo('#r-x2',{opacity:0},{opacity:0,duration:.01},3.6);
+      tl.fromTo('#r-p1',{opacity:0,y:-70,rotation:-4},{opacity:1,y:0,rotation:-2,duration:.45,ease:'back.out(1.5)'},4.6);
+      tl.to('#r-moon',{scale:1.18,duration:1.0,ease:'power2.inOut'},5.25);
+      tl.to('#r-x1',{opacity:0,duration:.15},6.1);tl.to('#r-x2',{opacity:1,duration:.2},6.15);
+      tl.fromTo('#r-p2',{opacity:0,y:-70,rotation:4},{opacity:1,y:0,rotation:2,duration:.45,ease:'back.out(1.5)'},6.6);
+      tl.to(["#r-win","#r-p1","#r-p2"],{opacity:0,y:-28,duration:.3,ease:'power3.in'},7.58);
+      tl.fromTo('#z0-dot',{opacity:0,scale:0,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.22,ease:'back.out(2)'},8.9);
+      tl.fromTo('#z0-line',{attr:{x2:1036,y2:433.20000000000005}},{attr:{x2:1600,y2:380},duration:.24,ease:'power2.out'},8.98);
+      tl.fromTo('#z0',{opacity:0,scale:.72,xPercent:-50,yPercent:-50},{opacity:1,scale:1,xPercent:-50,yPercent:-50,duration:.3,ease:'back.out(1.8)'},9.16);
+      tl.fromTo('#z1-dot',{opacity:0,scale:0,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.22,ease:'back.out(2)'},9.7);
+      tl.fromTo('#z1-line',{attr:{x2:830.8,y2:494}},{attr:{x2:330,y2:500},duration:.24,ease:'power2.out'},9.78);
+      tl.fromTo('#z1',{opacity:0,scale:.72,xPercent:-50,yPercent:-50},{opacity:1,scale:1,xPercent:-50,yPercent:-50,duration:.3,ease:'back.out(1.8)'},9.96);
+      tl.fromTo('#z2-dot',{opacity:0,scale:0,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:.22,ease:'back.out(2)'},10.5);
+      tl.fromTo('#z2-line',{attr:{x2:960,y2:798}},{attr:{x2:1580,y2:860},duration:.24,ease:'power2.out'},10.58);
+      tl.fromTo('#z2',{opacity:0,scale:.72,xPercent:-50,yPercent:-50},{opacity:1,scale:1,xPercent:-50,yPercent:-50,duration:.3,ease:'back.out(1.8)'},10.76);
+      tl.fromTo('#z-moon',{scale:.62,opacity:0},{scale:1,opacity:1,duration:.6,ease:'expo.out'},8.05);
+      tl.to(["#z-moon","#z0","#z1","#z2",".leader"],{opacity:0,y:-28,duration:.3,ease:'power3.in'},11.799999999999999);
+      tl.fromTo('#answer-text',{opacity:0,filter:'blur(8px)'},{opacity:1,filter:'blur(0px)',duration:.2,ease:'power4.out'},12.5);
+      tl.fromTo('#answer-rule',{scaleX:0},{scaleX:1,duration:.5,ease:'power2.inOut'},12.8);
+      tl.fromTo('#proof0',{opacity:0,y:40},{opacity:1,y:0,duration:.45,ease:'expo.out'},13);
+      tl.fromTo('#proof1',{opacity:0,y:40},{opacity:1,y:0,duration:.45,ease:'expo.out'},13.25);
+      tl.fromTo('#react-char',{y:680},{y:0,duration:.55,ease:'back.out(1.3)'},13.25);
+      tl.fromTo('#react-char',{scaleY:1},{scaleY:.93,duration:.12,ease:'power2.out'},13.8);tl.to('#react-char',{scaleY:1,duration:.26,ease:'back.out(1.6)'},13.92);
+      tl.fromTo('#react-bubble',{opacity:0,scale:.8},{opacity:1,scale:1,duration:.38,ease:'back.out(1.7)'},13.8);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

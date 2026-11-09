@@ -50,9 +50,9 @@ D: 임시 폴더 존재·쓰기 권한을 먼저 확인해. 결과·다운로드
 
 실행 진입점은 `src/application.js`이며 기존 `learning.js`·`world.js`의 v2 활동을 연결했어. 루미가 사람 연구원을 따라 걷고, 각 활동에서 진행 상황과 단계별 힌트를 제공해. 태블릿에서는 망원경 드래그·시간 재생·행성/이름표 끌어놓기·별 선긋기와 버튼 조작을 함께 사용할 수 있어.
 
-각 관측 완료 창의 **개념영상 10초 보기 (선택)**에서 관련 영상을 열어. 설정의 **완료한 개념영상 모아 보기**와 연구 노트에서도 다시 볼 수 있어. 다섯 편 모두 MP4·WebM·끝 장면 포스터를 로컬에 포함했으며 영상이 안 열리면 그림과 자막으로 대체해. 영상 중에는 게임 음악을 멈춰.
+각 관측 완료 창의 **개념영상 16초 보기 (선택)**에서 관련 영상을 열어. 설정의 **완료한 개념영상 모아 보기**와 연구 노트에서도 다시 볼 수 있어. 다섯 편 모두 MP4·WebM·끝 장면 포스터를 로컬에 포함했으며 영상이 안 열리면 그림과 자막으로 대체해. 영상 중에는 게임 음악을 멈춰.
 
-`npm run concepts:render`로 영상을 다시 만들 수 있어. `FFMPEG` 환경 변수로 실행 파일을 지정하며, 기본값은 D:의 기존 FFmpeg 도구야. [영상 설계](docs/CONCEPT_STORYBOARD.md) · [검증 기록](docs/VALIDATION.md) · [효과음 CC0 원문](public/assets/audio/Kenney-CC0.txt).
+`RENDER_DIR=<외장 SSD 폴더> npm run concepts:render`로 영상을 다시 만들 수 있어(HyperFrames CLI·FFmpeg 필요, 원본은 `films/`). 효과음 설정이 켜져 있을 때만 영상 효과음이 나와. [영상 설계](docs/CONCEPT_STORYBOARD.md) · [검증 기록](docs/VALIDATION.md) · [효과음 CC0 원문](public/assets/audio/Kenney-CC0.txt).
 
 ## 2026-10-30 심화 설계 v2 퀘스트 흐름
 
