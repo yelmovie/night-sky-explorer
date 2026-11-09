@@ -135,8 +135,16 @@ function inspectLayout() {
   for (const element of document.querySelectorAll('button,a[href],input,select,textarea,[role="button"],[role="slider"]')) {
     if (!visible(element)) continue;
     const r = element.getBoundingClientRect();
-    if (element.matches('.learning-v2 button, dialog:modal button') && (r.width < 43 || r.height < 43))
-      issue('small-touch-control', element, `${Math.round(r.width)}x${Math.round(r.height)}px`);
+    if (element.matches('.learning-v2 button, dialog:modal button') && (r.width < 43 || r.height < 43)) {
+      // Scaled lessons widen the touch area with an invisible ::before (responsive.css). Measure what a finger
+      // actually hits just outside each edge, not only the drawn box.
+      const own = (x, y) => { const hit = document.elementFromPoint(x, y); return hit && (hit === element || element.contains(hit)); };
+      const reach = probe => [6, 5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1, .5].find(probe) || 0;
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const h = r.height + reach(d => own(cx, r.top - d)) + reach(d => own(cx, r.bottom + d));
+      const w = r.width + reach(d => own(r.left - d, cy)) + reach(d => own(r.right + d, cy));
+      if (w < 43.5 || h < 43.5) issue('small-touch-control', element, `${Math.round(r.width)}x${Math.round(r.height)}px (touch ${Math.round(w)}x${Math.round(h)}px)`);
+    }
     // Map pins are reached by the map's explicit panning controls. Their world
     // positions intentionally extend beyond the clipped camera viewport.
     for (const axis of element.matches('.world-pin,.map-companion') ? [] : ['x', 'y']) {

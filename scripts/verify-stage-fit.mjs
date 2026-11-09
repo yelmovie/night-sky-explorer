@@ -71,6 +71,8 @@ function inspectStage() {
   const outside = (r, box, gap = 2) => r.left < box.left - gap || r.top < box.top - gap || r.right > box.right + gap || r.bottom > box.bottom + gap;
   const bounds = stage.getBoundingClientRect(), viewport = { left: 0, top: 0, right: innerWidth, bottom: innerHeight };
   if (outside(bounds, viewport)) add('stage-outside-viewport', stage, JSON.stringify(bounds.toJSON()));
+  // 축소 화면의 버튼 ::before는 보이지 않는 터치 확장 영역(responsive.css)이다. 보이는 내용의 넘침만 재려고 측정 동안 끈다.
+  const hitArea = document.createElement('style'); hitArea.textContent = 'button::before{display:none!important}'; document.head.append(hitArea);
   for (const el of [document.documentElement, document.body, stage, ...stage.querySelectorAll('*')]) {
     if (![document.documentElement, document.body].includes(el) && !visible(el)) continue;
     const cs = getComputedStyle(el), required = el === stage || el === document.body || el === document.documentElement || el.matches('.experiment-zone,.toolbox');
@@ -79,6 +81,7 @@ function inspectStage() {
     if (x > 2 || y > 2) add('scroll-required', el, `overflow ${x}px horizontal / ${y}px vertical (logical pixels)`);
     if (el.scrollTop > 1 || el.scrollLeft > 1) add('unexpected-scroll-position', el, `${el.scrollLeft},${el.scrollTop}`);
   }
+  hitArea.remove();
   const documentOffset = { x: scrollX, y: scrollY };
   if (scrollX || scrollY) add('document-scrolled', document.documentElement, JSON.stringify(documentOffset));
   for (const image of stage.querySelectorAll('img'))
