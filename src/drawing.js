@@ -11,6 +11,8 @@ export const esc = (s) =>
   );
 export function icon(name, size = 22) {
   const paths = {
+    hand: "M8 13V6a1.5 1.5 0 0 1 3 0v6m0-6V4a1.5 1.5 0 0 1 3 0v8m0-5V6a1.5 1.5 0 0 1 3 0v7m0-3a1.5 1.5 0 0 1 3 0v5a7 7 0 0 1-7 7h-1c-2 0-4-1-5-3l-4-4a1.5 1.5 0 0 1 2-2l3 2",
+    fit: "M8 3H3v5m13-5h5v5M3 16v5h5m8 0h5v-5M8 8h8v8H8z",
     home: "M3 11 12 3l9 8M5 10v11h5v-7h4v7h5V10",
     back: "m14 5-7 7 7 7M7 12h14",
     sound: "M4 9h4l5-4v14l-5-4H4zM17 8q5 4 0 8M19 4q9 8 0 16",

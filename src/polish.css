@@ -860,3 +860,11 @@ dialog::backdrop { background: #06101dd1; backdrop-filter: blur(4px); }
   .report-page { padding: 0; background: #fff; color: #20354c; }
   .report-card, .certificate { break-inside: avoid; box-shadow: none; }
 }
+
+/* Compact, icon-only camera controls, separate from character movement. */
+.world-map-tools{position:absolute;z-index:23;left:26px;bottom:150px;display:flex;gap:8px}
+.world-map-tools .btn{width:48px;height:48px;min-width:48px;min-height:48px;padding:0;background:#fff8e8;color:#2b4357;display:grid;place-items:center}
+.world-map-tools [aria-pressed="true"]{background:#d6e9ce;box-shadow:inset 0 0 0 3px #527e67}
+.world-map-tools button:focus-visible{outline:3px solid #ffce58;outline-offset:3px}
+.world-viewport.hand-on{cursor:grab}.world-viewport.grabbing{cursor:grabbing}.world-terrain{pointer-events:none;user-select:none}
+@media(max-width:700px){.world-map-tools{left:12px;bottom:132px}}
