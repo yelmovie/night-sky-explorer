@@ -9,6 +9,7 @@ import { esc, icon, moonSVG, dayMoon, starChart } from './drawing.js';
 import { button as button, range, celestialImage, planetImage } from './ui.js';
 import { conceptArt } from './concept-assets.js';
 import { worldMarkup, mountWorld } from './world.js';
+import { mountRepair } from './map-repair.js';
 import { learningUI, learningView, mountLearning, token } from './learning.js';
 import { createSound } from './sound.js';
 import { concepts, mountConcept } from './concepts.js';
@@ -272,6 +273,8 @@ function render() {
         if (number) on(element.querySelector('#enter-second'), 'click', () => go(`s${number}b`));
       }, `${number && state.evidence[number] ? button('선택 도전', 'challenge-' + number) : ''}${number && state.settings.adminUnlock ? '<button class="btn secondary" id="enter-second">비교 활동 시연</button>' : ''}<button class="btn primary" id="enter-room">${chapter ? '관측 시작' : '코어 열기'}</button>`);
     } });
+    // 지도 복구 작업대: 탐구를 마친 구역만 직접 복구(보상 상호작용, 학습 판정과 분리). 교사 시연은 저장하지 않는다.
+    mountRepair($('#world'), { state, save: persist, kind: 'focus', preview: state.settings.adminUnlock, available: chapters.filter(c => state.settings.adminUnlock || state.evidence[c.id]).map(c => ({ id: c.id - 1, label: c.place })) });
     cleanup = () => world.dispose();
   }
   if (state.scene === 'core') mountCalibration();
