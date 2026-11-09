@@ -607,7 +607,7 @@ dialog::backdrop { background: #06101dd1; backdrop-filter: blur(4px); }
   /* 전자칠판 1920×1080: 선택지·기록 칩·안내 글자 18px 하한(뒷자리에서도 읽히게). */
   #app .learning-v2 :is(.btn.chip, .btn.choice-card, .btn.secondary, .btn.secondary > span, .answer-target > :is(span, small, strong), .planet-chip > strong, .sky-body > :is(span, small), .feedback, .inline-feedback, .model-note, .flow-progress, .field-label, .observation-card, .reference-name, .date-tag, .lunar-detail-label, .range-label > :is(span, output), .mission-tag, h3),
   #app .learning-v2 .btn.chip :is(span, small, b),
-  #app .core-v3 :is(.record-chip, .socket) > small { font-size: 18px; }
+  #app :is(.record-chip, .socket) small, #app .core-final .activity-heading p, #app .map-repair :is(summary, label, output, button, select) { font-size: 18px; }
   #app .learning-v2 :is(.experiment-zone, .toolbox) :is(p, span, small, b, label) { font-size: max(18px, 1em); }
 }
 @media (max-width: 1150px) and (min-width: 701px) {
