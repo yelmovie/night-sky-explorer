@@ -15,6 +15,7 @@ export function mountLessonViewport(stage) {
     stage.style.setProperty('--lesson-height', `${fit.height}px`);
     stage.style.setProperty('--lesson-scale', fit.scale);
     stage.dataset.layout = fit.layout;
+    stage.dataset.scaled = String(fit.scale < 1);
   };
   update();
   window.addEventListener('resize', update);

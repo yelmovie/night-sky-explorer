@@ -21,6 +21,10 @@ html:has(.learning-v2), body:has(.learning-v2) { height: 100%; overflow: hidden;
 .learning-v2 .floating-controls { position: absolute; inset: 10px 14px auto; }
 .learning-v2 .floating-controls nav { gap: 8px; }
 .learning-v2 .icon-button { width: 44px; height: 44px; min-height: 44px; }
+/* 폰 가로처럼 화면 맞춤으로 축소될 때(915×412 → 0.86배)도 실제 터치 영역이 44px 아래로 내려가지 않게 되돌려 준다. */
+#app .learning-v2[data-scaled='true'] :is(button, select, [role='button']) { min-height: calc(45px / var(--lesson-scale, 1)); }
+#app .learning-v2[data-scaled='true'] .toolbox { justify-content: safe center; overflow-y: auto; }
+#app .learning-v2[data-scaled='true'] .icon-button { width: calc(45px / var(--lesson-scale, 1)); min-width: calc(45px / var(--lesson-scale, 1)); height: calc(45px / var(--lesson-scale, 1)); }
 .learning-v2 .activity-heading {
   position: relative;
   inset: auto;
