@@ -78,6 +78,7 @@ export const chapters = [
 export const planets = [
   {
     id: "mercury",
+    size: 0.4,
     name: "수성",
     color: "#aaa39a",
     feature: "회색 표면과 많은 충돌 구덩이",
@@ -87,6 +88,7 @@ export const planets = [
   },
   {
     id: "venus",
+    size: 0.9,
     name: "금성",
     color: "#d4b978",
     feature: "두꺼운 구름으로 덮인 모습",
@@ -96,6 +98,7 @@ export const planets = [
   },
   {
     id: "earth",
+    size: 1,
     name: "지구",
     color: "#619fdd",
     feature: "푸른 바다와 육지, 흰 구름",
@@ -105,6 +108,7 @@ export const planets = [
   },
   {
     id: "mars",
+    size: 0.5,
     name: "화성",
     color: "#d67f59",
     feature: "붉은빛 표면과 어두운 무늬",
@@ -114,6 +118,7 @@ export const planets = [
   },
   {
     id: "jupiter",
+    size: 11.2,
     name: "목성",
     color: "#ddb18b",
     feature: "여러 줄무늬와 커다란 소용돌이",
@@ -123,6 +128,7 @@ export const planets = [
   },
   {
     id: "saturn",
+    size: 9.4,
     name: "토성",
     color: "#dfc587",
     feature: "넓고 뚜렷한 고리",
@@ -132,6 +138,7 @@ export const planets = [
   },
   {
     id: "uranus",
+    size: 4,
     name: "천왕성",
     color: "#93d6d9",
     feature: "옅은 청록색 대기",
@@ -141,6 +148,7 @@ export const planets = [
   },
   {
     id: "neptune",
+    size: 3.9,
     name: "해왕성",
     color: "#4e7ddd",
     feature: "푸른 대기와 구름",
@@ -149,6 +157,7 @@ export const planets = [
     group: "ice",
   },
 ];
+// size: 지구의 지름을 1로 둔 상대적인 크기(교과서식 어림값).
 export const requiredPlanets = ["mercury", "venus", "earth", "mars", "jupiter", "saturn"];
 export const planetGroups = [
   { id: "rock", name: "암석형", info: "암석으로 된 단단한 표면이 있어." },

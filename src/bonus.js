@@ -34,7 +34,7 @@ export function openBonus(kind, { state, dialog, persist, sound, on }) {
           feedback.textContent = `앞뒤 기록 사이의 변화를 잘 읽었어요! ${quest.reward}을 연구 키트에 담았어요.`;
           if (state.bonus.cloudy !== 'done') { state.bonus.cloudy = 'done'; sound.play('success'); persist(); }
         } else {
-          track(state, 'retries'); persist();
+          track(state, 'retries'); persist(); sound.play('retry');
           feedback.dataset.tone = 'hint';
           feedback.textContent = guess.side !== phase(CLOUDY_DAY).side
             ? '3일째와 10일째 달은 같은 쪽이 밝아요. 방향을 다시 비교해 볼까요?'
@@ -58,7 +58,7 @@ export function openBonus(kind, { state, dialog, persist, sound, on }) {
         if (state.bonus.planet !== 'done') { state.bonus.planet = 'done'; sound.play('success'); persist(); }
         return;
       }
-      track(state, 'retries'); persist();
+      track(state, 'retries'); persist(); sound.play('retry');
       feedback.dataset.tone = 'hint';
       feedback.textContent = guess.feature !== planets.find(planet => planet.id === MYSTERY).feature
         ? '고른 특징이 그림에서 정말 보이는지 확대해서 다시 확인해 봐요.'

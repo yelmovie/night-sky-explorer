@@ -73,6 +73,17 @@ export const projectedStars = stars.map((s) => {
     a = (s.ra / 24) * Math.PI * 2;
   return { ...s, x: 300 + Math.sin(a) * r, y: 220 - Math.cos(a) * r };
 });
+// 구역 확대 지도에는 북극성이 화면 밖에 있으므로, 테두리 안쪽에 북극성 방향 표시만 둔다.
+function polarisPointer(group) {
+  const pole = projectedStars.find((s) => s.id === "Polaris");
+  const xs = group.map((s) => s.x), ys = group.map((s) => s.y);
+  const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+  const hw = (Math.max(...xs) - Math.min(...xs)) / 2 + 18, hh = (Math.max(...ys) - Math.min(...ys)) / 2 + 18;
+  const dx = pole.x - cx, dy = pole.y - cy, t = Math.min(hw / Math.abs(dx || 1e-9), hh / Math.abs(dy || 1e-9));
+  const x = cx + dx * t, y = cy + dy * t, angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+  const below = dy > 0;
+  return `<g class="polaris-pointer" aria-label="이 방향 화면 밖에 북극성이 있어요"><path d="M-4 -2L1 -2L1 -4L5 0L1 4L1 2L-4 2Z" fill="#ffd771" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${angle.toFixed(1)})"/><text x="${x.toFixed(1)}" y="${(y + (below ? -6 : 9)).toFixed(1)}" text-anchor="middle" fill="#ffd771" style="font-size:4.5px">북극성 쪽</text></g>`;
+}
 export function starChart({
   lines = [],
   reference = false,
@@ -105,9 +116,9 @@ export function starChart({
     .filter((s) => region === "all" || group.includes(s))
     .map((s) => {
       const size = (s.id === "Polaris" ? 7 : Math.max(3, 7 - s.mag)) * 4;
-      return `<g ${interactive ? `role="button" tabindex="0" data-star="${s.id}" aria-label="${starNames[s.id]} 관찰"` : ""} class="star-node ${selected === s.id ? "selected" : ""}"><circle cx="${s.x}" cy="${s.y}" r="10" fill="transparent"/><use href="#${imageId}" x="${s.x - size / 2}" y="${s.y - size / 2}" width="${size}" height="${size}" pointer-events="none" aria-hidden="true"/><circle cx="${s.x}" cy="${s.y}" r="8" fill="none" stroke="${selected === s.id ? "#ffd771" : observed.includes(s.id) ? "#80e0c577" : "transparent"}"/><text x="${s.x + 8}" y="${s.y - 8}" class="star-label" style="font-size:${region === "all" ? 12 : 5}px">${s.id === "Polaris" ? "북극성" : projectedStars.indexOf(s) + 1}</text></g>`;
+      return `<g ${interactive ? `role="button" tabindex="0" data-star="${s.id}" aria-label="${starNames[s.id]} 관찰"` : ""} class="star-node ${selected === s.id ? "selected" : ""}"><circle cx="${s.x}" cy="${s.y}" r="10" fill="transparent"/><use href="#${imageId}" x="${s.x - size / 2}" y="${s.y - size / 2}" width="${size}" height="${size}" pointer-events="none" aria-hidden="true"/><circle cx="${s.x}" cy="${s.y}" r="8" fill="none" stroke="${selected === s.id ? "#ffd771" : observed.includes(s.id) ? "#80e0c577" : "transparent"}"/><text x="${s.x + (region === "all" ? 8 : 4)}" y="${s.y - (region === "all" ? 8 : 4)}" class="star-label" style="font-size:${region === "all" ? 12 : 5}px">${s.id === "Polaris" ? "북극성" : projectedStars.indexOf(s) + 1}</text></g>`;
     })
     .join(
       "",
-    )}${region === "all" ? '<text x="20" y="418" class="chart-caption">북극 중심 학습 지도 · 별 위치: HYG / J2000</text>' : ""}</svg>`;
+    )}${region === "all" ? '<text x="20" y="418" class="chart-caption">북극 중심 학습 지도 · 별 위치: HYG / J2000</text>' : polarisPointer(group)}</svg>`;
 }

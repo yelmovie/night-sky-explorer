@@ -42,13 +42,13 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   const prediction=()=>d.phases.predictions[day()];
   const pattern=()=>d.pattern.cases[regions[round()]];
   const selectedBody=()=>bodies.slice(round()*4,round()*4+4)[learningUI.body%4];
-  function updateScope(){const m=d.moon,same=m.photos.some((p,j)=>j!==round()&&Math.abs(p.zoom-m.zoom)<.09),ready=photoReady(m)&&!same&&(round()===0||!!m.photos[0]);$('#scope-moon').style.cssText=`transform:translate(${m.x}%,${m.y}%) scale(${m.zoom*.65});filter:blur(${Math.abs(m.focus-72)/9}px)`;$('#focus-status').textContent=same?'배율을 바꿔요':ready?'촬영 준비 완료':Math.abs(m.x)>10||Math.abs(m.y)>10?'달을 가운데로 옮겨요':'초점을 맞춰요';$('#capture-moon').disabled=!ready;}
+  function updateScope(){const m=d.moon,same=m.photos.some((p,j)=>j!==round()&&Math.abs(p.zoom-m.zoom)<.09),ready=photoReady(m)&&!same&&(round()===0||!!m.photos[0]);$('#scope-moon').style.cssText=`transform:translate(${m.x}%,${m.y}%) scale(${m.zoom*.65});filter:blur(${Math.abs(m.focus-72)/9}px)`;$('#focus-status').textContent=same?'배율을 바꿔요':ready?'촬영 준비 완료':Math.abs(m.x)>12||Math.abs(m.y)>12?'달을 가운데로 옮겨요':Math.abs(m.focus-72)>12?'초점을 맞춰요':m.zoom<1.3?'배율을 1.3× 이상으로 올려요':m.zoom>2.7?'배율을 2.7× 이하로 낮춰요':'초점을 맞춰요';$('#capture-moon').disabled=!ready;}
   function pan(dx,dy){d.moon.x=Math.max(-80,Math.min(80,d.moon.x+dx));d.moon.y=Math.max(-80,Math.min(80,d.moon.y+dy));updateScope();commit();}
   function spot(x,y){const c=d.moon.comparisons[round()];if(Math.hypot(x-50,y-50)>48)return;if(d.moon.comparisons.some(other=>other.spots.some(p=>Math.hypot(x-p.x,y-p.y)<10)))return notify('앞서 고른 곳과 조금 떨어진 다른 표면을 골라 봐.');if(c.spots.length===2)c.spots.shift();c.spots.push({x,y});track(s,'observations');redraw();}
   function answer(){const id=selectedBody().id;return d.classification.answers[id]||=( {kind:'',reason:''} );}
   function showFeedback(id,status){const element=$('#'+id);if(element){element.textContent=status.text;element.dataset.tone=status.tone;}}
   function queueNext(kind,id){learningUI.pendingAdvance={scene,kind,id};redraw();}
-  function judgeClassification(){const body=selectedBody(),status=classificationFeedback(body,answer());if(!status.correct&&answer().kind&&answer().reason)track(s,'retries');if(status.correct){sound?.play('success');if(nextBody(d.classification.answers,body.id)!==-1)return queueNext('body',body.id);}redraw();}
+  function judgeClassification(){const body=selectedBody(),status=classificationFeedback(body,answer());if(!status.correct&&answer().kind&&answer().reason)track(s,'retries');if(status.correct){sound?.play('success');if(nextBody(d.classification.answers,body.id)!==-1)return queueNext('body',body.id);}else if(answer().kind&&answer().reason)sound?.play('retry');redraw();}
   function choosePlanet(id){d.planets.selected=id;d.planets.feature=d.planets.records[id]?.feature||'';d.planets.candidate=id;learningUI.zoom=1;learningUI.rotation=0;}
   function captureDay(day){const added=recordPhase(d.phases,day);if(added){sound?.play('capture');track(s,'observations');}redraw();}
   function guide(){
@@ -150,7 +150,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if(a==='toggle-three'){learningUI.three=!learningUI.three;if(learningUI.three)track(s,'observations');commit();render();return;}
     if(a==='phase-note'){const p=prediction();dialog(scene==='s2b'?'앞선 달 관측 기록':'모은 달 관측 기록',`<p>북반구에서 본 학습용 모형이에요. 학습용 날짜는 실제 달력과 달라요.</p>${strip(d.phases.captures)}${scene==='s2b'&&p.original?`<p>처음 예상: 밝은 부분 ${p.original.amount}% · ${p.original.side==='right'?'오른쪽':'왼쪽'}</p>`:''}`);return;}
     if(a==='body-note'){const body=selectedBody();dialog(body.name+' · 과학 자료',`<p>${body.info}</p>`);return;}
-    if(a==='solar-note'){track(s,'reviews');commit();dialog('내 조사 노트와 태양계 자료',`<p class="order-note">태양 → ${planets.map(v=>v.name).join(' → ')}</p><h3>행성을 묶는 참고 자료</h3>${planetGroups.map(g=>`<p><b>${g.name}</b> · ${g.info}<br>${planets.filter(v=>v.group===g.id).map(v=>v.name).join(', ')}</p>`).join('')}<h3>직접 조사한 근거</h3>${Object.entries(d.planets.records).map(([id,v])=>`<p><b>${planets.find(x=>x.id===id)?.name}</b> · ${esc(v.feature)}</p>`).join('')}`);return;}
+    if(a==='solar-note'){track(s,'reviews');commit();dialog('내 조사 노트와 태양계 자료',`<p class="order-note">태양 → ${planets.map(v=>v.name).join(' → ')}</p><h3>행성의 상대적인 크기</h3><p>지구를 1로 볼 때 · ${planets.map(v=>`${v.name} ${v.size}`).join(' · ')}</p><p>가장 큰 행성은 목성, 가장 작은 행성은 수성이에요. 게임 속 그림은 크기를 같게 그린 모형이에요.</p><h3>행성을 묶는 참고 자료</h3>${planetGroups.map(g=>`<p><b>${g.name}</b> · ${g.info}<br>${planets.filter(v=>v.group===g.id).map(v=>v.name).join(', ')}</p>`).join('')}<h3>직접 조사한 근거</h3>${Object.entries(d.planets.records).map(([id,v])=>`<p><b>${planets.find(x=>x.id===id)?.name}</b> · ${esc(v.feature)}</p>`).join('')}`);return;}
     if(a.startsWith('body-')){const id=a.slice(5);learningUI.inspectedBody=id;if(!d.classification.viewed.includes(id)){d.classification.viewed.push(id);sound?.play('discover');track(s,'observations');}redraw();return;}
     if(a.startsWith('bodytab-')){learningUI.body=+a.at(-1);render();return;}
     if(a.startsWith('kind-')){answer().kind=a.slice(5);judgeClassification();return;}
@@ -172,7 +172,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
       player?.pause();
       if(advancing)return;
       const correct=recordPlanet(d.planets,event.target.value,{rotation:learningUI.rotation,zoom:learningUI.zoom},learningUI.three?'3d':'illustration');
-      if(!correct){track(s,'retries');commit();showFeedback('planet-feedback',{tone:'hint',text:'무늬·표면·고리를 그림과 다시 비교해 봐.'});return;}
+      if(!correct){track(s,'retries');sound?.play('retry');commit();showFeedback('planet-feedback',{tone:'hint',text:'무늬·표면·고리를 그림과 다시 비교해 봐.'});return;}
       sound?.play('discover');
       if(nextPlanet(d.planets))queueNext('planet',d.planets.selected);else redraw();
     });
@@ -189,7 +189,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
       const correct=group?planets.find(p=>p.id===id).group===group:solarOrder[slot]===id;
       learningUI.piece=group?(correct?planets.find(p=>!d.planets.groups[p.id])?.id||null:id):null;
       if(!correct)track(s,'retries');
-      sound?.play(correct?'place':'click');redraw();
+      sound?.play(correct?'place':'retry');redraw();
       if(group&&learningUI.piece)showFeedback('solar-feedback',{...solarFeedback(d.planets,1),text:`${solarFeedback(d.planets,1).text} · 선택: ${planets.find(p=>p.id===learningUI.piece).name}`});
     }
     $$('[data-piece]').forEach(element=>on(element,'click',()=>selectPiece(learningUI.piece===element.dataset.piece?null:element.dataset.piece)));

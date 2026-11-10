@@ -25,7 +25,7 @@ function lightExperiment(blocked) {
     <path class="light-flow" data-light-ray="incoming" d="M100 78H${blocked ? 169 : 249}" fill="none" stroke="#f5cc71" stroke-width="4" marker-end="url(#light-incoming-arrow)"/>
     <text class="light-ray-label" x="173" y="58" fill="#ffe3a3" text-anchor="middle" font-size="17">태양빛</text>
     ${blocked ? '<rect x="176" y="34" width="12" height="88" rx="3" fill="#6c8395" stroke="#d0e0e7" stroke-width="2"/><text x="182" y="143" text-anchor="middle" fill="#e4edf1" font-size="16">가림판</text>' : ''}
-    <image href="${imageFor('earth')}" x="250" y="35" width="88" height="88" opacity="${blocked ? .14 : 1}"/>
+    <image href="${imageFor('venus')}" x="250" y="35" width="88" height="88" opacity="${blocked ? .14 : 1}"/>
     <path class="light-flow" data-light-ray="reflected" d="M270 121L219 169" fill="none" stroke="#94e1d9" stroke-width="4" marker-end="url(#light-reflected-arrow)" opacity="${blocked ? 0 : 1}"/>
     ${blocked ? '' : '<text class="light-ray-label" x="281" y="181" fill="#b7f2e7" text-anchor="middle" font-size="17">반사광</text>'}
     <g fill="none" stroke="#e1eff4" stroke-width="2.5"><path d="M170 181Q193 157 216 181Q193 205 170 181Z"/><circle cx="193" cy="181" r="7"/></g>
@@ -57,7 +57,7 @@ export function renderSpaceStage(s, scene, i, ui, helpers) {
     case 's4a': {
       const subset = bodies.slice(i * 4, i * 4 + 4), inspected = subset.find(body => body.id === ui.inspectedBody);
       instruction = '천체를 관찰하고 빛의 근원을 찾아요.';
-      main = `${tabs(['가까운 하늘', '더 넓은 하늘'], [bodies.slice(0, 4), bodies.slice(4)].map(group => group.every(body => d.classification.viewed.includes(body.id))))}<div class="sky-bodies">${subset.map(body => `<button class="sky-body ${d.classification.viewed.includes(body.id) ? 'viewed' : ''} ${inspected === body ? 'selected' : ''}" data-learning="body-${body.id}" aria-pressed="${inspected === body}">${bodyPicture(body)}<strong>${body.name}</strong><span>${body.look}</span><small>${d.classification.viewed.includes(body.id) ? '✓ 관찰' : '자료 보기'}</small></button>`).join('')}</div><p class="model-note">학습 모형 · 태양을 직접 보지 않아요</p>`;
+      main = `${tabs(['천체 묶음 하나', '천체 묶음 둘'], [bodies.slice(0, 4), bodies.slice(4)].map(group => group.every(body => d.classification.viewed.includes(body.id))))}<div class="sky-bodies">${subset.map(body => `<button class="sky-body ${d.classification.viewed.includes(body.id) ? 'viewed' : ''} ${inspected === body ? 'selected' : ''}" data-learning="body-${body.id}" aria-pressed="${inspected === body}">${bodyPicture(body)}<strong>${body.name}</strong><span>${body.look}</span><small>${d.classification.viewed.includes(body.id) ? '✓ 관찰' : '자료 보기'}</small></button>`).join('')}</div><p class="model-note">학습 모형 · 태양을 직접 보지 않아요</p>`;
       tools = `<section class="body-fact" aria-live="polite">${inspected ? `<b>${inspected.name}</b><p>${inspected.kind === 'star' ? '스스로 빛을 내요.' : '태양빛을 반사해요.'}</p>` : '<p>천체를 고르면 빛의 근원을 볼 수 있어요.</p>'}</section><div class="light-lab">${lightExperiment(ui.lightBlocked)}${b(ui.lightBlocked ? '가림판 치우기' : '태양빛 가리기', 'light-toggle', 'secondary', `aria-pressed="${ui.lightBlocked}"`)}<p>${ui.lightBlocked ? '행성에 닿는 빛이 막혀 반사광도 사라져요.' : '태양빛이 행성에서 반사되어 눈에 들어와요.'}</p></div><p class="flow-progress">자료 ${d.classification.viewed.length}/8</p>`;
       break;
     }

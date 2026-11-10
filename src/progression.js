@@ -35,7 +35,7 @@ export function getStageAction(state, round = 0) {
       break;
     case 's4a':
       done = [0, 1].map(group => bodies.slice(group * 4, group * 4 + 4).every(body => drafts.classification.viewed.includes(body.id)));
-      labels = ['가까운 하늘 살펴보기', '더 넓은 하늘 살펴보기'];
+      labels = ['천체 묶음 하나 살펴보기', '천체 묶음 둘 살펴보기'];
       break;
     case 's5a':
       done = regions.map(region => patternRegions[region].stars.filter(id => drafts.pattern.observed.includes(id)).length >= 3);

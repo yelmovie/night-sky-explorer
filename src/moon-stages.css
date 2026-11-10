@@ -64,7 +64,7 @@
 .learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-card { display: contents; }
 .learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-mine h3 { grid-area: 1 / 1; }
 .learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-evidence h3 { grid-area: 1 / 2; }
-.learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-visual { grid-area: 2 / 1 / 3 / 3; justify-self: center; width: auto; height: 100%; max-width: 100%; }
+.learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-visual { grid-area: 2 / 1 / 3 / 3; justify-self: center; width: auto; height: 100%; max-width: 100%; aspect-ratio: 1; }
 .learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-mine .prediction-visual { opacity: .5; z-index: 2; }
 .learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-evidence .prediction-visual { z-index: 1; }
 .learning-v2[data-scene='s2b'] .first-thought { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 15px; line-height: 1.3; padding: 0; margin: 0; }
