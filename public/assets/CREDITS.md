@@ -89,3 +89,11 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 ⓒ 2026 옐샘 & 아이스크림미디어. 프로젝트 자체 제작 부분의 권리 표기다.
 
 외부 제공 이미지·폰트·데이터·라이브러리의 권리는 각 권리자에게 있다. 각 자료의 공개 라이선스·이용 조건을 따르며 확인되지 않은 권리를 이 문서가 부여하지 않는다.
+
+## 나눔스퀘어 네오 UI 글꼴 (2026-11-10)
+
+네이버 공식 배포 원본 WOFF2 Regular/Bold를 수정 없이 함께 제공한다.
+- 공식 안내: https://campaign.naver.com/nanumsquare_neo/
+- 원본: https://campaign.naver.com/nanumsquare_neo/download/NaverNanumSquareNeo.zip
+- 라이선스: SIL Open Font License 1.1. 전체 저작권 안내·전문은 `fonts/NanumSquareNeo-OFL.txt`.
+- 기존 영상·삽화에 포함된 글자는 영상 제작 당시 글꼴을 유지한다.

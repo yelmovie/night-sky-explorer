@@ -1,5 +1,8 @@
+/* NAVER NanumSquare Neo, official unmodified WOFF2. License: assets/fonts/NanumSquareNeo-OFL.txt. */
+@font-face { font-family: "NanumSquareNeo"; src: url("/assets/fonts/NanumSquareNeoTTF-bRg.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "NanumSquareNeo"; src: url("/assets/fonts/NanumSquareNeoTTF-cBd.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
 :root {
-  font-family: "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+  font-family: "NanumSquareNeo", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
   color: #edf2ff;
   background: #0a1127;
   font-synthesis: none;

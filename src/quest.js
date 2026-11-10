@@ -4,8 +4,8 @@ import { esc, icon, moonSVG, dayMoon, starChart } from './drawing.js';
 import { planetImage, celestialImage } from './ui.js';
 
 // Quest layer of design v2: incident → missions → evidence → world change → final mission → movie → certificate.
-export const missionTag = n => `MISSION ${String(n).padStart(2, '0')}`;
-export const evidenceTag = n => `EVIDENCE ${String(n).padStart(2, '0')}`;
+export const missionTag = n => `탐구 ${String(n).padStart(2, '0')}`;
+export const evidenceTag = n => `관측 기록 ${String(n).padStart(2, '0')}`;
 export const restorePercent = s => completedCount(s) * 18 + (s.core.restored && completedCount(s) === 5 ? 10 : 0);
 export const npc = {
   start: '관측 데이터가 서로 맞지 않아 중앙 돔을 열 수 없어. 직접 관찰해서 기록을 다시 검증해 줄래?',
@@ -97,7 +97,7 @@ export function movieMarkup(s) {
       <section class="movie-scene scene-evidence" aria-hidden="true"><div class="movie-room dim"></div><div class="movie-cards">${records}</div></section>
       <section class="movie-scene scene-connect" aria-hidden="true"><div class="movie-room dim"></div><div class="movie-core"><img src="/assets/generated/core-dial-v3.webp" alt=""/><i class="movie-needle"></i></div>${chapters.map(chapter => `<span class="movie-channel" style="--i:${chapter.id - 1}">${icon(chapter.icon, 26)}</span>`).join('')}</section>
       <section class="movie-scene scene-dome" aria-hidden="true"><div class="movie-room"></div><img class="movie-dome" src="/assets/generated/dome-restored.webp" alt=""/><div class="movie-flash"></div></section>
-      <section class="movie-scene scene-restored" aria-hidden="true"><img class="movie-dome" src="/assets/generated/dome-restored.webp" alt=""/><div class="movie-title"><small>OBSERVATION SYSTEM RESTORED</small><strong>MISSION COMPLETE</strong><span>연구소 복구 100%</span></div>${npcLine('fox', npc.ending, 'cheer')}${sprite('rabbit', 'cheer', 'movie-rabbit')}</section>
+      <section class="movie-scene scene-restored" aria-hidden="true"><img class="movie-dome" src="/assets/generated/dome-restored.webp" alt=""/><div class="movie-title"><small>관측 시스템 복구 완료</small><strong>탐구 완료</strong><span>연구소 복구 100%</span></div>${npcLine('fox', npc.ending, 'cheer')}${sprite('rabbit', 'cheer', 'movie-rabbit')}</section>
     </div>
     <p class="movie-caption" aria-live="polite">${movieScenes[0].caption}</p>
     <div class="movie-progress" aria-hidden="true"><i></i></div>

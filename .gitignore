@@ -2,3 +2,6 @@ node_modules/
 dist/
 .cache/
 *.log
+
+# macOS metadata on the shared exFAT drive
+._*

@@ -1,3 +1,4 @@
+import { nearestStar } from './star-hit.js';
 import { representativeDays, recordCountLabel } from './observation-records.js';
 import { chapters,planets,requiredPlanets,solarOrder,bodies,planetGroups,patternRegions } from './data.js';
 import { firstReady,stageReady,photoReady,clone,track } from './state.js';
@@ -198,9 +199,14 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   }
   if(scene==='s4b')touchCleanup=mountTouchDrag(root,{sources:'[data-claim]',targets:'[data-claim-target]',on,onDrop(source){if(advancing)return;answer().kind=source.dataset.claim;judgeClassification();}});
   if(scene==='s5a'||scene==='s5b'){
+    const pointerStar=event=>{
+      const stars=$$('[data-star]'),id=nearestStar(stars.map(star=>{const r=star.querySelector('circle').getBoundingClientRect();return {id:star.dataset.star,x:r.x+r.width/2,y:r.y+r.height/2,radius:r.width/2};}),event.clientX,event.clientY);
+      return stars.find(star=>star.dataset.star===id);
+    };
     $$('[data-star]').forEach(element=>{
-      function pick(){
-        const id=element.dataset.star;
+      function pick(event){
+        const id=(event?.detail ? pointerStar(event) : element)?.dataset.star;
+        if(!id)return;
         if(scene==='s5a'){if(!d.pattern.observed.includes(id)){d.pattern.observed.push(id);sound?.play('discover');track(s,'observations');}learningUI.selectedStar=id;}
         else{if(connectStars(pattern(),learningUI.selectedStar,id))sound?.play('place');learningUI.selectedStar=learningUI.selectedStar===id?null:id;}
         redraw();
@@ -209,9 +215,9 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     });
     if(scene==='s5b'){
       text('#pattern-reflection',pattern(),'reflection');
-      on($('#star-view'),'pointerdown',event=>{const source=event.target.closest('[data-star]');if(source&&event.button===0)starDrag={id:source.dataset.star,x:event.clientX,y:event.clientY};});
+      on($('#star-view'),'pointerdown',event=>{const source=pointerStar(event);if(source&&event.button===0)starDrag={id:source.dataset.star,x:event.clientX,y:event.clientY};});
       on($('#star-view'),'pointerup',event=>{
-        if(!starDrag)return;const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('[data-star]'),start=starDrag;starDrag=null;
+        if(!starDrag)return;const target=pointerStar(event),start=starDrag;starDrag=null;
         if(target&&target.dataset.star!==start.id&&Math.hypot(event.clientX-start.x,event.clientY-start.y)>10){
           // The pointer's click arrives after redraw, so suppress just that click across mounts.
           const suppress=click=>{click.preventDefault();click.stopImmediatePropagation();document.removeEventListener('click',suppress,true);};

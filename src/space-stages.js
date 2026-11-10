@@ -72,7 +72,7 @@ export function renderSpaceStage(s, scene, i, ui, helpers) {
       const region = regions[i], observed = d.pattern.observed.filter(id => id !== 'Polaris').length;
       instruction = '별 사이의 간격과 방향을 살펴봐요.';
       main = `${tabs(['위쪽 별 무리', '아래쪽 별 무리'], regions.map(key => patternRegions[key].stars.filter(id => d.pattern.observed.includes(id)).length >= 2))}<div id="star-view">${starChart({ observed: d.pattern.observed, selected: ui.selectedStar, region })}</div><div class="chart-legend"><span><i class="legend-observed" aria-hidden="true"></i>관찰한 별</span><span><i class="legend-selected" aria-hidden="true"></i>선택한 별</span></div>`;
-      tools = `<div id="star-observation" class="observation-card">${ui.selectedStar ? starNames[ui.selectedStar] : '별을 눌러 관찰해요'}</div><span class="flow-progress">${observed}/6 관찰</span>`;
+      tools = `<div id="star-observation" class="observation-card">${ui.selectedStar ? starNames[ui.selectedStar] : '별을 눌러 관찰해요'}</div><span class="flow-progress">관찰 ${observed}개 · 목표 6개</span>`;
       break;
     }
     case 's5b': {

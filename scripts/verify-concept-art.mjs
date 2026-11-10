@@ -63,6 +63,9 @@ async function openScene(scene) {
   await page.evaluate(({ key, state }) => localStorage.setItem(key, JSON.stringify(state)), { key: SAVE_KEY, state: fixture(scene) });
   await page.reload();
   await page.locator('main').waitFor();
+  // Completing all fixture records opens the final-report dialog. Close it before auditing the underlying scene.
+  const close = page.locator('dialog[open] [data-action="close-modal"]');
+  if (await close.count()) await close.first().click();
   await page.evaluate(() => document.fonts.ready);
   await page.evaluate(() => window.scrollTo(0, 0));
 }
@@ -103,12 +106,14 @@ async function layout(label) {
       .filter(element => element.checkVisibility() && !element.closest('details:not([open])'));
     const outside = [], blocked = [];
     for (const element of controls) {
-      const box = element.getBoundingClientRect(), x = box.left + box.width / 2, y = box.top + box.height / 2;
+      // SVG group bounds include decorative star images and labels; the hit circle defines its pointer target.
+      const target = element.matches('[data-star]') ? element.querySelector('circle') : element;
+      const box = target.getBoundingClientRect(), x = box.left + box.width / 2, y = box.top + box.height / 2;
       const name = element.getAttribute('aria-label') || element.textContent.trim().slice(0, 55) || element.id;
       if (box.left < -1 || box.right > innerWidth + 1) outside.push(name);
       if (element.disabled || !box.width || !box.height || x < 0 || x >= innerWidth || y < 0 || y >= innerHeight || clipped(element, x, y)) continue;
       const top = document.elementFromPoint(x, y);
-      if (top && top !== element && !element.contains(top)) blocked.push({ control: name, by: top.className?.baseVal || top.className || top.tagName });
+      if (top && top !== element && !element.contains(top) && !(element.matches('[data-star]') && top.closest('[data-star]'))) blocked.push({ control: name, by: top.className?.baseVal || top.className || top.tagName });
     }
     return { label, width: innerWidth, height: innerHeight, horizontalOverflow: document.documentElement.scrollWidth > innerWidth + 1, outside, blocked };
   }, label);
@@ -149,6 +154,7 @@ try {
     for (const scene of scenes) {
       await openScene(scene);
       if (scene === 's4a') await page.locator('[data-learning="body-sun"]').click();
+      if (scene === 's5a') assert.match(await page.locator('.flow-progress').textContent(), /관찰 12개 · 목표 6개/);
       await verifyImages(scene); await layout(scene); await shot(scene);
       if (scene === 's4a') {
         await lightState('open');
@@ -162,6 +168,14 @@ try {
         }));
         assert.ok(nodes.length > 0);
         for (const node of nodes) { assert.ok(node.hitRadius >= 10, node.id + ' hit area'); assert.ok(node.dx !== null && Math.abs(node.dx) < .01 && Math.abs(node.dy) < .01, node.id + ' art center matches catalog center'); }
+      }
+      if (scene === 's5a') {
+        // Overlapping enlarged targets must still select the intended star by pointer position.
+        for (const id of await page.locator('[data-star]').evaluateAll(nodes=>nodes.map(n=>n.dataset.star))) {
+          const r=await page.locator(`[data-star="${id}"] circle`).first().boundingBox();
+          await page.mouse.click(r.x+r.width/2,r.y+r.height/2);
+          assert.equal(await page.locator('[data-star].selected').getAttribute('data-star'),id,`${width}: center click selects ${id}`);
+        }
       }
       if (scene === 'core') assert.equal(await page.locator('.calibration-art').getAttribute('src'), conceptArt.coreDial.src);
     }
