@@ -47,7 +47,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   function pan(dx,dy){d.moon.x=Math.max(-80,Math.min(80,d.moon.x+dx));d.moon.y=Math.max(-80,Math.min(80,d.moon.y+dy));updateScope();commit();}
   function spot(x,y){const c=d.moon.comparisons[round()];if(Math.hypot(x-50,y-50)>48)return;if(d.moon.comparisons.some(other=>other.spots.some(p=>Math.hypot(x-p.x,y-p.y)<10)))return notify('앞서 고른 곳과 조금 떨어진 다른 표면을 골라 봐.');if(c.spots.length===2)c.spots.shift();c.spots.push({x,y});track(s,'observations');redraw();}
   function answer(){const id=selectedBody().id;return d.classification.answers[id]||=( {kind:'',reason:''} );}
-  function showFeedback(id,status){const element=$('#'+id);if(element){element.textContent=status.text;element.dataset.tone=status.tone;}}
+  function showFeedback(id,status){const element=$('#'+id);if(element){element.textContent=status.text;element.dataset.tone=status.tone;ctx.onFeedback?.(element);}}
   function queueNext(kind,id){learningUI.pendingAdvance={scene,kind,id};redraw();}
   function judgeClassification(){const body=selectedBody(),status=classificationFeedback(body,answer());if(!status.correct&&answer().kind&&answer().reason)track(s,'retries');if(status.correct){sound?.play('success');if(nextBody(d.classification.answers,body.id)!==-1)return queueNext('body',body.id);}else if(answer().kind&&answer().reason)sound?.play('retry');redraw();}
   function choosePlanet(id){d.planets.selected=id;d.planets.feature=d.planets.records[id]?.feature||'';d.planets.candidate=id;learningUI.zoom=1;learningUI.rotation=0;}

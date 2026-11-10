@@ -20,7 +20,7 @@ export function mountWelcomeVoice(host, { caption, isMuted, duck = () => {} }) {
   panel.append(button, label, subtitle, status);
   host.append(panel);
   const events = new AbortController();
-  const player = new Audio('./assets/audio/npc-welcome.m4a');
+  const player = new Audio('./assets/audio/voices/welcome.mp3');
   player.preload = 'none';
   let active = false, disposed = false, serial = 0;
   const paint = () => { button.textContent = active ? '안내 음성 멈추기' : '안내 음성 듣기'; button.setAttribute('aria-pressed', String(active)); };

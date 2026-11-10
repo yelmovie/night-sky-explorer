@@ -97,3 +97,7 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 - 원본: https://campaign.naver.com/nanumsquare_neo/download/NaverNanumSquareNeo.zip
 - 라이선스: SIL Open Font License 1.1. 전체 저작권 안내·전문은 `fonts/NanumSquareNeo-OFL.txt`.
 - 기존 영상·삽화에 포함된 글자는 영상 제작 당시 글꼴을 유지한다.
+
+## 캐릭터 대사 음성 29개 (2026-11-10)
+
+별여우 연구관과 루미의 대사를 로컬 Momo / Qwen3-TTS VoiceDesign으로 생성했다. 실제 인물의 목소리를 복제하지 않았다. 모델·프리셋·대사·오디오 SHA-256 및 객관적 검수 결과는 `docs/VOICE-PROVENANCE-20261110.json`에 기록했다. 모델 라이선스 표기는 Apache-2.0이며, 출력물의 독립적인 권리 보증을 뜻하지 않는다. ASR와 신호 검사는 통과했으나 사람이 실제로 듣고 자연스러움을 평가한 청감 검수는 미확인이다. 기존 안내 음성 원본은 보존했다.

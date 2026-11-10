@@ -1,3 +1,5 @@
+import { createNarration, mountNarrationControl } from './narration.js';
+import { voiceForText } from './voice-lines.js';
 import { mountWelcomeVoice } from './welcome-voice.js';
 let welcomeCleanup = () => {};
 import './styles.css';
@@ -31,6 +33,16 @@ let studentSnapshot = null;
 let state = loaded.state, cleanup = () => {}, events, modalCleanup = () => {}, modalReturn, modalBack, lastSite = null, hintLevel = 0, toastTimer, selectedRecord;
 let previewCore = { connections: {}, angle: 15, restored: false }, lastReplay = null;
 const sound = createSound(() => state.settings);
+const narration = createNarration({ isMuted: () => state.settings.muted || !state.settings.sfx, duck: value => sound.setDucked(value) });
+let modalVoiceCleanup = () => {}, sceneVoiceCleanup = () => {}, previousFeedbackVoice = '';
+function clearModalVoice() { modalVoiceCleanup(); modalVoiceCleanup = () => {}; narration.stop(); }
+function syncFeedbackVoice(feedback) {
+  const line = feedback && voiceForText(feedback.textContent);
+  const key = line ? state.scene + ':' + line.id : '';
+  narration.stop(); sceneVoiceCleanup(); sceneVoiceCleanup = () => {};
+  if (line) sceneVoiceCleanup = mountNarrationControl(app.querySelector('.lesson-help') || feedback.parentElement, line.id, narration, { autoplay: key !== previousFeedbackVoice, compact: true });
+  previousFeedbackVoice = key;
+}
 const $ = selector => app.querySelector(selector);
 const on = (element, type, handler) => element?.addEventListener(type, handler, { signal: events.signal });
 const reduced = () => state.settings.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -98,6 +110,7 @@ function bindActions(root) { root.querySelectorAll('[data-action]').forEach(elem
 function closeModal(returnToParent = true) {
   const element = $('#dialog');
   if (!element?.open) return;
+  clearModalVoice();
   modalCleanup(); modalCleanup = () => {};
   const back = modalBack; modalBack = null;
   if (element?.open) element.close();
@@ -105,6 +118,7 @@ function closeModal(returnToParent = true) {
   if (returnToParent && back) queueMicrotask(back);
 }
 function dialog(title, body, after, footer = '', back = null) {
+  narration.stop();
   const element = $('#dialog');
   if (element.open) closeModal(false);
   modalReturn = document.activeElement;
@@ -114,6 +128,10 @@ function dialog(title, body, after, footer = '', back = null) {
   bindActions(element);
   element.showModal();
   after?.(element);
+  if (!element.classList.contains('movie-dialog')) {
+    const line = voiceForText(element.querySelector('.dialog-body').textContent);
+    if (line) modalVoiceCleanup = mountNarrationControl(element.querySelector('.dialog-footer'), line.id, narration);
+  }
 }
 function showConcept(number, back = null, returnLabel = '탐구로 돌아가기') {
   if (!state.evidence[number]) return notify('이 관측을 마친 뒤에 볼 수 있어요.');
@@ -144,7 +162,7 @@ function showHint() {
 }
 function reward(number) {
   const chapter = chapters[number - 1];
-  dialog(`${evidenceTag(number)} 확보!`, `<section class="reward-summary"><div class="reward-symbol">${icon(chapter.icon, 52)}</div><p class="reward-kicker">${missionTag(number)} COMPLETE · ${chapter.title}</p><h3>${chapter.record}</h3>${kitMeter(state)}</section><div class="world-change"><b>${icon('spark', 18)} 연구소 변화</b><p>${chapter.worldChange}</p></div>${npcLine('fox', chapter.npc, number === 5 ? 'point' : 'neutral')}`, null, `${button(`개념영상 ${concepts[number].seconds}초 보기 (선택)`, 'reward-video-' + number)}${button('탐구 지도', 'map')}${button(number < 5 ? '다음 미션으로' : completedCount(state) === 5 ? '중앙 관측실로' : '다른 관측 찾기', 'continue-stage-' + number, 'primary')}`);
+  dialog(`${evidenceTag(number)} 확보!`, `<section class="reward-summary"><div class="reward-symbol">${icon(chapter.icon, 52)}</div><p class="reward-kicker">${missionTag(number)} 완료 · ${chapter.title}</p><h3>${chapter.record}</h3>${kitMeter(state)}</section><div class="world-change"><b>${icon('spark', 18)} 연구소 변화</b><p>${chapter.worldChange}</p></div>${npcLine('fox', chapter.npc, number === 5 ? 'point' : 'neutral')}`, null, `${button(`개념영상 ${concepts[number].seconds}초 보기 (선택)`, 'reward-video-' + number)}${button('탐구 지도', 'map')}${button(number < 5 ? '다음 미션으로' : completedCount(state) === 5 ? '중앙 관측실로' : '다른 관측 찾기', 'continue-stage-' + number, 'primary')}`);
 }
 function showIntro(step = 0, replay = false) {
   const panel = introPanel(step, state.name), last = step === 2;
@@ -155,7 +173,7 @@ function finalReport() {
   track(state, 'reviews');
   const first = !state.core.reportSeen;
   state.core.reportSeen = true; persist();
-  dialog('최종 관측 보고서', `${npcLine('fox', npc.report, 'map')}<div class="final-report">${chapters.map(chapter => `<details><summary><span class="report-index">${String(chapter.id).padStart(2, '0')}</span><span class="report-name">${chapter.record}<small>${evidenceFact(chapter.id, state.evidence[chapter.id]?.data)}</small></span><em class="verified">${icon('check', 16)} VERIFIED</em></summary><div class="report-record">${recordMarkup(chapter.id, state.evidence[chapter.id]?.data)}</div></details>`).join('')}</div><p class="bank-note">항목을 누르면 내가 만든 실제 기록을 다시 볼 수 있어요.</p>`, null, button(first ? '중앙 코어 연결 시작' : '코어로 돌아가기', 'close-modal', 'primary'));
+  dialog('최종 관측 보고서', `${npcLine('fox', npc.report, 'map')}<div class="final-report">${chapters.map(chapter => `<details><summary><span class="report-index">${String(chapter.id).padStart(2, '0')}</span><span class="report-name">${chapter.record}<small>${evidenceFact(chapter.id, state.evidence[chapter.id]?.data)}</small></span><em class="verified">${icon('check', 16)} 확인</em></summary><div class="report-record">${recordMarkup(chapter.id, state.evidence[chapter.id]?.data)}</div></details>`).join('')}</div><p class="bank-note">항목을 누르면 내가 만든 실제 기록을 다시 볼 수 있어요.</p>`, null, button(first ? '중앙 코어 연결 시작' : '코어로 돌아가기', 'close-modal', 'primary'));
 }
 let movie = null;
 function showMovie() {
@@ -164,7 +182,7 @@ function showMovie() {
   dialog('엔딩 · 연구소 복구', movieMarkup(state), element => {
     element.classList.add('movie-dialog');
     const skip = element.querySelector('#movie-skip');
-    movie = mountMovie(element, { reduced: reduced(), onEnd() { skip?.remove(); element.querySelector('#movie-done')?.focus({ preventScroll: true }); } });
+    movie = mountMovie(element, { reduced: reduced(), onScene(index) { if (index === 4) { modalVoiceCleanup(); modalVoiceCleanup = mountNarrationControl(element.querySelector('.dialog-footer'), 'ending', narration); } }, onEnd() { skip?.remove(); element.querySelector('#movie-done')?.focus({ preventScroll: true }); } });
     on(skip, 'click', () => movie?.next());
     modalCleanup = () => { movie?.dispose(); movie = null; };
   }, `<button class="btn" id="movie-skip">${reduced() ? '다음 장면' : '건너뛰기'}</button>${preview ? button('시연 닫기', 'close-modal', 'primary', 'id="movie-done"') : button('인증서 받기', 'results', 'primary', 'id="movie-done"')}`, preview ? null : () => go('results'));
@@ -252,6 +270,7 @@ function action(name) {
   if (name === 'print') { document.body.classList.add('print-certificate'); addEventListener('afterprint', () => document.body.classList.remove('print-certificate'), { once: true }); window.print(); }
 }
 function render() {
+  narration.stop(); sceneVoiceCleanup(); sceneVoiceCleanup = () => {};
   welcomeCleanup(); welcomeCleanup = () => {};
   closeModal(false); cleanup(); events?.abort(); events = new AbortController();
   document.body.classList.toggle('reduce-motion', reduced());
@@ -261,7 +280,7 @@ function render() {
   if (state.scene === 'home') welcomeCleanup = mountWelcomeVoice(app.querySelector('.hero'), { caption: '밤하늘 탐험에 온 걸 환영해! 달과 별, 행성을 자세히 살펴보고, 관찰한 특징을 기록하며 우주의 단서를 찾아보자.', isMuted: () => state.settings.muted || !state.settings.sfx, duck: value => sound.setDucked(value) });
   bindActions(app);
   cleanup = () => {};
-  if (learning) cleanup = mountLearning(app, { state, save: persist, render, notify, dialog, on, refresh, sound });
+  if (learning) cleanup = mountLearning(app, { state, save: persist, render, notify, dialog, on, refresh, sound, onFeedback: syncFeedbackVoice });
   if (state.scene === 'map') {
     const world = mountWorld($('#world'), state, { lastSite, onHint: showHint, onStatus: message => message === 'retry' ? render() : notify(message), onSite: number => {
       if (number ? !stageOpen(state, number) : completedCount(state) < 5 && !state.settings.adminUnlock) return notify('앞선 관측을 마치면 이 문이 열려요.');
@@ -278,6 +297,7 @@ function render() {
     cleanup = () => world.dispose();
   }
   if (state.scene === 'core') mountCalibration();
+  syncFeedbackVoice(app.querySelector('#planet-feedback, #classification-feedback'));
   refresh(); sound.sync();
   if (state.scene === 'core' && completedCount(state) === 5 && !state.core.restored && !state.core.reportSeen) finalReport();
 }

@@ -104,13 +104,14 @@ export function movieMarkup(s) {
   </div>`;
 }
 // Timed playback; reduced motion shows the same scenes one step at a time.
-export function mountMovie(host, { reduced, onEnd }) {
+export function mountMovie(host, { reduced, onEnd, onScene }) {
   const root = host.querySelector('.final-movie'), caption = host.querySelector('.movie-caption');
   let scene = 0, timers = [], ended = false;
   function show(index) {
     scene = index;
     root.dataset.scene = index;
     caption.textContent = movieScenes[index].caption || npc.ending;
+    onScene?.(index);
   }
   function finish() { if (ended) return; ended = true; root.classList.add('is-ended'); onEnd?.(); }
   if (reduced) {
