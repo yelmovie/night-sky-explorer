@@ -1,0 +1,150 @@
+{
+  "project": 13,
+  "appCommit": "4d557ecf5d99d54fa46bfc57e73dfb143476ee67",
+  "unitTestsPassed": 107,
+  "production": {
+    "project": 13,
+    "url": "https://night-sky-explorer.yelsam.workers.dev",
+    "files": 91,
+    "matched": 91,
+    "problems": [],
+    "excluded": [
+      {
+        "path": "/._index.html",
+        "status": 404
+      },
+      {
+        "path": "/.DS_Store",
+        "status": 404
+      },
+      {
+        "path": "/assets/._audio",
+        "status": 404
+      },
+      {
+        "path": "/src/._app.js",
+        "status": 404
+      }
+    ],
+    "indexCanonicalPath": "/",
+    "indexSha256": "a82907fb72cb5d0a85f961fcd079e7b29fd4a3b86d117bdfeac92c7ba7f88786",
+    "note": "Cloudflare auto-trailing-slash serves index.html at /. Verified the canonical URL without changing content."
+  },
+  "loadingLocal": {
+    "project": 13,
+    "url": "http://127.0.0.1:4383",
+    "samples": [
+      {
+        "loadMs": 4191.300000000745,
+        "fcpMs": 828,
+        "transferredBytes": 1549960,
+        "errors": []
+      },
+      {
+        "loadMs": 3467.800000000745,
+        "fcpMs": 360,
+        "transferredBytes": 1549960,
+        "errors": []
+      },
+      {
+        "loadMs": 3948.900000002235,
+        "fcpMs": 536,
+        "transferredBytes": 1549960,
+        "errors": []
+      }
+    ],
+    "averageLoadMs": 3869.333333334575,
+    "averageBytes": 1549960
+  },
+  "loadingProduction": {
+    "project": 13,
+    "url": "https://night-sky-explorer.yelsam.workers.dev",
+    "samples": [
+      {
+        "loadMs": 7722.70000000298,
+        "fcpMs": 3384,
+        "transferredBytes": 1555527,
+        "errors": []
+      },
+      {
+        "loadMs": 15421.800000000745,
+        "fcpMs": 11640,
+        "transferredBytes": 1555266,
+        "errors": []
+      },
+      {
+        "loadMs": 4672.800000000745,
+        "fcpMs": 1668,
+        "transferredBytes": 1555264,
+        "errors": []
+      }
+    ],
+    "averageLoadMs": 9272.433333334824,
+    "averageBytes": 1555352.3333333333
+  },
+  "productionJourney": {
+    "project": 13,
+    "url": "https://night-sky-explorer.yelsam.workers.dev",
+    "checks": [
+      "start and first input",
+      "complete first learning stage through real input",
+      "save and reload preserves observations and completion",
+      "four viewport widths without page overflow"
+    ],
+    "sizes": [
+      {
+        "width": 1920,
+        "height": 1080,
+        "horizontalOverflow": false
+      },
+      {
+        "width": 1280,
+        "height": 800,
+        "horizontalOverflow": false
+      },
+      {
+        "width": 1024,
+        "height": 768,
+        "horizontalOverflow": false
+      },
+      {
+        "width": 915,
+        "height": 412,
+        "horizontalOverflow": false
+      }
+    ],
+    "errors": []
+  },
+  "ciCheckRuns": 0,
+  "playthrough": {
+    "passed": [
+      "Incident intro plays once before the first mission and is saved",
+      "Unfinished map destination enters directly without an entry confirmation",
+      "A new mobile activity starts at the top after continuing from the bottom",
+      "Partial observations survive reload; primary action opens the unfinished comparison",
+      "Stage 1: real completion, optional concept, direct continuation",
+      "Time playback starts and pauses",
+      "Date shortcuts capture once; reveal compares immediately and preserves the initial prediction",
+      "Stage 2: real completion, optional concept, direct continuation",
+      "Planet feature mistakes remain editable; correct evidence records once and advances; leaving cancels advance",
+      "Keyboard placement keeps focus, wrong groups identify the planet, and grouping selects the next piece",
+      "All nine solar pieces and eight groups use pointer drag, including a touch drag",
+      "Stage 3: real completion, optional concept, direct continuation",
+      "Inline science cards, correction after a wrong claim, no advance behind settings, rapid reason input, all eight automatic checks",
+      "Stage 4: real completion, optional concept, direct continuation",
+      "Keyboard star observation and continuous star lines without reselecting the shared endpoint",
+      "Stage 5: real completion, optional concept, direct continuation",
+      "Final report opens once and a record in the wrong channel is refused with a hint",
+      "Calibration ring turns by dragging around the dial",
+      "Five real records, restored core, certificate, and reload persistence in normal student mode"
+    ],
+    "errors": []
+  },
+  "mapPaintsAfter": {
+    "idlePaintsPer2s": 0,
+    "movingPaintsPer700ms": 39,
+    "modalPaintsPer1200ms": 0,
+    "errors": [],
+    "environment": "Mac mini headless Chromium; desktop proxy, not school tablet FPS"
+  }
+}
