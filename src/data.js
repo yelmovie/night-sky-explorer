@@ -1,3 +1,4 @@
+import { learningObjectives } from './curriculum.js';
 export const chapters = [
   {
     id: 1,
@@ -75,6 +76,7 @@ export const chapters = [
     npc: "모든 관측 데이터가 모였어. 연구 결과를 중앙 관측실로 가져와 줘.",
   },
 ];
+for (const chapter of chapters) chapter.learning = learningObjectives.find(item => item.chapter === chapter.id);
 export const planets = [
   {
     id: "mercury",

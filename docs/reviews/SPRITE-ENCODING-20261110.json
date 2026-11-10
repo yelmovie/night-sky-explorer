@@ -1,0 +1,15 @@
+{
+  "sourceCommit": "68c7a69717e56cb8e887b0e0cec3f2b908a98ef3",
+  "asset": "public/assets/generated/rabbit-walk.webp",
+  "encoding": "WebP quality 88, alphaQuality 100, effort 6",
+  "beforeBytes": 1277070,
+  "afterBytes": 456518,
+  "width": 1254,
+  "height": 1254,
+  "alphaPixelsChanged": 0,
+  "frames": 16,
+  "atlasChanged": false,
+  "sourceSha256": "fe267e05bd25f596e967c912eb0e8677ab99d360db7fc50b3931b5a62f1dfc20",
+  "outputSha256": "15df02d700a7d0879ec413ceb1f36feffe72b8bd54e7135dbe425faf8748058a",
+  "note": "Original lossless source remains in Git at the source commit. No frame crop, geometry, pivot or timing changed."
+}

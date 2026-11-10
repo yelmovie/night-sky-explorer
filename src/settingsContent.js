@@ -1,11 +1,7 @@
 import { version } from '../package.json';
 
 export const appInfo = { version, credit: '옐샘 & 아이스크림미디어' };
-export const standards = [
-  ['[4과13-01]', '달의 모양과 표면, 달의 위상변화를 관찰하여 밤하늘 관찰에 흥미를 가질 수 있다.'],
-  ['[4과13-02]', '태양계 구성원을 알고, 태양과 행성을 조사할 수 있다.'],
-  ['[4과13-03]', '별의 정의를 알고, 북극성 주변의 별자리를 관찰할 수 있다.'],
-];
+export { standards, learningObjectives } from './curriculum.js';
 export const studentGuide = [
   '별명을 정하고 연구소로 출발해요. 지도에서 빛나는 건물을 누르면 달토끼와 걸어가요.',
   '망원경 조절, 시간 이동, 행성 배치, 별 연결로 관찰하고 내 생각의 근거를 남겨요.',

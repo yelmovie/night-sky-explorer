@@ -4,6 +4,18 @@
 
 ## 실행
 
+macOS에서는 외장 SSD의 프로젝트에서 실행해. Node.js 20.19+ 또는 22.12+를 사용하고, 임시 폴더와 npm 캐시도 쓰기 가능한 외장 SSD에 지정해.
+
+```sh
+export TMPDIR="/Volumes/T7 Shield/DevTemp"
+export TMP="$TMPDIR" TEMP="$TMPDIR"
+export npm_config_cache="/Volumes/T7 Shield/DevTemp/npm-cache"
+npm ci
+npm run dev
+```
+
+`npm run build`는 현재 프로젝트의 `dist/`를 만들고 `npm run preview`로 확인해. 설치·빌드 전에 SSD가 연결됐는지 확인해. 아래 Windows 예시는 Windows 전용이야.
+
 Windows에서 `start.cmd`를 실행한 뒤 [연구소 열기](http://localhost:5183/)로 접속해. 프로젝트에서 Vite를 실행하며 TEMP/TMP는 `D:\DevTemp`, npm 캐시는 프로젝트 `.cache/npm`으로 지정돼. Node.js 20.19+ 또는 22.12+가 필요해.
 
 ```powershell
@@ -19,7 +31,7 @@ D: 임시 폴더 존재·쓰기 권한을 먼저 확인해. 결과·다운로드
 | 명령 | 결과 |
 |---|---|
 | `npm test` | 상태·완료·저장 관련 테스트 |
-| `npm run build` | D: 프로젝트 `dist/`에 정적 빌드 |
+| `npm run build` | 현재 프로젝트 `dist/`에 정적 빌드 |
 | `npm run preview` | [빌드 미리보기](http://localhost:4173/) |
 
 ## v2 범위
