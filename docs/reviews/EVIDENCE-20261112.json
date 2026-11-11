@@ -1,0 +1,1676 @@
+{
+  "project": "별빛 관측 연구소",
+  "reviewedAt": "2026-11-11T16:20:01.862Z",
+  "publicUrl": "https://night-sky-explorer.yelsam.workers.dev/",
+  "sourceCommit": "b93f505af511ecd2471c1437a07835fd88225de2",
+  "deployment": {
+    "id": "44f2256a-8e27-4365-9bbf-8e0758ce5693",
+    "versions": [
+      {
+        "version_id": "cc5f3654-389d-4d56-bf43-6bb6b979825c",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-11-11T16:07:14.092344Z"
+  },
+  "score": {
+    "total": 88,
+    "maximum": 100,
+    "outOfTen": 8.8,
+    "method": "10 domains ×10; FAIL −3, WARNING −1, NOT TESTED −1; no duplicate deduction; see SCORE-20261112.md"
+  },
+  "historicalCommitsVerifiedAsAncestors": [
+    "18d1caa",
+    "5bae5a8",
+    "68c7a69",
+    "6bd1a3c",
+    "4d557ec",
+    "acba7a3",
+    "fc43df0",
+    "8db9e52"
+  ],
+  "releaseCommits": [
+    "11b72bf",
+    "66259d0",
+    "651e16",
+    "61b0660",
+    "b93f505"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 124,
+      "failed": 0
+    },
+    "build": "PASS",
+    "layouts": {
+      "responsive": {
+        "scenarios": 405,
+        "scenariosWithIssues": 0,
+        "issues": 0,
+        "pageErrors": 0,
+        "sizes": [
+          [
+            1920,
+            1080
+          ],
+          [
+            1366,
+            768
+          ],
+          [
+            1280,
+            800
+          ],
+          [
+            1024,
+            768
+          ],
+          [
+            768,
+            1024
+          ],
+          [
+            1024,
+            600
+          ],
+          [
+            915,
+            412
+          ],
+          [
+            390,
+            844
+          ],
+          [
+            360,
+            740
+          ]
+        ],
+        "limitations": [
+          "Automated Chromium layout checks; physical tablet/Safari are not measured.",
+          "Canvas/SVG internal label collisions require visual screenshot review.",
+          "Controls offscreen in working scroll containers are reachable and are allowed.",
+          "Map-world pins outside the camera are reachable through map panning and are excluded from reachability errors."
+        ]
+      },
+      "stage-fit": {
+        "scenarios": 164,
+        "scenariosWithIssues": 0,
+        "issues": 0,
+        "pageErrors": 0,
+        "sizes": [
+          [
+            1280,
+            800
+          ],
+          [
+            768,
+            1024
+          ],
+          [
+            915,
+            412
+          ],
+          [
+            360,
+            740
+          ]
+        ],
+        "limitations": [
+          "Chromium viewport emulation, not physical tablet or Safari.",
+          "SVG internal glyph collisions and the quality of scientific artwork need visual review.",
+          "Intentional artwork clipping during zoom is allowed; no scrolling or clipped controls/text is allowed."
+        ]
+      },
+      "extras": {
+        "scenarios": 65,
+        "scenariosWithIssues": 0,
+        "issues": 0,
+        "pageErrors": 0,
+        "sizes": [
+          [
+            1280,
+            800
+          ],
+          [
+            1024,
+            768
+          ],
+          [
+            768,
+            1024
+          ],
+          [
+            915,
+            412
+          ],
+          [
+            390,
+            844
+          ]
+        ],
+        "limitations": [
+          "Automated Chromium layout checks; physical tablet/Safari are not measured.",
+          "Canvas/SVG internal label collisions require visual screenshot review.",
+          "Controls offscreen in working scroll containers are reachable and are allowed.",
+          "Map-world pins outside the camera are reachable through map panning and are excluded from reachability errors."
+        ]
+      }
+    },
+    "education": {
+      "checks": [
+        "10 pages show their standard, highlighted concept and one current action",
+        "Date selection, explicit capture, next-date guidance and new Moon art agree",
+        "Reading a body advances the highlighted target to unread evidence",
+        "Core planetary investigation completes and survives reload without optional composition sorting"
+      ],
+      "errors": []
+    },
+    "playthrough": {
+      "passed": [
+        "Incident intro plays once before the first mission and is saved",
+        "Unfinished map destination enters directly without an entry confirmation",
+        "A new mobile activity starts at the top after continuing from the bottom",
+        "Partial observations survive reload; primary action opens the unfinished comparison",
+        "Stage 1: real completion, optional concept, direct continuation",
+        "Time playback starts and pauses",
+        "Date selection preserves evidence; explicit capture records once; comparison preserves the initial prediction",
+        "Stage 2: real completion, optional concept, direct continuation",
+        "Planet feature mistakes remain editable; correct evidence records once and advances; leaving cancels advance",
+        "Keyboard placement keeps focus, wrong groups identify the planet, and grouping selects the next piece",
+        "All nine solar pieces and eight groups use pointer drag, including a touch drag",
+        "Stage 3: real completion, optional concept, direct continuation",
+        "Inline science cards, correction after a wrong claim, no advance behind settings, rapid reason input, all eight automatic checks",
+        "Stage 4: real completion, optional concept, direct continuation",
+        "Keyboard star observation and continuous star lines without reselecting the shared endpoint",
+        "Stage 5: real completion, optional concept, direct continuation",
+        "Final report opens once and a record in the wrong channel is refused with a hint",
+        "Calibration ring turns by dragging around the dial",
+        "Five real records, restored core, certificate, and reload persistence in normal student mode"
+      ],
+      "errors": []
+    },
+    "playback": {
+      "passed": [
+        "망원경 자동 정렬·초점·서로 다른 배율 촬영, 자동 단계 완료 없음",
+        "표면 관찰은 재생하되 발견한 차이는 대신 작성하지 않음",
+        "속도 2배로 달 변화 전체 재생·여섯 시점 관찰, 예상은 보존",
+        "수동 조절은 자동재생을 즉시 멈춤",
+        "예상 저장 전 자동 비교 잠금, 저장 뒤에도 최초 예상과 성찰 보존",
+        "실제 3D 행성 회전 재생·일시정지, 특징 정답 자동 선택 없음",
+        "천체 자료와 가림판 실험 순차 재생, 판별 답안은 비어 있음",
+        "두 별 무리 자동 관찰, 학습자 연결선 자동 작성 없음",
+        "패턴 저장 후 비교만 재생, 내 선·처음 패턴·기록은 보존",
+        "순서·분류 정답 활동에는 자동재생 버튼 없음",
+        "힌트·화면 이동 뒤 타이머가 학습 데이터를 계속 바꾸지 않음"
+      ],
+      "errors": []
+    },
+    "records": {
+      "checks": [
+        "teacher isolation",
+        "reload exit",
+        "teacher reset denied",
+        "conflict preserved",
+        "corrupt source preserved"
+      ],
+      "sceneViewports": 36,
+      "errors": []
+    },
+    "classroom": {
+      "layoutChecks": 157,
+      "media": [
+        {
+          "number": 1,
+          "duration": 16.008,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "number": 2,
+          "duration": 16.008,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "number": 3,
+          "duration": 16.008,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "number": 4,
+          "duration": 16.008,
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "number": 5,
+          "duration": 16.008,
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "audioFiles": [
+        "click",
+        "capture",
+        "place",
+        "discover",
+        "success",
+        "hint"
+      ],
+      "fallback": true,
+      "reducedMotion": true,
+      "errors": []
+    },
+    "narration": {
+      "lines": 29,
+      "checks": [
+        "welcome played to ended with matching text and BGM duck",
+        "intro-fox played to ended with matching text and BGM duck",
+        "intro-lumi played to ended with matching text and BGM duck",
+        "map-1 played to ended with matching text and BGM duck",
+        "map-2 played to ended with matching text and BGM duck",
+        "map-3 played to ended with matching text and BGM duck",
+        "hint-s1a played to ended with matching text and BGM duck",
+        "hint-s1b played to ended with matching text and BGM duck",
+        "hint-s2a played to ended with matching text and BGM duck",
+        "hint-s2b played to ended with matching text and BGM duck",
+        "hint-s3a played to ended with matching text and BGM duck",
+        "hint-s3b played to ended with matching text and BGM duck",
+        "hint-s4a played to ended with matching text and BGM duck",
+        "hint-s4b played to ended with matching text and BGM duck",
+        "hint-s5a played to ended with matching text and BGM duck",
+        "hint-s5b played to ended with matching text and BGM duck",
+        "retry-planet played to ended with matching text and BGM duck",
+        "retry-light played to ended with matching text and BGM duck",
+        "retry-half played to ended with matching text and BGM duck",
+        "reward-1 played to ended with matching text and BGM duck",
+        "reward-2 played to ended with matching text and BGM duck",
+        "reward-3 played to ended with matching text and BGM duck",
+        "reward-4 played to ended with matching text and BGM duck",
+        "reward-5 played to ended with matching text and BGM duck",
+        "kit-progress played to ended with matching text and BGM duck",
+        "kit-ready played to ended with matching text and BGM duck",
+        "kit-restored played to ended with matching text and BGM duck",
+        "report replay button recovered an unavailable autoplay attempt",
+        "report played to ended with matching text and BGM duck",
+        "ending played to ended with matching text and BGM duck",
+        "welcome-to-dialog overlap, Escape stop, failed media text fallback and next hint recovery",
+        "rapid replay, dialog close, mute and hidden page stop active narration"
+      ],
+      "errors": [],
+      "scope": "fixture-based line connections and actual playback, not a full learning completion or human listening assessment"
+    },
+    "quest": {
+      "passed": 5,
+      "errors": []
+    },
+    "map": {
+      "idlePaintsPer2s": 0,
+      "movingPaintsPer700ms": 14,
+      "modalPaintsPer1200ms": 0,
+      "errors": [],
+      "environment": "Mac mini headless Chromium; desktop proxy, not school tablet FPS"
+    },
+    "videoRanges": {
+      "checks": [
+        "/assets/concepts/stage-1.webm",
+        "/assets/concepts/stage-1.mp4",
+        "/assets/concepts/stage-2.webm",
+        "/assets/concepts/stage-2.mp4",
+        "/assets/concepts/stage-3.webm",
+        "/assets/concepts/stage-3.mp4",
+        "/assets/concepts/stage-4.webm",
+        "/assets/concepts/stage-4.mp4",
+        "/assets/concepts/stage-5.webm",
+        "/assets/concepts/stage-5.mp4"
+      ],
+      "count": 10,
+      "passed": true
+    },
+    "offlineReload": {
+      "checkedAt": "2026-11-11T16:19:27.314Z",
+      "publicUrl": "https://night-sky-explorer.yelsam.workers.dev/",
+      "serviceWorkers": 0,
+      "usableAfterOfflineReload": false,
+      "reloadError": "page.reload: net::ERR_INTERNET_DISCONNECTED",
+      "status": "WARNING",
+      "method": "Warm online visit, set browser offline, reload the entry page"
+    }
+  },
+  "publicFileParity": {
+    "checkedAt": "2026-11-11T16:07:45.608Z",
+    "base": "https://night-sky-explorer.yelsam.workers.dev",
+    "files": [
+      {
+        "path": "/assets/audio/capture.ogg",
+        "status": 200,
+        "bytes": 7097,
+        "localSha256": "6fc395be2ad1f99ce318a5d28f98fb76dbeb676d83a0b28239d8c1fb90736180",
+        "publicSha256": "6fc395be2ad1f99ce318a5d28f98fb76dbeb676d83a0b28239d8c1fb90736180",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/click.ogg",
+        "status": 200,
+        "bytes": 4371,
+        "localSha256": "2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292",
+        "publicSha256": "2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/discover.ogg",
+        "status": 200,
+        "bytes": 6103,
+        "localSha256": "183eebee20eb0a532b0b85104d139cbf2673eb66d95c3cc733ac9ea98362e7e8",
+        "publicSha256": "183eebee20eb0a532b0b85104d139cbf2673eb66d95c3cc733ac9ea98362e7e8",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/hint.ogg",
+        "status": 200,
+        "bytes": 11700,
+        "localSha256": "abb8f9e4eb2071491b0b15f84ee302386b1847609310c1b000ae174639a6cc5a",
+        "publicSha256": "abb8f9e4eb2071491b0b15f84ee302386b1847609310c1b000ae174639a6cc5a",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/Kenney-CC0.txt",
+        "status": 200,
+        "bytes": 574,
+        "localSha256": "f7966c773bbed0eca6a9c75081c44a178b38eae112724dbb5fdfbd4192d118a9",
+        "publicSha256": "f7966c773bbed0eca6a9c75081c44a178b38eae112724dbb5fdfbd4192d118a9",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/npc-welcome.m4a",
+        "status": 200,
+        "bytes": 92258,
+        "localSha256": "fbfa60cdc59539f9e8addc5cb1f0c4dee07821fbad292edefd492acc68c7299e",
+        "publicSha256": "fbfa60cdc59539f9e8addc5cb1f0c4dee07821fbad292edefd492acc68c7299e",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/place.ogg",
+        "status": 200,
+        "bytes": 6411,
+        "localSha256": "4ac4d1cef7e936965cbf795852ca2020300b9e2ba7daa59f2bf4f1f7bf416218",
+        "publicSha256": "4ac4d1cef7e936965cbf795852ca2020300b9e2ba7daa59f2bf4f1f7bf416218",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/success.ogg",
+        "status": 200,
+        "bytes": 14169,
+        "localSha256": "33b17a9a9a2397c62b285c52c33a907fdffb476909c99e42dde603f6a7a8b12c",
+        "publicSha256": "33b17a9a9a2397c62b285c52c33a907fdffb476909c99e42dde603f6a7a8b12c",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/ending.mp3",
+        "status": 200,
+        "bytes": 78725,
+        "localSha256": "95cc4e1a2d03b805d5f04970961deda43493de5fd4f2eb7a6c73436b0ef64bf3",
+        "publicSha256": "95cc4e1a2d03b805d5f04970961deda43493de5fd4f2eb7a6c73436b0ef64bf3",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s1a.mp3",
+        "status": 200,
+        "bytes": 54902,
+        "localSha256": "05c44b98249813598f2d11016241b7bda3fc400311856cc301d150fc02ee524a",
+        "publicSha256": "05c44b98249813598f2d11016241b7bda3fc400311856cc301d150fc02ee524a",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s1b.mp3",
+        "status": 200,
+        "bytes": 39855,
+        "localSha256": "4e9443d4970dd0e5fcfa7da3d5a993d719f30e0dca005d54a4f924efc9b1bf38",
+        "publicSha256": "4e9443d4970dd0e5fcfa7da3d5a993d719f30e0dca005d54a4f924efc9b1bf38",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s2a-v2.mp3",
+        "status": 200,
+        "bytes": 127092,
+        "localSha256": "e27788d0f0807076beb3a8aa0a7a5214ca145d110f2d8fa50cb95656b43184bc",
+        "publicSha256": "e27788d0f0807076beb3a8aa0a7a5214ca145d110f2d8fa50cb95656b43184bc",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s2a.mp3",
+        "status": 200,
+        "bytes": 83114,
+        "localSha256": "32899f5c74452e48dcec61e5804c7fef3666721d40b418d4de48d45188d0d618",
+        "publicSha256": "32899f5c74452e48dcec61e5804c7fef3666721d40b418d4de48d45188d0d618",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s2b.mp3",
+        "status": 200,
+        "bytes": 48005,
+        "localSha256": "b51a7121960001c37ffb3c5789198ac92fd7fb19b7f6ced5bf4a433bf8bda6f4",
+        "publicSha256": "b51a7121960001c37ffb3c5789198ac92fd7fb19b7f6ced5bf4a433bf8bda6f4",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s3a.mp3",
+        "status": 200,
+        "bytes": 49573,
+        "localSha256": "d24131f11485b507926eec9eff03b990fc0d685632727b9ea70f74449b78b904",
+        "publicSha256": "d24131f11485b507926eec9eff03b990fc0d685632727b9ea70f74449b78b904",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s3b.mp3",
+        "status": 200,
+        "bytes": 91578,
+        "localSha256": "312e3e16c13af5adcd426fa36696b29229186815b60df02f3df1c56e822b3ba1",
+        "publicSha256": "312e3e16c13af5adcd426fa36696b29229186815b60df02f3df1c56e822b3ba1",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s4a.mp3",
+        "status": 200,
+        "bytes": 46751,
+        "localSha256": "9344657af6805843974b9379bd6ac8b7df0880f484cf731f028263777da55849",
+        "publicSha256": "9344657af6805843974b9379bd6ac8b7df0880f484cf731f028263777da55849",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s4b.mp3",
+        "status": 200,
+        "bytes": 52394,
+        "localSha256": "d947dae203e26d2160fc655bcf8e86d7df6e05362876515fbde0328c757d1410",
+        "publicSha256": "d947dae203e26d2160fc655bcf8e86d7df6e05362876515fbde0328c757d1410",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s5a.mp3",
+        "status": 200,
+        "bytes": 56156,
+        "localSha256": "ffeb1a66db29b5488409f81c9f342d0860b91d74ab8f37c12fd0a4a63f1335c9",
+        "publicSha256": "ffeb1a66db29b5488409f81c9f342d0860b91d74ab8f37c12fd0a4a63f1335c9",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/hint-s5b.mp3",
+        "status": 200,
+        "bytes": 73396,
+        "localSha256": "bae066418527f6ee0b448f7e0dcba631441973a06806187ba838b119e626bdf4",
+        "publicSha256": "bae066418527f6ee0b448f7e0dcba631441973a06806187ba838b119e626bdf4",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/intro-fox.mp3",
+        "status": 200,
+        "bytes": 86876,
+        "localSha256": "23580ff1ae7d184dbae8dcd08dcc4227ac8ebdf0b929584e0a4968bce1e80262",
+        "publicSha256": "23580ff1ae7d184dbae8dcd08dcc4227ac8ebdf0b929584e0a4968bce1e80262",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/intro-lumi.mp3",
+        "status": 200,
+        "bytes": 82800,
+        "localSha256": "0d8b03b73e346edc6779d94846279c3186140391c64c8c5fe94627f86d19c209",
+        "publicSha256": "0d8b03b73e346edc6779d94846279c3186140391c64c8c5fe94627f86d19c209",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/kit-progress.mp3",
+        "status": 200,
+        "bytes": 64933,
+        "localSha256": "5c5985bc17abd13e5f53c12d19a7bde822f930e46d6a53f3c1fde1564575df33",
+        "publicSha256": "5c5985bc17abd13e5f53c12d19a7bde822f930e46d6a53f3c1fde1564575df33",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/kit-ready.mp3",
+        "status": 200,
+        "bytes": 51454,
+        "localSha256": "5e1a8fa88a133e55f2660540133cad4ba50c7d9efbf6d9fad453595fa879c802",
+        "publicSha256": "5e1a8fa88a133e55f2660540133cad4ba50c7d9efbf6d9fad453595fa879c802",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/kit-restored.mp3",
+        "status": 200,
+        "bytes": 61171,
+        "localSha256": "5f62a784f807aa2522f6b2625c13fc6176c46c23c71151d3575bf430407070d8",
+        "publicSha256": "5f62a784f807aa2522f6b2625c13fc6176c46c23c71151d3575bf430407070d8",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/map-1.mp3",
+        "status": 200,
+        "bytes": 34840,
+        "localSha256": "18cc5ac6b59b79fd9b9ff061415944512e1653e4bcbbdb723526de484e5ab2b9",
+        "publicSha256": "18cc5ac6b59b79fd9b9ff061415944512e1653e4bcbbdb723526de484e5ab2b9",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/map-2.mp3",
+        "status": 200,
+        "bytes": 33899,
+        "localSha256": "8bafa7fe88165b6f956f0c96043aec2d71309b42d5e25d1d4bf12c2d8e623e9f",
+        "publicSha256": "8bafa7fe88165b6f956f0c96043aec2d71309b42d5e25d1d4bf12c2d8e623e9f",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/map-3.mp3",
+        "status": 200,
+        "bytes": 49886,
+        "localSha256": "26866ac646f8e22752d79a136f1b8525567ed4de765a7b30af80445b23ebfbd3",
+        "publicSha256": "26866ac646f8e22752d79a136f1b8525567ed4de765a7b30af80445b23ebfbd3",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/report.mp3",
+        "status": 200,
+        "bytes": 84995,
+        "localSha256": "859fe8846aa8b4b36787eceef9d44def9accabaa0662a86bea48acbbd9333478",
+        "publicSha256": "859fe8846aa8b4b36787eceef9d44def9accabaa0662a86bea48acbbd9333478",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/retry-half.mp3",
+        "status": 200,
+        "bytes": 86876,
+        "localSha256": "c725b88d60bc4b59e9fd71f06ab4e4a2762e481f390ebedf8bc464d4d1123feb",
+        "publicSha256": "c725b88d60bc4b59e9fd71f06ab4e4a2762e481f390ebedf8bc464d4d1123feb",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/retry-light.mp3",
+        "status": 200,
+        "bytes": 56469,
+        "localSha256": "3ee04eb5a889f176f0c306ed25ec8bd12c4b8fb3cc13dba03766512ca8d06c4a",
+        "publicSha256": "3ee04eb5a889f176f0c306ed25ec8bd12c4b8fb3cc13dba03766512ca8d06c4a",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/retry-planet.mp3",
+        "status": 200,
+        "bytes": 50827,
+        "localSha256": "46e89b5b0a6584a7f681fac00c3a34bcd24b5d54ddfc5d0d633b8a92d1216ec8",
+        "publicSha256": "46e89b5b0a6584a7f681fac00c3a34bcd24b5d54ddfc5d0d633b8a92d1216ec8",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/reward-1.mp3",
+        "status": 200,
+        "bytes": 80606,
+        "localSha256": "fe52a32a6ab7d2b3ed76bff6c98beeab3de684fc16c09b760589dec16c904954",
+        "publicSha256": "fe52a32a6ab7d2b3ed76bff6c98beeab3de684fc16c09b760589dec16c904954",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/reward-2.mp3",
+        "status": 200,
+        "bytes": 76531,
+        "localSha256": "028cf13afb774273ff65a31b9a345946c9189b95a74e935ef9f49b63d95e894d",
+        "publicSha256": "028cf13afb774273ff65a31b9a345946c9189b95a74e935ef9f49b63d95e894d",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/reward-3.mp3",
+        "status": 200,
+        "bytes": 75591,
+        "localSha256": "4075bad761f36a40f32bde397cb2371498d252d432039227d275a8995e77f6fc",
+        "publicSha256": "4075bad761f36a40f32bde397cb2371498d252d432039227d275a8995e77f6fc",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/reward-4.mp3",
+        "status": 200,
+        "bytes": 83427,
+        "localSha256": "1abf8ef715fad6a34d82488bc65249decad7037c6cda238943a273264b067525",
+        "publicSha256": "1abf8ef715fad6a34d82488bc65249decad7037c6cda238943a273264b067525",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/reward-5.mp3",
+        "status": 200,
+        "bytes": 76531,
+        "localSha256": "bd9ad666c3f17e8dbd9d99da60a301e9b8516f254b811f56442464fd4ea1a766",
+        "publicSha256": "bd9ad666c3f17e8dbd9d99da60a301e9b8516f254b811f56442464fd4ea1a766",
+        "matches": true
+      },
+      {
+        "path": "/assets/audio/voices/welcome.mp3",
+        "status": 200,
+        "bytes": 119163,
+        "localSha256": "badef953665c900f4feec7389c94ebf89d7a0bf36e7ddfc1d5d6059e9f08803e",
+        "publicSha256": "badef953665c900f4feec7389c94ebf89d7a0bf36e7ddfc1d5d6059e9f08803e",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-1.mp4",
+        "status": 200,
+        "bytes": 743492,
+        "localSha256": "43225534c29060558ef11f62e55bcc9fad9ffc91e90a10631546828b0df456ad",
+        "publicSha256": "43225534c29060558ef11f62e55bcc9fad9ffc91e90a10631546828b0df456ad",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-1.webm",
+        "status": 200,
+        "bytes": 562732,
+        "localSha256": "00e84cde08718feab289bdf7e0ba1c2561bcdc648c76334ce25f6ef203c118ba",
+        "publicSha256": "00e84cde08718feab289bdf7e0ba1c2561bcdc648c76334ce25f6ef203c118ba",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-1.webp",
+        "status": 200,
+        "bytes": 38720,
+        "localSha256": "0bb72c2a88700048f6184bdb7c52d265f17310e943e6f998937684a6b68cccb9",
+        "publicSha256": "0bb72c2a88700048f6184bdb7c52d265f17310e943e6f998937684a6b68cccb9",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-2.mp4",
+        "status": 200,
+        "bytes": 456513,
+        "localSha256": "3dc818b3e40863f33bdf24e0b788782af44c180b7fe2b0ebe8357043946448d9",
+        "publicSha256": "3dc818b3e40863f33bdf24e0b788782af44c180b7fe2b0ebe8357043946448d9",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-2.webm",
+        "status": 200,
+        "bytes": 395028,
+        "localSha256": "fa7dbf14fdb0f25f60aa623d31c26b9c0137eef33955a67bb03a0e5a861b02da",
+        "publicSha256": "fa7dbf14fdb0f25f60aa623d31c26b9c0137eef33955a67bb03a0e5a861b02da",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-2.webp",
+        "status": 200,
+        "bytes": 40168,
+        "localSha256": "fd51483165b8e1475994e811194d1793cd0371e80edd8e533d95e92870248711",
+        "publicSha256": "fd51483165b8e1475994e811194d1793cd0371e80edd8e533d95e92870248711",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-3.mp4",
+        "status": 200,
+        "bytes": 541914,
+        "localSha256": "1a3abd3796688836c4b8bb7327a8924d7319e7c07f3fe064c4b5706a73335e76",
+        "publicSha256": "1a3abd3796688836c4b8bb7327a8924d7319e7c07f3fe064c4b5706a73335e76",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-3.webm",
+        "status": 200,
+        "bytes": 479544,
+        "localSha256": "b06b1650eee0895fa1b7f37d8832ab6df65bf80c7001ff17dc47e4844f212f98",
+        "publicSha256": "b06b1650eee0895fa1b7f37d8832ab6df65bf80c7001ff17dc47e4844f212f98",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-3.webp",
+        "status": 200,
+        "bytes": 40828,
+        "localSha256": "50482de0ecdd86749caf47e3556f857ada48838ddaded26d0e8c12ef9813d8ba",
+        "publicSha256": "50482de0ecdd86749caf47e3556f857ada48838ddaded26d0e8c12ef9813d8ba",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-4.mp4",
+        "status": 200,
+        "bytes": 455470,
+        "localSha256": "734f0f462428024f57d6729201881c710f31acf8e41dcbbb5b65327035b930bf",
+        "publicSha256": "734f0f462428024f57d6729201881c710f31acf8e41dcbbb5b65327035b930bf",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-4.webm",
+        "status": 200,
+        "bytes": 372769,
+        "localSha256": "acdc95cd7d72658a6d81a2924f466f9495806d773e60175c960f085a55d85e09",
+        "publicSha256": "acdc95cd7d72658a6d81a2924f466f9495806d773e60175c960f085a55d85e09",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-4.webp",
+        "status": 200,
+        "bytes": 39734,
+        "localSha256": "41c9d95d47537b8cc799dc5bfb45d6c0d966983b2d76cdb29c48e065407eecf2",
+        "publicSha256": "41c9d95d47537b8cc799dc5bfb45d6c0d966983b2d76cdb29c48e065407eecf2",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-5.mp4",
+        "status": 200,
+        "bytes": 397601,
+        "localSha256": "832ba6a5f39c58cbc9af249550f9035a6b492b1604703dc0219a2daabbdbcd8a",
+        "publicSha256": "832ba6a5f39c58cbc9af249550f9035a6b492b1604703dc0219a2daabbdbcd8a",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-5.webm",
+        "status": 200,
+        "bytes": 337251,
+        "localSha256": "5cc3fdd4073548b38339dd0dbe8c82784fd6d084bdb644a29545aae3f6570eb8",
+        "publicSha256": "5cc3fdd4073548b38339dd0dbe8c82784fd6d084bdb644a29545aae3f6570eb8",
+        "matches": true
+      },
+      {
+        "path": "/assets/concepts/stage-5.webp",
+        "status": 200,
+        "bytes": 38680,
+        "localSha256": "97e142d700cd77bd27430e7a3fa220193900404d601c9cf3d5ee824a74a133b9",
+        "publicSha256": "97e142d700cd77bd27430e7a3fa220193900404d601c9cf3d5ee824a74a133b9",
+        "matches": true
+      },
+      {
+        "path": "/assets/CREDITS.md",
+        "status": 200,
+        "bytes": 11842,
+        "localSha256": "12095a2f5b27f94857070fd8ec5f66096192b499c351973849a533a09b29d24f",
+        "publicSha256": "12095a2f5b27f94857070fd8ec5f66096192b499c351973849a533a09b29d24f",
+        "matches": true
+      },
+      {
+        "path": "/assets/fonts/jua-korean-400.woff2",
+        "status": 200,
+        "bytes": 368172,
+        "localSha256": "b5c280f7c75d6634c3011682ab7787b73b8cfc4acaee4b70fa7aad228adf7d70",
+        "publicSha256": "b5c280f7c75d6634c3011682ab7787b73b8cfc4acaee4b70fa7aad228adf7d70",
+        "matches": true
+      },
+      {
+        "path": "/assets/fonts/jua-latin-400.woff2",
+        "status": 200,
+        "bytes": 16620,
+        "localSha256": "a317499f46a11810207ace4e5fdf04c9949250abeb914a1e713c391e4606c4f2",
+        "publicSha256": "a317499f46a11810207ace4e5fdf04c9949250abeb914a1e713c391e4606c4f2",
+        "matches": true
+      },
+      {
+        "path": "/assets/fonts/Jua-OFL.txt",
+        "status": 200,
+        "bytes": 4474,
+        "localSha256": "75de1deee2759c8ab2c576ae9233078552ad2c02dda3a07822042ad402d4f86a",
+        "publicSha256": "75de1deee2759c8ab2c576ae9233078552ad2c02dda3a07822042ad402d4f86a",
+        "matches": true
+      },
+      {
+        "path": "/assets/fonts/NanumSquareNeo-OFL.txt",
+        "status": 200,
+        "bytes": 11638,
+        "localSha256": "3e61e61df5e43d5fb20de7e51181b471b2120dc85de35258ece2ba02afb22f44",
+        "publicSha256": "3e61e61df5e43d5fb20de7e51181b471b2120dc85de35258ece2ba02afb22f44",
+        "matches": true
+      },
+      {
+        "path": "/assets/fonts/NanumSquareNeoTTF-bRg.woff2",
+        "status": 200,
+        "bytes": 387104,
+        "localSha256": "d13846b612acc829078aff4f91c272c637c08441b409d46bb1a4c802eb2967c3",
+        "publicSha256": "d13846b612acc829078aff4f91c272c637c08441b409d46bb1a4c802eb2967c3",
+        "matches": true
+      },
+      {
+        "path": "/assets/fonts/NanumSquareNeoTTF-cBd.woff2",
+        "status": 200,
+        "bytes": 384992,
+        "localSha256": "97dfe9720fbed813fc988fcedbcf741e97eef9353515b2043717484ec0b90aa1",
+        "publicSha256": "97dfe9720fbed813fc988fcedbcf741e97eef9353515b2043717484ec0b90aa1",
+        "matches": true
+      },
+      {
+        "path": "/assets/fox.png",
+        "status": 200,
+        "bytes": 1633818,
+        "localSha256": "e4f367572c465671152979ef2eb7e3fe477230b5d17832e9ffc9b16ff88e7e8a",
+        "publicSha256": "e4f367572c465671152979ef2eb7e3fe477230b5d17832e9ffc9b16ff88e7e8a",
+        "matches": true
+      },
+      {
+        "path": "/assets/fox.webp",
+        "status": 200,
+        "bytes": 377670,
+        "localSha256": "dafb7408f9b2c282843f1524638db84db01904690936dd99b6b42ea17f3c57c0",
+        "publicSha256": "dafb7408f9b2c282843f1524638db84db01904690936dd99b6b42ea17f3c57c0",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/core-dial-v3.webp",
+        "status": 200,
+        "bytes": 87386,
+        "localSha256": "dd8e4d35e3e4aab80d688c1629da6fe0aa13066ea722542819e14c3d5a6e91d3",
+        "publicSha256": "dd8e4d35e3e4aab80d688c1629da6fe0aa13066ea722542819e14c3d5a6e91d3",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/dome-restored.webp",
+        "status": 200,
+        "bytes": 404130,
+        "localSha256": "e14629f764c73b02a996009b2f20110b20d0d66ca48b038b1e965a7b905940fe",
+        "publicSha256": "e14629f764c73b02a996009b2f20110b20d0d66ca48b038b1e965a7b905940fe",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/earth.webp",
+        "status": 200,
+        "bytes": 442612,
+        "localSha256": "ca69173db4133930ac412b527dacaeb63a10ecba63d914e7484179da109d9ad0",
+        "publicSha256": "ca69173db4133930ac412b527dacaeb63a10ecba63d914e7484179da109d9ad0",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/jupiter.webp",
+        "status": 200,
+        "bytes": 233274,
+        "localSha256": "8e24d9f48026690cca27c16d0d6d613c37559f60dc66e5040f2a61aa175cd890",
+        "publicSha256": "8e24d9f48026690cca27c16d0d6d613c37559f60dc66e5040f2a61aa175cd890",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/mars.webp",
+        "status": 200,
+        "bytes": 257648,
+        "localSha256": "85d2311286819848700f054eab6b5279298c56d3520da4c0cb77ef6cb37b222f",
+        "publicSha256": "85d2311286819848700f054eab6b5279298c56d3520da4c0cb77ef6cb37b222f",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/mercury.webp",
+        "status": 200,
+        "bytes": 375374,
+        "localSha256": "ab12edbcd2edfec725be0c18584752d4d815751fed3abdade67199acec743e90",
+        "publicSha256": "ab12edbcd2edfec725be0c18584752d4d815751fed3abdade67199acec743e90",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/moon-surface-v3.webp",
+        "status": 200,
+        "bytes": 322292,
+        "localSha256": "39991e4d8da87a141889f170b9214f2a1ef3cd0f6b86007e2bca145d6516d87a",
+        "publicSha256": "39991e4d8da87a141889f170b9214f2a1ef3cd0f6b86007e2bca145d6516d87a",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/moon-surface-v4.webp",
+        "status": 200,
+        "bytes": 203942,
+        "localSha256": "504070a6c81f682f14a3f02be927589311395177144767ef089cb5fbf2e53812",
+        "publicSha256": "504070a6c81f682f14a3f02be927589311395177144767ef089cb5fbf2e53812",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/neptune.webp",
+        "status": 200,
+        "bytes": 140550,
+        "localSha256": "d112af8b1fad4705371c3b93b26c861bd41d7b7c1d19e86ce38b0a46a6963d9a",
+        "publicSha256": "d112af8b1fad4705371c3b93b26c861bd41d7b7c1d19e86ce38b0a46a6963d9a",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/rabbit-walk.webp",
+        "status": 200,
+        "bytes": 456518,
+        "localSha256": "15df02d700a7d0879ec413ceb1f36feffe72b8bd54e7135dbe425faf8748058a",
+        "publicSha256": "15df02d700a7d0879ec413ceb1f36feffe72b8bd54e7135dbe425faf8748058a",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/saturn.webp",
+        "status": 200,
+        "bytes": 117914,
+        "localSha256": "a04de52aa0ec5f1bc5c6479232bc46308ca7fb63114c45210118b0218ae94ec0",
+        "publicSha256": "a04de52aa0ec5f1bc5c6479232bc46308ca7fb63114c45210118b0218ae94ec0",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/sprites.json",
+        "status": 200,
+        "bytes": 8140,
+        "localSha256": "779c56a04a49f2748ecdc2b4a70e1f4427cbb9de0115aabf2a2aff029cb76ece",
+        "publicSha256": "779c56a04a49f2748ecdc2b4a70e1f4427cbb9de0115aabf2a2aff029cb76ece",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/starlight-v3.webp",
+        "status": 200,
+        "bytes": 5714,
+        "localSha256": "64442845cd9e69a0d8850e901b3b67c6c8c5be6d52a3b241ee8c26965ab41258",
+        "publicSha256": "64442845cd9e69a0d8850e901b3b67c6c8c5be6d52a3b241ee8c26965ab41258",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/student.webp",
+        "status": 200,
+        "bytes": 923724,
+        "localSha256": "06470911ff38b1f53acf727379bf11d285adaaa091442f1b86749805ff23dd50",
+        "publicSha256": "06470911ff38b1f53acf727379bf11d285adaaa091442f1b86749805ff23dd50",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/sun-v3.webp",
+        "status": 200,
+        "bytes": 160128,
+        "localSha256": "335281e56aad02b486d5981a0e4f6832b240f935e4df61a6ed6d660376f94edf",
+        "publicSha256": "335281e56aad02b486d5981a0e4f6832b240f935e4df61a6ed6d660376f94edf",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/telescope-frame.webp",
+        "status": 200,
+        "bytes": 262976,
+        "localSha256": "3797a49292a26eeba5ffd08a7b1d2924cd34615b3c3e6eff926b781c6621dd45",
+        "publicSha256": "3797a49292a26eeba5ffd08a7b1d2924cd34615b3c3e6eff926b781c6621dd45",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/uranus.webp",
+        "status": 200,
+        "bytes": 108352,
+        "localSha256": "7aa5cff0b0df92fe43b460dfb264d9b8f139edb2e50303431abbd4152ebb2f6f",
+        "publicSha256": "7aa5cff0b0df92fe43b460dfb264d9b8f139edb2e50303431abbd4152ebb2f6f",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/venus.webp",
+        "status": 200,
+        "bytes": 128134,
+        "localSha256": "81983c5e41ab52245c1f4137baebf9df2d5149e9c6b40d2d581e68ddf4667f18",
+        "publicSha256": "81983c5e41ab52245c1f4137baebf9df2d5149e9c6b40d2d581e68ddf4667f18",
+        "matches": true
+      },
+      {
+        "path": "/assets/generated/world.webp",
+        "status": 200,
+        "bytes": 784284,
+        "localSha256": "496adee71b371df39c90e40d05dd15c95b7edf5a5317ebdea5e3fa33a9e13838",
+        "publicSha256": "496adee71b371df39c90e40d05dd15c95b7edf5a5317ebdea5e3fa33a9e13838",
+        "matches": true
+      },
+      {
+        "path": "/assets/home-fox.webp",
+        "status": 200,
+        "bytes": 110726,
+        "localSha256": "b92e160084f825f8a4e7fe800e30ee425186d264e6610cbf7e9c4fc03b8654ac",
+        "publicSha256": "b92e160084f825f8a4e7fe800e30ee425186d264e6610cbf7e9c4fc03b8654ac",
+        "matches": true
+      },
+      {
+        "path": "/assets/index-B3udUaf2.css",
+        "status": 200,
+        "bytes": 180862,
+        "localSha256": "9c5a6ad14b63cebba4399515e2b5e36837dc743efeeb2feb9653a9c80756eb75",
+        "publicSha256": "9c5a6ad14b63cebba4399515e2b5e36837dc743efeeb2feb9653a9c80756eb75",
+        "matches": true
+      },
+      {
+        "path": "/assets/index-BDGHsXFe.js",
+        "status": 200,
+        "bytes": 178654,
+        "localSha256": "e007fc8bf7fa032e24471ef8a5fe73d036dd74fc27e16de4f045bbb5fe1d8d27",
+        "publicSha256": "e007fc8bf7fa032e24471ef8a5fe73d036dd74fc27e16de4f045bbb5fe1d8d27",
+        "matches": true
+      },
+      {
+        "path": "/assets/logo.png",
+        "status": 200,
+        "bytes": 1929790,
+        "localSha256": "1adf27b54584ca5ff4e14c7a12234f4848f8ffb03e6496ef18edb7162e68526d",
+        "publicSha256": "1adf27b54584ca5ff4e14c7a12234f4848f8ffb03e6496ef18edb7162e68526d",
+        "matches": true
+      },
+      {
+        "path": "/assets/logo.webp",
+        "status": 200,
+        "bytes": 119452,
+        "localSha256": "357950f3247c056a4e7ffb51654711a5a7a1a4e921184dcc7870d2c9a1574940",
+        "publicSha256": "357950f3247c056a4e7ffb51654711a5a7a1a4e921184dcc7870d2c9a1574940",
+        "matches": true
+      },
+      {
+        "path": "/assets/observatory.png",
+        "status": 200,
+        "bytes": 2373226,
+        "localSha256": "176818b20e3c5102201e49509a3c47ec2942c444d4042060445ff78a4db38a76",
+        "publicSha256": "176818b20e3c5102201e49509a3c47ec2942c444d4042060445ff78a4db38a76",
+        "matches": true
+      },
+      {
+        "path": "/assets/observatory.webp",
+        "status": 200,
+        "bytes": 176788,
+        "localSha256": "8bbdc0dc1c0590ac3d10cc5943fdce505d1f8be0e2031f20785af451d39f3269",
+        "publicSha256": "8bbdc0dc1c0590ac3d10cc5943fdce505d1f8be0e2031f20785af451d39f3269",
+        "matches": true
+      },
+      {
+        "path": "/assets/planet-b1oIBxMJ.js",
+        "status": 200,
+        "bytes": 497582,
+        "localSha256": "e3f5629bcbff22b415186e5c61a6cbbc4127d8be8d893d63de80142bdfbe4dd5",
+        "publicSha256": "e3f5629bcbff22b415186e5c61a6cbbc4127d8be8d893d63de80142bdfbe4dd5",
+        "matches": true
+      },
+      {
+        "path": "/assets/rabbit.png",
+        "status": 200,
+        "bytes": 1804148,
+        "localSha256": "474a457a2aa01d1b1503cc82cfd903f1d4f760e6498b0c921c5818697766b901",
+        "publicSha256": "474a457a2aa01d1b1503cc82cfd903f1d4f760e6498b0c921c5818697766b901",
+        "matches": true
+      },
+      {
+        "path": "/assets/rabbit.webp",
+        "status": 200,
+        "bytes": 396046,
+        "localSha256": "0671bd54fcb1642d95782da3263ac1a320025b9eaf09847a8c0037a0ce6fceea",
+        "publicSha256": "0671bd54fcb1642d95782da3263ac1a320025b9eaf09847a8c0037a0ce6fceea",
+        "matches": true
+      },
+      {
+        "path": "/favicon.svg",
+        "status": 200,
+        "bytes": 201,
+        "localSha256": "4c8c8c6ce78c472e53038ec87bc50ff968d94e23d0fd2264bdc64b31e3de0137",
+        "publicSha256": "4c8c8c6ce78c472e53038ec87bc50ff968d94e23d0fd2264bdc64b31e3de0137",
+        "matches": true
+      },
+      {
+        "path": "/index.html",
+        "status": 200,
+        "bytes": 2141,
+        "localSha256": "a399d5ef5b74a87e3b03ed14f5f7538e22e4c7e529ec19281573bdfe2cccdaa3",
+        "publicSha256": "a399d5ef5b74a87e3b03ed14f5f7538e22e4c7e529ec19281573bdfe2cccdaa3",
+        "matches": true
+      },
+      {
+        "path": "/og.jpg",
+        "status": 200,
+        "bytes": 131911,
+        "localSha256": "c64757fa3ff4283e87e589384b5f2ef667568d4ab7398ad63e7186fc6fcceb06",
+        "publicSha256": "c64757fa3ff4283e87e589384b5f2ef667568d4ab7398ad63e7186fc6fcceb06",
+        "matches": true
+      }
+    ],
+    "excluded": [
+      {
+        "path": "/._index.html",
+        "status": 404
+      },
+      {
+        "path": "/.DS_Store",
+        "status": 404
+      },
+      {
+        "path": "/assets/._home-fox.webp",
+        "status": 404
+      },
+      {
+        "path": "/src/application.js",
+        "status": 404
+      }
+    ],
+    "summary": {
+      "checked": 94,
+      "matching": 94,
+      "mismatches": 0
+    }
+  },
+  "workerSourceVerification": {
+    "activeResponseContainsExactCommittedSource": true,
+    "responseCharacters": 2366,
+    "method": "Cloudflare GET Worker script; exact full-source inclusion check"
+  },
+  "firstLoad": {
+    "url": "https://night-sky-explorer.yelsam.workers.dev",
+    "runs": [
+      {
+        "readyMs": 1600,
+        "navigation": {
+          "name": "https://night-sky-explorer.yelsam.workers.dev/",
+          "entryType": "navigation",
+          "startTime": 0,
+          "duration": 1590.7000000029802,
+          "navigationId": 1138,
+          "initiatorType": "navigation",
+          "deliveryType": "",
+          "nextHopProtocol": "h3",
+          "renderBlockingStatus": "non-blocking",
+          "contentType": "text/html",
+          "contentEncoding": "zstd",
+          "workerStart": 0,
+          "workerRouterEvaluationStart": 0,
+          "workerCacheLookupStart": 0,
+          "workerMatchedSourceType": "",
+          "workerFinalSourceType": "",
+          "redirectStart": 0,
+          "redirectEnd": 0,
+          "fetchStart": 0.4000000059604645,
+          "domainLookupStart": 0.6000000089406967,
+          "domainLookupEnd": 11.400000005960464,
+          "connectStart": 11.400000005960464,
+          "secureConnectionStart": 11.5,
+          "connectEnd": 158.70000000298023,
+          "requestStart": 158.90000000596046,
+          "responseStart": 336.6000000089407,
+          "firstInterimResponseStart": 0,
+          "finalResponseHeadersStart": 336.6000000089407,
+          "responseEnd": 339.20000000298023,
+          "transferSize": 1353,
+          "encodedBodySize": 1053,
+          "decodedBodySize": 2141,
+          "responseStatus": 200,
+          "serverTiming": [
+            {
+              "name": "cfExtPri",
+              "duration": 0,
+              "description": ""
+            }
+          ],
+          "unloadEventStart": 0,
+          "unloadEventEnd": 0,
+          "domInteractive": 343.20000000298023,
+          "domContentLoadedEventStart": 850.9000000059605,
+          "domContentLoadedEventEnd": 850.9000000059605,
+          "domComplete": 1590.6000000089407,
+          "loadEventStart": 1590.7000000029802,
+          "loadEventEnd": 1590.7000000029802,
+          "type": "navigate",
+          "redirectCount": 0,
+          "activationStart": 0,
+          "criticalCHRestart": 0,
+          "notRestoredReasons": null,
+          "confidence": {
+            "randomizedTriggerRate": 0.4994798,
+            "value": "high"
+          }
+        },
+        "resources": [
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/fonts/NanumSquareNeoTTF-bRg.woff2",
+            "startTime": 341.29999999701977,
+            "duration": 977.2000000029802,
+            "bytes": 387104,
+            "transfer": 387404
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/fonts/NanumSquareNeoTTF-cBd.woff2",
+            "startTime": 341.40000000596046,
+            "duration": 1237.7000000029802,
+            "bytes": 384992,
+            "transfer": 385292
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/index-BDGHsXFe.js",
+            "startTime": 341.5,
+            "duration": 505.6000000089407,
+            "bytes": 65759,
+            "transfer": 66059
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/index-B3udUaf2.css",
+            "startTime": 341.6000000089407,
+            "duration": 447.79999999701977,
+            "bytes": 41479,
+            "transfer": 41779
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/home-fox.webp",
+            "startTime": 850.7999999970198,
+            "duration": 613,
+            "bytes": 110726,
+            "transfer": 111026
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/logo.webp",
+            "startTime": 850.7999999970198,
+            "duration": 631.2000000029802,
+            "bytes": 119452,
+            "transfer": 119752
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/observatory.webp",
+            "startTime": 851.7999999970198,
+            "duration": 734.4000000059605,
+            "bytes": 176788,
+            "transfer": 177088
+          }
+        ],
+        "paints": [
+          {
+            "name": "first-paint",
+            "time": 916
+          },
+          {
+            "name": "first-contentful-paint",
+            "time": 916
+          }
+        ]
+      },
+      {
+        "readyMs": 1669,
+        "navigation": {
+          "name": "https://night-sky-explorer.yelsam.workers.dev/",
+          "entryType": "navigation",
+          "startTime": 0,
+          "duration": 1660.5,
+          "navigationId": 6552,
+          "initiatorType": "navigation",
+          "deliveryType": "",
+          "nextHopProtocol": "h3",
+          "renderBlockingStatus": "non-blocking",
+          "contentType": "text/html",
+          "contentEncoding": "zstd",
+          "workerStart": 0,
+          "workerRouterEvaluationStart": 0,
+          "workerCacheLookupStart": 0,
+          "workerMatchedSourceType": "",
+          "workerFinalSourceType": "",
+          "redirectStart": 0,
+          "redirectEnd": 0,
+          "fetchStart": 0.20000000298023224,
+          "domainLookupStart": 0.5999999940395355,
+          "domainLookupEnd": 27.599999994039536,
+          "connectStart": 27.599999994039536,
+          "secureConnectionStart": 28,
+          "connectEnd": 174.59999999403954,
+          "requestStart": 174.59999999403954,
+          "responseStart": 361,
+          "firstInterimResponseStart": 0,
+          "finalResponseHeadersStart": 361,
+          "responseEnd": 363.5,
+          "transferSize": 1353,
+          "encodedBodySize": 1053,
+          "decodedBodySize": 2141,
+          "responseStatus": 200,
+          "serverTiming": [
+            {
+              "name": "cfExtPri",
+              "duration": 0,
+              "description": ""
+            }
+          ],
+          "unloadEventStart": 0,
+          "unloadEventEnd": 0,
+          "domInteractive": 366.70000000298023,
+          "domContentLoadedEventStart": 763.8999999910593,
+          "domContentLoadedEventEnd": 764,
+          "domComplete": 1660.5,
+          "loadEventStart": 1660.5,
+          "loadEventEnd": 1660.5,
+          "type": "navigate",
+          "redirectCount": 0,
+          "activationStart": 0,
+          "criticalCHRestart": 0,
+          "notRestoredReasons": null,
+          "confidence": {
+            "randomizedTriggerRate": 0.4994798,
+            "value": "low"
+          }
+        },
+        "resources": [
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/fonts/NanumSquareNeoTTF-bRg.woff2",
+            "startTime": 365,
+            "duration": 1263.5,
+            "bytes": 387104,
+            "transfer": 387404
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/fonts/NanumSquareNeoTTF-cBd.woff2",
+            "startTime": 365.09999999403954,
+            "duration": 1283.9000000059605,
+            "bytes": 384992,
+            "transfer": 385292
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/index-B3udUaf2.css",
+            "startTime": 365.20000000298023,
+            "duration": 224,
+            "bytes": 41479,
+            "transfer": 41779
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/index-BDGHsXFe.js",
+            "startTime": 365.20000000298023,
+            "duration": 395.5,
+            "bytes": 65759,
+            "transfer": 66059
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/home-fox.webp",
+            "startTime": 763.8999999910593,
+            "duration": 617.4000000059605,
+            "bytes": 110726,
+            "transfer": 111026
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/logo.webp",
+            "startTime": 763.8999999910593,
+            "duration": 671.4000000059605,
+            "bytes": 119452,
+            "transfer": 119752
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/observatory.webp",
+            "startTime": 764.2999999970198,
+            "duration": 801.7999999970198,
+            "bytes": 176788,
+            "transfer": 177088
+          }
+        ],
+        "paints": [
+          {
+            "name": "first-paint",
+            "time": 704
+          },
+          {
+            "name": "first-contentful-paint",
+            "time": 704
+          }
+        ]
+      },
+      {
+        "readyMs": 1729,
+        "navigation": {
+          "name": "https://night-sky-explorer.yelsam.workers.dev/",
+          "entryType": "navigation",
+          "startTime": 0,
+          "duration": 1720.8999999910593,
+          "navigationId": 2847,
+          "initiatorType": "navigation",
+          "deliveryType": "",
+          "nextHopProtocol": "h3",
+          "renderBlockingStatus": "non-blocking",
+          "contentType": "text/html",
+          "contentEncoding": "zstd",
+          "workerStart": 0,
+          "workerRouterEvaluationStart": 0,
+          "workerCacheLookupStart": 0,
+          "workerMatchedSourceType": "",
+          "workerFinalSourceType": "",
+          "redirectStart": 0,
+          "redirectEnd": 0,
+          "fetchStart": 0.19999998807907104,
+          "domainLookupStart": 0.5,
+          "domainLookupEnd": 17.799999997019768,
+          "connectStart": 17.799999997019768,
+          "secureConnectionStart": 17.899999991059303,
+          "connectEnd": 168.59999999403954,
+          "requestStart": 168.59999999403954,
+          "responseStart": 373.8999999910593,
+          "firstInterimResponseStart": 0,
+          "finalResponseHeadersStart": 373.8999999910593,
+          "responseEnd": 376.3999999910593,
+          "transferSize": 1353,
+          "encodedBodySize": 1053,
+          "decodedBodySize": 2141,
+          "responseStatus": 200,
+          "serverTiming": [
+            {
+              "name": "cfExtPri",
+              "duration": 0,
+              "description": ""
+            }
+          ],
+          "unloadEventStart": 0,
+          "unloadEventEnd": 0,
+          "domInteractive": 378.69999998807907,
+          "domContentLoadedEventStart": 856.7999999970198,
+          "domContentLoadedEventEnd": 856.7999999970198,
+          "domComplete": 1720.7999999970198,
+          "loadEventStart": 1720.8999999910593,
+          "loadEventEnd": 1720.8999999910593,
+          "type": "navigate",
+          "redirectCount": 0,
+          "activationStart": 0,
+          "criticalCHRestart": 0,
+          "notRestoredReasons": null,
+          "confidence": {
+            "randomizedTriggerRate": 0.4994798,
+            "value": "low"
+          }
+        },
+        "resources": [
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/fonts/NanumSquareNeoTTF-bRg.woff2",
+            "startTime": 377,
+            "duration": 1323.5999999940395,
+            "bytes": 387104,
+            "transfer": 387404
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/index-BDGHsXFe.js",
+            "startTime": 377.09999999403954,
+            "duration": 476.5,
+            "bytes": 65681,
+            "transfer": 65981
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/fonts/NanumSquareNeoTTF-cBd.woff2",
+            "startTime": 377.09999999403954,
+            "duration": 1330.7000000029802,
+            "bytes": 384992,
+            "transfer": 385292
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/index-B3udUaf2.css",
+            "startTime": 377.19999998807907,
+            "duration": 320.80000001192093,
+            "bytes": 41517,
+            "transfer": 41817
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/home-fox.webp",
+            "startTime": 856.7999999970198,
+            "duration": 641,
+            "bytes": 110726,
+            "transfer": 111026
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/logo.webp",
+            "startTime": 856.7999999970198,
+            "duration": 665.0999999940395,
+            "bytes": 119452,
+            "transfer": 119752
+          },
+          {
+            "name": "https://night-sky-explorer.yelsam.workers.dev/assets/observatory.webp",
+            "startTime": 857.1999999880791,
+            "duration": 818.1000000089407,
+            "bytes": 176788,
+            "transfer": 177088
+          }
+        ],
+        "paints": [
+          {
+            "name": "first-paint",
+            "time": 812
+          },
+          {
+            "name": "first-contentful-paint",
+            "time": 812
+          }
+        ]
+      }
+    ],
+    "averageMs": 1666
+  },
+  "generatedMoon": {
+    "tool": "image_gen",
+    "originalPath": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/asset-bank/original/moon-surface-v4.png",
+    "originalSha256": "f19ac32fd474f103a12bffedf13da65ca275036ae998206641b9ce1cb39127d3",
+    "appliedPath": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/public/assets/generated/moon-surface-v4.webp",
+    "appliedSha256": "504070a6c81f682f14a3f02be927589311395177144767ef089cb5fbf2e53812",
+    "promptLocation": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/docs/reviews/RELEASE-REVIEW-20261112.md",
+    "temporaryInternalOriginalRemovedAfterExactCopyVerification": true
+  },
+  "revisedVoice": {
+    "project": "13",
+    "purpose": "현재 날짜 선택과 명시적 기록 동작에 맞춘 힌트 교정",
+    "supersedes": "2026-11-10 manifest의 hint-s2a 한 항목",
+    "lines": [
+      {
+        "id": "hint-s2a",
+        "speaker": "달토끼 기록원 루미",
+        "text": "날짜를 누르고 밝은 부분을 살펴봐요. ‘이 모습 기록’을 눌러 사진을 담아요.",
+        "target": "public/assets/audio/voices/hint-s2a-v2.mp3",
+        "sha256": "e27788d0f0807076beb3a8aa0a7a5214ca145d110f2d8fa50cb95656b43184bc",
+        "provider": "ElevenLabs connected generation tool",
+        "model": "eleven_v4",
+        "voiceId": "UmVsCJauYwXB4cGF0OlH",
+        "voiceName": "Soo - Warm Korean Teacher",
+        "generationId": "dInJGfZf005rfnvnvVL3",
+        "flowId": "F5rMYNcSpc5tJzgtlNhN",
+        "createdAt": "2026-11-12",
+        "durationSeconds": 6.8,
+        "peakDb": -1.8,
+        "generationCredits": 86,
+        "takesGenerated": 2,
+        "takeUsed": 1,
+        "asrModel": "eleven_scribe_v1",
+        "asrText": "날짜를 누르고 밝은 부분을 살펴봐요. ‘이 모습 기록’을 눌러 사진을 담아요.",
+        "asrMatchesText": true,
+        "qualityMethod": "파일 해시, FFmpeg 디코딩·최대 음량, 자동 전사, 실제 브라우저 재생 확인. 사람 청감 검수는 별도."
+      }
+    ]
+  },
+  "scienceSources": [
+    "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&search=",
+    "https://www.goe.go.kr/resource/old/BBSMSTR_000000030136/BBS_202412300909035131.pdf",
+    "https://science.nasa.gov/moon/moon-phases/",
+    "https://science.nasa.gov/solar-system/planets/",
+    "https://science.nasa.gov/uranus/facts/",
+    "https://science.nasa.gov/solar-system/skywatching/what-is-the-north-star-and-how-do-you-find-it/"
+  ],
+  "visualInspection": {
+    "scope": "All 10 learning pages at 1280×800 and 768×1024; targeted phone, dialogs, results, generated Moon and final portrait magnifiers",
+    "tool": "view_image on external SSD browser screenshots",
+    "finalPortraitScreenshots": [
+      "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-stage-fit/s1b-filled-round0-768x1024.png",
+      "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-stage-fit/s1b-filled-round0-360x740.png"
+    ]
+  },
+  "limitations": [
+    "Teacher classroom review and measured learning outcomes remain pending.",
+    "Physical school tablets, iPad Safari, device FPS and memory were not tested.",
+    "Full precise contrast audit and 200% text enlargement remain untested. Some controls are 44–48px and compact gaps are 4px.",
+    "Offline reload raises ERR_INTERNET_DISCONNECTED. Internet connectivity is required. Actual certificate printing and iOS sharing remain untested.",
+    "Human listening assessment and external distribution rights documentation for supplied original artwork remain pending."
+  ],
+  "excludedRuns": [
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-final-voices/failure.json",
+      "reason": "QA inferred dialogue ID from versioned filename; fixed to map catalog source paths to IDs and reran all 29 lines."
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/education-stage-fit/report.json",
+      "reason": "Eight 3–6px layout overflows after concept headers; corrected row allocation and reran strict checks."
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/baseline/report.json",
+      "reason": "Initial fixture could capture a locked activity as the map; corrected scene assertions and completion fixtures."
+    }
+  ],
+  "rawArtifacts": [
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/release-unit-final.log",
+      "bytes": 12610,
+      "sha256": "3b72b36ddf1a7952d618c06f8695050479b17439c1c94be90e9171a3a40e39d4"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/release-build-polish.log",
+      "bytes": 615,
+      "sha256": "4ec58ddf20a45978308f216eb53cd7595da1cfc5788f7485c11298e3ee06a66b"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-responsive/report.json",
+      "bytes": 81271,
+      "sha256": "ab65775571b21255598daa4c92f361369bb59d0c9d9a31667b2b311479d9d08f"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-stage-fit/report.json",
+      "bytes": 97120,
+      "sha256": "354fc9402547140bfda44171e328cb5c5138d22a49d87e77b79d3a9a34209364"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-extras/report.json",
+      "bytes": 16610,
+      "sha256": "86c4575ffd17218160ccd989ca3b6a860276bdf846e488b592c3724eb4138666"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-education/report.json",
+      "bytes": 375,
+      "sha256": "ce850d790adc81e8f944f045559bbd05f7858859cd643e33c107827d755fda14"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-playthrough.json",
+      "bytes": 1662,
+      "sha256": "0811d161b11f3a006ef1a3b47a9c4f9384abfb62c0958104dac327995d90c6d8"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-playback/report.json",
+      "bytes": 949,
+      "sha256": "597b48fdcbef1d6ee21c32e2afafc5feb7f0ea404c6577a8eba454091168840f"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-record-safety.json",
+      "bytes": 3490,
+      "sha256": "e755da63f0c13ece92e7fd89e67ceef9600fbc3e96b3cd0bef4a1f72a8849a74"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-classroom.json",
+      "bytes": 29675,
+      "sha256": "29b94e1873f211d3739af448785f7f69ec863b67b9ad5aa1be579a7d93200b5e"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-voices/result.json",
+      "bytes": 2286,
+      "sha256": "006d61d2b98efeb59d0287a50cd4b489ff4f5b3946b12da97a2a25936d7f0dda"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-quest.log",
+      "bytes": 190,
+      "sha256": "8b9014486f9b9cf41ba618f8f8609ba4331c117872ab56095005dd3b61749ccb"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-map-idle/result.json",
+      "bytes": 186,
+      "sha256": "5be2f9f2d1a141ae55be913ea2550d15629c01e3c64d2cb7e33a34ef64be670e"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/public-parity.json",
+      "bytes": 29112,
+      "sha256": "52c27e58e72c1dbb15bc20594993226ed4a4e8f5e90feb4aab8781c21be4e533"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/public-video-ranges.json",
+      "bytes": 418,
+      "sha256": "ae8b4c973d494de79f9f5868d207cc1a0a2578c7cbaff52e6d1450fd2635ad7f"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/performance-release.json",
+      "bytes": 12160,
+      "sha256": "4e85335c022854149f80fa5de1a4ecc34cc4ae9cb45155880841821c10c20d6c"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/release-deployment.json",
+      "bytes": 215,
+      "sha256": "f6aeba8a2441bc7234f7bc379737268ff6dea7f78b3a72888c49bb9402d4762e"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/graphify-release-final.log",
+      "bytes": 1004,
+      "sha256": "13169bd6083bc938a7987ba985430c53fb66e597e3960b7e633f1570cb503de6"
+    },
+    {
+      "path": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/delivery-20261111/prod-release-offline.json",
+      "bytes": 334,
+      "sha256": "ed4cb05c8e76706d6af7bba184c20532ddc0d422958f9b411f5da7e7b4a9c7af"
+    }
+  ]
+}
