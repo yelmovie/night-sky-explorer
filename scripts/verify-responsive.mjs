@@ -43,7 +43,7 @@ if (process.env.QA_EXTRAS === '1') {
   cases.length = 0;
   for (const [scene, variants] of Object.entries({
     home: ['first-visit', 'settings', 'teacher', 'reset', 'intro'],
-    map: ['kit', 'repair'],
+    map: ['kit', 'repair', 'repair-complete'],
     core: ['report'],
     results: ['certificate', 'bonus-cloudy', 'bonus-planet'],
     s1a: ['hint'],
@@ -278,6 +278,18 @@ try {
           if (item.variant === 'intro') await click('start');
           if (['kit', 'report', 'hint', 'bonus-cloudy', 'bonus-planet'].includes(item.variant)) await click(item.variant);
           if (item.variant === 'repair') await page.locator('.map-repair > summary').click();
+          if (item.variant === 'repair-complete') {
+            await page.locator('.map-repair > summary').click();
+            await page.getByRole('slider', { name: '렌즈 초점' }).evaluate(input => {
+              input.value = '65'; input.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+            await page.getByRole('button', { name: '선명한 별 사진 찍기' }).click();
+            await page.getByRole('button', { name: '지도 계속 보기' }).click();
+            await page.reload({ waitUntil: 'load' });
+            const summary = page.locator('.map-repair > summary');
+            if (await summary.getAttribute('aria-label') !== '지도 복구 · 1곳 완료') throw Error('Restoration count did not survive reload.');
+            if (width <= 600 && await summary.locator('.map-repair-label').isVisible()) throw Error('Completed restoration lost its compact mobile label.');
+          }
         }
         // Tabs, selected celestial bodies, and view variants rerender images.
         // Wait for those new nodes, rather than measuring their loading state.

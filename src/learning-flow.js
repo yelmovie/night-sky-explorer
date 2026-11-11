@@ -49,7 +49,7 @@ export function solarFeedback(draft, round) {
   const placed = items.filter((id, index) => round === 0 ? draft.order[index] : draft.groups[id]);
   const correct = items.filter((id, index) => round === 0 ? draft.order[index] === id : draft.groups[id] === planets.find(p => p.id === id).group);
   const misplaced = planets.find(planet => draft.groups[planet.id] && draft.groups[planet.id] !== planet.group);
-  const retry = round === 0 ? '점선 테두리의 자리를 자료와 다시 비교해 봐.' : `${misplaced?.name}이 놓인 무리를 자료와 다시 비교해 봐.`;
+  const retry = round === 0 ? '점선 테두리의 자리를 자료와 다시 비교해 봐.' : `${misplaced?.name}의 분류를 자료와 다시 비교해 봐.`;
   return { tone: placed.length === correct.length && correct.length ? 'success' : 'hint', text:
     correct.length === items.length ? '모두 연결했어! 자료와 일치하는 모형이야.' : `${correct.length}/${items.length} 연결 완료 · ${placed.length > correct.length ? retry : '행성을 고르고 자리를 눌러도 돼.'}` };
 }

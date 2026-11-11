@@ -123,6 +123,7 @@ test('배치 즉시 피드백은 순서와 묶기의 실제 정답 수를 따로
   draft.groups.earth = 'gas';
   assert.equal(solarFeedback(draft, 1).tone, 'hint');
   assert.match(solarFeedback(draft, 1).text, /7\/8/);
+  assert.match(solarFeedback(draft, 1).text, /지구의 분류를/);
   assert.equal(stageReady(state, 3), false);
 });
 
