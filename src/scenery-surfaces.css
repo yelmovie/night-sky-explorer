@@ -10,3 +10,10 @@ dialog,dialog.classroom-dialog {background:rgba(19,32,53,.95);backdrop-filter:bl
 
 .learning-v2 .toolbox,.toolbox {background:rgba(255,249,237,.84);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .toolbox .observation-card {background:rgba(229,236,227,.85);color:#20354c}
+
+:root{--card-radius:18px;--card-gap:12px}
+:is(.case-card,.observation-card,.choice-card,.body-card,.note-card,.result-card,.report-card,.destination-card,.role-card,.bonus-card){border-radius:var(--card-radius)}
+.choice-grid,.body-grid{gap:var(--card-gap);align-items:stretch}
+@media(max-width:600px),(max-height:480px){:root{--card-gap:8px}}
+/* Telescope controls need a compact floating tray, not a full-height blank wall. */
+.learning-v2[data-scene='s1a'] .toolbox{align-self:center;height:auto;min-height:0;max-height:100%;padding:16px}
