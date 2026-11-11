@@ -11,12 +11,24 @@ const base=process.env.TEST_URL||'http://127.0.0.1:5213',out=process.env.VOICE_Q
 const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
 const context=await browser.newContext({viewport:{width:1280,height:800},hasTouch:true}),page=await context.newPage(),errors=[],checks=[],heard=new Set();
 page.setDefaultNavigationTimeout(60000);
-await context.addInitScript(()=>{
+await context.addInitScript(lines=>{
+ const lineByPath=Object.fromEntries(lines.map(line=>[line.src,line.id]));
  window.qaVoices=[];window.qaAudioEvents=[];window.qaMaxVoices=0;window.qaGains=[];
  const Native=window.Audio;
- window.Audio=class extends Native{constructor(...args){super(...args);window.qaVoices.push(this);for(const type of ['playing','ended','error'])this.addEventListener(type,()=>{const id=this.src.match(/\/voices\/([^/.]+)\.mp3/)?.[1];if(id)window.qaAudioEvents.push({type,id,time:this.currentTime});const playing=window.qaVoices.filter(a=>!a.paused&&!a.ended&&a.src.includes('/voices/')).length;window.qaMaxVoices=Math.max(window.qaMaxVoices,playing);});}};
+ window.Audio=class extends Native{
+  constructor(...args){
+   super(...args);
+   window.qaVoices.push(this);
+   for(const type of ['playing','ended','error'])this.addEventListener(type,()=>{
+    const id=lineByPath[new URL(this.src).pathname];
+    if(id)window.qaAudioEvents.push({type,id,time:this.currentTime});
+    const playing=window.qaVoices.filter(a=>!a.paused&&!a.ended&&a.src.includes('/voices/')).length;
+    window.qaMaxVoices=Math.max(window.qaMaxVoices,playing);
+   });
+  }
+ };
  const original=AudioContext.prototype.createGain;AudioContext.prototype.createGain=function(...args){const g=original.apply(this,args);window.qaGains.push(g);return g;};
-});
+},voiceLines.map(({id,src})=>({id,src})));
 page.on('pageerror',e=>errors.push(e.message));
 async function seed(scene,count=5,edit=()=>{}){
  const s=completedState(count);s.scene=scene;s.resume=scene;s.started=true;s.intro=true;Object.assign(s.settings,{muted:false,sfx:true,bgm:true,reducedMotion:true,adminUnlock:false});edit(s);if(s.core.restored){s.core.connections={1:1,2:2,3:3,4:4,5:5};s.core.angle=180;}
