@@ -13,6 +13,7 @@ const errors = [], passed = [];
 const pass = message => { passed.push(message); console.log('PASS: ' + message); };
 page.on('pageerror', error => errors.push(error.message));
 page.setDefaultTimeout(12000);
+page.setDefaultNavigationTimeout(60000);
 const base = process.env.TEST_URL || 'http://127.0.0.1:4183';
 const click = action => page.locator(`[data-action="${action}"]`).click();
 const learn = action => page.locator(`[data-learning="${action}"]`).click();

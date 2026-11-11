@@ -1,6 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { freshState } from '../src/state.js';
+import { worldMarkup } from '../src/world.js';
 import { nodes, edges, siteNodes, routeBetween, nearestEdgePoint, returnPosition, doorAt } from '../src/world-path.js';
+
+test('지도 방향 버튼은 받침에 맞는 이동 안내를 읽어 준다', () => {
+  const markup = worldMarkup(freshState());
+  for (const direction of ['위로', '왼쪽으로', '아래로', '오른쪽으로']) {
+    assert.ok(markup.includes(`aria-label="지도 ${direction}"`));
+  }
+});
 
 test('출발점과 모든 시설 문 사이에 실제 길 간선으로 이어지는 왕복 경로가 있다', () => {
   for (const site of siteNodes) {

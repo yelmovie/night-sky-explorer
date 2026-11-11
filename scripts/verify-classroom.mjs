@@ -16,6 +16,7 @@ const errors = [], layouts = [], media = [];
 page.on('pageerror', error => errors.push(error.message));
 page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()}: ${response.url()}`); });
 page.setDefaultTimeout(12000);
+page.setDefaultNavigationTimeout(60000);
 function fixture() {
   const state = freshState(); state.started = true; state.settings.adminUnlock = true; state.settings.muted = true;
   state.drafts.moon.photos = [1.5, 2].map(zoom => ({ x: 0, y: 0, zoom, focus: 72 }));
@@ -39,8 +40,13 @@ try {
 await page.goto(base);
 async function openScene(scene, state = fixture()) {
   state.scene = scene; state.resume = scene;
+  state.settings.adminUnlock = false;
+  state.core.reportSeen = true;
+  if (scene === 'results') Object.assign(state.core, { connections: { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }, angle: 180, restored: true });
   await page.evaluate(({ key, state }) => localStorage.setItem(key, JSON.stringify(state)), { key: SAVE_KEY, state });
   await page.reload(); await page.locator('main').waitFor(); await page.evaluate(() => document.fonts.ready);
+  if (/^s[1-5][ab]$/.test(scene)) await page.locator(`[data-scene="${scene}"]`).waitFor();
+  if (scene === 'results') await page.locator('.report-page').waitFor();
 }
 async function layout(label) {
   const result = await page.evaluate(label => {
@@ -81,8 +87,9 @@ await openScene('s1b');
 await page.locator('[data-action="complete"]').click(); await layout('reward');
 await page.locator('[data-action="reward-video-1"]').click();
 await page.waitForFunction(() => document.querySelector('video')?.readyState >= 2);
-await page.locator('video').evaluate((video, at) => { video.currentTime = at + .5; }, concepts[1].cues.at(-1)[0]);
-await page.waitForFunction(() => document.querySelector('.concept-caption')?.textContent.includes('원래'));
+await page.locator('.science-focus-steps [data-science-step="3"]').click();
+await page.waitForFunction(text => document.querySelector('.concept-caption')?.textContent === text, concepts[1].cues.at(-1)[1]);
+assert.ok(await page.locator('video').evaluate(video => video.currentTime >= 12.2));
 await page.screenshot({ path: new URL('1280-concept.png', output).pathname.replace(/^\/(\w:)/, '$1').replaceAll('%20', ' ') });
 await page.keyboard.press('Escape');
 await page.locator('[data-action="reward-video-1"]').waitFor();

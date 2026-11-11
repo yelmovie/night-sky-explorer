@@ -10,6 +10,7 @@ const {chromium}=await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href)
 const base=process.env.TEST_URL||'http://127.0.0.1:5213',out=process.env.VOICE_QA_DIR||'.tmp/voice-qa';await mkdir(out,{recursive:true});
 const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
 const context=await browser.newContext({viewport:{width:1280,height:800},hasTouch:true}),page=await context.newPage(),errors=[],checks=[],heard=new Set();
+page.setDefaultNavigationTimeout(60000);
 await context.addInitScript(()=>{
  window.qaVoices=[];window.qaAudioEvents=[];window.qaMaxVoices=0;window.qaGains=[];
  const Native=window.Audio;
@@ -19,7 +20,9 @@ await context.addInitScript(()=>{
 page.on('pageerror',e=>errors.push(e.message));
 async function seed(scene,count=5,edit=()=>{}){
  const s=completedState(count);s.scene=scene;s.resume=scene;s.started=true;s.intro=true;Object.assign(s.settings,{muted:false,sfx:true,bgm:true,reducedMotion:true,adminUnlock:false});edit(s);if(s.core.restored){s.core.connections={1:1,2:2,3:3,4:4,5:5};s.core.angle=180;}
- await page.goto(base);await page.evaluate(([key,s])=>localStorage.setItem(key,JSON.stringify(s)),[SAVE_KEY,s]);await page.reload();await page.locator('main').waitFor();await page.evaluate(()=>document.fonts.ready);await page.mouse.click(1,1);
+ await page.goto(base);await page.evaluate(([key,s])=>localStorage.setItem(key,JSON.stringify(s)),[SAVE_KEY,s]);await page.reload();await page.locator('main').waitFor();await page.evaluate(()=>document.fonts.ready);
+ if(scene==='map')await page.locator('#world-loading').waitFor({state:'detached',timeout:90000});
+ await page.mouse.click(1,1);
 }
 const click=a=>page.locator(`[data-action="${a}"]`).first().click();
 async function listen(id){

@@ -270,6 +270,7 @@ try {
             input.value = '2'; input.dispatchEvent(new Event('input', { bubbles: true }));
           });
         } else await page.locator({ home: '.home-v2', map: '.world-screen', core: '.core-v3', results: '.report-page' }[item.scene]).waitFor();
+        if (item.scene === 'map') await page.locator('#world-loading').waitFor({ state: 'detached', timeout: 90000 });
         if (process.env.QA_EXTRAS === '1') {
           const click = name => page.locator(`[data-action="${name}"]`).first().click();
           if (['settings', 'teacher', 'reset'].includes(item.variant)) await click('settings');
