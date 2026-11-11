@@ -54,6 +54,8 @@ async function settleMedia() {
 function inspectStage() {
   const stage = document.querySelector('.learning-v2'), issues = [], keys = new Set();
   if (!stage) return { issues: [{ type: 'missing-stage' }] };
+  const concept = stage.querySelector('.lesson-concept');
+  if (!concept || !concept.checkVisibility()) issues.push({ type: 'missing-visible-science-concept' });
   const label = el => el?.getAttribute?.('aria-label') || el?.id || el?.textContent?.trim().replace(/\s+/g, ' ').slice(0, 70) || el?.tagName;
   const add = (type, el, detail = '') => {
     const item = { type, element: label(el), detail }, key = JSON.stringify(item);

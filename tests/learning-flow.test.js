@@ -115,7 +115,7 @@ test('배치 즉시 피드백은 순서와 묶기의 실제 정답 수를 따로
   assert.match(solarFeedback(draft, 0).text, /1\/9/);
   draft.order = [...solarOrder];
   assert.equal(solarFeedback(draft, 0).tone, 'success');
-  assert.equal(stageReady(state, 3), false);
+  assert.equal(stageReady(state, 3), true);
   assert.match(solarFeedback(draft, 1).text, /0\/8/);
   draft.groups = Object.fromEntries(planets.map(planet => [planet.id, planet.group]));
   assert.equal(solarFeedback(draft, 1).tone, 'success');
@@ -124,7 +124,7 @@ test('배치 즉시 피드백은 순서와 묶기의 실제 정답 수를 따로
   assert.equal(solarFeedback(draft, 1).tone, 'hint');
   assert.match(solarFeedback(draft, 1).text, /7\/8/);
   assert.match(solarFeedback(draft, 1).text, /지구의 분류를/);
-  assert.equal(stageReady(state, 3), false);
+  assert.equal(stageReady(state, 3), true, '선택 탐구의 오답 피드백은 핵심 성취 기록을 막지 않는다');
 });
 
 test('연속 별 연결은 끝점을 이어 쓰되 자기 연결과 역방향 중복은 선 수에 넣지 않는다', () => {

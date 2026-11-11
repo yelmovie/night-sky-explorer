@@ -5,3 +5,5 @@ dist/
 
 # macOS metadata on the shared exFAT drive
 ._*
+asset-bank/original/
+.wrangler/

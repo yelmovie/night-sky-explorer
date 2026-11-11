@@ -137,8 +137,7 @@ export function stageReady(s, n) {
           ["left", "right"].includes(p.original.side) && p.revealed && p.overlay && textReady(p.reflection);
       });
     case 3:
-      return solarOrder.every((id, i) => d.planets.order[i] === id) &&
-        planets.every((p) => d.planets.groups[p.id] === p.group);
+      return solarOrder.every((id, i) => d.planets.order[i] === id);
     case 4:
       return bodies.every((b) => d.classification.answers[b.id]?.kind === b.kind &&
         d.classification.answers[b.id]?.reason === b.evidence);

@@ -105,6 +105,20 @@ test("태양과 8행성 순서가 맞아야 기록을 완성한다", () => {
   s.drafts.planets.order = [...solarOrder];
   assert.equal(stageReady(s, 3), true);
 });
+test("행성 성분 묶기는 선택 탐구이며 핵심 조사·순서 기록은 저장 후에도 완료된다", () => {
+  const s = studied();
+  s.drafts.planets.groups = {};
+  assert.equal(stageReady(s, 3), true);
+  assert.equal(completeStage(s, 3), true);
+  const saved = restore(JSON.parse(JSON.stringify(s)));
+  assert.ok(saved.evidence[3]);
+  assert.deepEqual(saved.evidence[3].data.groups, {});
+  s.drafts.planets.groups.earth = 'gas';
+  assert.equal(stageReady(s, 3), true);
+  s.drafts.planets.order[1] = 'venus';
+  assert.equal(stageReady(s, 3), false);
+  assert.deepEqual(s.evidence[3].data.groups, {});
+});
 test("분류만 맞고 밝기 근거를 고른 경우 완료되지 않는다", () => {
   const s = studied();
   s.drafts.classification.answers.venus.reason = "bright";

@@ -8,8 +8,8 @@ import './space-stages.css';
 const regions = ['cassiopeia', 'dipper'];
 const groupCues = {
   rock: '단단한 암석 표면',
-  gas: '수소·헬륨이 주성분',
-  ice: '물·암모니아·메테인 비중이 큼',
+  gas: '목성·토성 · 기체 성분이 많은 무리',
+  ice: '천왕성·해왕성 · 물 등의 성분이 많은 무리',
 };
 const bodyPicture = body => body.kind === 'planet'
   ? planetImage(body.id, `${body.name} 외형 모형`)
@@ -47,10 +47,10 @@ export function renderSpaceStage(s, scene, i, ui, helpers) {
     }
     case 's3b': {
       const p = d.planets;
-      instruction = i === 0 ? '태양에서 가까운 순서로 놓아요.' : '비슷한 특징의 행성끼리 모아요.';
+      instruction = i === 0 ? '태양에서 가까운 순서로 놓아요.' : '선택 탐구 · 자료를 보며 행성을 묶어요.';
       const slots = `<div class="order-slots">${solarOrder.map((id, index) => `<button class="answer-target ${p.order[index] ? p.order[index] === id ? 'is-correct' : 'needs-review' : ''}" data-slot="${index}" aria-label="${index === 0 ? '태양 자리' : index + '번째 행성 자리'}"><small>${index === 0 ? '중심' : index + '번째'}</small>${token(p.order[index])}</button>`).join('')}</div>`;
       const groups = `<div class="group-targets">${planetGroups.map(group => `<button class="answer-target group-target group-${group.id}" data-group="${group.id}"><strong>${group.name}</strong><span class="group-cue">${groupCues[group.id]}</span><div class="placed-planets">${planets.filter(planet => p.groups[planet.id] === group.id).map(planet => `<span>${planetImage(planet.id, '')}<span>${planet.name}</span></span>`).join('') || '<span class="group-empty">이곳에 놓아요</span>'}</div></button>`).join('')}</div>`;
-      main = `${tabs(['순서 맞추기', '특징 묶기'], [solarOrder.every((id, index) => p.order[index] === id), planets.every(planet => p.groups[planet.id] === planet.group)])}${i === 0 ? slots : groups}<div class="piece-tray" role="group" aria-label="놓을 천체 고르기">${planetsForTask(i).map(id => `<button class="planet-chip ${ui.piece === id ? 'selected' : ''} ${i === 1 && p.groups[id] ? 'is-placed' : ''}" aria-pressed="${ui.piece === id}" data-piece="${id}" draggable="true" ${i === 0 && p.order.includes(id) ? 'disabled' : ''}>${token(id)}</button>`).join('')}</div><p class="model-note">크기·간격은 실제 비율과 달라요${i ? ' · 얼음형은 겉이 얼음이라는 뜻이 아니에요' : ''}</p>`;
+      main = `${tabs(['순서 맞추기', '선택 · 특징 묶기'], [solarOrder.every((id, index) => p.order[index] === id), planets.every(planet => p.groups[planet.id] === planet.group)])}${i === 0 ? slots : groups}<div class="piece-tray" role="group" aria-label="놓을 천체 고르기">${planetsForTask(i).map(id => `<button class="planet-chip ${ui.piece === id ? 'selected' : ''} ${i === 1 && p.groups[id] ? 'is-placed' : ''}" aria-pressed="${ui.piece === id}" data-piece="${id}" draggable="true" ${i === 0 && p.order.includes(id) ? 'disabled' : ''}>${token(id)}</button>`).join('')}</div><p class="model-note">크기·간격은 실제 비율과 달라요${i ? ' · 얼음형은 겉이 얼음이라는 뜻이 아니에요' : ''}</p>`;
       tools = `${b(`${icon('book')} <span>조사 자료</span>`, 'solar-note', 'secondary')}${feedback('solar-feedback', solarFeedback(p, i))}`;
       break;
     }

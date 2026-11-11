@@ -134,7 +134,8 @@ try {
   await drag(page.locator('#planet-viewer canvas'), page.locator('#planet-viewer canvas'));
   await learn('toggle-three'); await nextActivity(); await scene('s3b');
   for (const [index, id] of solarOrder.entries()) await drag(page.locator(`[data-piece="${id}"]`), page.locator(`[data-slot="${index}"]`), id === 'sun');
-  await nextActivity(); assert.equal(await page.locator('[data-learning="round-1"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('#stage-next').isEnabled(), true);
+  await learn('round-1'); assert.equal(await page.locator('[data-learning="round-1"]').getAttribute('aria-pressed'), 'true');
   await page.locator('[data-piece="earth"]').click();
   await page.locator('[data-group="gas"]').focus(); await page.keyboard.press('Enter');
   assert.equal(await page.evaluate(() => document.activeElement?.dataset.group), 'gas');
@@ -163,7 +164,7 @@ try {
   await learn('kind-' + firstBody.kind); await learn('reason-' + firstBody.evidence);
   await click('settings'); await page.waitForTimeout(1200);
   assert.equal(await page.locator('dialog[open]').count(), 1);
-  assert.ok((await page.locator('#screen-title').textContent()).includes(firstBody.name));
+  assert.equal(await page.locator('.classification-exhibit h2').textContent(), firstBody.name);
   await page.keyboard.press('Escape');
   await learn('bodytab-1');
   for (const [index, body] of bodies.slice(1).entries()) {

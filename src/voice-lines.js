@@ -51,8 +51,8 @@ export const voiceLines = [
   {
     "id": "hint-s2a",
     "speaker": "달토끼 기록원 루미",
-    "text": "날짜 버튼 하나로 관찰과 기록을 함께 해요. 시간 막대로 다른 날도 살펴봐요.",
-    "src": "/assets/audio/voices/hint-s2a.mp3"
+    "text": "날짜를 누르고 밝은 부분을 살펴봐요. ‘이 모습 기록’을 눌러 사진을 담아요.",
+    "src": "/assets/audio/voices/hint-s2a-v2.mp3"
   },
   {
     "id": "hint-s2b",

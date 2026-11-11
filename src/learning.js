@@ -1,13 +1,13 @@
 import { nearestStar } from './star-hit.js';
 import { chapters,planets,requiredPlanets,solarOrder,bodies,planetGroups,patternRegions } from './data.js';
 import { firstReady,stageReady,photoReady,clone,track } from './state.js';
-import { missionTag } from './quest.js';
 import { moonSVG,dayMoon } from './drawing.js';
 import { button,planetImage,celestialImage,esc,icon } from './ui.js';
 import { mountLessonViewport } from './stage-viewport.js';
 import { playbackMarkup, createObservationPlayer } from './observation-player.js';
 import { mountTouchDrag } from './touch-drag.js';
-import { getStageAction } from './progression.js';
+import { getStageAction, getLearningGuide } from './progression.js';
+import { pageConcepts } from './curriculum.js';
 import './flow.css';
 import './concept-art.css';
 import { renderMoonStage } from './moon-stages.js';
@@ -25,7 +25,8 @@ function content(s,scene){const i=round(),helpers={tabs,title,strip,feedback,tok
 export function token(id){if(!id)return '<span class="slot-plus">+</span>';return `${id==='sun'?celestialImage('sun','','sun-token'):planetImage(id,'')}<strong>${id==='sun'?'태양':planets.find(v=>v.id===id)?.name}</strong>`;}
 export function learningView(s,chrome=''){
   const n=+s.scene[1],part=s.scene.at(-1),c=chapters[n-1],v=content(s,s.scene),next=getStageAction(s,round());
-  return `<main class="experience learning-v2" data-scene="${s.scene}"><div class="room-bg"></div>${chrome}<div class="activity-heading"><p><b class="mission-tag">${missionTag(n)}</b> ${c.steps[part==='a'?0:1]}</p><h1 id="screen-title" tabindex="-1">${v.instruction}</h1></div><div class="activity-layout"><section class="experiment-zone" aria-label="실험 화면">${v.main}</section><aside class="toolbox" aria-label="실험 조작">${v.tools}</aside></div><footer class="activity-footer"><div class="lesson-help">${button('힌트','hint','ghost')}${button(`${icon('book',18)} 기록`,'kit','ghost')}</div>${playbackMarkup(s,learningUI)}<div class="activity-action">${button(next.label,next.action,'primary',`id="stage-next" ${next.disabled?'disabled':''}`)}</div></footer></main>`;
+  const concept=pageConcepts[s.scene],guide=getLearningGuide(s,learningUI);
+  return `<main class="experience learning-v2" data-scene="${s.scene}" aria-label="${c.steps[part==='a'?0:1]}" data-standard="${concept.standard}"><div class="room-bg"></div>${chrome}<div class="activity-heading"><p class="lesson-concept"><span>기억해요</span> <strong>${concept.concept}</strong></p><h1 id="screen-title" tabindex="-1" aria-live="polite">${guide.text}</h1></div><div class="activity-layout"><section class="experiment-zone" aria-label="${v.instruction}">${v.main}</section><aside class="toolbox" aria-label="실험 조작">${v.tools}</aside></div><footer class="activity-footer"><div class="lesson-help">${button('힌트','hint','ghost')}${button(`${icon('book',18)} 기록`,'kit','ghost')}</div>${playbackMarkup(s,learningUI)}<div class="activity-action">${button(next.label,next.action,'primary',`id="stage-next" ${next.disabled?'disabled':''}`)}</div></footer></main>`;
 }
 
 export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog,on,refresh,sound}=ctx,d=s.drafts,scene=s.scene;let viewer=null,disposed=false,advanceTimer=null,advancing=false,touchCleanup=()=>{},starDrag=null,player;
@@ -53,21 +54,10 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   function captureDay(day){const added=recordPhase(d.phases,day);if(added){sound?.play('capture');track(s,'observations');}redraw();if(added)notify(`${day}일째 관측 사진을 발견 지도에 담았어.`);}
   function guide(){
     $$('.is-next').forEach(element=>element.classList.remove('is-next'));
-    const next=getStageAction(s,round());
-    let target=next&&!next.disabled?'#stage-next':null;
-    if(!target)switch(scene){
-      case 's1a':{const m=d.moon;target=!$('#capture-moon')?.disabled?'#capture-moon':Math.abs(m.x)>12?`[data-learning="pan-${m.x>0?'left':'right'}"]`:Math.abs(m.y)>12?`[data-learning="pan-${m.y>0?'up':'down'}"]`:Math.abs(m.focus-72)>12?'#moon-focus':'#moon-zoom';break;}
-      case 's1b':target=d.moon.comparisons[round()].spots.length<2?'.surface-targets':'#moon-observation';break;
-      case 's2a':target='#play-time';break;
-      case 's2b':target=prediction().revealed?'#phase-reflection':'[data-learning="reveal-phase"]';break;
-      case 's3a':target='#planet-feature';break;
-      case 's3b':target=learningUI.piece?(round()?'.group-targets':'.order-slots'):'.piece-tray';break;
-      case 's4a':target=learningUI.inspectedBody?'[data-learning="light-toggle"]':'.sky-bodies';break;
-      case 's4b':target=selectedBody()&&d.classification.answers[selectedBody().id]?.kind?'.reason-choices':'.claim-tray';break;
-      case 's5a':target='#star-view';break;
-      case 's5b':target=pattern().original?'#pattern-reflection':pattern().lines.length>=2?'[data-learning="compare-pattern"]':'#star-view';break;
-    }
-    $(target||'#stage-next')?.classList.add('is-next');
+    const next=getLearningGuide(s,learningUI);
+    $(next.target)?.classList.add('is-next');
+    const heading=$('#screen-title');
+    if(heading.textContent!==next.text)heading.textContent=next.text;
   }
   function playbackStateChanged(playback){
     const control=$('#play-time');
@@ -153,7 +143,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if(a==='toggle-three'){learningUI.three=!learningUI.three;if(learningUI.three)track(s,'observations');commit();render();return;}
     if(a==='phase-note'){const p=prediction();dialog(scene==='s2b'?'앞선 달 관측 기록':'모은 달 관측 기록',`<p>북반구에서 본 학습용 모형이에요. 학습용 날짜는 실제 달력과 달라요.</p>${strip(d.phases.captures)}${scene==='s2b'&&p.original?`<p>처음 예상: 밝은 부분 ${p.original.amount}% · ${p.original.side==='right'?'오른쪽':'왼쪽'}</p>`:''}`);return;}
     if(a==='body-note'){const body=selectedBody();dialog(body.name+' · 과학 자료',`<p>${body.info}</p>`);return;}
-    if(a==='solar-note'){track(s,'reviews');commit();dialog('내 조사 노트와 태양계 자료',`<p class="order-note">태양 → ${planets.map(v=>v.name).join(' → ')}</p><h3>행성의 상대적인 크기</h3><p>지구를 1로 볼 때 · ${planets.map(v=>`${v.name} ${v.size}`).join(' · ')}</p><p>가장 큰 행성은 목성, 가장 작은 행성은 수성이에요. 게임 속 그림은 크기를 같게 그린 모형이에요.</p><h3>행성을 묶는 참고 자료</h3>${planetGroups.map(g=>`<p><b>${g.name}</b> · ${g.info}<br>${planets.filter(v=>v.group===g.id).map(v=>v.name).join(', ')}</p>`).join('')}<h3>직접 조사한 근거</h3>${Object.entries(d.planets.records).map(([id,v])=>`<p><b>${planets.find(x=>x.id===id)?.name}</b> · ${esc(v.feature)}</p>`).join('')}`);return;}
+    if(a==='solar-note'){track(s,'reviews');commit();dialog('내 조사 노트와 태양계 자료',`<p class="order-note">태양 → ${planets.map(v=>v.name).join(' → ')}</p><details><summary>더 알아보기 · 크기와 성분</summary><h3>행성의 상대적인 크기</h3><p>지구를 1로 볼 때 · ${planets.map(v=>`${v.name} ${v.size}`).join(' · ')}</p><p>가장 큰 행성은 목성, 가장 작은 행성은 수성이에요. 게임 속 그림은 크기를 같게 그린 모형이에요.</p><h3>행성을 묶는 참고 자료</h3>${planetGroups.map(g=>`<p><b>${g.name}</b> · ${g.info}<br>${planets.filter(v=>v.group===g.id).map(v=>v.name).join(', ')}</p>`).join('')}</details><h3>직접 조사한 근거</h3>${Object.entries(d.planets.records).map(([id,v])=>`<p><b>${planets.find(x=>x.id===id)?.name}</b> · ${esc(v.feature)}</p>`).join('')}`);return;}
     if(a.startsWith('body-')){const id=a.slice(5);learningUI.inspectedBody=id;if(!d.classification.viewed.includes(id)){d.classification.viewed.push(id);sound?.play('discover');track(s,'observations');}redraw();return;}
     if(a.startsWith('bodytab-')){learningUI.body=+a.at(-1);render();return;}
     if(a.startsWith('kind-')){answer().kind=a.slice(5);judgeClassification();return;}

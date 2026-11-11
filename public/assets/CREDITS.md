@@ -1,5 +1,13 @@
 # 도구·자료·라이선스 기록
 
+## 2026-11-12 학습 그림·음성 수정
+
+달 관측 화면에는 OpenAI 기본 image_gen으로 생성한 `generated/moon-surface-v4.webp`를 적용했다. 밝고 어두운 지대와 충돌 구덩이를 비교하는 학습용 그림이다. 위상 계산과 별 좌표는 코드로 제어한다. 원본, 프롬프트와 SHA-256은 `docs/reviews/RELEASE-REVIEW-20261112.md`에 기록했다.
+
+`audio/voices/hint-s2a-v2.mp3`는 현재의 날짜 선택 후 기록 버튼 조작에 맞춰 ElevenLabs의 `eleven_v4`, 라이브러리의 `Soo - Warm Korean Teacher` 음성으로 생성했다. 제공자·선택한 테이크·대사·해시·자동 전사 결과는 `docs/VOICE-PROVENANCE-20261112.json`을 따른다. 해당 음성에는 제공자의 이용 조건이 적용된다.
+
+아래의 날짜별 기록은 각 시점의 작업 범위를 설명한다. 현재 공개 배포와 검증 결과는 2026-11-12 최종 검토 문서에 정리했다.
+
 ## 2026-10-28 개념 그림 개선
 
 OpenAI built-in `image_gen`으로 달 표면, 태양, 별빛, 코어 보정 장치 외관을 각각 독립된 투명 PNG로 생성했다. 학습용 재현 그림이며 실제 관측사진·검증된 표면 지도가 아니다. 원본과 최종 프롬프트·SHA256·서비스 파일 규격은 `references/generated/concepts-v3/manifest.json`에 보존했다.

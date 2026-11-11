@@ -35,11 +35,11 @@ test('두 번째 활동부터 해도 미완료 첫 활동으로 안내한다', (
   assert.equal(getStageAction(state, 1).disabled, false);
 });
 
-test('행성 순서와 묶기 사이를 안내하되 전체 조건이 맞아야 완료된다', () => {
+test('핵심 조사와 순서가 맞아야 완료되고 선택 탐구에서 순서 활동으로 돌아갈 수 있다', () => {
   const state = freshState();
   state.scene = 's3b';
   state.drafts.planets.order = [...solarOrder];
-  assert.equal(getStageAction(state, 0).round, 1);
+  assert.equal(getStageAction(state, 0).disabled, true);
   state.drafts.planets.groups = Object.fromEntries(planets.map(planet => [planet.id, planet.group]));
   assert.equal(getStageAction(state, 0).disabled, true);
   for (const planet of planets) state.drafts.planets.records[planet.id] = { feature: planet.feature, candidate: planet.id };

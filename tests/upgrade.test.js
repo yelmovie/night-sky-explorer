@@ -75,7 +75,7 @@ test("달 변화는 여섯 서로 다른 시점과 전반·후반의 관찰을 �
   assert.equal(stageReady(s, 2), false);
 });
 
-test("행성 여섯 조사와 순서 아홉 칸과 모든 행성의 묶기가 필요하다", () => {
+test("행성 여섯 조사와 순서 아홉 칸을 완료하고 성분 묶기는 선택한다", () => {
   const s = freshState();
   for (const p of planets.filter((p) => ["mars", "jupiter", "saturn"].includes(p.id)))
     s.drafts.planets.records[p.id] = { candidate: p.id, feature: p.feature };
@@ -83,11 +83,11 @@ test("행성 여섯 조사와 순서 아홉 칸과 모든 행성의 묶기가 �
   for (const p of planets) s.drafts.planets.records[p.id] = { candidate: p.id, feature: p.feature };
   assert.equal(firstReady(s, 3), true);
   s.drafts.planets.order = [...solarOrder];
-  assert.equal(stageReady(s, 3), false);
+  assert.equal(stageReady(s, 3), true);
   s.drafts.planets.groups = Object.fromEntries(planets.map((p) => [p.id, p.group]));
   assert.equal(stageReady(s, 3), true);
   s.drafts.planets.groups.venus = "gas";
-  assert.equal(stageReady(s, 3), false);
+  assert.equal(stageReady(s, 3), true);
 });
 
 test("여덟 천체를 관찰하고 각각 주장과 빛근원 근거를 연결한다", () => {

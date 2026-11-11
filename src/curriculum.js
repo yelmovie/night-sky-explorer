@@ -16,11 +16,25 @@ export const standards = [
 export const curriculumSource = {
   "title": "교육부 고시 제2022-33호 별책 9 과학과 교육과정",
   "url": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&search=",
-  "checkedAt": "2026-11-10",
-  "method": "기존 보존 고시본 HWP 추출 텍스트와 문구 대조. 교사 현장 검수와 구분.",
+  "checkedAt": "2026-11-12",
+  "method": "교육부 고시 페이지와 경기도교육청 2025 초등 학교교육과정 편성 안내 PDF 66~67쪽에서 성취기준·해설 대조.",
+  "supportingSource": "https://www.goe.go.kr/resource/old/BBSMSTR_000000030136/BBS_202412300909035131.pdf",
   "needsReview": true,
   "reviewer": null,
   "license": "교육부 고시문 인용. 과학 자료·에셋의 이용 조건은 각각 별도."
+};
+// Each observation and explanation page carries one short, visible science idea.
+export const pageConcepts = {
+  s1a: { standard: '[4과13-01]', concept: '배율을 높이면 같은 달이 더 크게 보여요.' },
+  s1b: { standard: '[4과13-01]', concept: '달 표면에는 밝은 곳, 어두운 곳, 구덩이가 있어요.' },
+  s2a: { standard: '[4과13-01]', concept: '달의 모양은 약 한 달마다 되풀이돼요.' },
+  s2b: { standard: '[4과13-01]', concept: '여러 날의 기록으로 달의 다음 모습을 예상해요.' },
+  s3a: { standard: '[4과13-02]', concept: '행성마다 표면, 구름, 고리의 모습이 달라요.' },
+  s3b: { standard: '[4과13-02]', concept: '태양 주위를 여덟 행성이 돌아요.' },
+  s4a: { standard: '[4과13-03]', concept: '반사는 빛이 물체에 닿아 되돌아오는 거예요.' },
+  s4b: { standard: '[4과13-03]', concept: '별은 스스로 빛나요. 행성은 태양빛을 반사해요.' },
+  s5a: { standard: '[4과13-03]', concept: '북극성은 북쪽 하늘을 찾는 길잡이예요.' },
+  s5b: { standard: '[4과13-03]', concept: '별자리는 별들을 이어 떠올린 모양이에요.' },
 };
 export const learningObjectives = [
   {
@@ -51,7 +65,7 @@ export const learningObjectives = [
     "objective": "태양과 행성을 조사하고 표면적인 특징을 자료로 설명해요.",
     "evidence": "6행성 근거 기록과 태양·8행성 순서 모형",
     "misconception": "색 하나로 이름을 정하지 않고 둘 이상의 관찰 자료를 살펴봐요.",
-    "boundary": "행성 크기·거리 비율과 물리량 암기를 평가하지 않아요. 무리 나누기는 자료 적용 확장이에요."
+    "boundary": "행성 크기·거리·성분 암기를 평가하지 않아요. 성분별 묶기는 선택 탐구이며 완료 조건에서 제외해요."
   },
   {
     "chapter": 4,
