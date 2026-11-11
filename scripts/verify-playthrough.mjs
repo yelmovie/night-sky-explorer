@@ -78,11 +78,16 @@ try {
   await complete(1);
   await learn('play-time'); await page.waitForTimeout(1000); await learn('play-time');
   pass('Time playback starts and pauses');
-  for (const day of [3, 7, 10, 17, 21, 25]) await learn('day-' + day);
+  for (const day of [3, 7, 10, 17, 21, 25]) {
+    const before = (await stored()).drafts.phases.captures;
+    await learn('seek-day-' + day);
+    assert.deepEqual((await stored()).drafts.phases.captures, before, 'Choosing a day must not create evidence');
+    await learn('capture-phase');
+  }
   const phaseCaptures = (await stored()).drafts.phases.captures;
   assert.deepEqual([...phaseCaptures].sort((a, b) => a - b), [3, 7, 10, 17, 21, 25]);
-  const recordedDay = page.locator('[data-learning="day-3"]');
-  if (!await recordedDay.isDisabled()) await recordedDay.dblclick();
+  await learn('seek-day-3');
+  assert.equal(await page.locator('[data-learning="capture-phase"]').isDisabled(), true);
   assert.deepEqual((await stored()).drafts.phases.captures, phaseCaptures);
   await nextActivity(); await scene('s2b');
   for (const round of [0, 1]) {
@@ -97,14 +102,20 @@ try {
     await page.locator('#phase-reflection').fill('기록을 겹쳐 보니 밝은 부분의 크기가 예상과 달라요.');
     if (!round) { await nextActivity(); assert.equal(await page.locator('[data-learning="round-1"]').getAttribute('aria-pressed'), 'true'); }
   }
-  pass('Date shortcuts capture once; reveal compares immediately and preserves the initial prediction');
+  pass('Date selection preserves evidence; explicit capture records once; comparison preserves the initial prediction');
   await complete(2);
   await learn('planet-mercury');
   await page.locator('#planet-feature').selectOption({ label: planets[1].feature });
   assert.equal((await stored()).drafts.planets.records.mercury, undefined);
-  await page.locator('#planet-feature').selectOption({ label: planets[0].feature });
+  // Leave in the same browser turn, before the delayed advance can fire.
+  // Separate protocol calls can exceed the 900ms delay on a busy QA machine.
+  await page.locator('#planet-feature').evaluate((select, feature) => {
+    select.value = [...select.options].find(option => option.textContent === feature).value;
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    document.querySelector('[data-action="home"]').click();
+  }, planets[0].feature);
+  await page.locator('.home-v2').waitFor(); await page.waitForTimeout(1200);
   assert.equal((await stored()).drafts.planets.records.mercury.feature, planets[0].feature);
-  await click('home'); await page.locator('.home-v2').waitFor(); await page.waitForTimeout(1200);
   assert.equal((await stored()).scene, 'home');
   assert.equal((await stored()).drafts.planets.selected, 'mercury');
   await click('start'); await scene('s3a');
@@ -113,7 +124,7 @@ try {
     await page.locator('#planet-feature').selectOption({ label: planet.feature });
     await page.waitForTimeout(1200);
     assert.equal((await stored()).drafts.planets.records[planet.id].feature, planet.feature);
-    if (planet.id === 'venus') assert.equal((await stored()).drafts.planets.selected, 'earth');
+    if (planet.id === 'venus') await page.waitForFunction(key => JSON.parse(localStorage.getItem(key)).drafts.planets.selected === 'earth', SAVE_KEY);
   }
   assert.equal(Object.keys((await stored()).drafts.planets.records).length, 6);
   assert.equal(await page.locator('#planet-candidate').count(), 0);

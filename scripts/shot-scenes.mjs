@@ -15,13 +15,13 @@ const shots = process.argv.slice(2).length ? process.argv.slice(2) : defaults;
 
 function fixture(shot) {
   const [name, count] = shot.split('@');
-  const done = count ? +count : ['report', 'core-half', 'core-ready', 'movie', 'movie-end', 'results-done', 'bonus-cloudy', 'bonus-planet'].includes(name) ? 5 : 0;
+  const stage = /^s([1-5])[ab]$/.exec(name);
+  const done = count ? +count : stage ? Number(stage[1]) - 1 : ['report', 'core-half', 'core-ready', 'movie', 'movie-end', 'results-done', 'bonus-cloudy', 'bonus-planet'].includes(name) ? 5 : 0;
   const s = completedState(done);
   const scene = { intro: 'home', report: 'core', 'core-half': 'core', 'core-ready': 'core', movie: 'core', 'movie-end': 'core', 'results-done': 'results', 'bonus-cloudy': 'results', 'bonus-planet': 'results', reward: 's1b', kit: 'map', hint: 's1a' }[name] || name;
   Object.assign(s, { scene, resume: scene });
   s.settings.bgm = false;
   if (name === 'intro') s.started = false, s.intro = false;
-  if (!count && !done && !['home', 'intro', 'map'].includes(name)) s.settings.adminUnlock = true;
   if (['core-half', 'core-ready', 'movie', 'movie-end'].includes(name)) s.core.reportSeen = true;
   if (name === 'core-half') s.core.connections = { 1: 1, 2: 2, 3: 3 };
   if (['core-ready', 'movie', 'movie-end'].includes(name)) Object.assign(s.core, { connections: { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }, angle: 180 });
@@ -38,6 +38,7 @@ for (const [width, height] of sizes) {
     page.on('pageerror', error => errors.push(`${shot}: ${error.message}`));
     await page.addInitScript(([key, value]) => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem(key, value); sessionStorage.setItem('seeded', '1'); } }, [SAVE_KEY, JSON.stringify(s)]);
     await page.goto(base);
+    if (/^s[1-5][ab]$/.test(s.scene)) await page.locator(`[data-scene="${s.scene}"]`).waitFor();
     await page.waitForTimeout(s.scene === 'map' ? 2500 : 900);
     const click = async selector => { await page.locator(selector).first().click(); await page.waitForTimeout(500); };
     if (name === 'intro') await click('[data-action="start"]');

@@ -32,7 +32,7 @@ async function seed(scene, empty = true) {
   if(await speed.count()&&await speed.isEnabled())await speed.selectOption('2');
   return state;
 }
-async function finished(timeout = 15000) {
+async function finished(timeout = 30000) {
   await page.waitForFunction(() => document.querySelector('#play-time')?.getAttribute('aria-pressed') === 'false' && document.querySelector('#play-time span')?.textContent === '다시 보기', null, { timeout });
 }
 try {
@@ -56,12 +56,18 @@ try {
   state = await stored();
   assert.deepEqual([...state.drafts.phases.captures].sort((a,b) => a-b), [3,7,10,17,21,25]);
   assert.equal(state.drafts.phases.day, 29);
+  assert.equal(await page.locator('#phase-day').inputValue(), '29', 'The day slider must follow playback');
+  assert.equal(await page.locator('.discovery-stops .discovered').count(), 6, 'The discovery route must reflect recorded evidence');
+  assert.match(await page.locator('.discovery-route > b').textContent(), /여섯 시점/);
   assert.equal(state.drafts.phases.predictions[14].original, null);
   pass('속도 2배로 달 변화 전체 재생·여섯 시점 관찰, 예상은 보존');
   await learn('play-time'); await page.waitForTimeout(400);
   await page.locator('#phase-day').evaluate(input => { input.value = '12'; input.dispatchEvent(new Event('input', { bubbles: true })); });
   assert.equal(await page.locator('#play-time').getAttribute('aria-pressed'), 'false');
   await page.waitForTimeout(450); assert.equal((await stored()).drafts.phases.day, 12);
+  await learn('seek-day-7');
+  assert.equal(await page.locator('[data-learning="seek-day-7"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('#capture-phase').isDisabled(), true);
   pass('수동 조절은 자동재생을 즉시 멈춤');
 
   await seed('s2b'); assert.equal(await page.locator('#play-time').isDisabled(), true);

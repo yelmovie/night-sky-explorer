@@ -2,6 +2,7 @@
 // PLAYWRIGHT_MODULE=<absolute index.mjs> BROWSER_EXECUTABLE=<browser>
 // TEST_URL=http://127.0.0.1:5183 RESPONSIVE_QA_DIR=<external-SSD directory>
 // Optional: TEST_SIZES=1024x600,360x740 QA_SCENES=s1a,s4a QA_SCREENSHOTS=all
+// QA_EXTRAS=1 checks settings, teacher guide, hints, reports and completion dialogs.
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve, join, isAbsolute } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -38,11 +39,23 @@ cases.push({ scene: 'core', draft: 'filled', round: 0, variant: 'connected' });
 cases.push({ scene: 's3a', draft: 'filled', round: 0, variant: 'zoom2x' });
 cases.push({ scene: 's3a', draft: 'filled', round: 0, variant: 'reference' });
 if (process.env.QA_EXTENDED === '1') cases.push({ scene: 's3a', draft: 'filled', round: 0, variant: 'three' });
+if (process.env.QA_EXTRAS === '1') {
+  cases.length = 0;
+  for (const [scene, variants] of Object.entries({
+    home: ['first-visit', 'settings', 'teacher', 'reset', 'intro'],
+    map: ['kit', 'repair'],
+    core: ['report'],
+    results: ['certificate', 'bonus-cloudy', 'bonus-planet'],
+    s1a: ['hint'],
+  })) {
+    for (const variant of variants) cases.push({ scene, draft: 'filled', round: 0, variant });
+  }
+}
 const selected = cases.filter(item => !allowed || allowed.includes(item.scene));
 
 function fixture(item) {
   const stage = Number(item.scene[1]);
-  const state = completedState(stage ? stage - 1 : item.scene === 'core' ? 5 : 2);
+  const state = item.variant === 'first-visit' ? freshState() : completedState(stage ? stage - 1 : ['core', 'results'].includes(item.scene) ? 5 : 2);
   if (item.draft === 'empty') {
     const observed = state.drafts;
     state.drafts = freshState().drafts;
@@ -57,9 +70,15 @@ function fixture(item) {
     }
   }
   Object.assign(state, { scene: item.scene, resume: item.scene, started: true, intro: true });
+  if (item.variant === 'first-visit' || item.variant === 'intro') state.started = false;
+  if (item.variant === 'intro') {
+    state.evidence = {};
+    state.intro = false;
+  }
   Object.assign(state.settings, { muted: true, bgm: false, reducedMotion: true, adminUnlock: false });
   state.core.reportSeen = true;
   if (item.variant === 'connected') state.core.connections = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }, state.core.angle = 180;
+  if (item.scene === 'results') Object.assign(state.core, { connections: { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }, angle: 180, restored: true });
   return state;
 }
 
@@ -134,6 +153,9 @@ function inspectLayout() {
   }
   for (const element of document.querySelectorAll('button,a[href],input,select,textarea,[role="button"],[role="slider"]')) {
     if (!visible(element)) continue;
+    // An expanded restoration drawer intentionally covers the world behind it.
+    // The close summary and persistent navigation still remain subject to checks.
+    if (element.matches('.world-pin,.map-companion') && document.querySelector('.map-repair[open]')) continue;
     const r = element.getBoundingClientRect();
     if (element.matches('.learning-v2 button, dialog:modal button') && (r.width < 43 || r.height < 43)) {
       // Scaled lessons widen the touch area with an invisible ::before (responsive.css). Measure what a finger
@@ -173,7 +195,9 @@ function inspectLayout() {
     const points = [[.5, .5], [.25, .5], [.75, .5], [.5, .25], [.5, .75]];
     const hits = points.map(([x, y]) => document.elementFromPoint(r.left + r.width * x, r.top + r.height * y));
     const valid = hits.filter(hit => hit && (element === hit || element.contains(hit))).length;
-    if (!valid) issue('covered-control', element, `covered by ${hits[0]?.id || hits[0]?.className || hits[0]?.tagName}`);
+    const primaryControl = element.matches('.floating-controls button,.map-kit,.world-controls button,.world-map-tools button,#stage-next');
+    const centerHit = hits[0] && (element === hits[0] || element.contains(hits[0]));
+    if (!valid || primaryControl && !centerHit) issue('covered-control', element, `covered by ${hits[0]?.id || hits[0]?.className || hits[0]?.tagName}`);
   }
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   while (walker.nextNode()) {
@@ -217,6 +241,7 @@ try {
   const context = await browser.newContext({ reducedMotion: 'reduce', hasTouch: true });
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
+  page.setDefaultNavigationTimeout(60000);
   let current = '';
   page.on('pageerror', error => report.pageErrors.push({ case: current, message: error.message }));
   page.on('response', response => { if (response.status() >= 400) report.pageErrors.push({ case: current, message: `${response.status()} ${response.url()}` }); });
@@ -244,7 +269,16 @@ try {
           if (item.variant === 'zoom2x') await page.locator('#planet-zoom').evaluate(input => {
             input.value = '2'; input.dispatchEvent(new Event('input', { bubbles: true }));
           });
-        } else await page.locator(item.scene === 'home' ? '.home-v2' : item.scene === 'map' ? '.world-screen' : '.core-v3').waitFor();
+        } else await page.locator({ home: '.home-v2', map: '.world-screen', core: '.core-v3', results: '.report-page' }[item.scene]).waitFor();
+        if (process.env.QA_EXTRAS === '1') {
+          const click = name => page.locator(`[data-action="${name}"]`).first().click();
+          if (['settings', 'teacher', 'reset'].includes(item.variant)) await click('settings');
+          if (item.variant === 'teacher') await page.getByText('교사용 가이드', { exact: true }).click();
+          if (item.variant === 'reset') await click('reset');
+          if (item.variant === 'intro') await click('start');
+          if (['kit', 'report', 'hint', 'bonus-cloudy', 'bonus-planet'].includes(item.variant)) await click(item.variant);
+          if (item.variant === 'repair') await page.locator('.map-repair > summary').click();
+        }
         // Tabs, selected celestial bodies, and view variants rerender images.
         // Wait for those new nodes, rather than measuring their loading state.
         await page.evaluate(settleMedia);

@@ -17,3 +17,9 @@ test('태블릿과 큰 화면은 사용 가능한 화면 전체를 원래 크기
   assert.deepEqual(lessonViewport(1024,600), {width:1024,height:600,scale:1,layout:'wide'});
   assert.deepEqual(lessonViewport(360,740), {width:360,height:740,scale:1,layout:'portrait'});
 });
+
+test('세로 태블릿은 가로 화면을 축소하지 않고 세로 배치의 터치 크기를 유지한다', () => {
+  for (const [width, height] of [[768, 1024], [820, 1180], [1024, 1366]]) {
+    assert.deepEqual(lessonViewport(width, height), { width, height, scale: 1, layout: 'portrait' });
+  }
+});

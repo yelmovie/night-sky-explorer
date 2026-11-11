@@ -1,10 +1,22 @@
 .discovery-route{padding:8px 12px;border:1px solid #b6dcff88;border-radius:18px;background:#152743aa;color:#f2f7ff;display:grid;gap:5px}.discovery-stops{display:flex;align-items:center;justify-content:space-evenly;gap:8px}.discovery-stops button{display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:0;min-height:48px;border:1px solid #8acaffaa;background:#284a6f88;color:white;border-radius:14px;font:inherit}.discovery-stops button.discovered{background:#1a796baa;border-color:#91f2d5}.discovery-stops span{font-size:24px}.discovery-stops small{font-size:.7em}.discovery-route p{margin:0;font-size:.8em}.learning-v2[data-scene="s2a"] .experiment-zone{gap:8px}.learning-v2[data-scene="s2a"] .phase-display{min-height:120px;flex:1}.learning-v2[data-scene="s2a"] .discovery-route{flex:none}@media(max-height:600px){.discovery-route{padding:4px 8px}.discovery-route> b,.discovery-route p{display:none}.discovery-stops button{min-height:44px}.discovery-stops small{display:none}}@media(max-width:500px){.discovery-stops small{display:none}}
 .discovery-stops{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.discovery-stops button{width:100%}
 /* Preserve the date label's line box inside compact tablet/phone stages. */
+.discovery-stops button[aria-pressed='true'] {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: -3px;
+}
 .learning-v2[data-scene='s2a'] .date-tag{height:26px;min-height:26px;line-height:26px;overflow:visible}
 @media(max-width:500px){.discovery-stops{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}.discovery-stops button{min-height:40px;font-size:12px}.discovery-stops span{font-size:16px}.discovery-route{padding:6px}.discovery-route>b{font-size:13px}.discovery-route p{font-size:11px}}
 .learning-v2[data-scene='s2a'] .toolbox .discovery-stops{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
 .learning-v2[data-scene='s2a'] .toolbox .discovery-stops small{display:none}
-.learning-v2[data-scene='s2a'] .toolbox .discovery-stops button{font-size:14px;min-height:44px}
-@media(max-width:500px){.learning-v2[data-scene='s2a'] .toolbox{gap:4px;padding:8px}.learning-v2[data-scene='s2a'] .discovery-route> b,.learning-v2[data-scene='s2a'] .discovery-route p{display:none}.learning-v2[data-scene='s2a'] .toolbox .discovery-stops button{min-height:40px}}
-@media(max-width:500px){#app .learning-v2[data-scene='s2a'] .toolbox{gap:3px;padding:6px}#app .learning-v2[data-scene='s2a'] .toolbox .field-label{margin:3px 0}}
+.learning-v2[data-scene='s2a'] .toolbox .discovery-stops button{font-size:var(--classroom-body);min-height:44px}
+.learning-v2[data-scene='s2a'] .discovery-stops span{font-size:clamp(16px,1.5cqw,24px)}
+@media(max-width:500px){.learning-v2[data-scene='s2a'] .toolbox{gap:4px;padding:8px}.learning-v2[data-scene='s2a'] .discovery-route> b,.learning-v2[data-scene='s2a'] .discovery-route p{display:none}.learning-v2[data-scene='s2a'] .toolbox .discovery-stops button{min-height:44px}}
+@media (max-width: 500px) {
+  #app .learning-v2[data-layout='portrait'][data-scene='s2a'] .activity-layout {
+    grid-template-rows: minmax(0, .85fr) minmax(0, 1.15fr);
+  }
+  #app .learning-v2[data-scene='s2a'] .toolbox { gap: 3px; padding: 6px; }
+  #app .learning-v2[data-scene='s2a'] .toolbox .field-label { margin: 3px 0; }
+}

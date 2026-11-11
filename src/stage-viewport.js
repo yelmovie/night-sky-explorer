@@ -2,7 +2,7 @@
 // Small landscape browsers use the same lesson proportions as a compact tablet.
 export function lessonViewport(width, height) {
   const w = Math.max(1, width), h = Math.max(1, height);
-  const portrait = w < 700 && h > w;
+  const portrait = h > w;
   const scale = Math.min(1, w / (portrait ? 360 : 960), h / (portrait ? 740 : 480));
   return { width: w / scale, height: h / scale, scale, layout: portrait ? 'portrait' : 'wide' };
 }

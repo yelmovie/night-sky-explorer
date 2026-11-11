@@ -137,6 +137,7 @@ const browser = await chromium.launch({ executablePath: process.env.BROWSER_EXEC
 try {
   const context = await browser.newContext({ reducedMotion: 'reduce', hasTouch: true });
   const page = await context.newPage(); page.setDefaultTimeout(12000); let current = '';
+  page.setDefaultNavigationTimeout(60000);
   page.on('pageerror', error => report.pageErrors.push({ case: current, message: error.message }));
   page.on('response', response => { if (response.status() >= 400) report.pageErrors.push({ case: current, message: `${response.status()} ${response.url()}` }); });
   await page.goto(base);

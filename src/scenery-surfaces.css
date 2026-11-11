@@ -8,6 +8,54 @@ dialog,dialog.classroom-dialog {background:rgba(19,32,53,.95);backdrop-filter:bl
 
 .icon-button,.btn.secondary {background:rgba(255,249,236,.82);color:#20354c}
 
+.world-controls .btn,
+.world-map-tools .btn {
+  color: var(--mint);
+  border-color: rgba(178, 220, 225, .65);
+}
+
+.home-v2 .home-character {
+  display: none;
+}
+
+.home-v2::after {
+  background-image: url('/assets/home-fox.webp');
+  background-size: 100% 100%;
+}
+
+@media (max-width: 600px) {
+  .home-v2::after {
+    display: none;
+  }
+
+  #app .map-kit {
+    width: max-content;
+    max-width: calc(100vw - 28px);
+    gap: 8px;
+    padding-inline: 12px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  #app .map-kit span + span {
+    padding-left: 8px;
+  }
+
+  #app .map-repair {
+    top: 148px;
+    max-height: calc(100dvh - 340px);
+  }
+
+  .map-repair:not([open]) .map-repair-label {
+    display: none;
+  }
+
+  .map-repair:not([open]) > summary::after {
+    content: '복구';
+    margin-left: 6px;
+  }
+}
+
 .learning-v2 .toolbox,.toolbox {background:rgba(255,249,237,.84);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .toolbox .observation-card {background:rgba(229,236,227,.85);color:#20354c}
 

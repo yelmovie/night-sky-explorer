@@ -65,7 +65,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       main = `<div class="phase-display"><span class="date-tag" id="day-label">${p.day}일째</span><div id="phase-moon">${dayMoon(p.day)}</div></div>
         <div id="capture-strip">${recordCollection(p.captures, strip)}</div>
         <p class="model-note">학습용 날짜예요 · 실제 달력과 달라요</p>`;
-      tools = `${discoveryRoute(p.captures)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}
+      tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}
 
         ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'primary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}
         ${b(recordCountLabel(p.captures), 'phase-note', 'secondary', 'id="phase-count" aria-label="전체 관측 기록 보기"')}`;

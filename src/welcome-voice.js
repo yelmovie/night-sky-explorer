@@ -10,10 +10,10 @@ export function mountWelcomeVoice(host, { caption, isMuted, duck = () => {} }) {
   button.style.cssText = 'min-width:48px;min-height:48px;padding:8px 16px;border:1px solid #527577;border-radius:12px;background:#fff;color:#193d43;font:inherit;font-weight:700;cursor:pointer;';
   const label = document.createElement('small');
   label.textContent = 'AI 생성 음성';
-  label.style.cssText = 'display:inline-block;margin-left:10px;font-size:12px;';
+  label.style.cssText = 'display:inline-block;margin-left:10px;font-size:14px;color:#496270;';
   const subtitle = document.createElement('p');
   subtitle.textContent = caption;
-  subtitle.style.cssText = 'margin:6px 0 0;font-size:14px;line-height:1.55;word-break:keep-all;';
+  subtitle.style.cssText = 'margin:8px 0 0;font-size:16px;line-height:1.55;word-break:keep-all;';
   const status = document.createElement('span');
   status.setAttribute('role', 'status');
   status.style.cssText = 'display:block;font-size:13px;line-height:1.4;';

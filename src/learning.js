@@ -1,5 +1,4 @@
 import { nearestStar } from './star-hit.js';
-import { representativeDays, recordCountLabel } from './observation-records.js';
 import { chapters,planets,requiredPlanets,solarOrder,bodies,planetGroups,patternRegions } from './data.js';
 import { firstReady,stageReady,photoReady,clone,track } from './state.js';
 import { missionTag } from './quest.js';
@@ -98,10 +97,13 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
         return step>=3;
       }
       if(scene==='s2a'){
-        d.phases.day=step%30;updateDay();
-        if([3,7,10,17,21,25].includes(d.phases.day)&&recordPhase(d.phases,d.phases.day)){track(s,'observations');$('#capture-strip').innerHTML=`<section class="lunar-records">${strip(representativeDays(d.phases.captures))}</section>`;}
-        if($('#phase-count'))$('#phase-count').textContent=recordCountLabel(d.phases.captures);
-        commit();return step>=29;
+        d.phases.day=step%30;
+        if([3,7,10,17,21,25].includes(d.phases.day)&&recordPhase(d.phases,d.phases.day)){
+          track(s,'observations');redraw();
+        }else{
+          updateDay();commit();
+        }
+        return step>=29;
       }
       if(scene==='s2b'){if(step===3)player.finish();action('overlay-phase');return false;}
       if(scene==='s3a'){
@@ -165,7 +167,14 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   const text=(id,obj,key)=>on($(id),'input',e=>{obj[key]=e.target.value.slice(0,240);commit();});
   if(scene==='s1a'){updateScope();for(const [id,key,unit]of[['moon-zoom','zoom','×'],['moon-focus','focus','']])on($('#'+id),'input',e=>{d.moon[key]=+e.target.value;$('#'+id+'-value').textContent=e.target.value+unit;updateScope();commit();});let drag=null;on($('#scope-drag'),'pointerdown',e=>{drag=[e.clientX,e.clientY];e.currentTarget.setPointerCapture(e.pointerId);});on($('#scope-drag'),'pointermove',e=>{if(!drag)return;const r=e.currentTarget.getBoundingClientRect();pan((e.clientX-drag[0])/r.width*100,(e.clientY-drag[1])/r.height*100);drag=[e.clientX,e.clientY];});for(const type of ['pointerup','pointercancel'])on($('#scope-drag'),type,()=>drag=null);on($('#scope-drag'),'keydown',e=>{const v={ArrowUp:[0,-8],ArrowDown:[0,8],ArrowLeft:[-8,0],ArrowRight:[8,0]}[e.key];if(v){e.preventDefault();pan(...v);}});}
   if(scene==='s1b'){text('#moon-observation',d.moon.comparisons[round()],'observation');on($('#surface-moon'),'click',e=>{const r=e.currentTarget.getBoundingClientRect();spot((e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100);});}
-  function updateDay(){$('#phase-day-value').textContent=d.phases.day+'일째';$('#day-label').textContent=d.phases.day+'일째';$('#phase-moon').innerHTML=dayMoon(d.phases.day);$('#capture-phase').disabled=d.phases.captures.includes(d.phases.day);}
+  function updateDay(){
+    $('#phase-day').value=d.phases.day;
+    $('#phase-day-value').textContent=d.phases.day+'일째';
+    $('#day-label').textContent=d.phases.day+'일째';
+    $('#phase-moon').innerHTML=dayMoon(d.phases.day);
+    $('#capture-phase').disabled=d.phases.captures.includes(d.phases.day);
+    $$('.discovery-stops button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.learning===`seek-day-${d.phases.day}`)));
+  }
   if(scene==='s2a')on($('#phase-day'),'input',e=>{d.phases.day=+e.target.value;updateDay();commit();});
   if(scene==='s2b'){on($('#prediction-amount'),'input',e=>{prediction().amount=+e.target.value;$('#prediction-amount-value').textContent=e.target.value+'%';$('#prediction-moon').innerHTML=moonSVG(prediction().amount,prediction().side);commit();});text('#phase-reflection',prediction(),'reflection');}
   if(scene==='s3a'){
