@@ -23,6 +23,7 @@ import { bonusQuests, openBonus } from './bonus.js';
 import './quest.css';
 import { createResearchSession } from './session.js';
 import './responsive.css';
+import './scenery-surfaces.css';
 
 const app = document.querySelector('#app');
 let storage;
