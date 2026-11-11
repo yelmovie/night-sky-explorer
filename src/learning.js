@@ -51,7 +51,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   function queueNext(kind,id){learningUI.pendingAdvance={scene,kind,id};redraw();}
   function judgeClassification(){const body=selectedBody(),status=classificationFeedback(body,answer());if(!status.correct&&answer().kind&&answer().reason)track(s,'retries');if(status.correct){sound?.play('success');if(nextBody(d.classification.answers,body.id)!==-1)return queueNext('body',body.id);}else if(answer().kind&&answer().reason)sound?.play('retry');redraw();}
   function choosePlanet(id){d.planets.selected=id;d.planets.feature=d.planets.records[id]?.feature||'';d.planets.candidate=id;learningUI.zoom=1;learningUI.rotation=0;}
-  function captureDay(day){const added=recordPhase(d.phases,day);if(added){sound?.play('capture');track(s,'observations');}redraw();}
+  function captureDay(day){const added=recordPhase(d.phases,day);if(added){sound?.play('capture');track(s,'observations');}redraw();if(added)notify(`${day}일째 관측 사진을 발견 지도에 담았어.`);}
   function guide(){
     $$('.is-next').forEach(element=>element.classList.remove('is-next'));
     const next=getStageAction(s,round());
@@ -142,7 +142,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if(a.startsWith('pan-')){pan(...{up:[0,-8],down:[0,8],left:[-8,0],right:[8,0]}[a.slice(4)]);return;}
     if(a==='capture-moon'){const m=d.moon;if(!photoReady(m))return;if(round()===1&&!m.photos[0])return notify('먼저 전체 모습 사진을 한 장 담아 줘.');if(m.photos.some((p,j)=>j!==round()&&Math.abs(p.zoom-m.zoom)<.09))return notify('이번에는 배율을 조금 바꾸어서 촬영해 줘.');m.photos[round()]={x:m.x,y:m.y,zoom:m.zoom,focus:m.focus};track(s,'observations');if(round()===0)learningUI.round=1;redraw();notify('관측사진을 연구 노트에 담았어.');return;}
     if(a.startsWith('spot-')){const [,x,y]=a.split('-');spot(+x,+y);return;}
-    if(a.startsWith('day-')){captureDay(+a.slice(4));return;}
+    if(a.startsWith('seek-day-')||a.startsWith('day-')){d.phases.day=Number(a.split('-').at(-1));redraw();return;}
     if(a==='capture-phase'){captureDay(d.phases.day);return;}
     if(a.startsWith('side-')){prediction().side=a.slice(5);redraw();return;}
     if(a==='reveal-phase'){const p=prediction();p.original||={amount:p.amount,side:p.side};p.revealed=true;p.overlay=true;learningUI.overlayVisible=true;redraw();return;}

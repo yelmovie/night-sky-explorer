@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {discoveryProgress,discoveryRoute} from '../src/discovery-route.js';
+test('discovery route follows evidence, accepts old records and has no time pressure',()=>{assert.equal(discoveryProgress([]).next,3);assert.equal(discoveryProgress([3,7,10]).next,17);assert.equal(discoveryProgress([21,3,10,7,17,25]).complete,true);assert.match(discoveryRoute([3]),/사진 확보/);assert.match(discoveryRoute([]),/seek-day-3/)});
