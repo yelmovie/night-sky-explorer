@@ -516,7 +516,7 @@ function action(a) {
     const c = chapters[n - 1];
     return modal(
       "새로운 연구 기록을 찾았어!",
-      `<div class="reward-icon">${icon(c.icon, 58)}</div><h3 class="reward-title">${c.record}</h3><p>${c.reward}</p><p class="hint">${n < 5 ? chapters[n].place + "에서 다음 관측을 이어갈 수 있어." : "다섯 기록을 가지고 중앙 코어로 가자."}</p>${btn("탐구 지도로 돌아가기", "map", "primary")}`,
+      `<div class="reward-icon">${icon(c.icon, 58)}</div><h3 class="reward-title">${c.record}</h3><p>${c.reward}</p><p class="hint">${n < 5 ? chapters[n].place + "에서 다음 관측을 이어 갈 수 있어." : "다섯 기록을 가지고 중앙 코어로 가자."}</p>${btn("탐구 지도로 돌아가기", "map", "primary")}`,
     );
   }
   const m = state.drafts.moon,
