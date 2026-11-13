@@ -27,12 +27,12 @@ const story = [
   ]
 ];
 const hit = ["앗, 내 렌즈 덮개!", "투사기 빛이 흔들리잖아!"], finish = "덮개가 빠졌어. 별빛이 다시 보여!";
-export const encounterLook = {palette:'#ffdb82', effect:'starlight', art:{left:base+'villain-left.png',frames:6}};
+export const encounterLook = {palette:'#ffdb82', effect:'starlight', art:{left:base+'villain-redraw.png',frames:6}};
 export function encounterStage(index,id,name,point){
   const [one,two,prop]=story[index];
   return {id:String(id),name,x:point.x,y:point.y,lines:[one,two],prop,hit,finish};
 }
-export function loadEncounterActor(name){const image=new Image();image.src=base+name+'.png';return image;}
+export function loadEncounterActor(name){const image=new Image();image.src=base+name+'-redraw.png';return image;}
 export function drawEncounterActor(context,image,point,size,pose,{native=1}={}){
   if(!pose||!image.complete||!image.naturalWidth)return false;
   const cell=image.naturalHeight;
