@@ -2,19 +2,17 @@ import { nearestStar } from './star-hit.js';
 import { chapters,planets,requiredPlanets,solarOrder,bodies,planetGroups,patternRegions } from './data.js';
 import { firstReady,stageReady,photoReady,clone,track } from './state.js';
 import { moonSVG,dayMoon } from './drawing.js';
-import { button,planetImage,celestialImage,esc,icon } from './ui.js';
+import { button,esc,icon,token } from './ui.js';
+import { learningUI } from './learning-ui.js';
 import { mountLessonViewport } from './stage-viewport.js';
 import { playbackMarkup, createObservationPlayer } from './observation-player.js';
 import { mountTouchDrag } from './touch-drag.js';
 import { getStageAction, getLearningGuide } from './progression.js';
 import { pageConcepts } from './curriculum.js';
-import './flow.css';
-import './concept-art.css';
 import { renderMoonStage } from './moon-stages.js';
 import { renderSpaceStage } from './space-stages.js';
 import { recordPhase, recordPlanet, nextPlanet, classificationFeedback, nextBody, solarFeedback, connectStars } from './learning-flow.js';
 
-export const learningUI={round:0,selectedStar:null,piece:null,body:0,three:false,rotation:0,zoom:1,lightBlocked:false,inspectedBody:null,pendingAdvance:null};
 const round=()=>learningUI.round;
 const regions=['cassiopeia','dipper'];
 const tabs=(names,done=[])=>`<div class="case-tabs" role="group" aria-label="활동 묶음">${names.map((n,i)=>`<button class="case-tab ${round()===i?'active':''}" data-learning="round-${i}" aria-pressed="${round()===i}">${n} ${done[i]?'✓':''}</button>`).join('')}</div>`;
@@ -22,7 +20,6 @@ const strip=days=>`<div class="record-strip">${[...days].sort((a,b)=>a-b).map(d=
 const title=t=>`<h2 class="tool-title">${t}</h2>`;
 const feedback=(id,status)=>`<p id="${id}" class="inline-feedback" role="status" data-tone="${status.tone}">${status.text}</p>`;
 function content(s,scene){const i=round(),helpers={tabs,title,strip,feedback,token};return renderMoonStage(s,scene,i,learningUI,helpers)||renderSpaceStage(s,scene,i,learningUI,helpers);}
-export function token(id){if(!id)return '<span class="slot-plus">+</span>';return `${id==='sun'?celestialImage('sun','','sun-token'):planetImage(id,'')}<strong>${id==='sun'?'태양':planets.find(v=>v.id===id)?.name}</strong>`;}
 export function learningView(s,chrome=''){
   const n=+s.scene[1],part=s.scene.at(-1),c=chapters[n-1],v=content(s,s.scene),next=getStageAction(s,round());
   const concept=pageConcepts[s.scene],guide=getLearningGuide(s,learningUI);

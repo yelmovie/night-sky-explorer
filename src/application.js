@@ -5,14 +5,16 @@ let welcomeCleanup = () => {};
 import './styles.css';
 import './polish.css';
 import './classroom.css';
+import './flow.css';
+import './concept-art.css';
 import { chapters, planets, requiredPlanets, solarOrder, bodies, patternRegions } from './data.js';
 import { freshState, clone, load, save, canAccess, firstReady, stageReady, stageOpen, completedCount, completeStage, coreReady, track } from './state.js';
 import { esc, icon, moonSVG, dayMoon, starChart } from './drawing.js';
-import { button as button, range, celestialImage, planetImage } from './ui.js';
+import { button, range, celestialImage, planetImage, token } from './ui.js';
 import { conceptArt } from './concept-assets.js';
-import { worldMarkup, mountWorld } from './world.js';
-import { mountRepair } from './map-repair.js';
-import { learningUI, learningView, mountLearning, token } from './learning.js';
+import { learningUI } from './learning-ui.js';
+import { loadMapScreen, loadObservationScreen, waitForScreen } from './screen-loaders.js';
+import './screen-loading.css';
 import { createSound } from './sound.js';
 import { concepts, mountConcept } from './concepts.js';
 import { nextTask, hints } from './companion.js';
@@ -35,6 +37,13 @@ const loaded = session;
 let studentSnapshot = null;
 let pendingRestoration = [];
 let state = loaded.state, cleanup = () => {}, events, modalCleanup = () => {}, modalReturn, modalBack, lastSite = null, hintLevel = 0, toastTimer, selectedRecord;
+let mapScreen, observationScreen, screenFailure = null;
+const retryScene = history.state?.starlightRetryScene;
+if (retryScene) {
+  const { starlightRetryScene, ...rest } = history.state;
+  history.replaceState(rest, '');
+  if (canAccess(state, retryScene)) state.scene = retryScene;
+}
 let previewCore = { connections: {}, angle: 15, restored: false }, lastReplay = null;
 const sound = createSound(() => state.settings);
 const narration = createNarration({ isMuted: () => state.settings.muted || !state.settings.sfx, duck: value => sound.setDucked(value) });
@@ -53,7 +62,7 @@ const reduced = () => state.settings.reducedMotion || matchMedia('(prefers-reduc
 function persist() { if (studentSnapshot) return; if (!session.save(state)) { notify(session.warning); showSaveWarning(); } }
 function showSaveWarning() { if (!session.warning || document.querySelector('#save-warning')) return; const note = document.createElement('aside'); note.id = 'save-warning'; note.setAttribute('role', 'alert'); note.innerHTML = `<span>${esc(session.warning)}</span><button class="btn" type="button">기록 파일 저장</button>`; note.querySelector('button').onclick = () => action('export'); document.body.append(note); }
 function notify(message) { const toast = document.querySelector('#toast'); toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 3800); }
-function controls() { return `<header class="floating-controls"><nav aria-label="화면 이동">${button(icon('home'), 'home', 'icon-button', 'aria-label="홈"')}${button(icon('back'), 'back', 'icon-button', 'aria-label="이전"')}</nav><nav aria-label="소리와 설정">${button(icon(state.settings.muted ? 'mute' : 'sound'), 'sound', 'icon-button', `aria-label="${state.settings.muted ? '소리 켜기' : '소리 끄기'}" aria-pressed="${state.settings.muted}"`)}${button(icon('settings'), 'settings', 'icon-button', 'aria-label="설정"')}</nav></header>${state.settings.adminUnlock ? '<div class="preview-ribbon">교사 시연 · 자동저장 안 함 · 설정에서 시연 종료</div>' : ''}`; }
+function controls() { return `<header class="floating-controls"><nav aria-label="화면 이동">${button(icon('home'), 'home', 'icon-button', 'aria-label="홈"')}${button(icon('back'), 'back', 'icon-button', 'aria-label="이전"')}</nav><nav aria-label="연구 키트와 설정">${state.scene === 'map' ? button(icon('book'), 'kit', 'icon-button', 'aria-label="연구 키트 열기" title="연구 키트 열기"') : ''}${button(icon(state.settings.muted ? 'mute' : 'sound'), 'sound', 'icon-button', `aria-label="${state.settings.muted ? '소리 켜기' : '소리 끄기'}" aria-pressed="${state.settings.muted}"`)}${button(icon('settings'), 'settings', 'icon-button', 'aria-label="설정"')}</nav></header>${state.settings.adminUnlock ? '<div class="preview-ribbon">교사 시연 · 자동저장 안 함 · 설정에서 시연 종료</div>' : ''}`; }
 function home() { return `<main class="experience home-v2"><div class="room-bg home-background"></div><section class="hero"><img class="hero-logo" src="/assets/logo.webp" alt="별빛 관측 연구소"/><h1 id="screen-title" tabindex="-1">너의 관측으로<br>연구소의 불빛을 켜요.</h1><p class="hero-story">루미와 함께 달을 찾고, 행성을 돌리고,<br>나만의 별 지도를 만들어요.</p><div class="home-cta">${state.started ? '' : '<label class="sr-only" for="nickname">연구원 별명</label><input id="nickname" maxlength="20" placeholder="연구원 별명 (선택)"/>'}${button(state.started ? '탐구 이어 하기' : '루미와 출발하기', 'start', 'primary')}${state.started ? button(`${icon('book')} 연구 키트`, 'kit') : ''}</div><p class="home-progress">${state.started ? `관측 데이터 ${completedCount(state)}/5 · 연구소 복구 ${restorePercent(state)}%` : '다섯 관측 기록으로 중앙 코어를 복구해요.'}</p></section><img class="home-character" src="/assets/home-fox.webp" alt="별여우 연구관"/></main>`; }
 function recordMarkup(number, data) {
   if (!data) return '<p>관측을 마치면 이곳에 기록이 남아요.</p>';
@@ -214,7 +223,7 @@ function challenge(number) {
 }
 function go(scene) {
   if (!canAccess(state, scene)) return notify('앞선 관측을 먼저 마쳐 주세요.');
-  if (scene !== state.scene) { if(learningUI.playback){learningUI.playback.playing=false;learningUI.playback.step=0;learningUI.playback.finished=false;} learningUI.round = 0; learningUI.body = 0; learningUI.selectedStar = null; learningUI.overlayVisible = false; learningUI.piece = null; learningUI.inspectedBody = null; learningUI.pendingAdvance = null; hintLevel = 0; }
+  if (scene !== state.scene) { screenFailure = null; if(learningUI.playback){learningUI.playback.playing=false;learningUI.playback.step=0;learningUI.playback.finished=false;} learningUI.round = 0; learningUI.body = 0; learningUI.selectedStar = null; learningUI.overlayVisible = false; learningUI.piece = null; learningUI.inspectedBody = null; learningUI.pendingAdvance = null; hintLevel = 0; }
   state.scene = scene;
   if (/^s[1-5][ab]$/.test(scene)) {
     lastSite = +scene[1];
@@ -227,6 +236,12 @@ function action(name) {
   sound.start();
   if (!name.startsWith('concept-') && !name.startsWith('reward-video-')) sound.play(name === 'complete' ? 'success' : name.includes('hint') ? 'hint' : 'click');
   if (name === 'close-modal') return closeModal();
+  if (name === 'retry-map-assets') { screenFailure = null; return renderAndFocus(); }
+  if (name === 'retry-screen-code') {
+    history.replaceState({ ...history.state, starlightRetryScene: state.scene }, '');
+    return location.reload();
+  }
+  if (name === 'continue-without-map') return enterSite(nextSite());
   if (name === 'home') return go('home');
   if (name === 'back') return go(state.scene === 'home' ? 'home' : state.scene === 'map' ? 'home' : state.scene.endsWith('b') ? state.scene.slice(0, 2) + 'a' : 'map');
   if (name === 'map' || name === 'results') return go(name);
@@ -290,31 +305,85 @@ function action(name) {
   if (name === 'export') { const anchor = document.createElement('a'); const url = URL.createObjectURL(new Blob([JSON.stringify(studentSnapshot || state, null, 2)], { type: 'application/json' })); anchor.href = url; anchor.download = '별빛-연구기록.json'; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 500); }
   if (name === 'print') { document.body.classList.add('print-certificate'); addEventListener('afterprint', () => document.body.classList.remove('print-certificate'), { once: true }); window.print(); }
 }
+const nextSite = () => chapters.find(chapter => !state.evidence[chapter.id])?.id || 0;
+function enterSite(number) {
+  if (number ? !stageOpen(state, number) : completedCount(state) < 5 && !state.settings.adminUnlock) return notify('앞선 관측을 마치면 이 문이 열려요.');
+  lastSite = number;
+  if (!state.settings.adminUnlock && (!number || !state.evidence[number])) return go(number ? `s${number}${firstReady(state, number) ? 'b' : 'a'}` : 'core');
+  const chapter = chapters[number - 1];
+  dialog(chapter ? chapter.place : '중앙 관측 코어', `<p>${chapter ? chapter.goal : '다섯 관측 기록을 장치에 연결해 연구소를 복구해요.'}</p>`, element => {
+    on(element.querySelector('#enter-room'), 'click', () => { if (number && !state.visited.includes(number)) state.visited.push(number); go(number ? `s${number}a` : 'core'); });
+    if (number) on(element.querySelector('#enter-second'), 'click', () => go(`s${number}b`));
+  }, `${number && state.evidence[number] ? button('선택 도전', 'challenge-' + number) : ''}${number && state.settings.adminUnlock ? '<button class="btn secondary" id="enter-second">비교 활동 시연</button>' : ''}<button class="btn primary" id="enter-room">${chapter ? '관측 시작' : '코어 열기'}</button>`);
+}
+function screenLoading(map, failure) {
+  const title = map ? '별빛 연구소 지도' : '관측실';
+  const next = nextSite();
+  const directLabel = next === 1 ? '첫 관측 시작' : next ? `${chapters[next - 1].place}로 바로 가기` : '중앙 코어로 바로 가기';
+  return `<main class="screen-loading" data-screen-load="${failure || 'pending'}">
+    <h1 id="screen-title" tabindex="-1">${title}</h1>
+    <p role="${failure ? 'alert' : 'status'}">${failure ? `${map ? '지도를' : '관측실을'} 불러오지 못했어요. 저장한 기록은 그대로예요.` : `${map ? '숲길을' : '관측 도구를'} 준비하고 있어요.`}</p>
+    ${failure ? `<div class="screen-loading-actions">${button('다시 열기', failure === 'assets' ? 'retry-map-assets' : 'retry-screen-code', map ? 'secondary' : 'primary')}${map ? button(directLabel, 'continue-without-map', 'primary') : ''}</div>` : ''}
+  </main>`;
+}
+function renderAndFocus() {
+  render();
+  ($('#screen-title') || $('#world'))?.focus({ preventScroll: true });
+}
+function updateAfterLoad(signal) {
+  if (signal.aborted) return;
+  const dialog = $('#dialog');
+  if (dialog.open) {
+    dialog.addEventListener('close', () => updateAfterLoad(signal), { once: true, signal });
+    return;
+  }
+  const main = app.querySelector('main');
+  if (document.activeElement === document.body || main?.contains(document.activeElement)) renderAndFocus();
+  else render();
+}
 function render() {
   narration.stop(); sceneVoiceCleanup(); sceneVoiceCleanup = () => {};
   welcomeCleanup(); welcomeCleanup = () => {};
   closeModal(false); cleanup(); events?.abort(); events = new AbortController();
   document.body.classList.toggle('reduce-motion', reduced());
-  const learning = /^s[1-5][ab]$/.test(state.scene);
-  app.innerHTML = (learning ? learningView(state, controls()) : controls() + (state.scene === 'home' ? home() : state.scene === 'map' ? worldMarkup(state) : state.scene === 'core' ? coreView() : resultsView())) + '<dialog id="dialog" aria-labelledby="dialog-title"></dialog>';
+  const learning = /^s[1-5][ab]$/.test(state.scene), map = state.scene === 'map';
+  const needsCode = (map && !mapScreen) || (learning && !observationScreen);
+  const failure = screenFailure?.scene === state.scene ? screenFailure.kind : null;
+  const waiting = needsCode || failure;
+  const scene = state.scene, signal = events.signal;
+  app.innerHTML = (waiting ? controls() + screenLoading(map, failure) : learning ? observationScreen.learningView(state, controls()) : controls() + (scene === 'home' ? home() : map ? mapScreen.worldMarkup(state) : scene === 'core' ? coreView() : resultsView())) + '<dialog id="dialog" aria-labelledby="dialog-title"></dialog>';
   on($('#dialog'), 'cancel', event => { event.preventDefault(); closeModal(); });
   if (state.scene === 'home') welcomeCleanup = mountWelcomeVoice(app.querySelector('.hero'), { caption: '밤하늘 탐험에 온 걸 환영해! 달과 별, 행성을 자세히 살펴보고, 관찰한 특징을 기록하며 우주의 단서를 찾아보자.', isMuted: () => state.settings.muted || !state.settings.sfx, duck: value => sound.setDucked(value) });
   bindActions(app);
   cleanup = () => {};
-  if (learning) cleanup = mountLearning(app, { state, save: persist, render, notify, dialog, on, refresh, sound, onFeedback: syncFeedbackVoice });
-  if (state.scene === 'map') {
-    const world = mountWorld($('#world'), state, { lastSite, restoredSites: studentSnapshot?[]:pendingRestoration.splice(0), onHint: showHint, onStatus: message => message === 'retry' ? render() : notify(message), onSite: number => {
-      if (number ? !stageOpen(state, number) : completedCount(state) < 5 && !state.settings.adminUnlock) return notify('앞선 관측을 마치면 이 문이 열려요.');
-      lastSite = number;
-      if (!state.settings.adminUnlock && (!number || !state.evidence[number])) return go(number ? `s${number}${firstReady(state, number) ? 'b' : 'a'}` : 'core');
-      const chapter = chapters[number - 1];
-      dialog(chapter ? chapter.place : '중앙 관측 코어', `<p>${chapter ? chapter.goal : '다섯 관측 기록을 장치에 연결해 연구소를 복구해요.'}</p>`, element => {
-        on(element.querySelector('#enter-room'), 'click', () => { if (number && !state.visited.includes(number)) state.visited.push(number); go(number ? `s${number}a` : 'core'); });
-        if (number) on(element.querySelector('#enter-second'), 'click', () => go(`s${number}b`));
-      }, `${number && state.evidence[number] ? button('선택 도전', 'challenge-' + number) : ''}${number && state.settings.adminUnlock ? '<button class="btn secondary" id="enter-second">비교 활동 시연</button>' : ''}<button class="btn primary" id="enter-room">${chapter ? '관측 시작' : '코어 열기'}</button>`);
-    } });
+  if (needsCode && !failure) {
+    waitForScreen(map ? loadMapScreen() : loadObservationScreen(), signal).then(module => {
+      if (map) mapScreen = module;
+      else observationScreen = module;
+      updateAfterLoad(signal);
+    }, () => {
+      if (signal.aborted) return;
+      screenFailure = { scene, kind: 'code' };
+      updateAfterLoad(signal);
+    });
+  }
+  if (!waiting && learning) cleanup = observationScreen.mountLearning(app, { state, save: persist, render, notify, dialog, on, refresh, sound, onFeedback: syncFeedbackVoice });
+  if (!waiting && map) {
+    const restoredSites = studentSnapshot ? [] : pendingRestoration.slice();
+    const world = mapScreen.mountWorld($('#world'), state, {
+      lastSite, restoredSites, onHint: showHint, onStatus: notify, onSite: enterSite,
+      onReady: () => {
+        pendingRestoration.splice(0, restoredSites.length);
+        if (document.activeElement === document.body) $('#world')?.focus({ preventScroll: true });
+      },
+      onError: () => {
+        screenFailure = { scene, kind: 'assets' };
+        world.dispose();
+        updateAfterLoad(signal);
+      },
+    });
     // 지도 복구 작업대: 탐구를 마친 구역만 직접 복구(보상 상호작용, 학습 판정과 분리). 교사 시연은 저장하지 않는다.
-    mountRepair($('#world'), { state, save: persist, kind: 'focus', preview: state.settings.adminUnlock, available: chapters.filter(c => state.settings.adminUnlock || state.evidence[c.id]).map(c => ({ id: c.id - 1, label: c.place })) });
+    mapScreen.mountRepair($('#world'), { state, save: persist, kind: 'focus', preview: state.settings.adminUnlock, available: chapters.filter(c => state.settings.adminUnlock || state.evidence[c.id]).map(c => ({ id: c.id - 1, label: c.place })) });
     cleanup = () => world.dispose();
   }
   if (state.scene === 'core') mountCalibration();
