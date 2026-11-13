@@ -61,7 +61,7 @@ export function mountWorld(root,state,{onSite,onHint,onStatus,onReady,onError,sa
   const blocked=()=>stop||document.hidden||!!document.querySelector('dialog[open]')||!!root.querySelector('.map-repair[open]');
   const camera=createMapCamera({width:WORLD.width,height:WORLD.height,baseZoom:w=>w<700?1.25:1.35,focusY:.55,reduced:()=>state.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches});
   const completed=state.settings.adminUnlock?[]:chapters.filter(c=>state.evidence[c.id]);
-  const encounters=mountMapEncounters({host:viewport,stages:completed.map(c=>{
+  const encounters=mountMapEncounters({requiredFoes:5,host:viewport,clearStage:()=>restoredSites.filter(id=>id!==0).at(-1),stages:completed.map(c=>{
     const [x,y]=nodes[siteNodes[c.id]],p=returnPosition(c.id);
     return encounterStage(c.id-1,c.id,c.place,{x:(x+p.x)/2,y:(y+p.y)/2});
   }),progress:state.mapHits,onSave:patch=>{state.mapHits={...state.mapHits,...patch};save?.();},blocked,reduced:()=>reduced,tone,reach:90,contact:23,...encounterLook});

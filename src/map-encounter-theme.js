@@ -1,36 +1,15 @@
 const base='/assets/map-encounters/';
 const story = [
-  [
-    "망원경에 덮개를 씌웠지!",
-    "이제 달은 안 보이지!",
-    "lens"
-  ],
-  [
-    "달빛 기록판의 날짜를 가렸어!",
-    "가린 날짜는 못 읽겠지!",
-    "dial"
-  ],
-  [
-    "행성 표찰 하나를 슬쩍 뒤집었어!",
-    "어느 행성 표찰을 뒤집을까?",
-    "flip"
-  ],
-  [
-    "가짜 별을 렌즈 앞에 달았지!",
-    "이 별은 내가 붙였어!",
-    "light"
-  ],
-  [
-    "북쪽 표지의 방향을 가렸지!",
-    "어느 쪽이 북쪽일까?",
-    "arrow"
-  ]
+  ["lens", "달 표면이 또렷해졌어? 망원경 덮개를 꽉 닫아 놨는데!", "달의 움푹 팬 곳에 내 이름이나 붙일까!", "앗, 렌즈 덮개가 들렸어!", "내가 흐린 달 사진이 선명해졌잖아!", "쳇, 달 관측대는 열어 둘게!"],
+  ["dial", "날짜별 달빛 기록을 맞췄어? 한 장을 뒤집어 놨는데!", "다음 달력은 전부 날짜를 내 생일로 바꿀 거야!", "앗, 가려 둔 날짜가 보여!", "뒤죽박죽 달 사진이 순서대로 돌아왔어!", "흥, 관측 날짜는 원래대로 써 둘게!"],
+  ["flip", "행성의 특징으로 표찰을 맞췄어? 목성을 내 맘대로 분류했는데!", "나도 새 행성으로 등록해. 이름은 ‘악당성’!", "앗, 행성 표가 제자리로!", "내가 바꿔 둔 이름표가 떨어졌어!", "쳇, 행성 목록에 내 이름은 빼 줘!"],
+  ["light", "별과 행성의 빛을 구별했어? 내가 붙인 가짜 별이 들통이잖아!", "내 가짜 별도 반짝이는 건 진짜라고!", "앗, 가짜 별 조명이 깜빡여!", "관측 데크에 진짜 별빛이 들어오잖아!", "흥, 렌즈에 붙인 별은 떼어 갈게!"],
+  ["arrow", "북극성으로 방향을 찾았어? 내가 돌려 둔 북쪽 화살표는 어쩌고!", "다음엔 모든 화살표를 내 기지로 돌려야지!", "앗, 북쪽 표지가 돌아갔어!", "내가 가린 별자리 그림이 다 보인다!", "쳇, 북쪽은 그대로 둘게. 난 반대편으로 퇴장!"],
 ];
-const hit = ["앗, 내 렌즈 덮개!", "투사기 빛이 흔들리잖아!"], finish = "덮개가 빠졌어. 별빛이 다시 보여!";
 export const encounterLook = {palette:'#ffdb82', effect:'starlight', art:{left:base+'villain-redraw.png',frames:6}};
 export function encounterStage(index,id,name,point){
-  const [one,two,prop]=story[index];
-  return {id:String(id),name,x:point.x,y:point.y,lines:[one,two],prop,hit,finish};
+  const [prop,one,two,hitOne,hitTwo,finish]=story[index];
+  return {id:String(id),name,speaker:"별빛 가림이",x:point.x,y:point.y,lines:[one,two],prop,hit:[hitOne,hitTwo],finish};
 }
 export function loadEncounterActor(name){const image=new Image();image.src=base+name+'-redraw.png';return image;}
 export function drawEncounterActor(context,image,point,size,pose,{native=1}={}){
