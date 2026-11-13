@@ -33,6 +33,7 @@ try { storage = window.localStorage; } catch { storage = { getItem() { throw Err
 const session = createResearchSession(storage);
 const loaded = session;
 let studentSnapshot = null;
+let pendingRestoration = [];
 let state = loaded.state, cleanup = () => {}, events, modalCleanup = () => {}, modalReturn, modalBack, lastSite = null, hintLevel = 0, toastTimer, selectedRecord;
 let previewCore = { connections: {}, angle: 15, restored: false }, lastReplay = null;
 const sound = createSound(() => state.settings);
@@ -175,7 +176,7 @@ function showHint() {
 }
 function reward(number) {
   const chapter = chapters[number - 1];
-  dialog(`${evidenceTag(number)} 확보!`, `${npcConversation('fox', chapter.npc, { pose: number === 5 ? 'cheer' : 'point', emotion: number === 5 ? 'happy' : 'encouraging', lineId: 'reward-' + number })}<details class="dialogue-extra"><summary>${chapter.record} · 연구소의 변화</summary><section class="reward-summary"><div class="reward-symbol">${icon(chapter.icon, 52)}</div><p class="reward-kicker">${missionTag(number)} 완료 · ${chapter.title}</p><h3>${chapter.record}</h3>${kitMeter(state)}</section><div class="world-change"><b>${icon('spark', 18)} 연구소 변화</b><p>${chapter.worldChange}</p></div></details>`, null, `${button(`개념영상 ${concepts[number].seconds}초 보기 (선택)`, 'reward-video-' + number)}${button('탐구 지도', 'map')}${button(number < 5 ? '다음 미션으로' : completedCount(state) === 5 ? '중앙 관측실로' : '다른 관측 찾기', 'continue-stage-' + number, 'primary')}`);
+  dialog(`${evidenceTag(number)} 확보!`, `${npcConversation('fox', chapter.npc, { pose: number === 5 ? 'cheer' : 'point', emotion: number === 5 ? 'happy' : 'encouraging', lineId: 'reward-' + number })}<details class="dialogue-extra"><summary>${chapter.record} · 연구소의 변화</summary><section class="reward-summary"><div class="reward-symbol">${icon(chapter.icon, 52)}</div><p class="reward-kicker">${missionTag(number)} 완료 · ${chapter.title}</p><h3>${chapter.record}</h3>${kitMeter(state)}</section><div class="world-change"><b>${icon('spark', 18)} 연구소 변화</b><p>${chapter.worldChange}</p></div></details>`, null, `${button(`개념영상 ${concepts[number].seconds}초 보기 (선택)`, 'reward-video-' + number)}${button('지도에서 변화 보기', 'continue-stage-' + number, 'primary')}`);
 }
 function showIntro(step = 0, replay = false) {
   const panel = introPanel(step, state.name), last = step === 2;
@@ -252,17 +253,17 @@ function action(name) {
   if (name.startsWith('continue-stage-')) {
     const number = +name.split('-').at(-1);
     if (state.scene !== `s${number}b` || !state.evidence[number]) return;
-    return go(number < 5 ? (canAccess(state, `s${number + 1}a`) ? `s${number + 1}a` : 'map') : completedCount(state) === 5 ? 'core' : 'map');
+    return go('map');
   }
   if (name === 'next') { const number = +state.scene[1]; if (firstReady(state, number)) return go(`s${number}b`); }
-  if (name === 'complete') { const number = +state.scene[1]; if (!completeStage(state, number)) return notify('루미의 안내를 보고 남은 기록을 완성해 주세요.'); persist(); return reward(number); }
+  if (name === 'complete') { const number = +state.scene[1], fresh = !state.evidence[number]; if (!completeStage(state, number)) return notify('루미의 안내를 보고 남은 기록을 완성해 주세요.'); if(fresh&&!studentSnapshot)pendingRestoration.push(number); persist(); return reward(number); }
   if (name.startsWith('reward-video-')) { const number = +name.split('-').at(-1); return showConcept(number, () => reward(number), '완료 화면으로'); }
   if (name.startsWith('library-')) return showConcept(+name.split('-')[1], () => settings(true), '영상 목록으로');
   if (name.startsWith('concept-')) return showConcept(+name.split('-')[1], state.scene === 'results' ? null : kit, state.scene === 'results' ? '내 연구 결과로' : '연구 키트로');
   if (name === 'unlock') { if (studentSnapshot) { state = studentSnapshot; studentSnapshot = null; } else { studentSnapshot = clone(state); state = clone(state); state.settings.adminUnlock = true; previewCore = { connections: {}, angle: 15, restored: false }; } if (!canAccess(state, state.scene)) state.scene = 'map'; if (!canAccess(state, state.resume)) state.resume = 'map'; persist(); render(); return settings(); }
   if (name === 'reset' && studentSnapshot) return notify('시연을 끝낸 뒤 학생 기록을 초기화할 수 있어요.');
   if (name === 'reset') return dialog('연구 기록을 초기화할까요?', '<p>별명·진행·보상·관찰 기록이 새로 시작해요. 이전 기록은 이 브라우저에 복구용으로 보관하고 소리 설정은 남아요.</p>', element => element.querySelector('[data-action="close-modal"]').focus(), `${button('취소', 'close-modal', 'primary')}${button('기록 지우기', 'confirm-reset', 'danger')}`);
-  if (name === 'confirm-reset') { if (studentSnapshot || !session.backup()) { showSaveWarning(); return notify(session.warning || '먼저 시연을 끝내 주세요.'); } const settings = { ...state.settings, adminUnlock: false }; state = freshState(); state.settings = settings; lastSite = null; persist(); render(); return; }
+  if (name === 'confirm-reset') { if (studentSnapshot || !session.backup()) { showSaveWarning(); return notify(session.warning || '먼저 시연을 끝내 주세요.'); } const settings = { ...state.settings, adminUnlock: false }; state = freshState(); state.settings = settings; lastSite = null; pendingRestoration = []; persist(); render(); return; }
   if (name.startsWith('record-')) { const number = +name.split('-')[1]; if (activeCore().connections[number] === number) return; selectedRecord = selectedRecord === number ? null : number; render(); return; }
   if (name.startsWith('socket-')) {
     const core = activeCore(), socket = +name.split('-')[1];
@@ -281,7 +282,7 @@ function action(name) {
     if (coreConnected(core) < 5 || !coreAligned(core)) return notify('채널 연결과 보정 링의 아래쪽 기준을 확인해 주세요.');
     if (completedCount(state) < 5) return showMovie();
     if (!coreReady(state)) return notify('채널 연결과 보정 링의 아래쪽 기준을 확인해 주세요.');
-    state.core.restored = true; lastReplay = null; persist(); render();
+    if(!state.core.restored&&!studentSnapshot){pendingRestoration.push(0);lastSite=0;} state.core.restored = true; lastReplay = null; persist(); render();
     return showMovie();
   }
   if (name.startsWith('challenge-')) return challenge(+name.split('-')[1]);
@@ -302,7 +303,7 @@ function render() {
   cleanup = () => {};
   if (learning) cleanup = mountLearning(app, { state, save: persist, render, notify, dialog, on, refresh, sound, onFeedback: syncFeedbackVoice });
   if (state.scene === 'map') {
-    const world = mountWorld($('#world'), state, { lastSite, onHint: showHint, onStatus: message => message === 'retry' ? render() : notify(message), onSite: number => {
+    const world = mountWorld($('#world'), state, { lastSite, restoredSites: studentSnapshot?[]:pendingRestoration.splice(0), onHint: showHint, onStatus: message => message === 'retry' ? render() : notify(message), onSite: number => {
       if (number ? !stageOpen(state, number) : completedCount(state) < 5 && !state.settings.adminUnlock) return notify('앞선 관측을 마치면 이 문이 열려요.');
       lastSite = number;
       if (!state.settings.adminUnlock && (!number || !state.evidence[number])) return go(number ? `s${number}${firstReady(state, number) ? 'b' : 'a'}` : 'core');
