@@ -371,7 +371,7 @@ function render() {
   if (!waiting && map) {
     const restoredSites = studentSnapshot ? [] : pendingRestoration.slice();
     const world = mapScreen.mountWorld($('#world'), state, {
-      lastSite, restoredSites, onHint: showHint, onStatus: notify, onSite: enterSite,
+      lastSite, restoredSites, save: persist, tone:(kind,hits)=>sound.play(kind==='finish'?'success':kind==='contact'?'retry':hits===2?'place':'click'), onHint: showHint, onStatus: notify, onSite: enterSite,
       onReady: () => {
         pendingRestoration.splice(0, restoredSites.length);
         if (document.activeElement === document.body) $('#world')?.focus({ preventScroll: true });

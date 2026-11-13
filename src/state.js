@@ -1,3 +1,4 @@
+import { normalizeMapHits } from "./map-encounter-progress.js";
 import { solarOrder, requiredPlanets, planets, bodies, patternRegions, starNames } from "./data.js";
 
 // Keep the existing key so an upgrade never starts a second, empty research log.
@@ -21,7 +22,7 @@ export const scenes = [
 ];
 export function freshState() {
   return {
-    version: 2, mapRepairs: [],
+    version: 2, mapRepairs: [], mapHits: {},
     name: "별빛 연구원",
     scene: "home",
     resume: "map",
@@ -328,6 +329,7 @@ export function restore(raw) {
       challengeAnswer: typeof ev.challengeAnswer === "string" ? ev.challengeAnswer.slice(0, 600) : "",
     };
   }
+  s.mapHits = normalizeMapHits(raw.mapHits,stageIds.filter(n=>s.evidence[n]).map(String));
   s.core.angle = bounded(s.core.angle, 0, 360, 15);
   for (const key of Object.keys(s.stats)) s.stats[key] = Math.round(bounded(s.stats[key], 0, 9999, 0));
   for (const key of Object.keys(s.bonus)) s.bonus[key] = s.bonus[key] === "done" ? "done" : "";
