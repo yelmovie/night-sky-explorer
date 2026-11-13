@@ -63,6 +63,21 @@ const poses = {
 };
 export const sprite = (who, pose = 'neutral', cls = '') => { const [col, row] = poses[who][pose] || poses[who].neutral; return `<i class="sprite sprite-${who} ${cls}" style="--col:${col};--row:${row}" aria-hidden="true"></i>`; };
 export const npcLine = (who, text, pose = 'neutral') => `<div class="npc-line npc-${who}"><span class="npc-portrait">${sprite(who, pose)}</span><p><b>${who === 'fox' ? '별여우 연구관' : '달토끼 기록원 루미'}</b>${esc(text)}</p></div>`;
+
+// A matched idle/speaking atlas per character; the renderer never composites two poses.
+const dialoguePortraits = {
+  fox: { name: '별여우 연구관', poses: ['neutral', 'think', 'point', 'cheer'] },
+  rabbit: { name: '달토끼 기록원 루미', poses: ['neutral', 'wave'] },
+};
+export function npcConversation(who, text, { pose = 'neutral', emotion = 'neutral', lineId } = {}) {
+  const speaker = dialoguePortraits[who];
+  const portraits = Object.entries(dialoguePortraits).map(([id, character]) => {
+    const active = id === who;
+    const selectedPose = active && character.poses.includes(pose) ? pose : 'neutral';
+    return `<figure class="dialogue-character ${active ? 'is-active' : 'is-listening'}" data-character="${id}" data-pose="${selectedPose}" data-emotion="${active ? esc(emotion) : 'neutral'}" aria-hidden="true"><div class="dialogue-character-art"><span class="dialogue-portrait" style="--portrait:url('/assets/dialogue/${id}.webp')"></span></div></figure>`;
+  }).join('');
+  return `<section class="npc-conversation" data-line-id="${esc(lineId || '')}" data-speaker="${who}" data-emotion="${esc(emotion)}"><div class="dialogue-cast">${portraits}</div><div class="dialogue-text"><strong class="dialogue-speaker">${speaker.name}</strong><p class="dialogue-utterance"><span class="dialogue-script">${esc(text)}</span></p><span class="dialogue-reading-cue" aria-hidden="true"></span></div></section>`;
+}
 export const kitMeter = s => {
   const count = completedCount(s);
   return `<div class="kit-meter"><span>관측 데이터 확보</span><b>${count} / 5</b><div class="meter" role="progressbar" aria-label="관측 데이터 확보" aria-valuemin="0" aria-valuemax="5" aria-valuenow="${count}"><i style="width:${count * 20}%"></i></div></div>`;
@@ -74,11 +89,11 @@ export function introPanel(step, name) {
   };
   if (step === 1) return {
     title: '별여우 연구관의 의뢰',
-    body: `${npcLine('fox', npc.start, 'think')}<div class="role-card"><small>오늘의 역할</small><strong>신입 별빛 관측 연구원</strong><span>${esc(name)}</span><p>관측하고, 비교하고, 예상하고, 근거를 찾아 기록을 다시 검증해요.</p></div>`,
+    body: `${npcConversation('fox', npc.start, { pose: 'think', emotion: 'thinking', lineId: 'intro-fox' })}<details class="dialogue-extra"><summary>오늘의 역할과 연구 방법</summary><div class="role-card"><small>오늘의 역할</small><strong>신입 별빛 관측 연구원</strong><span>${esc(name)}</span><p>관측하고, 비교하고, 예상하고, 근거를 찾아 기록을 다시 검증해요.</p></div></details>`,
   };
   return {
     title: '연구 키트를 받았어요',
-    body: `${npcLine('rabbit', npc.keeper, 'wave')}<ol class="quest-steps">${chapters.map(chapter => `<li><b>${missionTag(chapter.id)}</b> ${chapter.title}<small>${evidenceTag(chapter.id)} · ${chapter.record}</small></li>`).join('')}</ol><p class="incident-note">다섯 기록을 모으면 중앙 관측 코어에서 마지막 미션이 열려요.</p>`,
+    body: `${npcConversation('rabbit', npc.keeper, { pose: 'wave', emotion: 'welcoming', lineId: 'intro-lumi' })}<details class="dialogue-extra"><summary>연구 키트에 모을 관측 기록 5개</summary><ol class="quest-steps">${chapters.map(chapter => `<li><b>${missionTag(chapter.id)}</b> ${chapter.title}<small>${evidenceTag(chapter.id)} · ${chapter.record}</small></li>`).join('')}</ol><p class="incident-note">다섯 기록을 모으면 중앙 관측 코어에서 마지막 미션이 열려요.</p></details>`,
   };
 }
 const movieScenes = [
@@ -88,7 +103,8 @@ const movieScenes = [
   { at: 13000, caption: '보정 링이 기준에 맞춰지자 코어가 빛나고 천문 돔이 열려요.' },
   { at: 18000, caption: '' },
 ];
-export const MOVIE_LENGTH = 24000;
+// The final line is about 7.5 seconds; give it time to finish before moving focus.
+export const MOVIE_LENGTH = 27000;
 export function movieMarkup(s) {
   const records = chapters.map(chapter => `<figure class="movie-card" style="--i:${chapter.id - 1}">${evidenceVisual(chapter.id, s.evidence[chapter.id]?.data)}<figcaption><small>${evidenceTag(chapter.id)}</small>${chapter.record}<span>${evidenceFact(chapter.id, s.evidence[chapter.id]?.data)}</span></figcaption></figure>`).join('');
   return `<div class="final-movie" data-scene="0">
@@ -106,8 +122,9 @@ export function movieMarkup(s) {
 // Timed playback; reduced motion shows the same scenes one step at a time.
 export function mountMovie(host, { reduced, onEnd, onScene }) {
   const root = host.querySelector('.final-movie'), caption = host.querySelector('.movie-caption');
-  let scene = 0, timers = [], ended = false;
+  let scene = -1, timers = [], ended = false;
   function show(index) {
+    if (scene === index) return;
     scene = index;
     root.dataset.scene = index;
     caption.textContent = movieScenes[index].caption || npc.ending;

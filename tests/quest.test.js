@@ -1,12 +1,45 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import sharp from 'sharp';
+import { fileURLToPath } from 'node:url';
 import { freshState, restore, track, completeStage } from '../src/state.js';
-import { inquiryStyle, evidenceFact, restorePercent } from '../src/quest.js';
+import { inquiryStyle, evidenceFact, restorePercent, npcConversation, introPanel, npc } from '../src/quest.js';
 import { cloudyClose, planetSolved } from '../src/bonus.js';
 import { classificationFeedback } from '../src/learning-flow.js';
 import { bodies, planets } from '../src/data.js';
 import { phase } from '../src/drawing.js';
 
+test('큰 대화는 원문·화자 ID와 두 캐릭터의 유효 상반신을 유지한다', () => {
+  for (const [step, who, lineId, text] of [[1, 'fox', 'intro-fox', npc.start], [2, 'rabbit', 'intro-lumi', npc.keeper]]) {
+    const { body } = introPanel(step, '연구원');
+    assert.ok(body.includes(text));
+    assert.ok(body.includes(`data-line-id="${lineId}"`));
+    assert.ok(body.includes(`data-speaker="${who}"`));
+    assert.equal((body.match(/class="dialogue-character is-active"/g) || []).length, 1);
+    assert.equal((body.match(/class="dialogue-character is-listening"/g) || []).length, 1);
+  }
+  const fallback = npcConversation('rabbit', '없는 자세도 루미로 표시해요.', { pose: 'missing' });
+  assert.match(fallback, /is-active" data-character="rabbit" data-pose="neutral"/);
+  assert.match(fallback, /assets\/dialogue\/rabbit\.webp/);
+});
+
+test('대화 시트 두 프레임은 투명 여백과 같은 앵커를 갖는다', async () => {
+  for (const who of ['fox', 'rabbit']) {
+    const file = fileURLToPath(new URL(`../public/assets/dialogue/${who}.webp`, import.meta.url));
+    const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    assert.equal(info.width, 2 * info.height);
+    for (const frame of [0, 1]) {
+      let visible=0, bottom=0;
+      for(let y=0;y<info.height;y++)for(let x=0;x<info.height;x++){
+        const a=data[(y*info.width+x+frame*info.height)*4+3];
+        if(x<7||x>info.height-8)assert.equal(a,0,`${who} 프레임 경계`);
+        if(a>100){visible++;bottom=y;}
+      }
+      assert.ok(visible>30000);
+      assert.ok(bottom>=info.height-3);
+    }
+  }
+});
 test('탐구 스타일은 행동 기록으로 정해지고 기록이 없어도 하나를 보여 준다', () => {
   assert.equal(inquiryStyle({}).name, '꼼꼼한 관찰자');
   assert.equal(inquiryStyle({ observations: 40, reviews: 1, retries: 1, hints: 4 }).key, 'observer');

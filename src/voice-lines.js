@@ -4,19 +4,19 @@ export const voiceLines = [
     "id": "welcome",
     "speaker": "별여우 연구관",
     "text": "밤하늘 탐험에 온 걸 환영해! 달과 별, 행성을 자세히 살펴보고, 관찰한 특징을 기록하며 우주의 단서를 찾아보자.",
-    "src": "/assets/audio/voices/welcome.mp3"
+    "src": "/assets/audio/voices/el-welcome.mp3"
   },
   {
     "id": "intro-fox",
     "speaker": "별여우 연구관",
     "text": "관측 데이터가 서로 맞지 않아 중앙 돔을 열 수 없어. 직접 관찰해서 기록을 다시 검증해 줄래?",
-    "src": "/assets/audio/voices/intro-fox.mp3"
+    "src": "/assets/audio/voices/el-intro-fox.mp3"
   },
   {
     "id": "intro-lumi",
     "speaker": "달토끼 기록원 루미",
     "text": "나는 기록원 루미야. 네가 만든 관측 기록은 내가 연구 키트에 차곡차곡 보관할게.",
-    "src": "/assets/audio/voices/intro-lumi.mp3"
+    "src": "/assets/audio/voices/el-intro-lumi.mp3"
   },
   {
     "id": "map-1",
@@ -118,31 +118,31 @@ export const voiceLines = [
     "id": "reward-1",
     "speaker": "별여우 연구관",
     "text": "달 표면 기록은 복구됐어. 그런데 여러 날의 기록이 중간에서 끊겨 있어.",
-    "src": "/assets/audio/voices/reward-1.mp3"
+    "src": "/assets/audio/voices/el-reward-1.mp3"
   },
   {
     "id": "reward-2",
     "speaker": "별여우 연구관",
     "text": "달의 변화 기록이 이어졌어. 다음은 이름표가 뒤섞인 행성 자료야.",
-    "src": "/assets/audio/voices/reward-2.mp3"
+    "src": "/assets/audio/voices/el-reward-2.mp3"
   },
   {
     "id": "reward-3",
     "speaker": "별여우 연구관",
     "text": "행성 자료가 다시 정리됐어. 하지만 별과 행성 분류 회로가 아직 근거 없이 판단하고 있어.",
-    "src": "/assets/audio/voices/reward-3.mp3"
+    "src": "/assets/audio/voices/el-reward-3.mp3"
   },
   {
     "id": "reward-4",
     "speaker": "별여우 연구관",
     "text": "이제 분류기는 근거를 확인하고 있어. 마지막으로 북극성 주변 관측 지도를 복구하면 돼.",
-    "src": "/assets/audio/voices/reward-4.mp3"
+    "src": "/assets/audio/voices/el-reward-4.mp3"
   },
   {
     "id": "reward-5",
     "speaker": "별여우 연구관",
     "text": "모든 관측 데이터가 모였어. 연구 결과를 중앙 관측실로 가져와 줘.",
-    "src": "/assets/audio/voices/reward-5.mp3"
+    "src": "/assets/audio/voices/el-reward-5.mp3"
   },
   {
     "id": "kit-progress",
@@ -172,7 +172,7 @@ export const voiceLines = [
     "id": "ending",
     "speaker": "별여우 연구관",
     "text": "연구소가 다시 정확한 밤하늘을 기록하기 시작했어. 이건 네가 직접 관찰하고 검증한 결과야.",
-    "src": "/assets/audio/voices/ending.mp3"
+    "src": "/assets/audio/voices/el-ending.mp3"
   }
 ];
 export const voiceForText = text => voiceLines.find(line => String(text).replace(/\s+/g, " ").includes(line.text.replace(/\s+/g, " ")));

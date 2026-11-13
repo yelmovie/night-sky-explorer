@@ -18,12 +18,14 @@ import { concepts, mountConcept } from './concepts.js';
 import { nextTask, hints } from './companion.js';
 import { getStageAction } from './progression.js';
 import { appInfo, standards, learningObjectives, studentGuide, teacherGuide, sources, abilities, challenges } from './settingsContent.js';
-import { missionTag, evidenceTag, restorePercent, npc, npcLine, kitMeter, inquiryStyle, evidenceFact, evidenceVisual, introPanel, movieMarkup, mountMovie } from './quest.js';
+import { missionTag, evidenceTag, restorePercent, npc, npcLine, npcConversation, kitMeter, inquiryStyle, evidenceFact, evidenceVisual, introPanel, movieMarkup, mountMovie } from './quest.js';
+import { mountNpcDialogue } from './npc-dialogue.js';
 import { bonusQuests, openBonus } from './bonus.js';
 import './quest.css';
 import { createResearchSession } from './session.js';
 import './responsive.css';
 import './scenery-surfaces.css';
+import './npc-dialogue.css';
 
 const app = document.querySelector('#app');
 let storage;
@@ -129,9 +131,19 @@ function dialog(title, body, after, footer = '', back = null) {
   bindActions(element);
   element.showModal();
   after?.(element);
+  const storyMix = element.matches('.story-dialog, .movie-dialog');
+  if (storyMix) sound.setStoryMix(true);
   if (!element.classList.contains('movie-dialog')) {
     const line = voiceForText(element.querySelector('.dialog-body').textContent);
+    if (element.querySelector('.npc-conversation')) {
+      element.classList.add('npc-scene-dialog');
+      modalCleanup = mountNpcDialogue(element, narration, { reduced: reduced(), typewriter: element.classList.contains('story-dialog') });
+    }
     if (line) modalVoiceCleanup = mountNarrationControl(element.querySelector('.dialog-footer'), line.id, narration);
+  }
+  if (storyMix) {
+    const cleanup = modalCleanup;
+    modalCleanup = () => { cleanup(); sound.setStoryMix(false); };
   }
 }
 function showConcept(number, back = null, returnLabel = '탐구로 돌아가기') {
@@ -163,7 +175,7 @@ function showHint() {
 }
 function reward(number) {
   const chapter = chapters[number - 1];
-  dialog(`${evidenceTag(number)} 확보!`, `<section class="reward-summary"><div class="reward-symbol">${icon(chapter.icon, 52)}</div><p class="reward-kicker">${missionTag(number)} 완료 · ${chapter.title}</p><h3>${chapter.record}</h3>${kitMeter(state)}</section><div class="world-change"><b>${icon('spark', 18)} 연구소 변화</b><p>${chapter.worldChange}</p></div>${npcLine('fox', chapter.npc, number === 5 ? 'point' : 'neutral')}`, null, `${button(`개념영상 ${concepts[number].seconds}초 보기 (선택)`, 'reward-video-' + number)}${button('탐구 지도', 'map')}${button(number < 5 ? '다음 미션으로' : completedCount(state) === 5 ? '중앙 관측실로' : '다른 관측 찾기', 'continue-stage-' + number, 'primary')}`);
+  dialog(`${evidenceTag(number)} 확보!`, `${npcConversation('fox', chapter.npc, { pose: number === 5 ? 'cheer' : 'point', emotion: number === 5 ? 'happy' : 'encouraging', lineId: 'reward-' + number })}<details class="dialogue-extra"><summary>${chapter.record} · 연구소의 변화</summary><section class="reward-summary"><div class="reward-symbol">${icon(chapter.icon, 52)}</div><p class="reward-kicker">${missionTag(number)} 완료 · ${chapter.title}</p><h3>${chapter.record}</h3>${kitMeter(state)}</section><div class="world-change"><b>${icon('spark', 18)} 연구소 변화</b><p>${chapter.worldChange}</p></div></details>`, null, `${button(`개념영상 ${concepts[number].seconds}초 보기 (선택)`, 'reward-video-' + number)}${button('탐구 지도', 'map')}${button(number < 5 ? '다음 미션으로' : completedCount(state) === 5 ? '중앙 관측실로' : '다른 관측 찾기', 'continue-stage-' + number, 'primary')}`);
 }
 function showIntro(step = 0, replay = false) {
   const panel = introPanel(step, state.name), last = step === 2;
@@ -183,7 +195,14 @@ function showMovie() {
   dialog('엔딩 · 연구소 복구', movieMarkup(state), element => {
     element.classList.add('movie-dialog');
     const skip = element.querySelector('#movie-skip');
-    movie = mountMovie(element, { reduced: reduced(), onScene(index) { if (index === 4) { modalVoiceCleanup(); modalVoiceCleanup = mountNarrationControl(element.querySelector('.dialog-footer'), 'ending', narration); } }, onEnd() { skip?.remove(); element.querySelector('#movie-done')?.focus({ preventScroll: true }); } });
+    movie = mountMovie(element, {
+      reduced: reduced(),
+      onScene(index) {
+        if (index !== 4) return;
+        modalVoiceCleanup = mountNarrationControl(element.querySelector('.dialog-footer'), 'ending', narration);
+      },
+      onEnd() { skip?.remove(); element.querySelector('#movie-done')?.focus({ preventScroll: true }); },
+    });
     on(skip, 'click', () => movie?.next());
     modalCleanup = () => { movie?.dispose(); movie = null; };
   }, `<button class="btn" id="movie-skip">${reduced() ? '다음 장면' : '건너뛰기'}</button>${preview ? button('시연 닫기', 'close-modal', 'primary', 'id="movie-done"') : button('인증서 받기', 'results', 'primary', 'id="movie-done"')}`, preview ? null : () => go('results'));

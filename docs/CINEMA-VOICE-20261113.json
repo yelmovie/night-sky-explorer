@@ -1,0 +1,20 @@
+{
+  "project": 13,
+  "id": "ending",
+  "speaker": "별여우 연구관",
+  "provider": "ElevenLabs",
+  "model": "eleven_v4",
+  "voiceId": "AjALR5PRxl87zOoe9Q31",
+  "voiceName": "Hun 훈",
+  "flowId": "2jH4R4dghQJyTrB3Y0Ua",
+  "generationId": "LfwrGZwX929Hm9izh0Q8",
+  "generatedTakes": 2,
+  "generationCredits": 118,
+  "text": "연구소가 다시 정확한 밤하늘을 기록하기 시작했어. 이건 네가 직접 관찰하고 검증한 결과야.",
+  "target": "public/assets/audio/voices/el-ending.mp3",
+  "sha256": "0decb9420fe2442661a2a1767bdac7c0eac371db9bdbc85474dcb13684aa1f2a",
+  "durationSeconds": 7.45,
+  "lufs": -15.6,
+  "truePeakDbtp": -3.7,
+  "asr": "Whisper large-v3-turbo Korean; complete, including final syllable; no human listening review"
+}

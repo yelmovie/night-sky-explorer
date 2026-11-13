@@ -182,11 +182,11 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
 .movie-title small { color: var(--quest-mint); letter-spacing: .12em; font-weight: 800; font-size: clamp(13px, 1.1vw, 18px); }
 .movie-title strong { font-family: var(--heading-font); font-weight: 400; font-size: clamp(38px, 5vw, 76px); color: #fff2c4; text-shadow: 0 0 24px #f5cf7b88; line-height: 1.1; }
 .movie-title span { color: #fff6de; font-weight: 700; }
-.scene-restored .npc-line { position: absolute; left: 4vw; bottom: 16vh; width: min(560px, 60vw); }
+.scene-restored .npc-line { position: absolute; left: 4vw; bottom: max(100px, 16dvh); width: min(560px, 60vw); }
 .is-playing[data-scene="4"] .movie-title { animation: quest-rise .9s ease both; }
-.is-playing[data-scene="4"] .scene-restored .npc-line { animation: quest-rise .8s ease 1.2s both; }
+.is-playing[data-scene="4"] .scene-restored .npc-line { animation: quest-rise .45s ease both; }
 .movie-caption { position: absolute; z-index: 3; left: 50%; bottom: 96px; transform: translateX(-50%); width: min(900px, 90vw); margin: 0; padding: 10px 18px; border-radius: 14px; background: #050d18cc; color: #fff4cf; text-align: center; font-size: clamp(18px, 1.5vw, 26px); line-height: 1.45; }
-.final-movie[data-scene="4"] .movie-caption { display: none; }
+.final-movie[data-scene="4"] .movie-caption { width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .movie-progress { position: absolute; z-index: 3; left: 0; right: 0; top: 0; height: 4px; background: #ffffff1a; }
 .movie-progress i { display: block; height: 100%; width: 0; background: var(--quest-gold); }
 .is-playing .movie-progress i { animation: quest-progress var(--movie-length, 24s) linear both; }
@@ -276,6 +276,7 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
   .core-final .calibration { width: min(150px, 24vh); }
   .core-replay { min-height: 76px; }
   .movie-caption { bottom: 82px; }
+  .movie-title { margin-bottom: max(22dvh, 140px); padding: 14px 24px; }
   .map-kit { top: 14px; }
 }
 @media (max-width: 600px) {

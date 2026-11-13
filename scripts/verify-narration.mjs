@@ -43,9 +43,11 @@ async function listen(id){
  else{await control.waitFor();assert.ok((await page.locator('body').textContent()).includes(line.text),'visible text matches '+id);}
  if(id!=='welcome'&&await control.getAttribute('data-state')==='error'){await control.locator('button').click();checks.push(id+' replay button recovered an unavailable autoplay attempt');}
  await page.waitForFunction(id=>window.qaAudioEvents.some(e=>e.id===id&&e.type==='playing'),id,{timeout:20000});
- const during=await page.evaluate(()=>window.qaGains[0]?.gain.value);assert.equal(during,0,'BGM ducked for '+id);
+ const isStory=['intro-fox','intro-lumi','ending'].includes(id);
+ if(isStory)await page.waitForFunction(()=>{const level=window.qaGains[0]?.gain.value;return level>0&&level<.004;});
+ else assert.equal(await page.evaluate(()=>window.qaGains[0]?.gain.value),0,'BGM muted for '+id);
  await page.waitForFunction(id=>window.qaAudioEvents.some(e=>e.id===id&&e.type==='ended'),id,{timeout:22000});
- assert.ok(await page.evaluate(()=>window.qaGains[0]?.gain.value>0),'BGM restored after '+id);
+ await page.waitForFunction(()=>window.qaGains[0]?.gain.value>.007);
  assert.equal(await page.evaluate(()=>window.qaMaxVoices),1);heard.add(id);console.log('PASS',id);checks.push(id+' played to ended with matching text and BGM duck');
 }
 try{

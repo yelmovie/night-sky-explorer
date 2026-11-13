@@ -22,11 +22,16 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
     const fail = () => { if (token !== request) return; stop(); state = { id, status: 'error' }; emit(); };
     audio.addEventListener('ended', finish, { once: true });
     audio.addEventListener('error', fail, { once: true });
-    state = { id, status: 'playing' }; duck(true); emit();
+    const updateStatus = status => { if (token === request && player === audio) { state = { id, status }; emit(); } };
+    audio.addEventListener('playing', () => updateStatus('playing'));
+    audio.addEventListener('waiting', () => updateStatus('loading'));
+    audio.addEventListener('pause', () => updateStatus('paused'));
+    state = { id, status: 'loading' }; duck(true); emit();
     try {
       await audio.play();
       if (token !== request) return false;
       if (disposed || doc.hidden || isMuted()) { stop(); return false; }
+      updateStatus('playing');
       return true;
     } catch { fail(); return false; }
   }
@@ -51,7 +56,7 @@ export function mountNarrationControl(host, id, narration, { autoplay = true, co
   if (compact) status.className = 'sr-only';
   row.append(button, status); host.append(row);
   const unsubscribe = narration.subscribe(state => {
-    const active = state.id === id && state.status === 'playing';
+    const active = state.id === id && ['loading', 'playing'].includes(state.status);
     row.dataset.state = state.id === id ? state.status : 'idle';
     button.textContent = compact ? (active ? '멈춤' : '듣기') : (active ? '음성 멈추기' : '다시 듣기');
     button.setAttribute('aria-label', `${line.speaker} 대사 ${active ? '멈추기' : '다시 듣기'}`);
@@ -59,7 +64,7 @@ export function mountNarrationControl(host, id, narration, { autoplay = true, co
     status.textContent = state.id !== id ? '' : state.status === 'muted' ? '소리를 켜면 들을 수 있어요.' : state.status === 'error' ? '음성을 재생하지 못했어요. 글을 읽고 계속할 수 있어요.' : '';
     button.title = status.textContent || `${line.speaker} 대사`;
   });
-  button.addEventListener('click', () => narration.state.id === id && narration.state.status === 'playing' ? narration.stop() : narration.play(id));
+  button.addEventListener('click', () => narration.state.id === id && ['loading', 'playing'].includes(narration.state.status) ? narration.stop() : narration.play(id));
   if (autoplay) narration.play(id);
   return () => { unsubscribe(); row.remove(); };
 }
