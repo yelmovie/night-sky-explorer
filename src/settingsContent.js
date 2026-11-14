@@ -26,7 +26,7 @@ export const sources = [
   ['북쪽 하늘 지도', 'HYG v4.1 · David Nash · CC BY-SA 4.0 · 별 좌표 13개를 북극 중심으로 투영'],
   ['교육과정', '교육부 고시 제2022-33호 별책 9 · 경기도교육청 초등학교 교육과정 도움자료 부록 2'],
   ['그림·캐릭터', '사용자 제공 AI 이미지와 OpenAI 생성 이미지 · 학습용 재현 그림'],
-  ['글꼴·코드·소리', 'UI 나눔스퀘어 네오 · SIL OFL 1.1 / 영상 Jua · SIL OFL 1.1 / Three.js · MIT / Vite · MIT / 개념영상 효과음 Kenney Interface Sounds · CC0 / 게임 효과음·배경음 자체 합성'],
+  ['글꼴·코드·소리', '화면과 개념 영상 나눔스퀘어 네오 · SIL OFL 1.1 / Three.js · MIT / Vite · MIT / 개념영상 효과음 Kenney Interface Sounds · CC0 / 게임 효과음·배경음 자체 합성'],
   ['개념영상', '직접 작성 SVG 모션그래픽 · sharp + FFmpeg · 무음 영상과 화면 자막'],
 ];
 export const abilities = [
