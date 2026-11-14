@@ -60,7 +60,7 @@ const CUES={
  * only position the drawing and its accessible control. The caller owns save/reset.
  */
 export function mountMapEncounters({
-  host,controls=host,stages,progress={},onSave=()=>{},blocked=()=>false,reduced=()=>false,
+  host,controls=host,stages,canPatrol=()=>true,progress={},onSave=()=>{},blocked=()=>false,reduced=()=>false,
   clearStage=()=>null,requiredFoes=0,art,tone=()=>{},palette='#a855f7',reach=90,contact=22,effect='ring',
 }) {
   const handles=new AbortController(),{signal}=handles;
@@ -176,14 +176,15 @@ export function mountMapEncounters({
       if(foe.hits>=HITS&&now>=Math.max(foe.poseUntil,foe.saidUntil)){foe.el.hidden=true;continue;}
       const dHome=distance(hero,foe.s),patrol=villainPatrol(now,foe.i);
       const animate=!stop&&!calm&&foe.hits<HITS&&now>=foe.poseUntil;
-      const radius=Math.min(34,reach*.40);
+      const radius=Math.min(foe.s.patrolRadius??34,reach*.40);
       // Slow the movement near the learner, then hold the actual position on a hit.
       const span=dHome<=reach*.75?radius*.32:radius;
       if(calm)foe.point=foe.s;
       else if(animate){
         const alpha=foe.lastPatrolAt==null?.06:Math.min(.22,Math.max(.015,(now-foe.lastPatrolAt)/160));
         const target={x:foe.s.x+patrol.x*span,y:foe.s.y+patrol.y*span*.28};
-        foe.point={x:foe.point.x+(target.x-foe.point.x)*alpha,y:foe.point.y+(target.y-foe.point.y)*alpha};
+        const next={x:foe.point.x+(target.x-foe.point.x)*alpha,y:foe.point.y+(target.y-foe.point.y)*alpha};
+        if(canPatrol(next))foe.point=next;
       }
       foe.lastPatrolAt=now;
       const point=project(foe.point);

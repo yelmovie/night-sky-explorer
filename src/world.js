@@ -62,9 +62,16 @@ export function mountWorld(root,state,{onSite,onHint,onStatus,onReady,onError,sa
   const camera=createMapCamera({width:WORLD.width,height:WORLD.height,baseZoom:w=>w<700?1.25:1.35,focusY:.55,reduced:()=>state.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches});
   const completed=state.settings.adminUnlock?[]:chapters.filter(c=>state.evidence[c.id]);
   const encounters=mountMapEncounters({requiredFoes:5,host:viewport,clearStage:()=>restoredSites.filter(id=>id!==0).at(-1),stages:completed.map(c=>{
-    const [x,y]=nodes[siteNodes[c.id]],p=returnPosition(c.id);
-    return encounterStage(c.id-1,c.id,c.place,{x:(x+p.x)/2,y:(y+p.y)/2});
-  }),progress:state.mapHits,onSave:patch=>{state.mapHits={...state.mapHits,...patch};save?.();},blocked,reduced:()=>reduced,tone,reach:90,contact:23,...encounterLook});
+    const route=routeBetween(siteNodes[c.id],'spawn').map(id=>nodes[id]);
+    // Give the returning researcher and Luna their own space at the door.
+    let x=route[0][0], y=route[0][1], left=86;
+    for (const [nx,ny] of route.slice(1)){
+      const dx=nx-x,dy=ny-y,d=Math.hypot(dx,dy);
+      if(d>=left){x+=dx*left/d;y+=dy*left/d;break;}
+      x=nx;y=ny;left-=d;
+    }
+    return {...encounterStage(c.id-1,c.id,c.place,{x,y}),patrolRadius:19};
+  }),progress:state.mapHits,onSave:patch=>{state.mapHits={...state.mapHits,...patch};save?.();},blocked,reduced:()=>reduced,tone,reach:90,contact:23,canPatrol:p=>nearestEdgePoint(p).dist<=29,...encounterLook});
   const heroPose=completed.length?loadEncounterActor('hero'):null,allyPose=completed.length?loadEncounterActor('ally'):null;
   const guardLabels=mapLabelGuard(viewport,'.world-pin','.shell button,#world .world-controls button,#world .activity-action button,#world .map-repair summary');
   function apply(dt=0){
