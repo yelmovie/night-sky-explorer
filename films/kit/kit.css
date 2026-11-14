@@ -1,10 +1,10 @@
 /* 관측 노트 공용 스타일: 크림 노트 + 남색 잉크 + 금색 강조. 하늘 그림은 남색 창 안에만. */
-@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-korean-400.woff2') format('woff2');font-weight:400;unicode-range:U+1100-11FF,U+3130-318F,U+A960-A97F,U+AC00-D7AF,U+D7B0-D7FF}
-@font-face{font-family:"Lab Display";src:url('assets/fonts/jua-latin-400.woff2') format('woff2');font-weight:400;unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+00D7}
+@font-face{font-family:'NanumSquareNeo';src:url('assets/fonts/NanumSquareNeoTTF-bRg.woff2') format('woff2');font-style:normal;font-weight:400;font-display:block}
+@font-face{font-family:'NanumSquareNeo';src:url('assets/fonts/NanumSquareNeoTTF-cBd.woff2') format('woff2');font-style:normal;font-weight:700;font-display:block}
 :root{--ink:#1c2a4a;--paper:#f6f0dd;--grid:#e6dec7;--gold:#d3922a;--sky:#15254a;--teal:#23807a;--soft:#efe2bd;--white:#fffdf6}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
-#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:"Lab Display",sans-serif;color:var(--ink)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:"NanumSquareNeo",sans-serif;color:var(--ink)}
 .full{position:absolute;inset:0}
 .paper{background-color:var(--paper);background-image:linear-gradient(var(--grid) 2px,transparent 2px),linear-gradient(90deg,var(--grid) 2px,transparent 2px);background-size:64px 64px;background-position:-2px -2px}
 .margin-line{position:absolute;left:150px;top:0;bottom:0;width:4px;background:#e9b9a4}

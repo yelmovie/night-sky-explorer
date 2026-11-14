@@ -1,6 +1,6 @@
 // films.data.mjs + kit/ → films/stage-N/ (HyperFrames 프로젝트: index.html + assets).
 // 그림은 게임에 이미 있는 에셋을 잘라 쓴다: 루미(rabbit.png)·별여우(fox.png) 포즈 시트 5×2칸,
-// 달 표면·태양·별빛·행성 WebP, Jua 글꼴, Kenney CC0 효과음.
+// 달 표면·태양·별빛·행성 WebP, 나눔스퀘어 네오 글꼴, Kenney CC0 효과음.
 // 실행: node films/build.mjs  → 그다음 node films/render.mjs
 import { mkdir, copyFile, writeFile, readFile, readdir, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -32,7 +32,7 @@ for (const f of films) {
   await mkdir(img, { recursive: true });
   await mkdir(join(dir, 'assets', 'fonts'), { recursive: true });
   await mkdir(join(dir, 'assets', 'sfx'), { recursive: true });
-  for (const font of ['jua-korean-400.woff2', 'jua-latin-400.woff2', 'Jua-OFL.txt']) await copyFile(join(pub, 'fonts', font), join(dir, 'assets', 'fonts', font));
+  for (const font of ['NanumSquareNeoTTF-bRg.woff2', 'NanumSquareNeoTTF-cBd.woff2', 'NanumSquareNeo-OFL.txt']) await copyFile(join(pub, 'fonts', font), join(dir, 'assets', 'fonts', font));
   for (const s of ['capture', 'discover', 'hint', 'place', 'success']) await copyFile(join(pub, 'audio', `${s}.ogg`), join(dir, 'assets', 'sfx', `${s}.ogg`));
   await copyFile(join(pub, 'audio', 'Kenney-CC0.txt'), join(dir, 'assets', 'sfx', 'Kenney-CC0.txt'));
   await pose(f.cast, POSES[f.cast][f.askPose], join(img, `${f.cast}-ask.webp`));
