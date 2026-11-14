@@ -28,19 +28,6 @@ dialog,dialog.classroom-dialog {background:rgba(19,32,53,.95);backdrop-filter:bl
     display: none;
   }
 
-  #app .map-kit {
-    width: max-content;
-    max-width: calc(100vw - 28px);
-    gap: 8px;
-    padding-inline: 12px;
-    font-size: 14px;
-    white-space: nowrap;
-  }
-
-  #app .map-kit span + span {
-    padding-left: 8px;
-  }
-
   #app .map-repair {
     top: 148px;
     max-height: calc(100dvh - 340px);
@@ -65,3 +52,144 @@ dialog,dialog.classroom-dialog {background:rgba(19,32,53,.95);backdrop-filter:bl
 @media(max-width:600px),(max-height:480px){:root{--card-gap:8px}}
 /* Telescope controls need a compact floating tray, not a full-height blank wall. */
 .learning-v2[data-scene='s1a'] .toolbox{align-self:center;height:auto;min-height:0;max-height:100%;padding:16px}
+
+/* Pulse only the next-destination arrow. The label and tap target stay still. */
+@media (prefers-reduced-motion: no-preference) {
+  .map-next-cue:not(:disabled):not([aria-disabled="true"]) > :is(svg:last-child, .map-direction-cue) {
+    animation: map-direction-pulse 1.45s ease-in-out 4;
+  }
+}
+@keyframes map-direction-pulse {
+  0%, 100% { opacity: 1; translate: 0; }
+  50% { opacity: .55; translate: 4px 0; }
+}
+.map-lock-icon { flex: none; vertical-align: middle; }
+.world-pin .map-lock-icon { margin-inline-end: 6px; }
+
+/* Map controls: transparent frame, readable keys, and a gold destination. */
+#world {
+  --map-control-left: max(16px, env(safe-area-inset-left));
+  --map-control-right: max(16px, env(safe-area-inset-right));
+  --map-control-bottom: max(16px, env(safe-area-inset-bottom));
+  --map-key-size: 52px;
+  --map-key-gap: 7px;
+  --map-cta-height: 60px;
+  --map-cta-font: 20px;
+}
+@media (min-width: 1500px) and (min-height: 850px) {
+  #world { --map-key-size: 64px; --map-key-gap: 10px; --map-cta-height: 66px; --map-cta-font: 22px; }
+}
+@media (max-width: 760px), (max-height: 560px) {
+  #world { --map-key-size: 44px; --map-key-gap: 4px; --map-cta-height: 52px; --map-cta-font: 16px; }
+}
+#world .world-controls {
+  display: grid;
+  grid-template-columns: repeat(3, var(--map-key-size));
+  grid-template-rows: repeat(2, var(--map-key-size));
+  gap: var(--map-key-gap);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+#world .world-controls > button[data-direction] {
+  display: grid;
+  place-items: center;
+  width: var(--map-key-size);
+  min-width: 0;
+  height: var(--map-key-size);
+  min-height: 0;
+  padding: 0;
+  border: 2px solid #617861;
+  border-radius: 12px;
+  background: #fff6dc;
+  color: #233e33;
+  box-shadow: 0 3px 0 #405949, 0 4px 12px #13251b40;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-family: inherit;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1;
+  transition: none;
+  touch-action: none;
+}
+#world .world-controls > button[data-direction]:is(:active, .active, .is-held, [data-map-held], [aria-pressed="true"]) {
+  transform: translateY(2px);
+  filter: none;
+  background: #245b46;
+  color: #fff;
+  box-shadow: 0 1px 0 #263d31;
+}
+#world .world-controls > button[data-direction] svg { width: 24px; height: 24px; }
+#world .activity-action #next-destination {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+  min-height: var(--map-cta-height);
+  margin: 0;
+  padding: 8px clamp(10px, 1.6vw, 22px);
+  border: 2px solid #a8802f;
+  border-radius: 16px;
+  background: linear-gradient(#ffe391, #f4c95f);
+  color: #463813;
+  box-shadow: 0 5px 0 #8c6a24, 0 5px 14px #21170238;
+  font-size: var(--map-cta-font);
+  font-weight: 900;
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
+  white-space: normal;
+}
+@media (hover: hover) and (pointer: fine) {
+  #world .activity-action #next-destination:hover:not(:disabled) { background: linear-gradient(#ffeba9, #f9d473); }
+}
+#world .activity-action #next-destination:disabled { background: #fff3c8; opacity: 1; }
+#world .activity-action #next-destination > svg { flex: none; width: 22px; height: 22px; }
+#world .world-controls > button[data-direction]:focus-visible,
+#world .activity-action #next-destination:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+#world .world-controls {
+  left: var(--map-control-left);
+  bottom: var(--map-control-bottom);
+}
+#world .world-map-tools {
+  left: auto;
+  right: 0;
+  bottom: calc(100% + 12px);
+}
+#world .activity-action {
+  position: absolute;
+  inset: auto var(--map-control-right) var(--map-control-bottom) auto;
+  width: max-content;
+  max-width: calc(100% - var(--map-control-left) - var(--map-control-right) - 3 * var(--map-key-size) - 2 * var(--map-key-gap) - 12px);
+  margin: 0;
+}
+
+#world .world-map-tools .btn {
+  background: #fff6dc;
+  color: #233e33;
+  border: 2px solid #617861;
+  border-radius: 12px;
+  box-shadow: 0 3px 0 #405949;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+#world .world-map-tools .btn[aria-pressed="true"] {
+  background: #245b46;
+  color: #fff;
+  border-color: #123e2e;
+}
+#world .world-map-tools .btn:focus-visible {
+  outline: 3px solid #ffce58;
+  outline-offset: 2px;
+}

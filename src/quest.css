@@ -56,10 +56,7 @@ dialog.story-dialog { width: min(880px, calc(100vw - 40px)); }
 /* Companion and map research-kit buttons */
 .kit-button { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 6px 14px; border-radius: 16px; border: 1px solid #c6b17d; background: #1b3a52f2; color: #fff1cb; font: 700 var(--classroom-small)/1.2 inherit; white-space: nowrap; cursor: pointer; }
 .kit-button b { color: var(--quest-gold); font-family: var(--heading-font); font-weight: 400; }
-.map-kit { position: fixed; z-index: 15; top: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 6px 18px; border-radius: 999px; border: 1px solid #c6b17d; background: #102538e6; color: #f4ecd6; font-size: var(--classroom-small); font-weight: 700; box-shadow: 0 6px 16px #04101f66; cursor: pointer; }
-.map-kit b { color: var(--quest-gold); }
-.map-kit span + span { padding-left: 12px; border-left: 1px solid #5d7c8a; }
-@media (hover: hover) and (pointer: fine) { .kit-button:hover, .map-kit:hover { border-color: var(--quest-gold); } }
+@media (hover: hover) and (pointer: fine) { .kit-button:hover { border-color: var(--quest-gold); } }
 
 /* Research kit dialog */
 .kit-list { display: grid; gap: 10px; margin-top: 16px; }
@@ -277,14 +274,12 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
   .core-replay { min-height: 76px; }
   .movie-caption { bottom: 82px; }
   .movie-title { margin-bottom: max(22dvh, 140px); padding: 14px 24px; }
-  .map-kit { top: 14px; }
 }
 @media (max-width: 600px) {
   .kit-button { padding: 6px 10px; }
   .kit-button span { display: none; }
 }
 @media (max-width: 900px) and (orientation: portrait) {
-  .map-kit { top: 84px; font-size: 15px; }
   .core-final .core-board { position: static; grid-template-columns: 1fr; }
   .movie-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .movie-card:last-child { grid-column: 1 / -1; }

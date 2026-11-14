@@ -390,7 +390,7 @@ function render() {
       },
     });
     // 지도 복구 작업대: 탐구를 마친 구역만 직접 복구(보상 상호작용, 학습 판정과 분리). 교사 시연은 저장하지 않는다.
-    mapScreen.mountRepair($('#world'), { state, save: persist, kind: 'focus', preview: state.settings.adminUnlock, available: chapters.filter(c => state.settings.adminUnlock || state.evidence[c.id]).map(c => ({ id: c.id - 1, label: c.place })) });
+    if (completedCount(state)>0 || state.settings.adminUnlock) mapScreen.mountRepair($('#world'), { state, save: persist, kind: 'focus', preview: state.settings.adminUnlock, available: chapters.filter(c => state.settings.adminUnlock || state.evidence[c.id]).map(c => ({ id: c.id - 1, label: c.place })) });
     cleanup = () => world.dispose();
   }
   if (state.scene === 'core') mountCalibration();

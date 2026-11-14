@@ -860,7 +860,4 @@ dialog::backdrop { background: #06101dd1; backdrop-filter: blur(4px); }
 .world-viewport.hand-on{cursor:grab}.world-viewport.grabbing{cursor:grabbing}.world-terrain{pointer-events:none;user-select:none}
 @media(max-width:700px){.world-map-tools{left:12px;bottom:132px}}
 
-#world .world-map-tools{left:auto;right:0;bottom:calc(100% + 12px)}
-#world .activity-action{position:absolute;max-width:calc(100% - 176px)}
 .world-pin[data-map-label-covered]:not(:focus-visible){opacity:0;pointer-events:none}
-@media(max-width:520px){#world .world-pin{white-space:normal;max-width:116px}}
