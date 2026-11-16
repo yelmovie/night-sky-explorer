@@ -93,3 +93,44 @@
 .learning-v2 .sky-body:nth-child(6) .star-glow { animation-delay: -1.7s; }
 @keyframes star-twinkle { 50% { transform: scale(1.5); opacity: .82; } }
 @media (prefers-reduced-motion: reduce) { .learning-v2 .star-glow { animation: none; } }
+
+/* Stage-style scenes: the chapter room is the stage, not a dark box on top of it. */
+#app .learning-v2 .experiment-zone {
+  background: radial-gradient(ellipse 70% 62% at 50% 48%, #071328b3 0%, #0a1a3266 58%, #0a1a3214 100%);
+  border: 1px solid #ffffff1f; box-shadow: none; backdrop-filter: blur(1.5px);
+}
+#app .learning-v2[data-scene^='s5'] .experiment-zone { background: radial-gradient(ellipse 80% 70% at 50% 48%, #050d1fe0 0%, #071328b8 65%, #07132866 100%); }
+#app .learning-v2 .activity-heading h1 {
+  display: inline-block; max-width: min(92%, 900px); padding: 6px 24px; border-radius: 999px;
+  background: #0a1830c2; border: 1px solid #ffe7b366; box-shadow: 0 8px 22px #02081a55; backdrop-filter: blur(6px);
+}
+#app .learning-v2 .lesson-concept { text-shadow: 0 1px 6px #000c; }
+
+/* Solar order: slots sit on one golden orbit line instead of tall empty columns. */
+#app .learning-v2[data-scene='s3b'] .order-slots { align-items: center; align-content: center; background: linear-gradient(90deg, transparent, #f7d17b66 6%, #f7d17b66 94%, transparent) center / 100% 3px no-repeat; }
+#app .learning-v2[data-scene='s3b'] .order-slots .answer-target { height: auto; min-height: 150px; max-height: 200px; align-self: center; border-radius: 22px; background: #0a1a32c4; }
+#app .learning-v2[data-scene='s3b'] .order-slots .answer-target:first-child { background: radial-gradient(circle at 50% 50%, #ffb44a55, #0a1a32c4 70%); }
+#app .learning-v2[data-scene='s3b'] .order-slots .answer-target.is-correct { background: #1d4a3fd9; }
+@media (max-width: 899px), (max-height: 620px) { #app .learning-v2[data-scene='s3b'] .order-slots .answer-target { min-height: 80px; max-height: none; } }
+
+/* Short tablet/whiteboard heights: keep every choice and its feedback inside the card. */
+@media (max-height: 700px) {
+  #app .learning-v2 .toolbox { padding: 10px 12px; gap: 5px; }
+  #app .learning-v2 .toolbox .sentence-chip,
+  #app .learning-v2 .toolbox .feature-choices .choice-card { min-height: 38px; padding: 4px 10px; font-size: 15px; line-height: 1.25; box-shadow: 0 2px 0 #d9c79b; }
+  .reflection-choices { gap: 6px; }
+  .reflection-choices .choice-row { gap: 4px; }
+  .reflection-choices legend { font-size: 15px; margin-bottom: 2px; }
+  .reflection-choices .inline-feedback { padding: 3px 8px; font-size: 14px; }
+  .learning-v2 .feature-choices { gap: 5px; margin-bottom: 4px; }
+  #app .learning-v2[data-scene='s3a'] .toolbox .btn { min-height: 40px; margin-bottom: 0; }
+  #app .learning-v2[data-scene='s5b'] .toolbox .reference-name, #app .learning-v2[data-scene='s5b'] .toolbox .model-note { margin: 0; font-size: 14px; }
+  #app .learning-v2[data-scene='s5b'] .toolbox > .btn { min-height: 40px; margin-bottom: 0; }
+  .learning-v2 .drag-tip { padding: 6px 10px; font-size: 15px; }
+}
+@media (max-height: 700px) {
+  #app .learning-v2[data-scene='s2b'] .toolbox .choice-grid .btn,
+  #app .learning-v2[data-scene='s2b'] .toolbox .phase-comparison-actions .btn { min-height: 36px; padding: 3px 10px; font-size: 15px; margin: 0; }
+  #app .learning-v2[data-scene='s2b'] .toolbox input[type='range'] { min-height: 30px; height: 30px; }
+  #app .learning-v2[data-scene='s2b'] .toolbox { gap: 4px; }
+}

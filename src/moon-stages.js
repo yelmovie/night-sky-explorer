@@ -68,7 +68,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
         <p class="model-note">우리나라에서 본 모양을 단순하게 나타냈어요 · 학습용 날짜</p>`;
       tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}
 
-        ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'primary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}`;
+        ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'secondary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}`;
       break;
     }
     case 's2b': {

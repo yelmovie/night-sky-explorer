@@ -20,6 +20,21 @@ const learn = action => page.locator(`[data-learning="${action}"]`).click();
 const stored = () => page.evaluate(key => JSON.parse(localStorage.getItem(key)), SAVE_KEY);
 const scene = name => page.locator(`[data-scene="${name}"]`).waitFor();
 const nextActivity = () => page.locator('#stage-next').click();
+const roundOpens = number => page.waitForFunction(n => document.querySelector(`[data-learning="round-${n}"]`)?.getAttribute('aria-pressed') === 'true', number);
+async function tapMoon(point) {
+  const [x, y] = point.split('-').map(Number), box = await page.locator('#surface-moon').boundingBox();
+  await page.mouse.click(box.x + box.width * x / 100, box.y + box.height * y / 100);
+}
+async function centerMoon() {
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const { x, y } = (await stored()).drafts.moon;
+    if (Math.abs(x) <= 12 && Math.abs(y) <= 12) return;
+    const box = await page.locator('#scope-drag').boundingBox(), cx = box.x + box.width / 2, cy = box.y + box.height / 2;
+    await page.mouse.move(cx, cy); await page.mouse.down();
+    await page.mouse.move(cx - x * box.width / 100, cy - y * box.height / 100, { steps: 10 }); await page.mouse.up();
+  }
+  throw new Error('moon was not centred by dragging');
+}
 async function setRange(id, value) { await page.locator('#' + id).evaluate((element, value) => { element.value = value; element.dispatchEvent(new Event('input', { bubbles: true })); }, value); }
 async function drag(source, target, touchscreen = false) {
   const first = await source.boundingBox(), last = await target.boundingBox();
@@ -40,6 +55,9 @@ async function complete(number) {
   await click('reward-video-' + number); await page.waitForFunction(() => document.querySelector('video')?.readyState >= 2);
   await page.keyboard.press('Escape'); await page.locator('[data-action="reward-video-' + number + '"]').waitFor();
   await click('continue-stage-' + number);
+  // Completion shows the restored map first; the next destination is one obvious button.
+  await page.locator('#next-destination, .core-v3').first().waitFor();
+  if (await page.locator('#next-destination').count()) await page.locator('#next-destination').click();
   if (number < 5) await scene(`s${number + 1}a`); else await page.locator('.core-v3').waitFor();
   if (number === 5) { await page.locator('.final-report').waitFor(); await page.locator('.dialog-footer [data-action="close-modal"]').click(); }
   pass('Stage ' + number + ': real completion, optional concept, direct continuation');
@@ -56,8 +74,8 @@ try {
   await page.locator('#next-destination').click(); await scene('s1a');
   assert.equal(await page.locator('#enter-room').count(), 0);
   pass('Unfinished map destination enters directly without an entry confirmation');
-  for (let count = 0; count < 4; count++) await learn('pan-left');
-  for (let count = 0; count < 2; count++) await learn('pan-down');
+  assert.equal(await page.locator('[data-learning^="pan-"]').count(), 0);
+  await centerMoon();
   await setRange('moon-focus', 72); await setRange('moon-zoom', 1.5); await learn('capture-moon');
   await setRange('moon-zoom', 2); await learn('capture-moon');
   await page.setViewportSize({ width: 375, height: 812 });
@@ -66,24 +84,24 @@ try {
   assert.equal(await page.evaluate(() => window.scrollY), 0);
   pass('A new mobile activity starts at the top after continuing from the bottom');
   await page.setViewportSize({ width: 1280, height: 800 });
-  for (const point of ['26-27', '67-29']) await learn('spot-' + point);
-  await page.locator('#moon-observation').fill('밝은 부분과 어두운 부분의 구덩이 모양이 달라요.');
+  for (const point of ['26-27', '67-29']) await tapMoon(point);
+  await learn('pick-look-same');
+  assert.equal((await stored()).drafts.moon.comparisons[0].observation, '', 'a wrong sentence is not recorded');
+  await learn('pick-look-crater');
   const firstComparison = (await stored()).drafts.moon.comparisons[0];
   await page.reload(); await scene('s1b');
   assert.deepEqual((await stored()).drafts.moon.comparisons[0], firstComparison);
-  await nextActivity();
-  assert.equal(await page.locator('[data-learning="round-1"]').getAttribute('aria-pressed'), 'true');
-  for (const point of ['32-68', '69-65']) await learn('spot-' + point);
-  await page.locator('#moon-observation').fill('두 곳의 밝기와 구덩이 모습을 비교했어요.');
+  await roundOpens(1);
+  for (const point of ['32-68', '69-65']) await tapMoon(point);
+  await learn('pick-look-shade');
   pass('Partial observations survive reload; primary action opens the unfinished comparison');
   await complete(1);
-  await learn('play-time'); await page.waitForTimeout(1000); await learn('play-time');
-  pass('Time playback starts and pauses');
+  assert.equal(await page.locator('[data-learning="play-time"]').count(), 0);
+  pass('No automatic playback can observe on the student\'s behalf');
   for (const day of [3, 7, 10, 17, 21, 25]) {
     const before = (await stored()).drafts.phases.captures;
     await learn('seek-day-' + day);
-    assert.deepEqual((await stored()).drafts.phases.captures, before, 'Choosing a day must not create evidence');
-    await learn('capture-phase');
+    assert.deepEqual((await stored()).drafts.phases.captures, [...before, day], 'One tap on a day records that moon once');
   }
   const phaseCaptures = (await stored()).drafts.phases.captures;
   assert.deepEqual([...phaseCaptures].sort((a, b) => a - b), [3, 7, 10, 17, 21, 25]);
@@ -100,21 +118,22 @@ try {
     await setRange('prediction-amount', round ? 45 : 90);
     await learn('overlay-phase'); await learn('overlay-phase');
     assert.deepEqual((await stored()).drafts.phases.predictions[day].original, firstPrediction);
-    await page.locator('#phase-reflection').fill('기록을 겹쳐 보니 밝은 부분의 크기가 예상과 달라요.');
-    if (!round) { await nextActivity(); assert.equal(await page.locator('[data-learning="round-1"]').getAttribute('aria-pressed'), 'true'); }
+    if (!round) { await learn('pick-size-bigger'); assert.equal((await stored()).drafts.phases.predictions[day].reflection, ''); }
+    await learn('pick-size-similar'); await learn('pick-side-same-side');
+    assert.ok((await stored()).drafts.phases.predictions[day].reflection.length > 3);
+    if (!round) await roundOpens(1);
   }
-  pass('Date selection preserves evidence; explicit capture records once; comparison preserves the initial prediction');
+  pass('One tap records each day once; checked sentence choices; comparison preserves the initial prediction');
   await complete(2);
   await learn('planet-mercury');
-  await page.locator('#planet-feature').selectOption({ label: planets[1].feature });
+  await learn('feature-1');
   assert.equal((await stored()).drafts.planets.records.mercury, undefined);
   // Leave in the same browser turn, before the delayed advance can fire.
   // Separate protocol calls can exceed the 900ms delay on a busy QA machine.
-  await page.locator('#planet-feature').evaluate((select, feature) => {
-    select.value = [...select.options].find(option => option.textContent === feature).value;
-    select.dispatchEvent(new Event('change', { bubbles: true }));
+  await page.evaluate(() => {
+    document.querySelector('[data-learning="feature-0"]').click();
     document.querySelector('[data-action="home"]').click();
-  }, planets[0].feature);
+  });
   await page.locator('.home-v2').waitFor(); await page.waitForTimeout(1200);
   assert.equal((await stored()).drafts.planets.records.mercury.feature, planets[0].feature);
   assert.equal((await stored()).scene, 'home');
@@ -122,7 +141,7 @@ try {
   await click('start'); await scene('s3a');
   for (const planet of planets.slice(1, 6)) {
     await learn('planet-' + planet.id);
-    await page.locator('#planet-feature').selectOption({ label: planet.feature });
+    await learn('feature-' + planets.indexOf(planet));
     await page.waitForTimeout(1200);
     assert.equal((await stored()).drafts.planets.records[planet.id].feature, planet.feature);
     if (planet.id === 'venus') await page.waitForFunction(key => JSON.parse(localStorage.getItem(key)).drafts.planets.selected === 'earth', SAVE_KEY);
@@ -149,14 +168,13 @@ try {
   pass('All nine solar pieces and eight groups use pointer drag, including a touch drag');
   await complete(3);
   await learn('light-toggle'); assert.equal(await page.locator('[data-learning="light-toggle"]').getAttribute('aria-pressed'), 'true');
-  for (const round of [0, 1]) {
-    for (const body of bodies.slice(round * 4, round * 4 + 4)) {
-      await learn('body-' + body.id);
-      assert.equal(await page.locator('dialog[open]').count(), 0);
-      assert.ok((await stored()).drafts.classification.viewed.includes(body.id));
-    }
-    await nextActivity();
+  assert.equal(await page.locator('.sky-body').count(), 8);
+  for (const body of bodies) {
+    await learn('body-' + body.id);
+    assert.equal(await page.locator('dialog[open]').count(), 0);
+    assert.ok((await stored()).drafts.classification.viewed.includes(body.id));
   }
+  await nextActivity();
   await scene('s4b');
   const firstBody = bodies[0];
   await learn('kind-' + (firstBody.kind === 'star' ? 'planet' : 'star')); await learn('reason-color');
@@ -183,8 +201,9 @@ try {
       const star = page.locator(`[data-star="${id}"]`);
       if (!round && !index) { await star.focus(); await page.keyboard.press('Enter'); } else await star.click();
     }
-    await nextActivity();
+    if (!round) await roundOpens(1);
   }
+  await nextActivity();
   await scene('s5b');
   for (const [round, region] of Object.values(patternRegions).entries()) {
     await drag(page.locator(`[data-star="${region.stars[0]}"]`), page.locator(`[data-star="${region.stars[1]}"]`));
@@ -193,8 +212,10 @@ try {
     await page.locator(`[data-star="${region.stars[2]}"]`).click();
     const key = Object.keys(patternRegions)[round];
     assert.equal((await stored()).drafts.pattern.cases[key].lines.length, 2);
-    await learn('compare-pattern'); await page.locator('#pattern-reflection').fill('같은 별을 다른 선으로 이어도 별의 위치는 같아요.');
-    if (!round) await nextActivity();
+    await learn('compare-pattern');
+    await learn('pick-idea-move'); assert.equal((await stored()).drafts.pattern.cases[key].reflection, '');
+    await learn('pick-match-all'); await learn('pick-idea-stay');
+    if (!round) await roundOpens(1);
   }
   pass('Keyboard star observation and continuous star lines without reselecting the shared endpoint');
   await complete(5);
