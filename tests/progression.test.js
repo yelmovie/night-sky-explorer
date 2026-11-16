@@ -49,11 +49,12 @@ test('핵심 조사와 순서가 맞아야 완료되고 선택 탐구에서 순�
   assert.equal(getStageAction(state, 1).round, 0);
 });
 
-test('천체 자료 네 개를 읽으면 다른 하늘로, 여덟 개를 읽으면 다음 활동으로 안내한다', () => {
+test('천체 자료 여덟 개를 한 화면에서 모두 읽어야 다음 활동으로 안내한다', () => {
   const state = freshState();
   state.scene = 's4a';
   state.drafts.classification.viewed = bodies.slice(4).map(body => body.id);
-  assert.equal(getStageAction(state, 1).round, 0);
+  assert.equal(getStageAction(state, 1).round, undefined);
+  assert.equal(getStageAction(state, 1).disabled, true);
   state.drafts.classification.viewed = bodies.map(body => body.id);
   assert.equal(getStageAction(state, 1).action, 'next');
   assert.equal(getStageAction(state, 1).disabled, false);

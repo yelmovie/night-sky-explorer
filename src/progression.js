@@ -33,10 +33,6 @@ export function getStageAction(state, round = 0) {
       done = [solarOrder.every((id, index) => drafts.planets.order[index] === id), true];
       labels = ['행성 순서 맞추기', '선택 탐구'];
       break;
-    case 's4a':
-      done = [0, 1].map(group => bodies.slice(group * 4, group * 4 + 4).every(body => drafts.classification.viewed.includes(body.id)));
-      labels = ['천체 묶음 하나 살펴보기', '천체 묶음 둘 살펴보기'];
-      break;
     case 's5a':
       done = regions.map(region => patternRegions[region].stars.filter(id => drafts.pattern.observed.includes(id)).length >= 3);
       labels = ['위쪽 별 무리로', '아래쪽 별 무리로'];
@@ -59,12 +55,11 @@ export function getStageAction(state, round = 0) {
 export function getLearningGuide(state, ui) {
   const round = ui.round || 0, d = state.drafts;
   const next = getStageAction(state, round);
-  if (next && !next.disabled) return { target: '#stage-next', text: next.round === undefined ? `준비됐어요! ‘${next.label}’를 눌러요.` : `이제 ‘${next.label}’를 눌러요.` };
+  if (next && !next.disabled) return { target: '#stage-next', text: next.round === undefined ? `준비됐어요! ‘${next.label}’를 눌러요.` : (state.scene === 's3b' ? `이제 ‘${next.label}’를 눌러요.` : '잘했어요! 곧 다음 묶음으로 넘어가요.') };
   switch (state.scene) {
     case 's1a': {
       const m = d.moon;
-      if (Math.abs(m.x) > 12) return { target: `[data-learning="pan-${m.x > 0 ? 'left' : 'right'}"]`, text: '방향 버튼으로 달을 가운데에 놓아요.' };
-      if (Math.abs(m.y) > 12) return { target: `[data-learning="pan-${m.y > 0 ? 'up' : 'down'}"]`, text: '방향 버튼으로 달을 가운데에 놓아요.' };
+      if (Math.abs(m.x) > 12 || Math.abs(m.y) > 12) return { target: '#scope-drag', text: '달을 손가락으로 끌어 가운데 원에 놓아요.' };
       if (Math.abs(m.focus - 72) > 12) return { target: '#moon-focus', text: '초점 막대로 달을 선명하게 맞춰요.' };
       const sameZoom = m.photos.some((p, index) => index !== round && Math.abs(p.zoom - m.zoom) < .09);
       if (!photoReady(m) || sameZoom) return { target: '#moon-zoom', text: '배율 막대를 움직여 크기를 바꿔요.' };
@@ -74,24 +69,25 @@ export function getLearningGuide(state, ui) {
     case 's1b':
       return d.moon.comparisons[round].spots.length < 2
         ? { target: '.surface-targets', text: '서로 다른 위치 두 곳을 눌러요.' }
-        : { target: '#moon-observation', text: '두 그림에서 발견한 차이를 써요.' };
+        : { target: '.reflection-choices', text: '두 확대 그림을 비교하고 맞는 문장을 골라요.' };
     case 's2a': {
-      if (!d.phases.captures.includes(d.phases.day)) return { target: '#capture-phase', text: `${d.phases.day}일째 달을 보고 ‘이 모습 기록’을 눌러요.` };
       const day = [3, 7, 10, 17, 21, 25].find(value => !d.phases.captures.includes(value));
-      return { target: `[data-learning="seek-day-${day}"]`, text: `잘 담았어요! 다음은 ${day}일째를 눌러요.` };
+      if (day === undefined) return { target: '#capture-phase', text: '막대로 다른 날도 살펴보고 담아 봐요.' };
+      return { target: `[data-learning="seek-day-${day}"]`, text: d.phases.captures.length ? `잘 담았어요! 이번엔 ‘${day}일째’를 눌러요.` : `‘${day}일째’를 눌러 그날 달을 담아요.` };
     }
     case 's2b':
       return d.phases.predictions[round ? 24 : 14].revealed
-        ? { target: '#phase-reflection', text: '예상과 자료를 비교하고 생각을 써요.' }
+        ? { target: '.reflection-choices', text: '겹친 그림을 보고 맞는 문장을 하나씩 골라요.' }
         : { target: '[data-learning="reveal-phase"]', text: '밝은 부분을 예상하고 ‘예상 저장 · 관측’을 눌러요.' };
     case 's3a':
-      return { target: '#planet-feature', text: `${planets.find(p => p.id === d.planets.selected)?.name}의 그림을 보고 특징을 골라요.` };
+      return { target: '#planet-feature', text: `${planets.find(p => p.id === d.planets.selected)?.name}의 그림을 보고 특징 카드를 눌러요.` };
     case 's3b':
       return ui.piece
         ? { target: round ? '.group-targets' : '.order-slots', text: round ? '조사 자료를 보고 어울리는 무리를 눌러요.' : '조사 자료를 보고 놓을 자리를 눌러요.' }
         : { target: '.piece-tray', text: '아래에서 놓고 싶은 천체를 골라요.' };
     case 's4a': {
-      const body = bodies.slice(round * 4, round * 4 + 4).find(item => !d.classification.viewed.includes(item.id));
+      const body = bodies.find(item => !d.classification.viewed.includes(item.id));
+      if (!body) return { target: '#stage-next', text: '여덟 천체를 모두 살펴봤어요.' };
       return { target: `[data-learning="body-${body.id}"]`, text: `‘${body.name}’을 눌러 빛이 어디서 오는지 봐요.` };
     }
     case 's4b': {
@@ -105,7 +101,7 @@ export function getLearningGuide(state, ui) {
     case 's5b': {
       const card = d.pattern.cases[regions[round]];
       if (card.lines.length < 2) return { target: '#star-view', text: '별을 차례로 눌러 나만의 선 두 개를 이어요.' };
-      if (card.original) return { target: '#pattern-reflection', text: '내 선과 기준선을 비교해 같은 점·다른 점을 써요.' };
+      if (card.original) return { target: '.reflection-choices', text: '내 선과 노란 기준선을 비교하고 맞는 문장을 골라요.' };
       return { target: '[data-learning="compare-pattern"]', text: '‘패턴 저장 · 기준 비교’를 눌러요.' };
     }
     default: return null;

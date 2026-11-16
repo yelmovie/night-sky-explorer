@@ -28,6 +28,7 @@ import { createResearchSession } from './session.js';
 import './responsive.css';
 import './scenery-surfaces.css';
 import './npc-dialogue.css';
+import './flow-refresh.css';
 
 const app = document.querySelector('#app');
 let storage;

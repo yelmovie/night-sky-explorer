@@ -20,16 +20,14 @@ test('모든 학습 화면은 성취기준·핵심 개념·구체적인 다음 �
   assert.equal(Object.keys(pageConcepts).length, 10);
 });
 
-test('날짜 선택 후 기록 버튼을 안내하고, 저장 뒤에는 다음 미관찰 날짜로 안내한다', () => {
+test('달 변화 관찰은 아직 담지 않은 날짜 버튼 하나를 차례로 안내한다', () => {
   const state = freshState();
   state.scene = 's2a';
   state.drafts.phases.day = 3;
-  assert.equal(getLearningGuide(state, { round: 0 }).target, '#capture-phase');
-  assert.match(getLearningGuide(state, { round: 0 }).text, /이 모습 기록/);
+  assert.equal(getLearningGuide(state, { round: 0 }).target, '[data-learning="seek-day-3"]');
   state.drafts.phases.captures = [3];
   assert.equal(getLearningGuide(state, { round: 0 }).target, '[data-learning="seek-day-7"]');
-  assert.ok(hints(state).some(text => text.includes('이 모습 기록')));
-  assert.ok(hints(state).every(text => !text.includes('바로 담겨') && !text.includes('함께 해요')));
+  assert.ok(hints(state).some(text => text.includes('날짜 버튼')));
 });
 
 test('본 천체를 반복해서 빛 가리기로 안내하지 않고 아직 안 본 자료를 안내한다', () => {

@@ -1,0 +1,95 @@
+/* 2026-11-16 flow refresh: fewer taps, chapter rooms, panels that fit their content. */
+
+/* Each chapter gets its own room instead of one shared observatory picture. */
+#app .learning-v2 .room-bg { background-image: linear-gradient(#08142a33, #0a1a3055), var(--room-image, url('/assets/observatory.webp')); background-size: cover; background-position: center; }
+#app .learning-v2[data-scene^='s1'] { --room-image: url('/assets/rooms/ch1-moon-deck.webp'); }
+#app .learning-v2[data-scene^='s2'] { --room-image: url('/assets/rooms/ch2-time-archive.webp'); }
+#app .learning-v2[data-scene^='s3'] { --room-image: url('/assets/rooms/ch3-planet-lab.webp'); }
+#app .learning-v2[data-scene^='s4'] { --room-image: url('/assets/rooms/ch4-starlight-deck.webp'); }
+#app .learning-v2[data-scene^='s5'] { --room-image: url('/assets/rooms/ch5-north-overlook.webp'); }
+
+/* The tool card hugs its content so the room stays visible around it. */
+#app .learning-v2 .toolbox {
+  align-self: center; height: auto; max-height: 100%; overflow-y: auto; justify-content: flex-start;
+  border-radius: 24px; border: 1px solid #ffe7b399;
+  background: #fff9eeeb; box-shadow: 0 18px 44px #02081a66, inset 0 1px 0 #ffffffb3;
+}
+#app .learning-v2 .experiment-zone { border-radius: 24px; }
+
+/* Visible keyboard-only helpers (the moon itself is the touch target). */
+.sr-only-focusable:not(:focus-within) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+.learning-v2 .drag-tip { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; padding: 10px 14px; border-radius: 16px; background: #e7f1ec; color: #2a5148; font-weight: 700; line-height: 1.4; }
+.learning-v2 .drag-tip svg { flex: none; transform: rotate(-45deg); }
+.learning-v2 .scope-v2 { cursor: grab; touch-action: none; }
+.learning-v2 .scope-v2:active { cursor: grabbing; }
+
+/* Sentence choices replace typing on tablets. */
+.reflection-choices { display: grid; gap: 10px; margin-top: 4px; }
+.reflection-choices .choice-row { display: flex; flex-direction: column; align-items: stretch; gap: 6px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.reflection-choices legend { margin-bottom: 4px; padding: 0; color: #38516a; font-weight: 800; font-size: 17px; }
+#app .learning-v2 .toolbox .sentence-chip,
+#app .learning-v2 .toolbox .feature-choices .choice-card {
+  width: 100% !important; max-width: none; min-height: 48px; margin: 0; padding: 8px 14px; border-radius: 16px; text-align: left; justify-content: flex-start;
+  white-space: normal; line-height: 1.35; font-size: 18px; font-weight: 600;
+  color: #24394c; background: #fffdf7; border: 2px solid #e2d3ae; box-shadow: 0 3px 0 #d9c79b;
+  transition: transform .12s ease, background-color .15s ease, border-color .15s ease;
+}
+#app .learning-v2 .toolbox .sentence-chip:active,
+#app .learning-v2 .toolbox .feature-choices .choice-card:active { transform: translateY(2px); box-shadow: 0 1px 0 #d9c79b; }
+#app .learning-v2 .toolbox .is-right { background: #ddf3e6; border-color: #57a37e; box-shadow: 0 3px 0 #57a37e; color: #18452f; }
+#app .learning-v2 .toolbox .is-wrong { background: #fff0dc; border-color: #d99a4e; box-shadow: 0 3px 0 #d99a4e; color: #6a4214; animation: chip-shake .35s ease; }
+.reflection-choices .inline-feedback { margin: 0; }
+@keyframes chip-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+.learning-v2 .feature-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.learning-v2[data-scene='s3a'] .toolbox .field-label { font-size: 19px; color: #24394c; }
+
+/* 6-day moon route: each stop is now a single tap that records. */
+.learning-v2[data-scene='s2a'] .discovery-stops button { border-radius: 16px; transition: transform .12s ease; }
+.learning-v2[data-scene='s2a'] .discovery-stops button:active { transform: scale(.96); }
+.learning-v2[data-scene='s2a'] .discovery-stops button.discovered { animation: stop-pop .4s ease; }
+@keyframes stop-pop { 50% { transform: scale(1.06); } }
+
+/* Prediction moons stay inside their own card. */
+.learning-v2[data-scene='s2b'] .prediction-card { container-type: size; overflow: hidden; }
+.learning-v2[data-scene='s2b'] .prediction-board:not(.is-overlay) .prediction-visual { width: min(100cqw - 12px, 100cqh - 36px); height: auto; aspect-ratio: 1; }
+.learning-v2[data-scene='s2b'] .prediction-board.is-overlay { container-type: size; overflow: hidden; }
+.learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-visual { width: min(100cqw - 16px, 100cqh - 40px); height: auto; max-height: none; }
+
+/* Classification picture never spills past the panel. */
+#app .learning-v2 .classification-exhibit { overflow: hidden; }
+#app .learning-v2 .classification-exhibit > .planet-image,
+#app .learning-v2 .classification-exhibit > .star-orb,
+#app .learning-v2 .classification-exhibit > .celestial-art { width: min(100%, 220px); height: auto; max-height: 220px; aspect-ratio: 1; object-fit: contain; }
+
+@media (prefers-reduced-motion: reduce) {
+  .learning-v2 .is-wrong, .learning-v2[data-scene='s2a'] .discovery-stops button.discovered { animation: none; }
+}
+
+/* The telescope is clipped by its stage, so it glows instead of drawing an outline. */
+#app .learning-v2 .scope-v2.is-next { outline: none; box-shadow: none; animation: scope-glow 1.6s ease-in-out infinite; }
+@keyframes scope-glow { 50% { filter: drop-shadow(0 0 14px #f7d17bcc); } }
+@media (prefers-reduced-motion: reduce) { #app .learning-v2 .scope-v2.is-next { animation: none; filter: drop-shadow(0 0 10px #f7d17b99); } }
+.learning-v2 .drag-tip.is-done { background: #dff3e7; color: #1d5a3c; }
+#app .learning-v2[data-scene='s3a'] #planet-feature { height: auto; min-height: 0; padding: 0; font-size: inherit; flex: none; }
+#app .learning-v2[data-scene='s3a'] .toolbox > * { flex: none; }
+#app .learning-v2[data-scene='s3a'] .feature-choices .choice-card { font-size: 16px; min-height: 52px; padding: 6px 10px; }
+
+/* Chapter 4: all eight bodies on one board, no paging between two groups. */
+#app .learning-v2[data-scene='s4a'] .sky-bodies.all-bodies { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; }
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 10px 8px; min-height: 0; border-radius: 20px; text-align: center; }
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > :first-child { width: min(72px, 60%); height: auto; aspect-ratio: 1; flex: none; }
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body strong { font-size: 20px; }
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > span:not(.star-orb) { display: block; font-size: 14px; line-height: 1.3; }
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body small { font-size: 14px; }
+#app .learning-v2[data-scene='s4b'] .body-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+#app .learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-bodies.all-bodies { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 700px) { #app .learning-v2[data-scene='s4a'] .sky-bodies.all-bodies { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; } }
+
+/* Each star glows in its own colour so the three stars no longer look like copies. */
+.learning-v2 .star-glow { transform: scale(1.7); filter: drop-shadow(0 0 6px var(--star-color, #e0edff)) drop-shadow(0 0 16px var(--star-color, #e0edff)); animation: star-twinkle 2.6s ease-in-out infinite; }
+.learning-v2 .sky-body:nth-child(5) .star-glow { animation-delay: -.9s; }
+.learning-v2 .sky-body:nth-child(6) .star-glow { animation-delay: -1.7s; }
+@keyframes star-twinkle { 50% { transform: scale(1.5); opacity: .82; } }
+@media (prefers-reduced-motion: reduce) { .learning-v2 .star-glow { animation: none; } }

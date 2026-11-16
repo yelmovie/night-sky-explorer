@@ -5,12 +5,12 @@ import { moonSVG,dayMoon } from './drawing.js';
 import { button,esc,icon,token } from './ui.js';
 import { learningUI } from './learning-ui.js';
 import { mountLessonViewport } from './stage-viewport.js';
-import { playbackMarkup, createObservationPlayer } from './observation-player.js';
 import { mountTouchDrag } from './touch-drag.js';
 import { getStageAction, getLearningGuide } from './progression.js';
 import { pageConcepts } from './curriculum.js';
 import { renderMoonStage } from './moon-stages.js';
 import { renderSpaceStage } from './space-stages.js';
+import { moonSurfaceChoices, phaseChoices, patternChoices, composeReflection } from './reflection-chips.js';
 import { recordPhase, recordPlanet, nextPlanet, classificationFeedback, nextBody, solarFeedback, connectStars } from './learning-flow.js';
 
 const round=()=>learningUI.round;
@@ -23,10 +23,10 @@ function content(s,scene){const i=round(),helpers={tabs,title,strip,feedback,tok
 export function learningView(s,chrome=''){
   const n=+s.scene[1],part=s.scene.at(-1),c=chapters[n-1],v=content(s,s.scene),next=getStageAction(s,round());
   const concept=pageConcepts[s.scene],guide=getLearningGuide(s,learningUI);
-  return `<main class="experience learning-v2" data-scene="${s.scene}" aria-label="${c.steps[part==='a'?0:1]}" data-standard="${concept.standard}"><div class="room-bg"></div>${chrome}<div class="activity-heading"><p class="lesson-concept"><span>기억해요</span> <strong>${concept.concept}</strong></p><h1 id="screen-title" tabindex="-1" aria-live="polite">${guide.text}</h1></div><div class="activity-layout"><section class="experiment-zone" aria-label="${v.instruction}">${v.main}</section><aside class="toolbox" aria-label="실험 조작">${v.tools}</aside></div><footer class="activity-footer"><div class="lesson-help">${button('힌트','hint','ghost')}${button(`${icon('book',18)} 기록`,'kit','ghost')}</div>${playbackMarkup(s,learningUI)}<div class="activity-action">${button(next.label,next.action,'primary',`id="stage-next" ${next.disabled?'disabled':''}`)}</div></footer></main>`;
+  return `<main class="experience learning-v2" data-scene="${s.scene}" aria-label="${c.steps[part==='a'?0:1]}" data-standard="${concept.standard}"><div class="room-bg"></div>${chrome}<div class="activity-heading"><p class="lesson-concept"><span>기억해요</span> <strong>${concept.concept}</strong></p><h1 id="screen-title" tabindex="-1" aria-live="polite">${guide.text}</h1></div><div class="activity-layout"><section class="experiment-zone" aria-label="${v.instruction}">${v.main}</section><aside class="toolbox" aria-label="실험 조작">${v.tools}</aside></div><footer class="activity-footer"><div class="lesson-help">${button('힌트','hint','ghost')}${button(`${icon('book',18)} 기록`,'kit','ghost')}</div><div class="activity-action">${button(next.label,next.action,'primary',`id="stage-next" ${next.disabled?'disabled':''}`)}</div></footer></main>`;
 }
 
-export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog,on,refresh,sound}=ctx,d=s.drafts,scene=s.scene;let viewer=null,disposed=false,advanceTimer=null,advancing=false,touchCleanup=()=>{},starDrag=null,player;
+export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog,on,refresh,sound}=ctx,d=s.drafts,scene=s.scene;let viewer=null,disposed=false,advanceTimer=null,roundTimer=null,advancing=false,touchCleanup=()=>{},starDrag=null;
   const releaseViewport=mountLessonViewport(root.querySelector('.learning-v2'));
   const $=selector=>root.querySelector(selector),$$=selector=>[...root.querySelectorAll(selector)];
   function commit(){save();refresh();guide();}
@@ -40,7 +40,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   const prediction=()=>d.phases.predictions[day()];
   const pattern=()=>d.pattern.cases[regions[round()]];
   const selectedBody=()=>bodies.slice(round()*4,round()*4+4)[learningUI.body%4];
-  function updateScope(){const m=d.moon,same=m.photos.some((p,j)=>j!==round()&&Math.abs(p.zoom-m.zoom)<.09),ready=photoReady(m)&&!same&&(round()===0||!!m.photos[0]);$('#scope-moon').style.cssText=`transform:translate(${m.x}%,${m.y}%) scale(${m.zoom*.65});filter:blur(${Math.abs(m.focus-72)/9}px)`;$('#focus-status').textContent=same?'배율을 바꿔요':ready?'촬영 준비 완료':Math.abs(m.x)>12||Math.abs(m.y)>12?'달을 가운데로 옮겨요':Math.abs(m.focus-72)>12?'초점을 맞춰요':m.zoom<1.3?'배율을 1.3× 이상으로 올려요':m.zoom>2.7?'배율을 2.7× 이하로 낮춰요':'초점을 맞춰요';$('#capture-moon').disabled=!ready;}
+  function updateScope(){const m=d.moon,same=m.photos.some((p,j)=>j!==round()&&Math.abs(p.zoom-m.zoom)<.09),ready=photoReady(m)&&!same&&(round()===0||!!m.photos[0]);$('#scope-moon').style.cssText=`transform:translate(${m.x}%,${m.y}%) scale(${m.zoom*.65});filter:blur(${Math.abs(m.focus-72)/9}px)`;$('#focus-status').textContent=same?'배율을 바꿔요':ready?'촬영 준비 완료':Math.abs(m.x)>12||Math.abs(m.y)>12?'달을 가운데로 옮겨요':Math.abs(m.focus-72)>12?'초점을 맞춰요':m.zoom<1.3?'배율을 1.3× 이상으로 올려요':m.zoom>2.7?'배율을 2.7× 이하로 낮춰요':'초점을 맞춰요';$('#capture-moon').disabled=!ready;const tip=$('.drag-tip'),centered=Math.abs(m.x)<=12&&Math.abs(m.y)<=12;if(tip&&tip.classList.contains('is-done')!==centered){tip.classList.toggle('is-done',centered);tip.lastChild.textContent=centered?' 달이 가운데 원에 들어왔어요. 이제 배율과 초점을 맞춰요.':' 망원경 속 달을 손가락으로 끌어 가운데 원에 놓아요.';}}
   function pan(dx,dy){d.moon.x=Math.max(-80,Math.min(80,d.moon.x+dx));d.moon.y=Math.max(-80,Math.min(80,d.moon.y+dy));updateScope();commit();}
   function spot(x,y){const c=d.moon.comparisons[round()];if(Math.hypot(x-50,y-50)>48)return;if(d.moon.comparisons.some(other=>other.spots.some(p=>Math.hypot(x-p.x,y-p.y)<10)))return notify('앞서 고른 곳과 조금 떨어진 다른 표면을 골라 봐.');if(c.spots.length===2)c.spots.shift();c.spots.push({x,y});track(s,'observations');redraw();}
   function answer(){const id=selectedBody().id;return d.classification.answers[id]||=( {kind:'',reason:''} );}
@@ -48,6 +48,30 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   function queueNext(kind,id){learningUI.pendingAdvance={scene,kind,id};redraw();}
   function judgeClassification(){const body=selectedBody(),status=classificationFeedback(body,answer());if(!status.correct&&answer().kind&&answer().reason)track(s,'retries');if(status.correct){sound?.play('success');if(nextBody(d.classification.answers,body.id)!==-1)return queueNext('body',body.id);}else if(answer().kind&&answer().reason)sound?.play('retry');redraw();}
   function choosePlanet(id){d.planets.selected=id;d.planets.feature=d.planets.records[id]?.feature||'';d.planets.candidate=id;learningUI.zoom=1;learningUI.rotation=0;}
+  function chooseFeature(value){
+    if(advancing)return;
+    const correct=recordPlanet(d.planets,value,{rotation:learningUI.rotation,zoom:learningUI.zoom},learningUI.three?'3d':'illustration');
+    if(!correct){track(s,'retries');sound?.play('retry');redraw();showFeedback('planet-feedback',{tone:'hint',text:'무늬·표면·고리를 그림과 다시 비교해 봐.'});return;}
+    sound?.play('discover');
+    if(nextPlanet(d.planets))queueNext('planet',d.planets.selected);else redraw();
+  }
+  function reflectionTarget(){
+    if(scene==='s1b')return {groups:moonSurfaceChoices(),obj:d.moon.comparisons[round()],key:'observation'};
+    if(scene==='s2b')return {groups:phaseChoices(day(),prediction().original),obj:prediction(),key:'reflection'};
+    if(scene==='s5b')return {groups:patternChoices(regions[round()],pattern().lines),obj:pattern(),key:'reflection'};
+    return null;
+  }
+  function pickSentence(value){
+    const target=reflectionTarget();if(!target)return;
+    const [group,...rest]=value.split('-'),id=rest.join('-'),store=(learningUI.picks||={}),picks=(store[scene+'-'+round()]||={});
+    picks[group]=id;
+    const option=target.groups.find(item=>item.key===group)?.options.find(item=>item.id===id);
+    if(option&&!option.ok){track(s,'retries');sound?.play('retry');}
+    const sentence=composeReflection(target.groups,picks);
+    target.obj[target.key]=sentence;
+    if(sentence){sound?.play('success');track(s,'reviews');}
+    redraw();
+  }
   function captureDay(day){const added=recordPhase(d.phases,day);if(added){sound?.play('capture');track(s,'observations');}redraw();if(added)notify(`${day}일째 관측 사진을 발견 지도에 담았어.`);}
   function guide(){
     $$('.is-next').forEach(element=>element.classList.remove('is-next'));
@@ -56,82 +80,16 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     const heading=$('#screen-title');
     if(heading.textContent!==next.text)heading.textContent=next.text;
   }
-  function playbackStateChanged(playback){
-    const control=$('#play-time');
-    if(control){control.setAttribute('aria-pressed',String(playback.playing));const label=control.querySelector('span');if(label)label.textContent=playback.playing?'직접 해보기':playback.finished?'다시 보기':'자동 관찰';const path=control.querySelector('svg');if(path)path.innerHTML=playback.playing?'<path d="M8 5v14M16 5v14"/>':'<path d="m8 4 12 8-12 8Z"/>';}
-    if($('#playback-speed'))$('#playback-speed').value=playback.speed;
-    $('.learning-v2')?.setAttribute('data-playing',String(playback.playing));
-  }
-  let automaticStep=false;
-  function observeStep(step){
-    automaticStep=true;
-    try{
-      if(scene==='s1a'){
-        const run=learningUI.observationRun||{startRound:round(),x:d.moon.x,y:d.moon.y,focus:d.moon.focus,zoom:d.moon.zoom};
-        const slot=run.startRound===0&&step>=10?1:run.startRound,local=step%10,m=d.moon;
-        learningUI.round=slot;
-        const progress=Math.min(1,(local+1)/7),targetZoom=slot?2.2:1.5;
-        m.x=run.x*(1-progress);m.y=run.y*(1-progress);m.focus=run.focus+(72-run.focus)*progress;m.zoom=run.zoom+(targetZoom-run.zoom)*progress;
-        for(const [id,value,unit]of[['moon-focus',m.focus,''],['moon-zoom',m.zoom,'×']]){if($('#'+id))$('#'+id).value=value;if($('#'+id+'-value'))$('#'+id+'-value').textContent=(id==='moon-focus'?Math.round(value):value.toFixed(1))+unit;}
-        updateScope();commit();
-        if(local===9){if(slot===1)player.finish();action('capture-moon');}
-        return false;
-      }
-      if(scene==='s1b'){
-        const card=d.moon.comparisons[round()];
-        if(card.spots.length<2){const used=d.moon.comparisons.flatMap(value=>value.spots);const point=[[26,27],[67,29],[32,68],[69,65],[48,24],[50,74]].find(([x,y])=>!used.some(p=>Math.hypot(x-p.x,y-p.y)<10));if(point)spot(...point);}
-        $$('.lunar-detail').forEach((element,index)=>element.classList.toggle('is-observing',index===step%2));
-        return step>=3;
-      }
-      if(scene==='s2a'){
-        d.phases.day=step%30;
-        if([3,7,10,17,21,25].includes(d.phases.day)&&recordPhase(d.phases,d.phases.day)){
-          track(s,'observations');redraw();
-        }else{
-          updateDay();commit();
-        }
-        return step>=29;
-      }
-      if(scene==='s2b'){if(step===3)player.finish();action('overlay-phase');return false;}
-      if(scene==='s3a'){
-        learningUI.rotation=-180+(step%73)*5;viewer?.setView(learningUI.rotation,learningUI.zoom);
-        if($('#planet-rotation'))$('#planet-rotation').value=learningUI.rotation;
-        if($('#planet-rotation-value'))$('#planet-rotation-value').textContent=learningUI.rotation+'°';
-        return step>=72;
-      }
-      if(scene==='s4a'){
-        if(step<8){const first=learningUI.observationRun?.startRound||0;learningUI.round=(first+Math.floor(step/4))%2;action('body-'+bodies[learningUI.round*4+step%4].id);}
-        else{if(step>=11)player.finish();learningUI.lightBlocked=step%2===0;render();}
-        return false;
-      }
-      if(scene==='s5a'){
-        const order=learningUI.observationRun?.startRound===1?[1,0]:[0,1];
-        const observations=order.flatMap(index=>patternRegions[regions[index]].stars.map(id=>({id,round:index})));
-        const observation=observations[step];if(!observation)return true;
-        if(step===observations.length-1)player.finish();
-        learningUI.round=observation.round;learningUI.selectedStar=observation.id;
-        if(!d.pattern.observed.includes(observation.id)){d.pattern.observed.push(observation.id);track(s,'observations');}
-        redraw();return false;
-      }
-      if(scene==='s5b'){if(step===3)player.finish();action('toggle-reference');return false;}
-      return true;
-    }finally{automaticStep=false;}
-  }
   function action(a){
-    if(a!=='play-time'&&!automaticStep)player?.pause();
     if(advancing&&(a.startsWith('kind-')||a.startsWith('reason-')))return;
     if(a!=='capture-phase'&&!a.startsWith('day-'))sound?.play(a.startsWith('capture-')?'capture':a.startsWith('record-')?'discover':'click');
     if(a==='light-toggle'){learningUI.lightBlocked=!learningUI.lightBlocked;render();return;}
-    if(a==='play-time'){
-      if(!player.snapshot.playing&&(player.snapshot.step===0||player.snapshot.finished))learningUI.observationRun={scene,startRound:round(),x:d.moon.x,y:d.moon.y,focus:d.moon.focus,zoom:d.moon.zoom};
-      if(scene==='s3a'&&!learningUI.three&&!player.snapshot.playing){player.play();learningUI.three=true;render();return;}
-      player.toggle();guide();return;
-    }
-    if(a.startsWith('round-')){player?.reset();learningUI.round=+a.at(-1);learningUI.body=0;learningUI.selectedStar=null;learningUI.inspectedBody=null;learningUI.piece=null;learningUI.overlayVisible=false;redraw();return;}
+    if(a.startsWith('round-')){learningUI.round=+a.at(-1);learningUI.body=0;learningUI.selectedStar=null;learningUI.inspectedBody=null;learningUI.piece=null;learningUI.overlayVisible=false;redraw();return;}
     if(a.startsWith('pan-')){pan(...{up:[0,-8],down:[0,8],left:[-8,0],right:[8,0]}[a.slice(4)]);return;}
     if(a==='capture-moon'){const m=d.moon;if(!photoReady(m))return;if(round()===1&&!m.photos[0])return notify('먼저 전체 모습 사진을 한 장 담아 줘.');if(m.photos.some((p,j)=>j!==round()&&Math.abs(p.zoom-m.zoom)<.09))return notify('이번에는 배율을 조금 바꾸어서 촬영해 줘.');m.photos[round()]={x:m.x,y:m.y,zoom:m.zoom,focus:m.focus};track(s,'observations');if(round()===0)learningUI.round=1;redraw();notify('관측사진을 연구 노트에 담았어.');return;}
     if(a.startsWith('spot-')){const [,x,y]=a.split('-');spot(+x,+y);return;}
-    if(a.startsWith('seek-day-')||a.startsWith('day-')){d.phases.day=Number(a.split('-').at(-1));redraw();return;}
+    if(a.startsWith('seek-day-')){const value=Number(a.split('-').at(-1));d.phases.day=value;if(d.phases.captures.includes(value))redraw();else captureDay(value);return;}
+    if(a.startsWith('day-')){d.phases.day=Number(a.split('-').at(-1));redraw();return;}
     if(a==='capture-phase'){captureDay(d.phases.day);return;}
     if(a.startsWith('side-')){prediction().side=a.slice(5);redraw();return;}
     if(a==='reveal-phase'){const p=prediction();p.original||={amount:p.amount,side:p.side};p.revealed=true;p.overlay=true;learningUI.overlayVisible=true;redraw();return;}
@@ -141,8 +99,10 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if(a==='phase-note'){const p=prediction();dialog(scene==='s2b'?'앞선 달 관측 기록':'모은 달 관측 기록',`<p>북반구에서 본 학습용 모형이에요. 학습용 날짜는 실제 달력과 달라요.</p>${strip(d.phases.captures)}${scene==='s2b'&&p.original?`<p>처음 예상: 밝은 부분 ${p.original.amount}% · ${p.original.side==='right'?'오른쪽':'왼쪽'}</p>`:''}`);return;}
     if(a==='body-note'){const body=selectedBody();dialog(body.name+' · 과학 자료',`<p>${body.info}</p>`);return;}
     if(a==='solar-note'){track(s,'reviews');commit();dialog('내 조사 노트와 태양계 자료',`<p class="order-note">태양 → ${planets.map(v=>v.name).join(' → ')}</p><details><summary>더 알아보기 · 크기와 성분</summary><h3>행성의 상대적인 크기</h3><p>지구를 1로 볼 때 · ${planets.map(v=>`${v.name} ${v.size}`).join(' · ')}</p><p>가장 큰 행성은 목성, 가장 작은 행성은 수성이에요. 게임 속 그림은 크기를 같게 그린 모형이에요.</p><h3>행성을 묶는 참고 자료</h3>${planetGroups.map(g=>`<p><b>${g.name}</b> · ${g.info}<br>${planets.filter(v=>v.group===g.id).map(v=>v.name).join(', ')}</p>`).join('')}</details><h3>직접 조사한 근거</h3>${Object.entries(d.planets.records).map(([id,v])=>`<p><b>${planets.find(x=>x.id===id)?.name}</b> · ${esc(v.feature)}</p>`).join('')}`);return;}
+    if(a.startsWith('feature-')){chooseFeature(planets[+a.slice(8)].feature);return;}
+    if(a.startsWith('pick-')){pickSentence(a.slice(5));return;}
     if(a.startsWith('body-')){const id=a.slice(5);learningUI.inspectedBody=id;if(!d.classification.viewed.includes(id)){d.classification.viewed.push(id);sound?.play('discover');track(s,'observations');}redraw();return;}
-    if(a.startsWith('bodytab-')){learningUI.body=+a.at(-1);render();return;}
+    if(a.startsWith('bodytab-')){const index=+a.slice(8);learningUI.round=Math.floor(index/4);learningUI.body=index%4;render();return;}
     if(a.startsWith('kind-')){answer().kind=a.slice(5);judgeClassification();return;}
     if(a.startsWith('reason-')){answer().reason=a.slice(7);judgeClassification();return;}
     if(a==='undo-line'){pattern().lines.pop();track(s,'retries');learningUI.selectedStar=null;redraw();return;}
@@ -153,26 +113,18 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   $$('[data-learning]').forEach(el=>on(el,'click',()=>action(el.dataset.learning)));
   const text=(id,obj,key)=>on($(id),'input',e=>{obj[key]=e.target.value.slice(0,240);commit();});
   if(scene==='s1a'){updateScope();for(const [id,key,unit]of[['moon-zoom','zoom','×'],['moon-focus','focus','']])on($('#'+id),'input',e=>{d.moon[key]=+e.target.value;$('#'+id+'-value').textContent=e.target.value+unit;updateScope();commit();});let drag=null;on($('#scope-drag'),'pointerdown',e=>{drag=[e.clientX,e.clientY];e.currentTarget.setPointerCapture(e.pointerId);});on($('#scope-drag'),'pointermove',e=>{if(!drag)return;const r=e.currentTarget.getBoundingClientRect();pan((e.clientX-drag[0])/r.width*100,(e.clientY-drag[1])/r.height*100);drag=[e.clientX,e.clientY];});for(const type of ['pointerup','pointercancel'])on($('#scope-drag'),type,()=>drag=null);on($('#scope-drag'),'keydown',e=>{const v={ArrowUp:[0,-8],ArrowDown:[0,8],ArrowLeft:[-8,0],ArrowRight:[8,0]}[e.key];if(v){e.preventDefault();pan(...v);}});}
-  if(scene==='s1b'){text('#moon-observation',d.moon.comparisons[round()],'observation');on($('#surface-moon'),'click',e=>{const r=e.currentTarget.getBoundingClientRect();spot((e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100);});}
+  if(scene==='s1b'){on($('#surface-moon'),'click',e=>{const r=e.currentTarget.getBoundingClientRect();spot((e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100);});}
   function updateDay(){
     $('#phase-day').value=d.phases.day;
     $('#phase-day-value').textContent=d.phases.day+'일째';
     $('#day-label').textContent=d.phases.day+'일째';
     $('#phase-moon').innerHTML=dayMoon(d.phases.day);
-    $('#capture-phase').disabled=d.phases.captures.includes(d.phases.day);
+    if($('#capture-phase'))$('#capture-phase').disabled=d.phases.captures.includes(d.phases.day);
     $$('.discovery-stops button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.learning===`seek-day-${d.phases.day}`)));
   }
   if(scene==='s2a')on($('#phase-day'),'input',e=>{d.phases.day=+e.target.value;updateDay();commit();});
-  if(scene==='s2b'){on($('#prediction-amount'),'input',e=>{prediction().amount=+e.target.value;$('#prediction-amount-value').textContent=e.target.value+'%';$('#prediction-moon').innerHTML=moonSVG(prediction().amount,prediction().side);commit();});text('#phase-reflection',prediction(),'reflection');}
+  if(scene==='s2b'){on($('#prediction-amount'),'input',e=>{prediction().amount=+e.target.value;$('#prediction-amount-value').textContent=e.target.value+'%';$('#prediction-moon').innerHTML=moonSVG(prediction().amount,prediction().side);commit();});}
   if(scene==='s3a'){
-    on($('#planet-feature'),'change',event=>{
-      player?.pause();
-      if(advancing)return;
-      const correct=recordPlanet(d.planets,event.target.value,{rotation:learningUI.rotation,zoom:learningUI.zoom},learningUI.three?'3d':'illustration');
-      if(!correct){track(s,'retries');sound?.play('retry');commit();showFeedback('planet-feedback',{tone:'hint',text:'무늬·표면·고리를 그림과 다시 비교해 봐.'});return;}
-      sound?.play('discover');
-      if(nextPlanet(d.planets))queueNext('planet',d.planets.selected);else redraw();
-    });
     if(learningUI.three)import('./planet.js').then(({mountPlanet})=>{if(disposed)return;viewer=mountPlanet($('#planet-viewer'),planets.find(v=>v.id===d.planets.selected));viewer.setView(learningUI.rotation,learningUI.zoom);}).catch(()=>{if(!disposed)$('#planet-viewer').innerHTML='<p>입체 모형을 열지 못했어. 그림으로도 조사할 수 있어.</p>';});
     on($('#planet-zoom'),'input',event=>{learningUI.zoom=+event.target.value;$('#planet-zoom-value').textContent=event.target.value+'×';if(viewer)viewer.setView(learningUI.rotation,learningUI.zoom);else if($('.planet-portrait'))$('.planet-portrait').style.transform=`scale(${learningUI.zoom})`;});
     on($('#planet-rotation'),'input',event=>{learningUI.rotation=+event.target.value;$('#planet-rotation-value').textContent=event.target.value+'°';viewer?.setView(learningUI.rotation,learningUI.zoom);});
@@ -210,7 +162,6 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
       on(element,'click',pick);on(element,'keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();pick();}});
     });
     if(scene==='s5b'){
-      text('#pattern-reflection',pattern(),'reflection');
       on($('#star-view'),'pointerdown',event=>{const source=pointerStar(event);if(source&&event.button===0)starDrag={id:source.dataset.star,x:event.clientX,y:event.clientY};});
       on($('#star-view'),'pointerup',event=>{
         if(!starDrag)return;const target=pointerStar(event),start=starDrag;starDrag=null;
@@ -227,7 +178,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   const pending=learningUI.pendingAdvance;learningUI.pendingAdvance=null;
   if(pending?.scene===scene){
     advancing=true;$('.learning-v2').classList.add('is-advancing');
-    const controls=pending.kind==='planet'?$$('#planet-feature'):$$('[data-claim],.reason-choices button');controls.forEach(element=>element.disabled=true);
+    const controls=pending.kind==='planet'?$$('.feature-choices button'):$$('[data-claim],.reason-choices button');controls.forEach(element=>element.disabled=true);
     const advance=()=>{
       if(disposed||s.scene!==scene)return;
       if(document.hidden||document.querySelector('dialog[open]')){advanceTimer=setTimeout(advance,200);return;}
@@ -239,11 +190,10 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   }
   let starResize;
   if($('#star-view')){starResize=new ResizeObserver(()=>{const svg=$('#star-view svg'),scale=svg?.getScreenCTM()?.a;if(scale)$$('[data-star]').forEach(star=>star.querySelector('circle').setAttribute('r',Math.max(10,24/Math.abs(scale))));});starResize.observe($('#star-view'));}
-  player=createObservationPlayer({state:s,scene,ui:learningUI,onStep:observeStep,onState:playbackStateChanged,baseDelay:({s1a:170,s1b:900,s2a:300,s2b:1300,s3a:100,s4a:1500,s5a:900,s5b:1300})[scene]||1200,canRun:()=>!document.hidden&&!document.querySelector('dialog[open]')&&(scene!=='s3a'||!!viewer)});
-  on($('#playback-speed'),'change',event=>player.setSpeed(event.target.value));
-  on(root,'pointerdown',event=>{if(event.target.closest('.learning-v2')&&!event.target.closest('.observation-playback'))player.pause();});
-  on(root,'input',event=>{if(event.target.id!=='playback-speed')player.pause();});
-  on(root,'keydown',event=>{if(event.key!=='Tab'&&event.target.closest('.learning-v2')&&!event.target.closest('.observation-playback'))player.pause();});
-  playbackStateChanged(player.snapshot);guide();
-  return ()=>{disposed=true;player?.dispose();releaseViewport();clearTimeout(advanceTimer);starResize?.disconnect();touchCleanup();viewer?.dispose();};
+  const autoRound=getStageAction(s,round());
+  if(autoRound&&autoRound.round!==undefined&&scene!=='s3b'&&!advancing){
+    roundTimer=setTimeout(()=>{if(disposed||s.scene!==scene||document.querySelector('dialog[open]'))return;notify('좋아! 다음 묶음으로 넘어갈게.');action('round-'+autoRound.round);},1300);
+  }
+  guide();
+  return ()=>{disposed=true;clearTimeout(roundTimer);releaseViewport();clearTimeout(advanceTimer);starResize?.disconnect();touchCleanup();viewer?.dispose();};
 }

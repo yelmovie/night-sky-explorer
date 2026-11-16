@@ -4,6 +4,7 @@ import { representativeDays, recordCountLabel } from './observation-records.js';
 import { moonSVG, dayMoon } from './drawing.js';
 import { learnButton as b, range, field, imageFor, icon } from './ui.js';
 import './moon-stages.css';
+import { moonSurfaceChoices, phaseChoices, choiceMarkup } from './reflection-chips.js';
 
 const comparisonReady = card => card.spots.length >= 2 && card.observation.trim().length >= 3;
 const spotChoices = [[26, 27, '왼쪽 위'], [67, 29, '오른쪽 위'], [32, 68, '왼쪽 아래'], [69, 65, '오른쪽 아래']];
@@ -33,7 +34,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
         <p id="focus-status" class="feedback" role="status">시야와 초점을 조절해 보세요.</p>
 `;
       tools = `
-        <div class="pan-controls" role="group" aria-label="망원경 시야 이동">${[['up', '위로'], ['left', '왼쪽으로'], ['right', '오른쪽으로'], ['down', '아래로']].map(([direction, label]) => b(icon('arrow', 22), 'pan-' + direction, 'chip pan-' + direction, `aria-label="시야 ${label}"`)).join('')}</div>
+        <p class="drag-tip">${icon('arrow', 18)} 망원경 속 달을 손가락으로 끌어 가운데 원에 놓아요.</p>
         ${range('배율', 'moon-zoom', 1, 3, m.zoom, .1, '×')}${range('초점', 'moon-focus', 0, 100, m.focus)}
         ${b(`${icon('camera')} <span>사진 담기</span>`, 'capture-moon', 'primary', 'id="capture-moon"')}
         <div class="photo-grid">${[0, 1].map(j => {
@@ -48,14 +49,14 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       instruction = '두 곳의 무늬와 밝기를 비교해요.';
       main = `${tabs(['비교 카드 하나', '비교 카드 둘'], d.moon.comparisons.map(comparisonReady))}
         <div class="lunar-surface-stage"><div class="surface-v2" id="surface-moon" aria-label="달 표면의 관찰 위치. 아래 위치 버튼으로도 고를 수 있어요.">${moonSVG()}${card.spots.map((point, j) => `<span class="spot-marker lunar-spot-${j + 1}" style="left:${point.x}%;top:${point.y}%">${j + 1}</span>`).join('')}</div></div>
-        <div class="surface-targets" role="group" aria-label="달 표면 관찰 위치">${spotChoices.map(([x, y, label]) => b(label, `spot-${x}-${y}`, 'chip')).join('')}</div>
+        <div class="surface-targets sr-only-focusable" role="group" aria-label="달 표면 관찰 위치">${spotChoices.map(([x, y, label]) => b(label, `spot-${x}-${y}`, 'chip')).join('')}</div>
 `;
       tools = `
         <div class="comparison-grid">${[0, 1].map(j => {
           const point = card.spots[j];
           return `<div class="observation-card lunar-detail lunar-detail-${j + 1}"><span class="lunar-detail-label"><b>${j + 1}</b> 확대</span><div class="surface-crop ${point ? '' : 'is-empty'}">${point ? surfaceDetail(point) : '<span>위치를<br>골라요</span>'}</div></div>`;
         }).join('')}</div>
-        ${field('발견한 차이', 'moon-observation', card.observation, '밝기, 무늬, 둥근 구덩이는 어떻게 다른가요?')}
+        ${card.spots.length >= 2 ? choiceMarkup(moonSurfaceChoices(), ui.picks?.['s1b-' + i], card.observation) : '<p class="drawing-tip">달 위의 서로 다른 두 곳을 눌러 확대해요.</p>'}
 `;
       break;
     }
@@ -67,8 +68,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
         <p class="model-note">우리나라에서 본 모양을 단순하게 나타냈어요 · 학습용 날짜</p>`;
       tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}
 
-        ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'primary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}
-        ${b(recordCountLabel(p.captures), 'phase-note', 'secondary', 'id="phase-count" aria-label="전체 관측 기록 보기"')}`;
+        ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'primary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}`;
       break;
     }
     case 's2b': {
@@ -85,7 +85,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
 `;
       tools = `${range('밝은 부분', 'prediction-amount', 0, 100, p.amount, 1, '%')}
         <div class="choice-grid two">${b('오른쪽', 'side-right', p.side === 'right' ? 'choice-card selected' : 'choice-card', 'aria-label="오른쪽이 밝은 달"')}${b('왼쪽', 'side-left', p.side === 'left' ? 'choice-card selected' : 'choice-card', 'aria-label="왼쪽이 밝은 달"')}</div>
-        <div class="phase-comparison-actions">${!p.revealed ? b('예상 저장 · 관측', 'reveal-phase', 'primary') : b(ui.overlayVisible ? '나란히 보기' : '겹쳐서 비교', 'overlay-phase', 'secondary')}${b('관측 기록', 'phase-note', 'secondary')}</div>${p.revealed ? field('관측 후 달라진 생각', 'phase-reflection', p.reflection, '밝은 부분의 크기와 방향은 어떻게 달랐나요?') : ''}`;
+        <div class="phase-comparison-actions">${!p.revealed ? b('예상 저장 · 관측', 'reveal-phase', 'primary') : b(ui.overlayVisible ? '나란히 보기' : '겹쳐서 비교', 'overlay-phase', 'secondary')}${b('관측 기록', 'phase-note', 'secondary')}</div>${p.revealed ? choiceMarkup(phaseChoices(day, p.original), ui.picks?.['s2b-' + i], p.reflection) : ''}`;
       break;
     }
     default: return null;
