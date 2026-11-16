@@ -43,12 +43,13 @@ test('29개 파일의 출처·SHA와 화면 대사 카탈로그가 일치한다'
  const original=JSON.parse(readFileSync(new URL('../docs/VOICE-PROVENANCE-20261110.json',import.meta.url),'utf8'));
  const update=JSON.parse(readFileSync(new URL('../docs/VOICE-PROVENANCE-20261112.json',import.meta.url),'utf8'));
  const dialogue=JSON.parse(readFileSync(new URL('../docs/NPC-DIALOGUE-20261112.json',import.meta.url),'utf8'));
+ const hints=JSON.parse(readFileSync(new URL('../docs/VOICE-PROVENANCE-20261117.json',import.meta.url),'utf8'));
  assert.equal(original.lines.length,29);assert.equal(voiceLines.length,29);
- for(const line of [...original.lines,...update.lines,...dialogue.lines]){
+ for(const line of [...original.lines,...update.lines,...dialogue.lines,...hints.lines]){
   const data=readFileSync(new URL('../'+line.target,import.meta.url));
   assert.equal(createHash('sha256').update(data).digest('hex'),line.sha256,line.id);
  }
- const current=new Map([...original.lines,...update.lines,...dialogue.lines].map(line=>[line.id,line]));
+ const current=new Map([...original.lines,...update.lines,...dialogue.lines,...hints.lines].map(line=>[line.id,line]));
  for(const line of current.values()){
   assert.equal(voiceLines.find(x=>x.id===line.id).text,line.text);
   if(line.provider==='ElevenLabs')assert.equal(voiceLines.find(x=>x.id===line.id).src,'/'+line.src);

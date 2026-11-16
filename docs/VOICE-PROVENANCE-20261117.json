@@ -1,0 +1,63 @@
+{
+  "project": "13",
+  "purpose": "드래그 달 맞추기와 날짜 한 번 탭 기록에 맞춘 힌트 음성 교정",
+  "supersedes": [
+    "hint-s1a (2026-11-10)",
+    "hint-s2a-v2 (2026-11-12)"
+  ],
+  "note": "ElevenLabs 크레딧 부족(잔여 1)으로 클라우드 생성이 실패해, 과학34 공통 절차의 로컬 0.6B Base 참조 복제로 만들었다.",
+  "lines": [
+    {
+      "id": "hint-s1a",
+      "speaker": "달토끼 기록원 루미",
+      "text": "망원경 속 달을 손가락으로 끌어 가운데 원에 놓아요. 그다음 배율과 초점을 맞춰요.",
+      "target": "public/assets/audio/voices/hint-s1a-v2.mp3",
+      "sha256": "418b625550c811fac2539d606d21e61f9b6c239ec019f15da295fe1d8fd7eecc",
+      "provider": "local",
+      "model": "Qwen3-TTS-12Hz-0.6B-Base (Apache-2.0)",
+      "reference": "public/assets/audio/voices/hint-s2a-v2.mp3 (ElevenLabs Soo, this game's approved synthetic line)",
+      "seed": 7171,
+      "temperature": 0.6,
+      "top_p": 0.87,
+      "take": 1,
+      "takesGenerated": 2,
+      "asr": {
+        "heard": "망원경 속 달을 손가락으로 끌어 가운데 원에 놓아요. 그 다음 배율과 초점을 맞춰요.",
+        "score": 1.0,
+        "tail": true
+      },
+      "asrModel": "openai/whisper-large-v3-turbo",
+      "integratedLufs": -16.6,
+      "truePeakDb": -1.9,
+      "format": "MP3 44.1kHz mono 96k",
+      "realPersonVoice": false,
+      "createdAt": "2026-11-17"
+    },
+    {
+      "id": "hint-s2a",
+      "speaker": "달토끼 기록원 루미",
+      "text": "날짜 버튼을 누르면 그날의 달이 사진으로 담겨요. 밝은 부분이 어떻게 변하는지 살펴봐요.",
+      "target": "public/assets/audio/voices/hint-s2a-v3.mp3",
+      "sha256": "5cf4f6a1a417ceacb22c257a390a28fbe080674be7cac15bdccb7565c14a2ddc",
+      "provider": "local",
+      "model": "Qwen3-TTS-12Hz-0.6B-Base (Apache-2.0)",
+      "reference": "public/assets/audio/voices/hint-s2a-v2.mp3 (ElevenLabs Soo, this game's approved synthetic line)",
+      "seed": 20261117,
+      "temperature": 0.6,
+      "top_p": 0.87,
+      "take": 0,
+      "takesGenerated": 2,
+      "asr": {
+        "heard": "날짜 버튼을 누르면 그날의 달이 사진으로 담겨요. 밝은 부분이 어떻게 변하는지 살펴봐요.",
+        "score": 1.0,
+        "tail": true
+      },
+      "asrModel": "openai/whisper-large-v3-turbo",
+      "integratedLufs": -16.8,
+      "truePeakDb": -1.9,
+      "format": "MP3 44.1kHz mono 96k",
+      "realPersonVoice": false,
+      "createdAt": "2026-11-17"
+    }
+  ]
+}

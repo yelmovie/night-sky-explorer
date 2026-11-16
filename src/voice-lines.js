@@ -39,8 +39,8 @@ export const voiceLines = [
   {
     "id": "hint-s1a",
     "speaker": "달토끼 기록원 루미",
-    "text": "달을 손가락으로 끌거나 방향 버튼을 눌러요.",
-    "src": "/assets/audio/voices/hint-s1a.mp3"
+    "text": "망원경 속 달을 손가락으로 끌어 가운데 원에 놓아요. 그다음 배율과 초점을 맞춰요.",
+    "src": "/assets/audio/voices/hint-s1a-v2.mp3"
   },
   {
     "id": "hint-s1b",
@@ -51,8 +51,8 @@ export const voiceLines = [
   {
     "id": "hint-s2a",
     "speaker": "달토끼 기록원 루미",
-    "text": "날짜를 누르고 밝은 부분을 살펴봐요. ‘이 모습 기록’을 눌러 사진을 담아요.",
-    "src": "/assets/audio/voices/hint-s2a-v2.mp3"
+    "text": "날짜 버튼을 누르면 그날의 달이 사진으로 담겨요. 밝은 부분이 어떻게 변하는지 살펴봐요.",
+    "src": "/assets/audio/voices/hint-s2a-v3.mp3"
   },
   {
     "id": "hint-s2b",
