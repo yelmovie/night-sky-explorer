@@ -11,6 +11,8 @@ import { pageConcepts } from './curriculum.js';
 import { renderMoonStage } from './moon-stages.js';
 import { renderSpaceStage } from './space-stages.js';
 import { moonSurfaceChoices, phaseChoices, patternChoices, composeReflection } from './reflection-chips.js';
+import { mountFogWipe, mountShieldDrag, snapDay } from './stage-gestures.js';
+import { discoveryDays } from './discovery-route.js';
 import { recordPhase, recordPlanet, nextPlanet, classificationFeedback, nextBody, solarFeedback, connectStars } from './learning-flow.js';
 
 const round=()=>learningUI.round;
@@ -26,7 +28,7 @@ export function learningView(s,chrome=''){
   return `<main class="experience learning-v2" data-scene="${s.scene}" aria-label="${c.steps[part==='a'?0:1]}" data-standard="${concept.standard}"><div class="room-bg"></div>${chrome}<div class="activity-heading"><p class="lesson-concept"><span>기억해요</span> <strong>${concept.concept}</strong></p><h1 id="screen-title" tabindex="-1" aria-live="polite">${guide.text}</h1></div><div class="activity-layout"><section class="experiment-zone" aria-label="${v.instruction}">${v.main}</section><aside class="toolbox" aria-label="실험 조작">${v.tools}</aside></div><footer class="activity-footer"><div class="lesson-help">${button('힌트','hint','ghost')}${button(`${icon('book',18)} 기록`,'kit','ghost')}</div><div class="activity-action">${button(next.label,next.action,'primary',`id="stage-next" ${next.disabled?'disabled':''}`)}</div></footer></main>`;
 }
 
-export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog,on,refresh,sound}=ctx,d=s.drafts,scene=s.scene;let viewer=null,disposed=false,advanceTimer=null,roundTimer=null,advancing=false,touchCleanup=()=>{},starDrag=null;
+export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog,on,refresh,sound}=ctx,d=s.drafts,scene=s.scene;const gestures=new AbortController();let viewer=null,disposed=false,advanceTimer=null,roundTimer=null,advancing=false,touchCleanup=()=>{},starDrag=null;
   const releaseViewport=mountLessonViewport(root.querySelector('.learning-v2'));
   const $=selector=>root.querySelector(selector),$$=selector=>[...root.querySelectorAll(selector)];
   function commit(){save();refresh();guide();}
@@ -122,7 +124,9 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if($('#capture-phase'))$('#capture-phase').disabled=d.phases.captures.includes(d.phases.day);
     $$('.discovery-stops button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.learning===`seek-day-${d.phases.day}`)));
   }
-  if(scene==='s2a')on($('#phase-day'),'input',e=>{d.phases.day=+e.target.value;updateDay();commit();});
+  if(scene==='s2a'){on($('#phase-day'),'input',e=>{d.phases.day=+e.target.value;updateDay();commit();});on($('#phase-day'),'change',e=>{const target=snapDay(+e.target.value,discoveryDays,d.phases.captures);if(target!==undefined){d.phases.day=target;captureDay(target);}});}
+  if(scene==='s3a'&&$('.planet-fog')){const id=d.planets.selected;requestAnimationFrame(()=>{if(!disposed)mountFogWipe($('.planet-fog'),{signal:gestures.signal,onReveal(){if(disposed||d.planets.selected!==id)return;learningUI.revealed[id]=true;sound?.play('discover');redraw();}});});}
+  if(scene==='s4a')mountShieldDrag($('.light-lab-art'),{blocked:learningUI.lightBlocked,signal:gestures.signal,onChange(value){learningUI.lightBlocked=value;sound?.play(value?'place':'click');track(s,'reviews');render();}});
   if(scene==='s2b'){on($('#prediction-amount'),'input',e=>{prediction().amount=+e.target.value;$('#prediction-amount-value').textContent=e.target.value+'%';$('#prediction-moon').innerHTML=moonSVG(prediction().amount,prediction().side);commit();});}
   if(scene==='s3a'){
     if(learningUI.three)import('./planet.js').then(({mountPlanet})=>{if(disposed)return;viewer=mountPlanet($('#planet-viewer'),planets.find(v=>v.id===d.planets.selected));viewer.setView(learningUI.rotation,learningUI.zoom);}).catch(()=>{if(!disposed)$('#planet-viewer').innerHTML='<p>입체 모형을 열지 못했어. 그림으로도 조사할 수 있어.</p>';});
@@ -195,5 +199,5 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     roundTimer=setTimeout(()=>{if(disposed||s.scene!==scene||document.querySelector('dialog[open]'))return;notify('좋아! 다음 묶음으로 넘어갈게.');action('round-'+autoRound.round);},1300);
   }
   guide();
-  return ()=>{disposed=true;clearTimeout(roundTimer);releaseViewport();clearTimeout(advanceTimer);starResize?.disconnect();touchCleanup();viewer?.dispose();};
+  return ()=>{disposed=true;gestures.abort();clearTimeout(roundTimer);releaseViewport();clearTimeout(advanceTimer);starResize?.disconnect();touchCleanup();viewer?.dispose();};
 }

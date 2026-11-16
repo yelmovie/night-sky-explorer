@@ -66,7 +66,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       main = `<div class="phase-display"><span class="date-tag" id="day-label">${p.day}일째</span><div id="phase-moon">${dayMoon(p.day)}</div></div>
         <div id="capture-strip">${recordCollection(p.captures, strip)}</div>
         <p class="model-note">우리나라에서 본 모양을 단순하게 나타냈어요 · 학습용 날짜</p>`;
-      tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}
+      tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}<p class="drag-tip slider-tip">막대를 끌면 달이 변해요. 관측 날짜에서 손을 떼면 그 모습이 담겨요.</p>
 
         ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'secondary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}`;
       break;

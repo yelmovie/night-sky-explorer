@@ -2,6 +2,7 @@ import { bodies, patternRegions, planets, solarOrder } from './data.js';
 import { firstReady, stageReady, photoReady } from './state.js';
 
 const regions = ['cassiopeia', 'dipper'];
+const objectParticle = word => word + ((word.charCodeAt(word.length - 1) - 0xac00) % 28 ? '을' : '를');
 const hasText = value => typeof value === 'string' && value.trim().length >= 3;
 const comparisonReady = card => hasText(card.observation) && new Set(card.spots
   .filter(spot => Number.isFinite(spot.x) && Number.isFinite(spot.y) && Math.hypot(spot.x - 50, spot.y - 50) < 49)
@@ -80,6 +81,7 @@ export function getLearningGuide(state, ui) {
         ? { target: '.reflection-choices', text: '겹친 그림을 보고 맞는 문장을 하나씩 골라요.' }
         : { target: '[data-learning="reveal-phase"]', text: '밝은 부분을 예상하고 ‘예상 저장 · 관측’을 눌러요.' };
     case 's3a':
+      if (!ui.three && !d.planets.records[d.planets.selected] && !ui.revealed?.[d.planets.selected]) return { target: '.planet-fog', text: `${objectParticle(planets.find(p => p.id === d.planets.selected)?.name || '')} 가린 구름을 손가락으로 문질러 닦아요.` };
       return { target: '#planet-feature', text: `${planets.find(p => p.id === d.planets.selected)?.name}의 그림을 보고 특징 카드를 눌러요.` };
     case 's3b':
       return ui.piece

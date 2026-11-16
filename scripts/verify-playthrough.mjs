@@ -25,6 +25,17 @@ async function tapMoon(point) {
   const [x, y] = point.split('-').map(Number), box = await page.locator('#surface-moon').boundingBox();
   await page.mouse.click(box.x + box.width * x / 100, box.y + box.height * y / 100);
 }
+async function wipeFog() {
+  const fog = page.locator('.planet-fog:not(.is-cleared)');
+  if (!await fog.count()) return;
+  assert.equal(await page.locator('.feature-choices button:not([disabled])').count(), 0, 'features wait until the planet is uncovered');
+  const box = await fog.boundingBox();
+  for (const row of [.25, .4, .55, .7]) {
+    await page.mouse.move(box.x + box.width * .2, box.y + box.height * row); await page.mouse.down();
+    await page.mouse.move(box.x + box.width * .8, box.y + box.height * (row + .05), { steps: 14 }); await page.mouse.up();
+  }
+  await page.locator('.feature-choices button:not([disabled])').first().waitFor();
+}
 async function centerMoon() {
   for (let attempt = 0; attempt < 5; attempt++) {
     const { x, y } = (await stored()).drafts.moon;
@@ -126,6 +137,7 @@ try {
   pass('One tap records each day once; checked sentence choices; comparison preserves the initial prediction');
   await complete(2);
   await learn('planet-mercury');
+  await wipeFog();
   await learn('feature-1');
   assert.equal((await stored()).drafts.planets.records.mercury, undefined);
   // Leave in the same browser turn, before the delayed advance can fire.
@@ -141,6 +153,7 @@ try {
   await click('start'); await scene('s3a');
   for (const planet of planets.slice(1, 6)) {
     await learn('planet-' + planet.id);
+    await wipeFog();
     await learn('feature-' + planets.indexOf(planet));
     await page.waitForTimeout(1200);
     assert.equal((await stored()).drafts.planets.records[planet.id].feature, planet.feature);
@@ -167,7 +180,13 @@ try {
   assert.deepEqual((await stored()).drafts.planets.groups, Object.fromEntries(planets.map(planet => [planet.id, planet.group])));
   pass('All nine solar pieces and eight groups use pointer drag, including a touch drag');
   await complete(3);
-  await learn('light-toggle'); assert.equal(await page.locator('[data-learning="light-toggle"]').getAttribute('aria-pressed'), 'true');
+  {
+    const art = await page.locator('.light-lab-art').boundingBox(), shield = await page.locator('[data-shield] rect').last().boundingBox();
+    await page.mouse.move(shield.x + shield.width / 2, shield.y + shield.height / 2); await page.mouse.down();
+    await page.mouse.move(art.x + art.width * 182 / 360, art.y + art.height * 78 / 218, { steps: 10 }); await page.mouse.up();
+    await page.locator('[data-shield].is-blocking').waitFor();
+    assert.equal(await page.locator('[data-learning="light-toggle"]').getAttribute('aria-pressed'), 'true');
+  }
   assert.equal(await page.locator('.sky-body').count(), 8);
   for (const body of bodies) {
     await learn('body-' + body.id);
@@ -194,6 +213,7 @@ try {
     assert.deepEqual((await stored()).drafts.classification.answers[body.id], { kind: body.kind, reason: body.evidence });
   }
   assert.equal(Object.values((await stored()).drafts.classification.answers).filter(answer => answer.kind && answer.reason).length, 8);
+  pass('Dragging the screen into the sunbeam blocks reflected light');
   pass('Inline science cards, correction after a wrong claim, no advance behind settings, rapid reason input, all eight automatic checks');
   await complete(4);
   for (const [round, region] of Object.values(patternRegions).entries()) {
