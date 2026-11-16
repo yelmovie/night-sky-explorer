@@ -26,9 +26,9 @@ await p.click(`[data-action="cloudy-${a.side}"]`); await p.click('#cloudy-check'
 assert.equal((await stored(p)).bonus.cloudy, 'done'); console.log('PASS cloudy bonus: wrong then right');
 await p.click('.dialog-footer [data-action="close-modal"]'); await p.waitForTimeout(200);
 await p.click('[data-action="bonus-planet"]');
-await p.selectOption('#mystery-feature', { label: '푸른 대기와 구름' }); await p.selectOption('#mystery-name', 'uranus'); await p.click('#planet-check');
+await p.click('[data-pick="feature"][data-value="푸른 대기와 구름"]'); await p.click('[data-pick="name"][data-value="uranus"]'); await p.click('#planet-check');
 assert.equal((await stored(p)).bonus.planet, '');
-await p.selectOption('#mystery-feature', { label: '옅은 청록색 대기' }); await p.click('#planet-check');
+await p.click('[data-pick="feature"][data-value="옅은 청록색 대기"]'); await p.click('#planet-check');
 assert.equal((await stored(p)).bonus.planet, 'done'); console.log('PASS planet bonus: wrong then right');
 assert.ok((await stored(p)).stats.retries >= 5); console.log('PASS retries tracked');
 await p.close();

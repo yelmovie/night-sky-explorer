@@ -45,11 +45,14 @@ export function openBonus(kind, { state, dialog, persist, sound, on }) {
     return;
   }
   const guess = { feature: '', name: '' };
-  dialog(quest.title, `<p class="bonus-lead">${quest.text} 힌트는 없어요. 그림에서 보이는 특징을 먼저 골라요.</p><div class="bonus-planet"><div class="bonus-planet-view"><div id="mystery-frame">${planetImage(MYSTERY, '이름표가 없는 미확인 행성 학습용 그림', 'mystery-planet')}</div>${range('확대', 'mystery-zoom', 1, 2, 1, .1, '×')}</div><div class="bonus-planet-form"><label class="field-label" for="mystery-feature">1. 관찰한 특징</label><select id="mystery-feature"><option value="">보이는 특징을 골라요</option>${planets.map(planet => `<option>${esc(planet.feature)}</option>`).join('')}</select><label class="field-label" for="mystery-name">2. 증거로 찾은 이름</label><select id="mystery-name"><option value="">행성 이름을 골라요</option>${planets.map(planet => `<option value="${planet.id}">${planet.name}</option>`).join('')}</select></div></div><p id="bonus-feedback" class="inline-feedback" role="status" data-tone="hint">${done ? `이미 ${quest.reward}를 받았어요. 다시 연습할 수 있어요.` : '특징과 이름을 모두 고른 뒤 판정해요.'}</p>`, element => {
+  dialog(quest.title, `<p class="bonus-lead">${quest.text} 힌트는 없어요. 그림에서 보이는 특징을 먼저 골라요.</p><div class="bonus-planet"><div class="bonus-planet-view"><div id="mystery-frame">${planetImage(MYSTERY, '이름표가 없는 미확인 행성 학습용 그림', 'mystery-planet')}</div>${range('확대', 'mystery-zoom', 1, 2, 1, .1, '×')}</div><div class="bonus-planet-form"><p class="field-label" id="mystery-feature-label">1. 관찰한 특징</p><div class="bonus-chips feature-chips" role="group" aria-labelledby="mystery-feature-label">${[2, 6, 0, 4, 7, 1, 5, 3].map(index => planets[index]).map(planet => `<button type="button" class="btn choice-card" data-pick="feature" data-value="${esc(planet.feature)}" aria-pressed="false">${esc(planet.feature)}</button>`).join('')}</div><p class="field-label" id="mystery-name-label">2. 증거로 찾은 이름</p><div class="bonus-chips name-chips" role="group" aria-labelledby="mystery-name-label">${planets.map(planet => `<button type="button" class="btn choice-card" data-pick="name" data-value="${planet.id}" aria-pressed="false">${planetImage(planet.id, '')}<span>${planet.name}</span></button>`).join('')}</div></div></div><p id="bonus-feedback" class="inline-feedback" role="status" data-tone="hint">${done ? `이미 ${quest.reward}를 받았어요. 다시 연습할 수 있어요.` : '특징과 이름을 모두 고른 뒤 판정해요.'}</p>`, element => {
     const feedback = element.querySelector('#bonus-feedback');
     on(element.querySelector('#mystery-zoom'), 'input', event => { element.querySelector('#mystery-zoom-value').textContent = event.target.value + '×'; element.querySelector('.mystery-planet').style.transform = `scale(${event.target.value})`; });
-    on(element.querySelector('#mystery-feature'), 'change', event => { guess.feature = event.target.value; });
-    on(element.querySelector('#mystery-name'), 'change', event => { guess.name = event.target.value; });
+    element.querySelectorAll('[data-pick]').forEach(chip => on(chip, 'click', () => {
+      guess[chip.dataset.pick] = chip.dataset.value;
+      element.querySelectorAll(`[data-pick="${chip.dataset.pick}"]`).forEach(other => { const picked = other === chip; other.classList.toggle('selected', picked); other.setAttribute('aria-pressed', String(picked)); });
+      sound.play('click');
+    }));
     on(element.querySelector('#planet-check'), 'click', () => {
       if (!guess.feature || !guess.name) { feedback.dataset.tone = 'hint'; feedback.textContent = '관찰한 특징과 이름을 모두 골라 줘요.'; return; }
       if (planetSolved(guess)) {

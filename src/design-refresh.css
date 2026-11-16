@@ -1,0 +1,121 @@
+/* 2026-11-17 design refresh: one token set for popups, buttons and meta screens.
+   Game-screen exception (yelsam-design 4-1): warm gold buttons follow the night-sky illustrations. */
+:root {
+  --ui-glass: rgba(14, 30, 56, .74);
+  --ui-glass-strong: rgba(11, 23, 45, .94);
+  --ui-glass-hover: rgba(24, 46, 80, .86);
+  --ui-line: rgba(255, 228, 170, .32);
+  --ui-line-strong: rgba(255, 228, 170, .58);
+  --ui-text: #fff7e6;
+  --ui-sub: #c8d5e6;
+  --ui-gold-1: #ffe9b4;
+  --ui-gold-2: #f2c266;
+  --ui-gold-edge: #a4712c;
+  --ui-ink: #24324a;
+  --ui-radius-lg: 28px;
+  --ui-radius-md: 18px;
+  --ui-radius-sm: 14px;
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* Primary: one golden action per screen. */
+#app .btn.primary, dialog .btn.primary {
+  background: linear-gradient(180deg, var(--ui-gold-1), var(--ui-gold-2));
+  border: 1px solid #fff3cf; color: var(--ui-ink); font-weight: 800;
+  box-shadow: 0 4px 0 var(--ui-gold-edge), 0 10px 22px #02081a55;
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), filter var(--dur-fast);
+}
+#app .btn.primary:active:not(:disabled), dialog .btn.primary:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--ui-gold-edge), 0 4px 10px #02081a55; }
+#app .btn.primary:disabled { filter: saturate(.25) brightness(.8); box-shadow: none; opacity: .7; }
+
+/* Secondary on dark surfaces: glass, never flat grey. Cream tool cards keep their own style. */
+:is(dialog, .report-page, .core-board .record-bank, .home-cta, .results-actions, .floating-controls, .activity-footer, .page-bottom) .btn:not(.primary):not(.sentence-chip):not(.choice-card),
+#app .floating-controls .icon-button {
+  background: var(--ui-glass); color: var(--ui-text); border: 1px solid var(--ui-line);
+  box-shadow: 0 6px 18px #02081a40, inset 0 1px 0 #ffffff1f; backdrop-filter: blur(10px);
+  transition: background-color var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast) var(--ease-out);
+}
+:is(dialog, .report-page, .core-board .record-bank, .home-cta, .results-actions, .floating-controls, .activity-footer, .page-bottom) .btn:not(.primary):not(.sentence-chip):not(.choice-card):hover:not(:disabled),
+#app .floating-controls .icon-button:hover { background: var(--ui-glass-hover); border-color: var(--ui-line-strong); }
+:is(dialog, .report-page, .floating-controls, .activity-footer) .btn:not(.primary):active:not(:disabled) { transform: scale(.97); }
+#app .floating-controls .icon-button { border-radius: 50%; width: 52px; height: 52px; color: var(--ui-gold-1); }
+#app .floating-controls .icon-button[aria-pressed='true'] { color: #9fe3d2; }
+
+/* Popups: soft glass card, no hard header/footer bars. (Character dialogue keeps its own scene layout.) */
+dialog:not(.npc-scene-dialog) {
+  border-radius: var(--ui-radius-lg); border: 1px solid var(--ui-line);
+  background: linear-gradient(165deg, #1a3157f5 0%, #0f1f3cf7 60%, #0b1830f9 100%);
+  box-shadow: 0 30px 90px #02081acc, inset 0 1px 0 #ffffff1a;
+  color: var(--ui-text);
+}
+dialog:not(.npc-scene-dialog)[open] { animation: popup-in var(--dur-slow) var(--ease-out); }
+dialog::backdrop { background: radial-gradient(ellipse at 50% 40%, #0a183088, #020817d9); backdrop-filter: blur(6px); }
+dialog:not(.npc-scene-dialog) .dialog-heading { border-bottom: 0; padding-bottom: 6px; }
+dialog:not(.npc-scene-dialog) .dialog-heading h2 { font-size: clamp(22px, 2vw, 28px); color: var(--ui-gold-1); letter-spacing: -.01em; }
+dialog:not(.npc-scene-dialog) .dialog-heading .icon-button { border-radius: 50%; width: 46px; height: 46px; }
+.classroom-dialog .dialog-footer { background: linear-gradient(180deg, transparent, #08142a99); border-top: 0; }
+dialog:not(.npc-scene-dialog) .dialog-body { scrollbar-width: thin; scrollbar-color: #f2c26666 transparent; }
+@keyframes popup-in { from { opacity: 0; transform: translateY(12px) scale(.97); } }
+
+/* Generated record badges replace repeated line icons in the kit, report and core. */
+.record-badge { width: 44px; height: 44px; flex: none; object-fit: contain; filter: drop-shadow(0 3px 6px #02081a88); }
+.record-chip .record-badge, .socket .record-badge { width: 40px; height: 40px; }
+
+/* Intro alert gets a picture instead of a wall of rows. */
+.alert-art { display: block; width: 100%; aspect-ratio: 16 / 5; object-fit: cover; border-radius: var(--ui-radius-md); margin-bottom: 14px; border: 1px solid var(--ui-line); }
+
+/* Certificate: illustrated frame behind the existing text. */
+.cert-v2.has-art { background: url('/assets/ui/cert-frame.webp') center / 100% 100% no-repeat !important; border: 0; border-radius: 6px !important; box-shadow: 0 24px 60px #02081a99 !important; padding: 10% 13% 12% !important; aspect-ratio: 1586 / 992; display: flex; flex-direction: column; justify-content: center; }
+.cert-v2.has-art .cert-frame { border: 0; outline: 0; background: none; box-shadow: none; padding: 0; }
+.cert-v2.has-art .cert-frame footer { border-top-color: #c9a65d99; }
+
+@media (prefers-reduced-motion: reduce) { dialog:not(.npc-scene-dialog)[open] { animation: none; } }
+
+/* Bonus planet quest: tap cards instead of two dropdowns. */
+.bonus-chips { display: grid; gap: 6px; margin-bottom: 10px; }
+.bonus-chips.feature-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.bonus-chips.name-chips { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+dialog .bonus-chips .btn.choice-card { min-height: 42px; padding: 6px 8px; font-size: 15px; line-height: 1.25; border-radius: var(--ui-radius-sm); white-space: normal; background: #fffdf7; color: var(--ui-ink); border: 2px solid #e2d3ae; box-shadow: 0 2px 0 #d9c79b; }
+dialog .bonus-chips .btn.choice-card.selected { background: #fff0c8; border-color: var(--ui-gold-2); box-shadow: 0 0 0 3px #f2c26655; }
+dialog .bonus-chips.name-chips .btn { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+dialog .bonus-chips.name-chips .planet-image { width: 26px; height: 26px; }
+
+/* Intro alert: picture first, then a compact two-column list. */
+dialog .incident-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+dialog .incident-board p { margin: 0; padding: 8px 10px; border-radius: var(--ui-radius-sm); font-size: 15px; line-height: 1.35; }
+dialog .incident-board p:last-child { grid-column: 1 / -1; }
+dialog .incident-board .incident-icon { background: none; width: 34px; height: 34px; padding: 0; }
+.reward-symbol { background: none !important; box-shadow: none !important; }
+.core-final .socket:not(.connected) .record-badge { filter: grayscale(.75) brightness(.7) drop-shadow(0 3px 6px #02081a88); }
+.core-final .record-chip.used .record-badge { filter: grayscale(.6) brightness(.75); }
+.kit-item:not(.is-done) .record-badge { filter: grayscale(.8) brightness(.65); }
+
+/* One instruction per screen: the task pill already says what to do on the telescope. */
+/* Core: the dial itself turns (touch and keyboard), so the duplicate slider and repeated note stay for screen readers only. */
+.core-final .record-bank .record-chip { grid-template-columns: 40px 1fr auto; align-items: center; }
+.core-final .socket { grid-template-columns: 40px 1fr auto; align-items: center; }
+.kit-item summary .record-badge, .final-report summary .record-badge { width: 40px; height: 40px; }
+
+/* Home: no home/back buttons on the home screen itself; welcome voice card matches the glass UI. */
+#app:has(.home-v2) .floating-controls nav:first-child { visibility: hidden; }
+.npc-welcome-voice { background: var(--ui-glass) !important; color: var(--ui-text) !important; border: 1px solid var(--ui-line); border-radius: var(--ui-radius-md) !important; backdrop-filter: blur(10px); box-shadow: 0 10px 26px #02081a55; }
+.npc-welcome-voice > button { background: transparent !important; color: var(--ui-gold-1) !important; border: 1px solid var(--ui-line-strong) !important; border-radius: 999px !important; }
+.npc-welcome-voice small, .npc-welcome-voice [role='status'] { color: var(--ui-sub) !important; }
+.kit-item summary .kit-check { width: 40px; height: 40px; background: none !important; border: 0 !important; padding: 0; }
+
+/* Keyboard helpers stay hidden until focused; then they show normally. */
+.sr-only.sr-only-focusable:focus-within { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+.learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-card { overflow: visible; }
+/* Touch targets never drop under 44px, even on short screens (cards scroll instead). */
+#app .learning-v2 .toolbox .btn, #app .learning-v2 .light-lab .btn.light-toggle { min-height: 44px !important; }
+
+.cert-v2.has-art .cert-kicker { margin-top: 4px; }
+.cert-v2.has-art h2 { margin: 2px 0 8px !important; font-size: clamp(26px, 2.5vw, 38px) !important; }
+.cert-v2.has-art .cert-text { font-size: 14px; line-height: 1.55; margin: 6px 0; }
+.cert-v2.has-art .cert-stats { gap: 6px; margin: 6px 0; }
+.cert-v2.has-art .cert-stats > div { padding: 5px 6px; }
+.cert-v2.has-art .cert-style { font-size: 13px; margin: 4px 0; }
+.cert-v2.has-art .cert-frame footer { font-size: 13px; padding-top: 6px; }

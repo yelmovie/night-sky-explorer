@@ -31,10 +31,9 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
           <div class="scope-lens"><div id="scope-moon">${moonSVG()}</div><div class="crosshair"></div></div>
           <img class="scope-housing" src="${imageFor('telescope-frame')}" alt="" draggable="false"/>
         </div></div>
-        <p id="focus-status" class="feedback" role="status">시야와 초점을 조절해 보세요.</p>
+        <p id="focus-status" class="feedback sr-only" role="status">시야와 초점을 조절해 보세요.</p>
 `;
       tools = `
-        <p class="drag-tip">${icon('arrow', 18)} 망원경 속 달을 손가락으로 끌어 가운데 원에 놓아요.</p>
         ${range('배율', 'moon-zoom', 1, 3, m.zoom, .1, '×')}${range('초점', 'moon-focus', 0, 100, m.focus)}
         ${b(`${icon('camera')} <span>사진 담기</span>`, 'capture-moon', 'primary', 'id="capture-moon"')}
         <div class="photo-grid">${[0, 1].map(j => {
@@ -49,7 +48,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       instruction = '두 곳의 무늬와 밝기를 비교해요.';
       main = `${tabs(['비교 카드 하나', '비교 카드 둘'], d.moon.comparisons.map(comparisonReady))}
         <div class="lunar-surface-stage"><div class="surface-v2" id="surface-moon" aria-label="달 표면의 관찰 위치. 아래 위치 버튼으로도 고를 수 있어요.">${moonSVG()}${card.spots.map((point, j) => `<span class="spot-marker lunar-spot-${j + 1}" style="left:${point.x}%;top:${point.y}%">${j + 1}</span>`).join('')}</div></div>
-        <div class="surface-targets sr-only-focusable" role="group" aria-label="달 표면 관찰 위치">${spotChoices.map(([x, y, label]) => b(label, `spot-${x}-${y}`, 'chip')).join('')}</div>
+        <div class="surface-targets sr-only sr-only-focusable" role="group" aria-label="달 표면 관찰 위치">${spotChoices.map(([x, y, label]) => b(label, `spot-${x}-${y}`, 'chip')).join('')}</div>
 `;
       tools = `
         <div class="comparison-grid">${[0, 1].map(j => {

@@ -17,7 +17,6 @@
 #app .learning-v2 .experiment-zone { border-radius: 24px; }
 
 /* Visible keyboard-only helpers (the moon itself is the touch target). */
-.sr-only-focusable:not(:focus-within) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 
 .learning-v2 .drag-tip { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; padding: 10px 14px; border-radius: 16px; background: #e7f1ec; color: #2a5148; font-weight: 700; line-height: 1.4; }
 .learning-v2 .drag-tip svg { flex: none; transform: rotate(-45deg); }
@@ -153,3 +152,36 @@
 @keyframes shield-pulse { 50% { stroke: #fff2c4; stroke-width: 4; } }
 
 @media (prefers-reduced-motion: reduce) { .learning-v2 .planet-viewport .fog-tip, .light-lab .light-shield.is-parked rect:last-of-type { animation: none; } }
+@media (max-height: 520px) {
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body { flex-direction: row; gap: 8px; padding: 6px 8px; justify-content: flex-start; text-align: left; }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > :first-child { width: 38px; min-width: 38px; }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > span:not(.star-orb) { display: none; }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body strong { font-size: 17px; }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body small { margin-left: auto; font-size: 12px; white-space: nowrap; }
+  #app .learning-v2[data-scene='s4a'] .experiment-zone > .model-note { display: none; }
+  .learning-v2 .star-glow { transform: scale(1.3); }
+}
+/* Star glow stays inside its card at every size. */
+.learning-v2 .sky-body .star-glow { transform: scale(1.3); }
+@keyframes star-twinkle { 50% { transform: scale(1.15); opacity: .82; } }
+@media (max-height: 700px) and (min-height: 521px) {
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body { gap: 3px; padding: 6px; }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > :first-child { width: 46px; min-width: 46px; }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > span:not(.star-orb) { font-size: 13px; line-height: 1.25; }
+  .learning-v2 .sky-body .star-glow { transform: scale(1.1); }
+}
+@media (max-width: 700px) { #app .learning-v2[data-scene='s4a'] .experiment-zone { overflow-y: auto; } }
+@media (max-width: 700px) {
+  .learning-v2[data-scene='s2b'] .prediction-card, .learning-v2[data-scene='s2b'] .prediction-board.is-overlay { container-type: normal; }
+  .learning-v2[data-scene='s2b'] .prediction-board:not(.is-overlay) .prediction-visual,
+  .learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-visual { width: min(100%, 260px); height: auto; aspect-ratio: 1; }
+}
+@media (max-width: 700px) {
+  #app .learning-v2 .toolbox .reflection-choices, #app .learning-v2 .toolbox .feature-choices { grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  .learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-visual { width: min(100%, 26vh); }
+  .learning-v2[data-scene='s2b'] .experiment-zone { overflow: hidden; }
+}
+/* Overflowing tool cards start at the top so nothing is pushed out of scroll reach. */
+#app .learning-v2 .toolbox { align-content: start; }

@@ -5,6 +5,8 @@ export { esc, icon };
 export const button=(label,action,cls='secondary',attrs='')=>`<button class="btn ${cls}" data-action="${action}" ${attrs}>${label}</button>`;
 export const learnButton=(label,action,cls='secondary',attrs='')=>`<button class="btn ${cls}" data-learning="${action}" ${attrs}>${label}</button>`;
 export const range=(name,id,min,max,value,step=1,unit='')=>`<label class="range-label" for="${id}"><span>${name}</span><output id="${id}-value">${value}${unit}</output></label><input type="range" id="${id}" aria-label="${name}" min="${min}" max="${max}" value="${value}" step="${step}">`;
+const badgeKeys={1:'moon',2:'time',3:'planet',4:'light',5:'sky'};
+export const recordBadge=(number,size=44)=>`<img class="record-badge" src="/assets/ui/badge-${badgeKeys[number]}.webp" alt="" width="${size}" height="${size}" draggable="false" decoding="async">`;
 export const imageFor=id=>`/assets/generated/${id}.webp`;
 export const planetImage=(id,alt='',cls='')=>`<img class="planet-image ${cls}" src="${imageFor(id)}" alt="${esc(alt)}" draggable="false">`;
 export const celestialImage=(kind,alt='',cls='')=>`<img class="celestial-art ${cls}" src="${conceptArt[kind].src}" alt="${esc(alt)}" width="${conceptArt[kind].width}" height="${conceptArt[kind].height}" draggable="false" decoding="async">`;

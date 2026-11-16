@@ -1,7 +1,7 @@
 import { chapters, bodies } from './data.js';
 import { completedCount } from './state.js';
 import { esc, icon, moonSVG, dayMoon, starChart } from './drawing.js';
-import { planetImage, celestialImage } from './ui.js';
+import { planetImage, celestialImage, recordBadge } from './ui.js';
 
 // Quest layer of design v2: incident → missions → evidence → world change → final mission → movie → certificate.
 export const missionTag = n => `탐구 ${String(n).padStart(2, '0')}`;
@@ -85,7 +85,7 @@ export const kitMeter = s => {
 export function introPanel(step, name) {
   if (step === 0) return {
     title: '연구소 경보 · 관측 데이터 충돌',
-    body: `<div class="incident-board" role="list">${chapters.map(chapter => `<p role="listitem"><span class="incident-icon">${icon(chapter.icon, 24)}</span><span><b>${chapter.system}</b>${chapter.incident}</span><em>오류</em></p>`).join('')}</div><p class="incident-note">밤하늘에는 아무 문제가 없어요. 고장 난 것은 <b>연구소의 관측 데이터 시스템</b>이에요. 검증된 관측 기록 다섯 개가 모여야 중앙 천문 돔이 열려요.</p>`,
+    body: `<img class="alert-art" src="/assets/ui/alert-scene.webp" alt="관측 장치 화면들이 붉게 깜빡이는 연구소 안, 창밖 밤하늘은 평화로운 그림"/><div class="incident-board" role="list">${chapters.map(chapter => `<p role="listitem"><span class="incident-icon">${recordBadge(chapter.id, 34)}</span><span><b>${chapter.system}</b>${chapter.incident}</span><em>오류</em></p>`).join('')}</div><p class="incident-note">밤하늘에는 아무 문제가 없어요. 고장 난 것은 <b>연구소의 관측 데이터 시스템</b>이에요. 검증된 관측 기록 다섯 개가 모여야 중앙 천문 돔이 열려요.</p>`,
   };
   if (step === 1) return {
     title: '별여우 연구관의 의뢰',

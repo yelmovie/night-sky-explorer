@@ -261,11 +261,17 @@ try {
           if (await tab.count()) {
             if (item.round) await tab.click();
             if (await tab.getAttribute('aria-pressed') !== 'true') throw Error('Requested activity round did not become active.');
-          } else if (item.round) throw Error('Requested round has no matching activity tab.');
+          } else if (item.round) {
+            // s4a shows all eight bodies on one board; s4b reaches the second group through its body tabs.
+            if (item.scene === 's4b') await page.locator('[data-learning="bodytab-4"]').click();
+            else if (item.scene !== 's4a') throw Error('Requested round has no matching activity tab.');
+          }
           if (item.scene === 's4a' && item.draft === 'filled') await page.locator('.sky-body').first().click();
           if (item.variant === 'overlay') await page.locator('[data-learning="overlay-phase"]').click();
           if (item.variant === 'three') { await page.locator('[data-learning="toggle-three"]').click(); await page.locator('#planet-viewer canvas').waitFor(); }
           if (item.variant === 'reference') await page.locator('[data-learning="solar-note"]').click();
+          // Zoom lives in the 3D view now; open it first so the 2x check still runs.
+          if (item.variant === 'zoom2x' && !await page.locator('#planet-zoom').count()) await page.locator('[data-learning="toggle-three"]').click();
           if (item.variant === 'zoom2x') await page.locator('#planet-zoom').evaluate(input => {
             input.value = '2'; input.dispatchEvent(new Event('input', { bubbles: true }));
           });
