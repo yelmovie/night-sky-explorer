@@ -225,7 +225,8 @@ export function mountMapEncounters({
             foe[key+'Contact']=now+1050;
             pose[key]={kind:'hurt',direction:foe.point.x<p.x?-1:1,start:now,end:now+(calm?170:320)};
           }
-          if(now-lastTone>300){lastTone=now;tone('contact',0);}
+          // One bump sound covers both characters touching during the same pass (Luna follows a step behind).
+          if(now-lastTone>900){lastTone=now;tone('contact',0);}
         }
       }
       const frame=shown===HITS?5:foe.hitAt!=null&&now>=foe.hitAt?shown+2:foe.hurtAt!=null?2:
