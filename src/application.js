@@ -144,8 +144,6 @@ function dialog(title, body, after, footer = '', back = null) {
   bindActions(element);
   element.showModal();
   after?.(element);
-  const storyMix = element.matches('.story-dialog, .movie-dialog');
-  if (storyMix) sound.setStoryMix(true);
   if (!element.classList.contains('movie-dialog')) {
     const line = voiceForText(element.querySelector('.dialog-body').textContent);
     if (element.querySelector('.npc-conversation')) {
@@ -153,10 +151,6 @@ function dialog(title, body, after, footer = '', back = null) {
       modalCleanup = mountNpcDialogue(element, narration, { reduced: reduced(), typewriter: element.classList.contains('story-dialog') });
     }
     if (line) modalVoiceCleanup = mountNarrationControl(element.querySelector('.dialog-footer'), line.id, narration);
-  }
-  if (storyMix) {
-    const cleanup = modalCleanup;
-    modalCleanup = () => { cleanup(); sound.setStoryMix(false); };
   }
 }
 function showConcept(number, back = null, returnLabel = '탐구로 돌아가기') {
@@ -175,7 +169,7 @@ function kit() {
 const paragraphs = values => values.map(value => `<p>${esc(value)}</p>`).join('');
 function settings(openLibrary = false) {
   const unlocked=state.core.restored||state.settings.adminUnlock;
-  dialog('설정', `<div data-science-settings><div class="science-settings-body"><section class="science-settings-audio" aria-label="소리와 화면 설정"><label class="toggle-row"><b>배경 음악</b><input id="setting-bgm" type="checkbox" role="switch" ${state.settings.bgm ? 'checked' : ''}/></label><label class="toggle-row"><b>효과음</b><input id="setting-sfx" type="checkbox" role="switch" ${state.settings.sfx ? 'checked' : ''}/></label><label class="settings-star-volume setting-row" for="setting-volume"><b>배경 음악 음량</b><input type="range" id="setting-volume" min="0" max="100" step="5" value="${state.settings.bgmVolume}"><output id="setting-volume-value" for="setting-volume">${state.settings.bgmVolume}%</output></label><label class="toggle-row"><b>동작 줄이기</b><input id="setting-motion" type="checkbox" role="switch" ${state.settings.reducedMotion ? 'checked' : ''}/></label></section><section class="science-settings-actions" aria-label="바로 가기">${button('연구 키트 · 나의 관측 기록','kit','secondary')}${button('이 탐험을 하는 이유 다시 보기','story-replay','secondary')}${button('엔딩 다시 보기','movie','secondary',unlocked?'':'disabled aria-describedby="star-settings-end"')}${button('나의 탐구 결과 보기','results','secondary',state.core.restored?'':'disabled aria-describedby="star-settings-end"')}${unlocked?'':'<p id="star-settings-end">다섯 관측 기록을 모아 중앙 코어를 복구하면 볼 수 있어요.</p>'}</section><details><summary>앱 정보 · 배움과 보상</summary><p>밤하늘을 직접 관찰하고, 예상과 근거를 비교해요.</p><p>다섯 기록을 모아 연구소를 복구하고 나의 탐구 인증서를 받아요. 지도에 나타나는 악당을 모두 물리치면 지도 피날레 영상도 열려요.</p><p>처음 예상·관측한 근거·수정한 생각이 연구 노트에 남아요.</p><p>별빛 관측 연구소 v${appInfo.version} · ${appInfo.credit}</p><details><summary>완료한 개념영상 모아 보기</summary><div class="concept-library">${chapters.map(chapter => `<button class="concept-card" data-action="library-${chapter.id}" ${state.evidence[chapter.id] ? '' : 'disabled'}><img src="/assets/concepts/stage-${chapter.id}.webp" alt=""/><span>${concepts[chapter.id].title}<small>${state.evidence[chapter.id] ? `${concepts[chapter.id].seconds}초 · 다시 보기` : '관측을 마치면 열려요'}</small></span></button>`).join('')}</div></details></details><details><summary>학생용 가이드</summary>${paragraphs(studentGuide)}</details><details><summary>교사용 가이드</summary>${paragraphs(teacherGuide)}<details><summary>성취기준</summary><p>2022 개정 교육과정과 연계한 탐구 보조 활동이에요. 이 게임만으로 성취기준 전체 달성을 판단하지 않으며, 수업·토론·후속 평가와 함께 활용해 주세요.</p>${standards.map(([code, text]) => `<p>${code} ${text}</p>`).join('')}</details><details><summary>장별 학습 근거와 오개념</summary><p>교사 현장 검수 전이에요. 기록의 존재와 설명의 과학적 타당성은 구분해 확인해 주세요.</p>${learningObjectives.map(item => `<section><h3>${item.chapter}장 · ${chapters[item.chapter-1].place}</h3><p>${item.standardCodes.join(', ')} · ${item.objective}</p><p><b>살펴볼 기록</b> · ${item.evidence}</p><p><b>함께 확인해요</b> · ${item.misconception}</p><p>${item.boundary}</p></section>`).join('')}</details><details><summary>교사용 도구</summary><p>모든 단계를 임시로 체험해요. 시연 중 조작은 자동저장하지 않고, 시연 종료·새로고침 시 원래 학생 기록으로 돌아가요.</p>${button(state.settings.adminUnlock ? '시연 종료 · 학생 기록으로 돌아가기' : '모든 단계 한 번에 열기', 'unlock', 'secondary', `aria-pressed="${state.settings.adminUnlock}"`)}</details></details><details><summary>이미지·소리·저작권 고지</summary><p>배경과 캐릭터는 제공·생성된 AI 그림이며, 실제 관측사진이 아닌 학습용 모형이에요.</p><p>게임 효과음과 배경 음악은 자체 Web Audio 합성이에요. 개념영상은 게임 그림과 직접 작성한 도형으로 HyperFrames에서 제작했고, 영상 효과음은 Kenney(CC0)예요.</p><p>상세 출처와 라이선스는 assets/CREDITS.md에 기록돼 있어요.</p><details><summary>자료 출처 모아 보기</summary>${sources.map(([name, source]) => `<p><b>${name}</b> · ${source}</p>`).join('')}</details><p>ⓒ 2026 ${appInfo.credit}. All rights reserved.</p><p>자체 제작 화면·일러스트·음원의 복제·재배포·전용·상업적 이용은 별도 이용 조건을 따라요.</p><p>외부 공개 자료의 권리는 각 원저작자에게 있으며 각 자료의 공개 라이선스와 이용 조건을 따라요.</p></details></div></div>`, element => {
+  dialog('설정', `<div data-science-settings><div class="science-settings-body"><section class="science-settings-audio" aria-label="소리와 화면 설정"><label class="toggle-row"><b>배경 음악</b><input id="setting-bgm" type="checkbox" role="switch" ${state.settings.bgm ? 'checked' : ''}/></label><label class="toggle-row"><b>효과음</b><input id="setting-sfx" type="checkbox" role="switch" ${state.settings.sfx ? 'checked' : ''}/></label><label class="settings-star-volume setting-row" for="setting-volume"><b>배경 음악 음량</b><input type="range" id="setting-volume" min="0" max="100" step="5" value="${state.settings.bgmVolume}"><output id="setting-volume-value" for="setting-volume">${state.settings.bgmVolume}%</output></label><label class="toggle-row"><b>동작 줄이기</b><input id="setting-motion" type="checkbox" role="switch" ${state.settings.reducedMotion ? 'checked' : ''}/></label></section><section class="science-settings-actions" aria-label="바로 가기">${button('연구 키트 · 나의 관측 기록','kit','secondary')}${button('이 탐험을 하는 이유 다시 보기','story-replay','secondary')}${button('엔딩 다시 보기','movie','secondary',unlocked?'':'disabled aria-describedby="star-settings-end"')}${button('나의 탐구 결과 보기','results','secondary',state.core.restored?'':'disabled aria-describedby="star-settings-end"')}${unlocked?'':'<p id="star-settings-end">다섯 관측 기록을 모아 중앙 코어를 복구하면 볼 수 있어요.</p>'}</section><details><summary>앱 정보 · 배움과 보상</summary><p>밤하늘을 직접 관찰하고, 예상과 근거를 비교해요.</p><p>다섯 기록을 모아 연구소를 복구하고 나의 탐구 인증서를 받아요. 지도에 나타나는 악당을 모두 물리치면 지도 피날레 영상도 열려요.</p><p>처음 예상·관측한 근거·수정한 생각이 연구 노트에 남아요.</p><p>별빛 관측 연구소 v${appInfo.version} · ${appInfo.credit}</p><details><summary>완료한 개념영상 모아 보기</summary><div class="concept-library">${chapters.map(chapter => `<button class="concept-card" data-action="library-${chapter.id}" ${state.evidence[chapter.id] ? '' : 'disabled'}><img src="/assets/concepts/stage-${chapter.id}.webp" alt=""/><span>${concepts[chapter.id].title}<small>${state.evidence[chapter.id] ? `${concepts[chapter.id].seconds}초 · 다시 보기` : '관측을 마치면 열려요'}</small></span></button>`).join('')}</div></details></details><details><summary>학생용 가이드</summary>${paragraphs(studentGuide)}</details><details><summary>교사용 가이드</summary>${paragraphs(teacherGuide)}<details><summary>성취기준</summary><p>2022 개정 교육과정과 연계한 탐구 보조 활동이에요. 이 게임만으로 성취기준 전체 달성을 판단하지 않으며, 수업·토론·후속 평가와 함께 활용해 주세요.</p>${standards.map(([code, text]) => `<p>${code} ${text}</p>`).join('')}</details><details><summary>장별 학습 근거와 오개념</summary><p>교사 현장 검수 전이에요. 기록의 존재와 설명의 과학적 타당성은 구분해 확인해 주세요.</p>${learningObjectives.map(item => `<section><h3>${item.chapter}장 · ${chapters[item.chapter-1].place}</h3><p>${item.standardCodes.join(', ')} · ${item.objective}</p><p><b>살펴볼 기록</b> · ${item.evidence}</p><p><b>함께 확인해요</b> · ${item.misconception}</p><p>${item.boundary}</p></section>`).join('')}</details><details><summary>교사용 도구</summary><p>모든 단계를 임시로 체험해요. 시연 중 조작은 자동저장하지 않고, 시연 종료·새로고침 시 원래 학생 기록으로 돌아가요.</p>${button(state.settings.adminUnlock ? '시연 종료 · 학생 기록으로 돌아가기' : '모든 단계 한 번에 열기', 'unlock', 'secondary', `aria-pressed="${state.settings.adminUnlock}"`)}</details></details><details><summary>이미지·소리·저작권 고지</summary><p>배경과 캐릭터는 제공·생성된 AI 그림이며, 실제 관측사진이 아닌 학습용 모형이에요.</p><p>배경 음악은 Suno로 만든 곡이고, 게임 효과음은 자체 Web Audio 합성이에요. 개념영상은 게임 그림과 직접 작성한 도형으로 HyperFrames에서 제작했고, 영상 효과음은 Kenney(CC0)예요.</p><p>상세 출처와 라이선스는 assets/CREDITS.md에 기록돼 있어요.</p><details><summary>자료 출처 모아 보기</summary>${sources.map(([name, source]) => `<p><b>${name}</b> · ${source}</p>`).join('')}</details><p>ⓒ 2026 ${appInfo.credit}. All rights reserved.</p><p>자체 제작 화면·일러스트·음원의 복제·재배포·전용·상업적 이용은 별도 이용 조건을 따라요.</p><p>외부 공개 자료의 권리는 각 원저작자에게 있으며 각 자료의 공개 라이선스와 이용 조건을 따라요.</p></details></div></div>`, element => {
     element.classList.add('science-settings-stars');
     element.querySelector('.dialog-footer').classList.add('science-settings-footer');
     if (openLibrary) {
@@ -208,7 +202,9 @@ function finalReport() {
   state.core.reportSeen = true; persist();
   dialog('최종 관측 보고서', `${npcLine('fox', npc.report, 'map')}<div class="final-report">${chapters.map(chapter => `<details><summary>${recordBadge(chapter.id)}<span class="report-name">${chapter.record}<small>${evidenceFact(chapter.id, state.evidence[chapter.id]?.data)}</small></span><em class="verified">${icon('check', 16)} 확인</em></summary><div class="report-record">${recordMarkup(chapter.id, state.evidence[chapter.id]?.data)}</div></details>`).join('')}</div><p class="bank-note">항목을 누르면 내가 만든 실제 기록을 다시 볼 수 있어요.</p>`, null, button(first ? '중앙 코어 연결 시작' : '코어로 돌아가기', 'close-modal', 'primary'));
 }
-let movie = null;
+let movie = null, mapFinaleOpen = false;
+// 메인 테마는 시작부터 계속, 파이널은 엔딩·인증서·지도 피날레 창에서 나온다.
+function syncMusic() { sound.setMusic(movie || mapFinaleOpen || state.scene === 'results' ? 'finale' : 'main'); }
 function showMovie() {
   const preview = completedCount(state) < 5;
   sound.play('success');
@@ -224,7 +220,9 @@ function showMovie() {
       onEnd() { skip?.remove(); element.querySelector('#movie-done')?.focus({ preventScroll: true }); },
     });
     on(skip, 'click', () => movie?.next());
-    modalCleanup = () => { movie?.dispose(); movie = null; };
+    syncMusic();
+    // 인증서로 넘어가면 파이널이 끊기지 않게, 닫힌 뒤 화면이 정해지면 고른다.
+    modalCleanup = () => { movie?.dispose(); movie = null; setTimeout(syncMusic); };
   }, `<button class="btn" id="movie-skip">${reduced() ? '다음 장면' : '건너뛰기'}</button>${preview ? button('시연 닫기', 'close-modal', 'primary', 'id="movie-done"') : button('인증서 받기', 'results', 'primary', 'id="movie-done"')}`, preview ? null : () => go('results'));
 }
 function challenge(number) {
@@ -398,7 +396,7 @@ function render() {
   }
   if (state.scene === 'core') mountCalibration();
   syncFeedbackVoice(app.querySelector('#planet-feedback, #classification-feedback'));
-  refresh(); sound.sync();
+  refresh(); sound.sync(); syncMusic();
   if (state.scene === 'core' && completedCount(state) === 5 && !state.core.restored && !state.core.reportSeen) finalReport();
 }
 function mountCalibration() {
@@ -424,6 +422,9 @@ function mountCalibration() {
   for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) on(dial, type, () => { if (!drag) return; drag = null; dial.classList.remove('is-turning'); persist(); if (coreAligned(core) && !locked()) sound.play('place'); });
   on(dial, 'keydown', event => { const step = { ArrowRight: 5, ArrowUp: 5, ArrowLeft: -5, ArrowDown: -5 }[event.key]; if (step && !locked()) { event.preventDefault(); set(core.angle + step, true); } });
 }
-document.addEventListener('pointerdown', () => sound.start());
+// 캡처 단계에서 받아, 지도 방향 버튼처럼 이벤트를 멈추는 곳을 처음 눌러도 배경음이 시작된다.
+document.addEventListener('pointerdown', () => sound.start(), true);
+document.addEventListener('keydown', () => sound.start(), true);
+document.addEventListener('map-finale', event => { mapFinaleOpen = !!event.detail; syncMusic(); });
 render();
 if (loaded.warning) { notify(loaded.warning); showSaveWarning(); }
