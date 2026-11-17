@@ -196,7 +196,7 @@ input[type="checkbox"] { min-height: 28px; width: 28px; height: 28px; }
 .toolbox .progress-hint { color: #526379; text-shadow: none; font-weight: 500; }
 .toolbox .btn:last-child { margin-bottom: 3px; }
 .tool-field { display: grid; gap: 8px; margin-bottom: 18px; }
-.tool-field > label, .toolbox .field-label { font-size: 17px; font-weight: 700; color: #38516a; }
+.tool-field > label, .toolbox .field-label { font-size: var(--classroom-small); font-weight: 700; color: #38516a; }
 .activity-action {
   position: absolute;
   z-index: 15;
@@ -384,7 +384,7 @@ input[type="checkbox"] { min-height: 28px; width: 28px; height: 28px; }
   border-radius: 9px;
   background: #243448eb;
   box-shadow: 0 4px 0 #101e2d;
-  font-size: 16px;
+  font-size: var(--classroom-small);
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
@@ -394,7 +394,7 @@ input[type="checkbox"] { min-height: 28px; width: 28px; height: 28px; }
 .world-pin.done { color: #153f38; border-color: #d6f2da; background: #aed4b2; }
 .world-pin.locked { color: #e0ddd2; background: #3b4450; border-color: #858f9a; }
 .world-pin.current { border-color: #ffe7a0; background: #f5d58f; color: #293e4b; box-shadow: 0 4px 0 #826333, 0 0 25px #f5cf7b55; }
-.world-pin small { display: block; font-size: 13px; color: inherit; }
+.world-pin small { display: block; font-size: var(--classroom-small); color: inherit; }
 .building-marks { display: flex; justify-content: center; align-items: center; gap: 5px; margin-top: 4px; }
 .building-marks svg { width: 14px; height: 14px; }
 .world-controls { position: absolute; z-index: 22; left: 26px; bottom: 24px; display: grid; grid-template-columns: repeat(3, 52px); gap: 7px; }
@@ -456,7 +456,7 @@ dialog { color: #f8f1df; border: 1px solid #8495aa; border-radius: 25px; padding
 .learning-v2 .case-tabs { flex: 0 0 auto; justify-content: center; }
 .learning-v2 .model-note { flex: 0 0 auto; margin: 10px 0 0; color: #d6e6e9; font-size: 15px; text-align: center; line-height: 1.5; }
 .learning-v2 .experiment-zone > .feedback { flex: 0 0 auto; margin: 10px auto 0; max-width: 560px; padding: 8px 15px; font-size: 17px; text-align: center; }
-.learning-v2 .btn.chip { min-width: 48px; min-height: 48px; padding: 8px 13px; font-size: 17px; }
+.learning-v2 .btn.chip { min-width: 48px; min-height: 48px; padding: 8px 13px; font-size: var(--classroom-button); }
 .learning-v2 .btn.selected, .planet-chip.selected { border-color: #9fe1ca; background: #d7efdf; color: #1d534a; box-shadow: 0 4px 0 #538575; }
 .tool-title { padding-bottom: 10px; border-bottom: 1px solid #c6c5b6; }
 .toolbox .field-label { display: block; margin: 14px 0 7px; }
@@ -479,7 +479,7 @@ dialog { color: #f8f1df; border: 1px solid #8495aa; border-radius: 25px; padding
 .scope-v2 #scope-moon { width: 72%; height: 72%; top: 14%; left: 14%; }
 .scope-v2 .crosshair { inset: 0; border-width: 0; }
 .photo-grid { margin-top: 12px; gap: 9px; }
-.photo-mini { min-width: 0; display: flex; align-items: center; gap: 6px; padding: 8px; border: 1px solid #b0c4b8; border-radius: 12px; background: #e5ece1; color: #294b50; font-size: 15px; }
+.photo-mini { min-width: 0; display: flex; align-items: center; gap: 6px; padding: 8px; border: 1px solid #b0c4b8; border-radius: 12px; background: #e5ece1; color: #294b50; font-size: var(--classroom-small); }
 .photo-mini .moon-art { width: 35px; height: 35px; }
 .surface-v2 { position: relative; width: min(37vh, 330px); max-width: 80%; aspect-ratio: 1; margin: auto; cursor: crosshair; }
 .surface-v2 .moon-art { width: 100%; height: 100%; }

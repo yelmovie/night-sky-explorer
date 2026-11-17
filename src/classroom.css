@@ -1,4 +1,6 @@
-:root { --classroom-body: clamp(18px, 1.3vw, 25px); --classroom-small: clamp(16px, 1.05vw, 20px); --classroom-title: clamp(27px, 2.1vw, 40px); }
+/* The app's four text steps (2026-11-17 3-second rule): anything a student reads is 18px or more, body 20px or more.
+   Defined only here; other files use the names. */
+:root { --classroom-title: clamp(24px, 2.1vw, 40px); --classroom-body: clamp(20px, 1.3vw, 25px); --classroom-button: clamp(18px, 1.15vw, 22px); --classroom-small: clamp(18px, 1.05vw, 20px); }
 [hidden] { display: none !important; }
 button, input, textarea, select { touch-action: manipulation; }
 button { white-space: normal; word-break: keep-all; }
@@ -109,7 +111,7 @@ dialog.classroom-dialog[open] { display: flex; flex-direction: column; }
 .learning-v2 .group-target { min-height: 170px; }
 .learning-v2 .group-target > small { display: none; }
 .learning-v2 .record-strip { flex-wrap: wrap; gap: 7px; max-height: 100px; overflow: auto; }
-.learning-v2 .record-strip small { font-size: 15px; }
+.learning-v2 .record-strip small { font-size: var(--classroom-small); }
 @media (min-width: 1600px) and (min-height: 850px) {
   :root { --touch: 58px; }
   .learning-v2 .activity-layout { top: 150px; bottom: 140px; }

@@ -27,13 +27,13 @@ function lightExperiment(blocked) {
     <defs><marker id="light-incoming-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#f5cc71"/></marker><marker id="light-reflected-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#94e1d9"/></marker></defs>
     <image href="${conceptArt.sun.src}" x="3" y="30" width="94" height="94"/>
     <path class="light-flow" data-light-ray="incoming" d="M100 78H${blocked ? 169 : 249}" fill="none" stroke="#f5cc71" stroke-width="4" marker-end="url(#light-incoming-arrow)"/>
-    <text class="light-ray-label" x="173" y="58" fill="#ffe3a3" text-anchor="middle" font-size="17">태양빛</text>
-    <g class="light-shield ${blocked ? 'is-blocking' : 'is-parked'}" data-shield>${blocked ? '<rect x="166" y="26" width="32" height="104" fill="transparent"/><rect x="176" y="34" width="12" height="88" rx="3" fill="#6c8395" stroke="#d0e0e7" stroke-width="2"/><text x="182" y="143" text-anchor="middle" fill="#e4edf1" font-size="16">가림판</text>' : '<rect x="100" y="140" width="58" height="74" fill="transparent"/><rect x="122" y="150" width="12" height="52" rx="3" fill="#6c8395" stroke="#f7d17b" stroke-width="2.5"/><text x="128" y="146" text-anchor="middle" fill="#ffe3a3" font-size="14">가림판 ↑</text>'}</g>
+    <text class="light-ray-label" x="173" y="58" fill="#ffe3a3" text-anchor="middle" font-size="22">태양빛</text>
+    <g class="light-shield ${blocked ? 'is-blocking' : 'is-parked'}" data-shield>${blocked ? '<rect x="166" y="26" width="32" height="104" fill="transparent"/><rect x="176" y="34" width="12" height="88" rx="3" fill="#6c8395" stroke="#d0e0e7" stroke-width="2"/><text x="182" y="143" text-anchor="middle" fill="#e4edf1" font-size="22">가림판</text>' : '<rect x="100" y="140" width="58" height="74" fill="transparent"/><rect x="122" y="150" width="12" height="52" rx="3" fill="#6c8395" stroke="#f7d17b" stroke-width="2.5"/><text x="128" y="146" text-anchor="middle" fill="#ffe3a3" font-size="22">가림판 ↑</text>'}</g>
     <image href="${imageFor('venus')}" x="250" y="35" width="88" height="88" opacity="${blocked ? .14 : 1}"/>
     <path class="light-flow" data-light-ray="reflected" d="M270 121L219 169" fill="none" stroke="#94e1d9" stroke-width="4" marker-end="url(#light-reflected-arrow)" opacity="${blocked ? 0 : 1}"/>
-    ${blocked ? '' : '<text class="light-ray-label" x="281" y="181" fill="#b7f2e7" text-anchor="middle" font-size="17">반사광</text>'}
+    ${blocked ? '' : '<text class="light-ray-label" x="281" y="181" fill="#b7f2e7" text-anchor="middle" font-size="22">반사광</text>'}
     <g fill="none" stroke="#e1eff4" stroke-width="2.5"><path d="M170 181Q193 157 216 181Q193 205 170 181Z"/><circle cx="193" cy="181" r="7"/></g>
-    <g fill="#f0f6f1" text-anchor="middle" font-size="17"><text x="50" y="145">태양</text><text x="294" y="145">행성</text><text x="193" y="215">관찰자</text></g>
+    <g fill="#f0f6f1" text-anchor="middle" font-size="22"><text x="50" y="145">태양</text><text x="294" y="145">행성</text><text x="193" y="215">관찰자</text></g>
   </svg>`;
 }
 

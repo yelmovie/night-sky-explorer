@@ -82,14 +82,14 @@ dialog:not(.npc-scene-dialog) .dialog-body { scrollbar-width: thin; scrollbar-co
 .bonus-chips { display: grid; gap: 6px; margin-bottom: 10px; }
 .bonus-chips.feature-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .bonus-chips.name-chips { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-dialog .bonus-chips .btn.choice-card { min-height: 42px; padding: 6px 8px; font-size: 15px; line-height: 1.25; border-radius: var(--ui-radius-sm); white-space: normal; background: #fffdf7; color: var(--ui-ink); border: 2px solid #e2d3ae; box-shadow: 0 2px 0 #d9c79b; }
+dialog .bonus-chips .btn.choice-card { min-height: 42px; padding: 6px 8px; font-size: var(--classroom-small); line-height: 1.25; border-radius: var(--ui-radius-sm); white-space: normal; background: #fffdf7; color: var(--ui-ink); border: 2px solid #e2d3ae; box-shadow: 0 2px 0 #d9c79b; }
 dialog .bonus-chips .btn.choice-card.selected { background: #fff0c8; border-color: var(--ui-gold-2); box-shadow: 0 0 0 3px #f2c26655; }
 dialog .bonus-chips.name-chips .btn { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 dialog .bonus-chips.name-chips .planet-image { width: 26px; height: 26px; }
 
 /* Intro alert: picture first, then a compact two-column list. */
 dialog .incident-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-dialog .incident-board p { margin: 0; padding: 8px 10px; border-radius: var(--ui-radius-sm); font-size: 15px; line-height: 1.35; }
+dialog .incident-board p { margin: 0; padding: 8px 10px; border-radius: var(--ui-radius-sm); font-size: var(--classroom-small); line-height: 1.35; }
 dialog .incident-board p:last-child { grid-column: 1 / -1; }
 dialog .incident-board .incident-icon { background: none; width: 34px; height: 34px; padding: 0; }
 .reward-symbol { background: none !important; box-shadow: none !important; }

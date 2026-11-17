@@ -26,7 +26,7 @@
 /* Sentence choices replace typing on tablets. */
 .reflection-choices { display: grid; gap: 10px; margin-top: 4px; }
 .reflection-choices .choice-row { display: flex; flex-direction: column; align-items: stretch; gap: 6px; margin: 0; padding: 0; border: 0; min-width: 0; }
-.reflection-choices legend { margin-bottom: 4px; padding: 0; color: #38516a; font-weight: 800; font-size: 17px; }
+.reflection-choices legend { margin-bottom: 4px; padding: 0; color: #38516a; font-weight: 800; font-size: var(--classroom-small); }
 #app .learning-v2 .toolbox .sentence-chip,
 #app .learning-v2 .toolbox .feature-choices .choice-card {
   width: 100% !important; max-width: none; min-height: 48px; margin: 0; padding: 8px 14px; border-radius: 16px; text-align: left; justify-content: flex-start;
@@ -73,15 +73,15 @@
 .learning-v2 .drag-tip.is-done { background: #dff3e7; color: #1d5a3c; }
 #app .learning-v2[data-scene='s3a'] #planet-feature { height: auto; min-height: 0; padding: 0; font-size: inherit; flex: none; }
 #app .learning-v2[data-scene='s3a'] .toolbox > * { flex: none; }
-#app .learning-v2[data-scene='s3a'] .feature-choices .choice-card { font-size: 16px; min-height: 52px; padding: 6px 10px; }
+#app .learning-v2[data-scene='s3a'] .feature-choices .choice-card { font-size: var(--classroom-button); min-height: 52px; padding: 6px 10px; }
 
 /* Chapter 4: all eight bodies on one board, no paging between two groups. */
 #app .learning-v2[data-scene='s4a'] .sky-bodies.all-bodies { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; }
 #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 10px 8px; min-height: 0; border-radius: 20px; text-align: center; }
 #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > :first-child { width: min(72px, 60%); height: auto; aspect-ratio: 1; flex: none; }
 #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body strong { font-size: 20px; }
-#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > span:not(.star-orb) { display: block; font-size: 14px; line-height: 1.3; }
-#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body small { font-size: 14px; }
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > span:not(.star-orb) { display: block; font-size: var(--classroom-small); line-height: 1.3; }
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body small { font-size: var(--classroom-small); }
 #app .learning-v2[data-scene='s4b'] .body-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 #app .learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-bodies.all-bodies { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 700px) { #app .learning-v2[data-scene='s4a'] .sky-bodies.all-bodies { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; } }
@@ -148,7 +148,7 @@
 .light-lab .light-shield.is-dragging { cursor: grabbing; opacity: .9; }
 .light-lab .light-lab-art { touch-action: none; }
 .light-lab .shield-tip { margin: 0 0 6px; color: #e8f2ef; font-weight: 700; }
-#app .learning-v2 .light-lab .btn.light-toggle { min-height: 34px; padding: 3px 10px; font-size: 14px; width: auto; margin: 0 auto !important; display: block; }
+#app .learning-v2 .light-lab .btn.light-toggle { min-height: 44px; padding: 3px 12px; font-size: var(--classroom-button); width: auto; margin: 0 auto !important; display: block; }
 @keyframes shield-pulse { 50% { stroke: #fff2c4; stroke-width: 4; } }
 
 @media (prefers-reduced-motion: reduce) { .learning-v2 .planet-viewport .fog-tip, .light-lab .light-shield.is-parked rect:last-of-type { animation: none; } }
