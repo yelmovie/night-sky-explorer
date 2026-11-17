@@ -181,6 +181,8 @@
 | `scripts/verify-quest.mjs`(빌드 미리보기 4173) | 기존 보너스 2종·재시도 기록·엔딩 영상·동작 줄이기 통과, 오류 없음 |
 | `scripts/verify-moon-path.mjs`(빌드 미리보기 4173) | 6항목 통과: 키보드 1280×800 완주, 두 손가락 터치 1024×768 완주, 카드 방식, WebGL 없음, 옛 저장, 콘솔 오류 없음. 그림 9장 응답 확인 포함 |
 
+배포: 커밋 `bd1736d`(`main` 푸시), Cloudflare Worker `night-sky-explorer` 버전 `29ec50ce-e455-408d-a67c-c2291507340e`. 운영 주소(https://night-sky-explorer.yelsam.workers.dev/)의 `/`, `index-CQZ9RWkH.js`, `index-BsSJJWNi.css`, `moon-run-stage-Cz2Mp2bY.js`, 그림 9장의 SHA-256이 로컬 빌드와 같았다. 운영 주소에서 `verify-moon-path.mjs` 6항목과 `verify-quest.mjs`가 모두 통과했다(완주 뒤 `state.bonus.path = "done"` 저장 확인 포함).
+
 확인하지 못한 것: 실물 태블릿·전자칠판에서의 성능(나무 스프라이트 약 90개 추가)과 학생 사용. 브라우저 확인은 헤드리스 Chrome(SwiftShader)에서만 했다.
 
 ### 이미지 생성 기록
