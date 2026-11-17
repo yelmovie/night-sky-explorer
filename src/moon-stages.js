@@ -35,7 +35,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
 `;
       tools = `
         ${range('배율', 'moon-zoom', 1, 3, m.zoom, .1, '×')}${range('초점', 'moon-focus', 0, 100, m.focus)}
-        ${b(`${icon('camera')} <span>사진 담기</span>`, 'capture-moon', 'primary', 'id="capture-moon"')}
+        ${b(`${icon('camera')} <span>사진 담기</span>`, 'capture-moon', 'secondary', 'id="capture-moon"')}
         <div class="photo-grid">${[0, 1].map(j => {
           const photo = m.photos[j];
           return `<div class="photo-mini ${photo ? 'is-recorded' : 'is-empty'}">${photo ? moonSVG() : `<span class="photo-placeholder" aria-hidden="true">${icon('camera', 24)}</span>`}<span><b>${j + 1}번</b><small>${photo ? photo.zoom + '× ✓' : '촬영 전'}</small></span></div>`;
@@ -79,12 +79,12 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       }))}
         <div class="prediction-board ${ui.overlayVisible ? 'is-overlay' : ''}">
           <figure class="prediction-card prediction-mine"><h3><i aria-hidden="true"></i>내 예상</h3><div class="prediction-visual" id="prediction-moon">${moonSVG(p.amount, p.side)}</div></figure>
-          <figure class="prediction-card prediction-evidence"><h3><i aria-hidden="true"></i>관측 자료</h3><div class="prediction-visual">${p.revealed ? dayMoon(day) : '<div class="unknown-moon" aria-label="예상을 저장하면 관측 자료가 나타나요">?</div>'}</div></figure>
+          <figure class="prediction-card prediction-evidence"><h3><i aria-hidden="true"></i>관측 자료</h3><div class="prediction-visual">${p.revealed ? dayMoon(day) : '<div class="unknown-moon"><span aria-hidden="true">?</span><small>예상을 저장하면 나타나요</small></div>'}</div></figure>
         </div>
 `;
       tools = `${range('밝은 부분', 'prediction-amount', 0, 100, p.amount, 1, '%')}
         <div class="choice-grid two">${b('오른쪽', 'side-right', p.side === 'right' ? 'choice-card selected' : 'choice-card', 'aria-label="오른쪽이 밝은 달"')}${b('왼쪽', 'side-left', p.side === 'left' ? 'choice-card selected' : 'choice-card', 'aria-label="왼쪽이 밝은 달"')}</div>
-        <div class="phase-comparison-actions">${!p.revealed ? b('예상 저장 · 관측', 'reveal-phase', 'primary') : b(ui.overlayVisible ? '나란히 보기' : '겹쳐서 비교', 'overlay-phase', 'secondary')}${b('관측 기록', 'phase-note', 'secondary')}</div>${p.revealed ? choiceMarkup(phaseChoices(day, p.original), ui.picks?.['s2b-' + i], p.reflection) : ''}`;
+        <div class="phase-comparison-actions">${!p.revealed ? b('예상 저장 · 관측', 'reveal-phase', 'secondary') : b(ui.overlayVisible ? '나란히 보기' : '겹쳐서 비교', 'overlay-phase', 'secondary')}${b('관측 기록', 'phase-note', 'secondary')}</div>${p.revealed ? choiceMarkup(phaseChoices(day, p.original), ui.picks?.['s2b-' + i], p.reflection) : ''}`;
       break;
     }
     default: return null;

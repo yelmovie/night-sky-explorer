@@ -37,8 +37,9 @@ html:has(.learning-v2), body:has(.learning-v2) { height: 100%; overflow: hidden;
 }
 .learning-v2 .activity-heading > p { margin: 0 0 2px; font-size: var(--classroom-small); line-height: 1.25; }
 .learning-v2 .activity-heading h1 { margin: 0; font-size: var(--classroom-title); line-height: 1.3; word-break: keep-all; }
-.learning-v2 .activity-heading .lesson-concept { color: #e7f3ec; font-size: clamp(14px, 1.1cqw, 20px); line-height: 1.4; margin-bottom: 5px; }
-.learning-v2 .lesson-concept span { color: #ffe3a1; margin-right: 5px; }
+/* One small pill above the instruction: where I am (step name) and the idea to keep. The instruction is the h1 only. */
+.learning-v2 .activity-heading .lesson-concept { display: flex; align-items: center; gap: 8px; width: fit-content; max-width: 100%; margin: 0 auto 4px; padding: 2px 14px 2px 3px; border-radius: 999px; border: 1px solid var(--ui-line); background: #0a1830b8; color: #e7f3ec; font-size: var(--classroom-small); line-height: 1.3; }
+.learning-v2 .lesson-concept span { flex: none; padding: 1px 10px; border-radius: 999px; background: #f2c26633; color: #ffe3a1; font-weight: 800; }
 .learning-v2 .lesson-concept strong { font-weight: 700; }
 .learning-v2 .activity-layout {
   position: relative;

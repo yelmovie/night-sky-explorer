@@ -97,11 +97,11 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
     find('.moon-run-art').addEventListener('error', event => event.target.remove(), { once: true });
     let gates = pathGates(), current = 0, misses = 0, view = 'intro', stage = null, input = null, timer = 0, tipTimer = 0;
     const show = next => { view = next; root.dataset.view = next; };
-    const goal = () => (gates[current] ? `${gates[current].day}일째 달이 걸린 문으로 달려가요.` : '관측소까지 달려가요.');
-    /** Hints stay until the next event. Passing remarks give the line back to the goal after a few seconds. */
+    /** The goal lives once, in the target pill above. This line only carries hints and remarks: hints stay until
+        the next event, passing remarks clear themselves after a few seconds. */
     function tip(text, tone = 'hint', passing = false) {
       clearTimeout(tipTimer); tipLine.textContent = text; tipLine.dataset.tone = tone;
-      if (passing) tipTimer = setTimeout(() => { if (view === 'run') tip(goal()); }, 4200);
+      if (passing) tipTimer = setTimeout(() => { if (view === 'run') tip(''); }, 4200);
     }
     function hud() {
       root.querySelectorAll('.moon-run-progress li').forEach((item, index) => { item.dataset.state = index < current ? 'done' : index === current ? 'now' : ''; });
@@ -143,7 +143,7 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
     }
     function startCards(message = '') {
       stopRun(); show('cards'); switchButton.hidden = true; hud(); drawCards();
-      tip(message || `${gates[current].day}일째 달이 걸린 문을 눌러요.`);
+      tip(message);
       cards.querySelector('button')?.focus({ preventScroll: true });
     }
     async function startRun() {
@@ -167,7 +167,7 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
         stage = made; host.dataset.ready = 'true';
         // Read-only handle for browser checks; it cannot change progress or the save.
         element.ownerDocument.defaultView.__moonRun = { get state() { return stage ? { ...stage.state, passed: stage.passed } : null; } };
-        tip(goal());
+        tip('');
         host.focus({ preventScroll: true });
       } catch {
         if (signal.aborted) return;
