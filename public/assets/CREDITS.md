@@ -34,7 +34,7 @@ OpenAI built-in `image_gen`으로 달 표면, 태양, 별빛, 코어 보정 장�
 | Google Fonts Jua | 제목·짧은 안내 self-host | `fonts/jua-korean-400.woff2`, `jua-latin-400.woff2`, `Jua-OFL.txt` 존재. Copyright 2017 Woowahan Brothers Corp., SIL OFL1.1 | OFL 원문·저작자 고지 동봉 확인. 폰트 파일은 수정하지 않음 |
 | HYG v4.1 발췌 | `src/stars.json` 13별·좌표 투영 | David Nash/Astronomy Nexus, CC BY-SA 4.0. 기존 출처 `docs/SOURCES.md` | 아래 해당 데이터·변환 범위에만 적용. 전체 에셋으로 확장하지 않음 |
 | 직접 작성 SVG·Canvas·모형 | 공통 아이콘·달 위상·표면·별 좌표·행성 모형 | 프로젝트 코드. 지도·보행·행성 기본 그림은 아래 생성물과 구분 | 실제 과학 도형·글자·좌표는 코드로 표시 |
-| 소리 | `src/sound.js` 효과음(자체 Web Audio 합성) + Kenney Interface Sounds 효과음6종 | 공식 배포 페이지와 동봉 CC0 원문 확인, `audio/Kenney-CC0.txt` | 로컬 파일 재생, BGM·효과음 개별 설정 |
+| 소리 | 화면 효과음은 `src/theme-effects.js` 자체 Web Audio 합성. 지도 악당 전투 효과음 7종은 CC0 녹음(아래 2026-11-17 절). Kenney Interface Sounds 6종(`audio/*.ogg`)은 폴더에 남아 있으나 2026-11-09부터 코드에서 재생하지 않음 | Kenney: 공식 배포 페이지와 동봉 CC0 원문 확인, `audio/Kenney-CC0.txt` | 로컬 파일 재생, BGM·효과음 개별 설정 |
 | 배경음 2곡 (Suno 생성) | audio/bgm/main-theme.mp3 (시작·지도·활동 반복), audio/bgm/final-theme.mp3 (엔딩·인증서·지도 피날레 창) | 2026-11-17 사용자가 Suno로 생성해 제공. 프롬프트는 `_shared/music-prompts-10-16.html` | 원본은 references/suno 보관(Git 미포함). 상업 이용 근거(생성 당시 Suno 유료 요금제) 확인 필요 |
 | 개념영상5편 | 직접 작성 SVG → sharp → FFmpeg 7.1 (개발 도구) | MP4 H.264 + WebM VP9 + 끝 장면 WebP, 각10초1280×720, 무음 | FFmpeg 실행 파일은 배포물에 포함하지 않음. 도형은 자체 코드, 달 모형은 기존 코드 재사용 |
 | sharp 0.34.5 | 생성 PNG의 WebP 서비스 변환·알파 경계 측정 | `node_modules/sharp/LICENSE`: Apache2.0 | 개발 도구. 원본은 유지하고 서비스 파일만 변환 |
@@ -118,3 +118,19 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 ## 「달빛 길 따라가기」 무대 그림 9장 (2026-11-17)
 
 `generated/run-stage/`의 WebP 9장(`night-ridge`, `night-grass`, `night-path`, `stone-wall`, `door`, `stream`, `observatory`, `props`, `start-card`)은 `gpt-imagegen` 스킬(ChatGPT 앱의 Codex CLI 내장 이미지 도구)로 한 장씩 생성한 PNG를 `scripts/prepare-run-stage-art.mjs`로 가공한 것이다. 일부는 이 프로젝트의 `references/generated/world.png`와 `rabbit.png`를 참고 그림으로 주었다. 달·날짜 글자·하늘의 별은 그림에 넣지 않았고 코드로 그린다. 프롬프트와 원본 경로는 `docs/RUN-STAGE-3D-PLAN-20261117.md`의 「이미지 생성 기록」에 있다. 생성 당시 계정의 이용 조건을 따르며, 이 문서가 별도 권리를 부여하지 않는다.
+
+## 지도 악당 전투 효과음 7종 (2026-11-17)
+
+`audio/sfx/`의 MP3 7개는 과학34 공용 효과음 라이브러리(`_shared/sfx-library-20261117`, `manifest.json`에서 라이선스 재확인 표시)에서 골라 복사했다. 모두 **CC0 1.0**(https://creativecommons.org/publicdomain/zero/1.0/)이며 원본 페이지에서 2026-11-17 라이선스를 다시 확인한 파일이다. 라이브러리 가공은 앞뒤 무음 제거·짧은 페이드·음량 맞춤(-18 LUFS 목표)·모노 MP3 변환이고 피치·속도는 바꾸지 않았다. 게임에서는 `src/sound.js`의 `mapCues`가 음량을 낮추고, 2타만 재생 속도 0.89로 조금 낮게 낸다. CC0라 표기 의무는 없지만 출처를 남긴다.
+
+| 서비스 파일 | 원본 · 제작자 | 원본 페이지 | 연결 |
+|---|---|---|---|
+| `audio/sfx/twinkle-02.mp3` | anime.wav · 1urker | https://freesound.org/people/1urker/sounds/457306 | 공격 버튼을 누를 때(별빛 공격) |
+| `audio/sfx/bell-ding-03.mp3` | sqeeeek_bell_ting1.wav · sqeeeek | https://freesound.org/people/sqeeeek/sounds/237106 | 1·2타 명중 |
+| `audio/sfx/hit-heavy-02.mp3` | Loud Pillow Hit 2.wav · saturdaysoundguy | https://freesound.org/people/saturdaysoundguy/sounds/388035 | 3타 명중 |
+| `audio/sfx/villain-exit-01.mp3` | classic dizzy take slide whistle.wav · martian | https://freesound.org/people/martian/sounds/403002 | 악당 퇴장 |
+| `audio/sfx/villain-appear-02.mp3` | Mouth Pop 1 · michorvath | https://freesound.org/people/michorvath/sounds/269501 | 악당이 지도에 처음 보일 때(페이지당 악당마다 한 번) |
+| `audio/sfx/hurt-bump-01.mp3` | LowHit_01.wav · Faulkin | https://freesound.org/people/Faulkin/sounds/336495 | 별탐험가·루미가 악당에 닿을 때(둘 다 닿아도 한 번) |
+| `audio/sfx/reward-01.mp3` | Fantasy_ui_Button_3.wav · ZenithInfinitiveStudios | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745 | 다섯 악당 모두 격퇴 직후(파이널 배경음이 시작되기 전에 끝남) |
+
+음소거·효과음 끄기·탭 숨김·인물 목소리 재생 중에는 나지 않는다(기존 효과음 규칙과 같음).
