@@ -4,7 +4,7 @@
 // TEST_ONLY=live skips everything that needs local fixtures except the two full runs. SHOT_DIR keeps screenshots.
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readdir } from 'node:fs/promises';
 import { SAVE_KEY } from '../src/state.js';
 import { phase } from '../src/drawing.js';
 import { pathDays } from '../src/moon-path.js';
@@ -137,6 +137,9 @@ async function fingers(page) {
   await shot(page, 'intro-1280x800');
   await page.click('[data-run-start="run"]');
   await page.locator('.moon-run-stage[data-ready="true"]').waitFor({ timeout: 20000 });
+  // Every painted file in the project is served; a missing one would silently fall back to the code-drawn look.
+  const art = (await readdir(new URL('../public/assets/generated/run-stage/', import.meta.url)).catch(() => [])).filter(name => name.endsWith('.webp') && !name.startsWith('.'));
+  assert.deepEqual(await page.evaluate(names => Promise.all(names.map(name => fetch(`/assets/generated/run-stage/${name}`).then(response => response.ok && /image\/webp/.test(response.headers.get('content-type'))))), art), art.map(() => true), `그림 ${art.length}장이 열린다`);
   const before = (await stored(page)).stats.retries;
   await shot(page, 'start-1280x800');
   const hands = keyboard(page);

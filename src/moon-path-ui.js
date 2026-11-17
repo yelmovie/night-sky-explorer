@@ -57,6 +57,7 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
   const start = (label, mode, cls) => `<button type="button" class="btn ${cls}" data-run-start="${mode}">${label}</button>`;
   const body = `<div class="moon-run" data-view="intro">
     <section class="moon-run-intro">
+      <img class="moon-run-art" src="/assets/generated/run-stage/start-card.webp" alt="" width="1280" height="720" decoding="async" draggable="false">
       <p class="bonus-lead">루미와 밤 언덕길을 달려 관측소까지 가요. 갈림길마다 표지판에 적힌 날짜의 달이 걸린 문으로 지나가요.</p>
       <h3>내가 기록한 여섯 날의 달</h3>
       <div class="moon-run-record">${moons()}</div>
@@ -92,6 +93,8 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
     element.classList.add('moon-run-dialog');
     const events = new AbortController(), signal = events.signal, root = element.querySelector('.moon-run'), find = selector => root.querySelector(selector);
     const host = find('.moon-run-stage'), cards = find('.moon-run-cards'), tipLine = find('.moon-run-tip'), switchButton = find('.moon-run-switch');
+    // The start picture is decoration: if it cannot load, the card simply has none.
+    find('.moon-run-art').addEventListener('error', event => event.target.remove(), { once: true });
     let gates = pathGates(), current = 0, misses = 0, view = 'intro', stage = null, input = null, timer = 0, tipTimer = 0;
     const show = next => { view = next; root.dataset.view = next; };
     const goal = () => (gates[current] ? `${gates[current].day}일째 달이 걸린 문으로 달려가요.` : '관측소까지 달려가요.');

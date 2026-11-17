@@ -113,3 +113,7 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 ## 첫 화면 캐릭터 최적화 (2026-11-11)
 
 `home-fox.webp`는 기존 제공 캐릭터 시트 `fox.webp`의 첫 프레임을 추출한 파일이다. 원본 시트는 보존하며 같은 그림의 한 장만 전송한다. 원본의 이용 조건을 그대로 따른다.
+
+## 「달빛 길 따라가기」 무대 그림 9장 (2026-11-17)
+
+`generated/run-stage/`의 WebP 9장(`night-ridge`, `night-grass`, `night-path`, `stone-wall`, `door`, `stream`, `observatory`, `props`, `start-card`)은 `gpt-imagegen` 스킬(ChatGPT 앱의 Codex CLI 내장 이미지 도구)로 한 장씩 생성한 PNG를 `scripts/prepare-run-stage-art.mjs`로 가공한 것이다. 일부는 이 프로젝트의 `references/generated/world.png`와 `rabbit.png`를 참고 그림으로 주었다. 달·날짜 글자·하늘의 별은 그림에 넣지 않았고 코드로 그린다. 프롬프트와 원본 경로는 `docs/RUN-STAGE-3D-PLAN-20261117.md`의 「이미지 생성 기록」에 있다. 생성 당시 계정의 이용 조건을 따르며, 이 문서가 별도 권리를 부여하지 않는다.

@@ -147,3 +147,62 @@
 3. `src/moon-run-stage.js`(three.js 무대·캐릭터·카메라, 늦게 불러옴) · `src/moon-path-ui.js`(시작 카드, 화면 겹침, 입력, 카드 방식, 보상) · `src/moon-run.css`
 4. `src/bonus.js`(`bonusQuests.path`, `openBonus` 분기) · `src/application.js`(`reduced` 전달, CSS 불러오기)
 5. `scripts/verify-moon-path.mjs`(키보드·두 손가락 터치 완주, 카드 방식, WebGL 없음, 옛 저장)
+
+## 구현 결과 · 2026-11-17
+
+세 번째 선택 보너스 「달빛 길 따라가기」를 넣었다. 루미가 밤 언덕길을 달려 3→7→10→17→21→25일째 달이 걸린 문을 차례로 지나 관측소에 도착한다. 판정은 `judgeDoor()`(`src/moon-path.js`), 문의 달은 `phase()`·`moonSVG()`, 완료는 `state.bonus.path = "done"`이다. 저장 키와 미션 완료 조건은 그대로다.
+
+### 1차 (커밋 `6926e6b`, Worker 버전 `d6bb8ba9-5637-4130-bc08-29cfae577f50`)
+
+기본 도형 무대, 화면 버튼·키보드·두 손가락 입력, 체크포인트, 카드 고르기 대체 화면(WebGL 없음·동작 줄이기·같은 문 세 번 막힘), 옛 저장 호환. 바뀐 파일과 확인 내용은 `HANDOFF.md`의 같은 날짜 절에 있다.
+
+### 2차 · 그림 고도화
+
+| 파일 | 내용 |
+|---|---|
+| `public/assets/generated/run-stage/*.webp` | 생성 그림 9장(합계 약 1.5MB): 원경, 풀밭, 흙길, 돌담, 문짝, 개울, 관측소, 소품 4칸, 시작 카드 |
+| `scripts/prepare-run-stage-art.mjs` | 원본 PNG → WebP 가공(타일 512px, 원경 하늘 투명, 소품 4칸 정렬). 소품 칸을 자를 때 sharp가 두 번째 `extract()`를 리사이즈 뒤 자르기로 처리해 실패하던 것을 고침 |
+| `src/moon-run-stage.js` | 날짜 표지판은 마주 보는 문에서만 보임, 출발 지점 학생 위치, 소품 칸 비율 3:4 |
+| `src/moon-path-ui.js` · `src/moon-run.css` | 시작 카드 그림(16:9 전체를 카드 높이에 맞춰 표시, 불러오지 못하면 그림 없이 표시, 폰 가로에서는 숨김) |
+| `scripts/verify-moon-path.mjs` | `run-stage/`의 그림이 모두 `image/webp`로 열리는지 확인(macOS `._*` 파일은 제외) |
+| `public/assets/CREDITS.md` | 그림 출처 |
+
+화면 점검(로컬 dev, 1280×800 코스 20지점 + 도착, 1024×768 6지점, 시작 카드 두 크기):
+- 나무·등불이 문·달·버튼을 가리지 않는다. 관측소는 길 끝 도착 표시 바로 뒤에 서고 문과 계단이 길과 맞는다. 문짝·돌담 무늬는 늘어나 보이지 않는다. 개울은 무늬가 입혀졌다.
+- 고친 것: 시작 카드가 넓은 띠로 잘려 관측소와 루미 얼굴이 함께 보이지 않던 것 → 그림 전체를 16:9로 보여 주게 바꿈. 1024×768에서도 출발 버튼 아래가 화면 안에 들어온다(버튼 아래 742px/768px).
+- 그대로 둔 것: 개울의 디딤돌 위 등불 기둥은 코스 설계(「Lantern stepping stones」, 뛸 곳 표시)대로다. 개울 가장자리의 세로 면은 무늬 없는 어두운 색이다.
+
+검증(2차 수정 뒤):
+
+| 명령 | 결과 |
+|---|---|
+| `npm test` | 137개 통과 |
+| `npm run build` | 성공(`moon-run-stage` 22.6KB, three 공유 청크 498KB는 기존과 같음) |
+| `scripts/verify-quest.mjs`(빌드 미리보기 4173) | 기존 보너스 2종·재시도 기록·엔딩 영상·동작 줄이기 통과, 오류 없음 |
+| `scripts/verify-moon-path.mjs`(빌드 미리보기 4173) | 6항목 통과: 키보드 1280×800 완주, 두 손가락 터치 1024×768 완주, 카드 방식, WebGL 없음, 옛 저장, 콘솔 오류 없음. 그림 9장 응답 확인 포함 |
+
+확인하지 못한 것: 실물 태블릿·전자칠판에서의 성능(나무 스프라이트 약 90개 추가)과 학생 사용. 브라우저 확인은 헤드리스 Chrome(SwiftShader)에서만 했다.
+
+### 이미지 생성 기록
+
+`gpt-imagegen` 스킬(Codex 내장 이미지 도구)로 한 장씩 만들었다. 원본은 `asset-bank/original/run-stage-20261117/<이름>.png`(저장소 밖, `.gitignore`), 실행 파일은 `public/assets/generated/run-stage/`이고 `node scripts/prepare-run-stage-art.mjs`로 가공한다. 실행 파일이 없으면 그 부분은 코드로 그린 모습으로 나온다.
+
+모든 프롬프트 끝에 붙인 공통 문장: `Cozy storybook pixel-art inspired game art with soft painterly pixels, night-time palette of deep navy, teal and forest green with warm golden lantern glow. no text, no letters, no logo, no moon.`
+
+달, 날짜 글자, 별은 그림에 넣지 않았다. 문의 달은 `moonSVG()`, 표지판 글자는 캔버스 글자, 별은 점으로 코드에서 그린다. 캐릭터는 기존 지도용 걷기 시트를 쓴다.
+
+| 원본 | 실행 파일 | 쓰는 곳 | 참고 그림 | 프롬프트 |
+|---|---|---|---|---|
+| `backdrop.png` | `night-ridge.webp` | 먼 언덕과 숲(하늘 부분은 투명하게 지워 코드로 찍은 별이 보이게 함) | `references/generated/world.png` | Wide panoramic far background for a 3D game horizon, in the style of the reference image: rolling night hills layered in depth, dense pine and round-tree forests, a few tiny cozy cottages with warm lit windows, small lantern dots and a glinting river. The top 45 percent of the image is a completely plain flat dark navy sky, colour #0b1630, with nothing in it: no stars, no clouds. The farthest ridges are soft silhouettes that fade into that navy sky. The bottom edge is dark forest. Landscape orientation. |
+| `grass.png` | `night-grass.webp` | 길과 언덕의 풀밭 무늬 | `references/generated/world.png` | Seamless tileable top-down texture of a night meadow for a game floor: short teal-green grass with small scattered clusters of tiny white and pale yellow flowers and clover leaves, even flat lighting, no objects, no path, no border, no vignette. Square image whose left-right and top-bottom edges tile seamlessly. |
+| `path.png` | `night-path.webp` | 가운데 흙길 무늬 | `references/generated/world.png` | Seamless tileable top-down texture of a sandy dirt footpath for a game floor: packed warm beige sand with small flat pebbles and a few tiny grass tufts, under a cool moonlit night tint, even flat lighting, no objects, no border, no vignette. Square image whose edges tile seamlessly. |
+| `observatory.png` | `observatory.webp` | 도착 지점의 관측소 | `references/generated/world.png` | A single small cute observatory building as a game prop, straight front view at eye level, in the style of the reference image: a round stone tower with an arched wooden door, warm lit windows, small stone steps, flower pots and two glowing lanterns beside the door, topped by a deep blue dome with gold trim and an open slit with a brass telescope pointing up to the sky. Centered, the whole building visible with a small margin, flat bottom edge. transparent background. |
+| `props.png` | `props.webp` | 소나무·둥근 나무·꽃 덤불·등불 기둥(4칸) | `references/generated/world.png` | Sprite sheet of exactly four separate game props in one single row, evenly spaced with clear empty gaps between them, each fully visible, front view, all bottoms aligned on the same baseline, in the style of the reference image: first a tall pine tree, second a round leafy tree, third a low flowering bush with tiny white and pink flowers, fourth a wooden lantern post with one glowing warm lantern. transparent background. |
+| `door.png` | `door.webp` | 문짝 앞면 | 없음 | A single closed rectangular double wooden door as a game texture, perfectly straight front orthographic view, filling the whole square image edge to edge: deep teal-blue painted wooden planks, golden hinges, golden trim, two small golden star-shaped knockers, slightly worn and cozy. No wall around it, no arch, no perspective, even lighting. |
+| `wall.png` | `stone-wall.webp` | 문 옆 돌담과 디딤돌 | `references/generated/world.png` | Seamless tileable front-view texture of a cozy old garden stone wall for a game: rounded blue-grey stones of different sizes with thin mortar lines, a little moss and a few small ivy leaves, even flat lighting, no objects, no border, no vignette. Square image whose edges tile seamlessly. |
+| `water.png` | `stream.webp` | 개울물 | 없음 | Seamless tileable top-down texture of a gentle shallow stream at night for a game: deep blue-teal water with soft curved ripples and a few tiny pale sparkles, even flat lighting, no rocks, no banks, no border, no vignette. Square image whose edges tile seamlessly. |
+| `intro.png` | `start-card.webp` | 시작 카드 그림(16:9 전체를 카드 높이에 맞춰 보여 줌) | `public/assets/rabbit.png`, `references/generated/world.png` | Wide landscape illustration for a game start card: the rabbit character from the first reference image (cream rabbit with long floppy ears, navy beret, navy cape) runs happily up a winding lantern-lit dirt path on a grassy night hill toward a small observatory with a blue dome and gold trim on the hilltop. Seen from behind in three-quarter view. Pine trees, round trees and tiny flowers beside the path. The sky is a completely plain smooth dark navy gradient with nothing in it: no stars, no sparkles, no milky way, no moon, no clouds. Painted in the style of the second reference image. (공통 문장 끝에 `no stars.`를 더함) |
+
+첫 `intro.png`는 하늘에 별과 은하수가 그려져 「별은 생성 그림에 넣지 않는다」 규칙에 어긋나서 쓰지 않았다(`asset-bank/original/run-stage-20261117/intro-rejected-starry.png`로 보관, 내장 원본은 바로 지움). 위 프롬프트로 다시 만든 그림을 썼다.
+
+그림에 남은 별 모양은 장식뿐이다: 문짝의 별 모양 문고리(프롬프트에서 요청), 루미 베레모의 초승달 배지와 망토 무늬(기존 캐릭터 의상). 하늘의 별·문의 달·날짜 글자는 모두 코드로 그린다.

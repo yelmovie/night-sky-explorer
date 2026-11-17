@@ -227,8 +227,9 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
       return { x, panel, lamp, open: false, slide: 0, shake: 0, wait: 0, item: label(index, moonSVG(door.amount, door.side), 'moon-run-moon', center, MOON_SIZE, MOON_PX) };
     });
     // The date stands on a tall signpost at each end of the wall, off the path, level with the moons.
+    // Like the moons, it shows only on the gate Lumi is facing, so a later date never stands beside this one.
     const tall = top + WALL_HEIGHT + 2.1, board = new THREE.SpriteMaterial({ map: signTexture(gate.day, tall), transparent: true, alphaTest: 0.3 });
-    for (const side of [-1, 1]) { const post = standing(board, 1.6, tall, 0); post.position.set(side * (HALF + 0.95), -0.06, z + 0.3); extras.add(post); }
+    for (const side of [-1, 1]) { const post = standing(board, 1.6, tall, 0); post.position.set(side * (HALF + 0.95), -0.06, z + 0.3); plaques.add(post); }
     extras.add(plaques); solid.add(walls); scene.add(extras);
     return { index, z, top, doors, walls, extras, plaques, materials: [wall, beam, trim, gold, plaqueBack, plain, face, board], alpha: 1 };
   });
@@ -246,14 +247,15 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
   const glowAt = new Float32Array(posts.length * 3);
   posts.forEach(([x, y, z], i) => glowAt.set([x, y + 1.16, z], i * 3));
   if (propsArt) {
+    // props.webp holds four cells, three wide by four tall: pine, round tree, flowering bush, lantern post.
     const kinds = [0, 1, 2, 3].map(column => { const map = propsArt.clone(); cell(map, column, 0, 4, 1); textures.push(map); return cutout(map); });
-    for (const [x, y, z] of posts) { const lantern = standing(kinds[3], 1.5, 1.5, 0.02); lantern.position.set(x, y, z); scene.add(lantern); decor.push(lantern); }
+    for (const [x, y, z] of posts) { const lantern = standing(kinds[3], 1.5 * 0.75, 1.5, 0.01); lantern.position.set(x, y, z); scene.add(lantern); decor.push(lantern); }
     const wet = streams();
     for (let s = -6; s < END + 14; s += 2.6) for (const side of [-1, 1]) {
       const pick = random(), far = random(), at = s + random() * 1.6;
       if (wet.some(([from, to]) => at > from - 1 && at < to + 1)) continue;
       const kind = pick < 0.42 ? 0 : pick < 0.68 ? 1 : 2, size = kind === 0 ? 4.4 + random() * 1.6 : kind === 1 ? 3.3 + random() * 1.1 : 1.1 + random() * 0.5;
-      const plant = standing(kinds[kind], size, size, 0.02);
+      const plant = standing(kinds[kind], size * 0.75, size, 0.01);
       plant.position.set(side * (HALF + (kind === 2 ? 0.9 : 2.4) + far * 11), -0.06, -at); scene.add(plant); decor.push(plant);
     }
   } else {
@@ -282,7 +284,7 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
   const mat = new THREE.Mesh(new THREE.RingGeometry(1.1, 1.45, 36), new THREE.MeshBasicMaterial({ color: '#a7dcc9', transparent: true, opacity: 0.75 })); mat.rotation.x = -Math.PI / 2; mat.position.set(0, goalTop + 0.03, -arriveS - 0.6); scene.add(mat);
   cell(studentSheet, 0, 0);
   const helperMaterial = cutout(studentSheet);
-  const helpers = [[2.7, 0, 1.6], [-2.6, goalTop, -arriveS - 1.2]].map(([x, y, z]) => { const sprite = standing(helperMaterial, 1.75, 1.75); sprite.position.set(x, y, z); scene.add(sprite); return { sprite, y }; });
+  const helpers = [[3.3, 0, -2.4], [-2.6, goalTop, -arriveS - 1.2]].map(([x, y, z]) => { const sprite = standing(helperMaterial, 1.75, 1.75); sprite.position.set(x, y, z); scene.add(sprite); return { sprite, y }; });
 
   const far = new THREE.Group(), starAt = new Float32Array(360 * 3);
   for (let i = 0; i < 360; i++) starAt.set([(random() - 0.5) * 300, 9 + random() * 50, -150], i * 3);
