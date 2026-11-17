@@ -72,6 +72,10 @@ D: 임시 폴더 존재·쓰기 권한을 먼저 확인해. 결과·다운로드
 
 브라우저 검증 스크립트는 `PLAYWRIGHT_MODULE`(playwright-core `index.mjs`), `BROWSER_EXECUTABLE`(Chrome/Edge 실행 파일), `TEST_URL`을 지정해 실행해. `scripts/verify-playthrough.mjs`(실제 조작 완주), `scripts/verify-quest.mjs`(보너스·엔딩), `scripts/shot-scenes.mjs`(화면 캡처, `TEST_SIZES=1280x800,1024x600`)가 있어.
 
+## 2026-11-17 선택 보너스 「달빛 길 따라가기」
+
+코어 복구 뒤의 선택 보너스가 세 개가 됐어. 세 번째는 루미가 밤 언덕길을 달리며 3→7→10→17→21→25일째 달이 걸린 문을 차례로 지나는 3D 달리기야(`src/moon-path.js` 규칙, `src/moon-run-stage.js` 무대, `src/moon-path-ui.js` 화면). 문의 달은 기존 `phase()`·`moonSVG()`로 그리고, 미션 완료와 인증서 조건은 바꾸지 않아. 3D가 안 되는 기기와 동작 줄이기 설정에서는 같은 규칙의 달 카드 고르기로 진행해. 계획과 구현 결과는 [달리기 스테이지 문서](docs/RUN-STAGE-3D-PLAN-20261117.md)에 있어. `scripts/verify-moon-path.mjs`가 키보드와 화면 버튼으로 끝까지 달려 확인해.
+
 ## 문서·원본
 
 - [디자인 기준](docs/DESIGN.md) · [공통 SVG아이콘](docs/icon-prompts.md)

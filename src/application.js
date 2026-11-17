@@ -24,6 +24,7 @@ import { missionTag, evidenceTag, restorePercent, npc, npcLine, npcConversation,
 import { mountNpcDialogue } from './npc-dialogue.js';
 import { bonusQuests, openBonus } from './bonus.js';
 import './quest.css';
+import './moon-run.css';
 import { createResearchSession } from './session.js';
 import './responsive.css';
 import './scenery-surfaces.css';
@@ -264,7 +265,7 @@ function action(name) {
   if (name === 'report') return finalReport();
   if (name === 'movie') return showMovie();
   if (name === 'records') { const records = $('#my-records'); records?.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth' }); records?.focus({ preventScroll: true }); return; }
-  if (name.startsWith('bonus-')) return openBonus(name.slice(6), { state, dialog, persist, sound, on });
+  if (name.startsWith('bonus-')) return openBonus(name.slice(6), { state, dialog, persist, sound, on, reduced: reduced() });
   if (name === 'hint') { track(state, 'hints'); persist(); return showHint(); }
   if (name === 'more-hint') { hintLevel++; track(state, 'hints'); persist(); return showHint(); }
   if (name.startsWith('activity-round-')) {

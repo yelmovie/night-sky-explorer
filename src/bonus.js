@@ -2,11 +2,13 @@ import { planets } from './data.js';
 import { track } from './state.js';
 import { moonSVG, dayMoon, phase, esc } from './drawing.js';
 import { button, range, planetImage } from './ui.js';
+import { openMoonPath } from './moon-path-ui.js';
 
 // Optional bonus quests after the core is restored. They never change mission completion.
 export const bonusQuests = {
   cloudy: { title: '구름 낀 날의 관측 기록', reward: '비밀 달 관측 기록', text: '구름에 가려 빠진 7일째 달을 앞뒤 기록으로 예상해요.' },
   planet: { title: '새로운 행성 관측 의뢰', reward: '심화 행성 연구 카드', text: '이름표 없는 행성을 관찰해 증거로 이름을 찾아요.' },
+  path: { title: '달빛 길 따라가기', reward: '달빛 길잡이 카드', text: '루미와 언덕길을 달리며 날짜 순서대로 달 모양 문을 지나요.' },
 };
 const CLOUDY_DAY = 7, MYSTERY = 'uranus';
 export function cloudyClose(guess) {
@@ -17,8 +19,10 @@ export function planetSolved(guess) {
   const planet = planets.find(item => item.id === MYSTERY);
   return guess.feature === planet.feature && guess.name === MYSTERY;
 }
-export function openBonus(kind, { state, dialog, persist, sound, on }) {
+export function openBonus(kind, { state, dialog, persist, sound, on, reduced = false }) {
   const quest = bonusQuests[kind], done = state.bonus[kind] === 'done';
+  // The third bonus has its own screen: a 3D hill path, with moon cards as the other way to play.
+  if (kind === 'path') return openMoonPath(quest, { state, dialog, persist, sound, reduced });
   if (kind === 'cloudy') {
     const guess = { amount: 20, side: 'left', revealed: false };
     const draw = () => `<div class="bonus-board"><figure>${dayMoon(3)}<figcaption>3일째 기록</figcaption></figure><figure class="bonus-missing"><div id="cloudy-guess">${moonSVG(guess.amount, guess.side)}</div><div class="bonus-cloud ${guess.revealed ? 'is-clear' : ''}" aria-hidden="true"></div>${guess.revealed ? `<div class="bonus-actual">${dayMoon(CLOUDY_DAY)}</div>` : ''}<figcaption>7일째 · ${guess.revealed ? '내 예상 위에 학습용 기록을 겹쳤어요' : '구름에 가려 빠졌어요'}</figcaption></figure><figure>${dayMoon(10)}<figcaption>10일째 기록</figcaption></figure></div>`;

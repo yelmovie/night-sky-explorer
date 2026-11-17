@@ -63,7 +63,7 @@ test('새 필드가 없는 이전 저장도 기본값으로 열리고 잘못된 
   delete old.stats; delete old.bonus; delete old.intro; delete old.core.reportSeen;
   const s = restore(JSON.parse(JSON.stringify(old)));
   assert.deepEqual(s.stats, { observations: 0, reviews: 0, retries: 0, hints: 0 });
-  assert.deepEqual(s.bonus, { cloudy: '', planet: '' });
+  assert.deepEqual(s.bonus, { cloudy: '', planet: '', path: '' });
   assert.equal(s.intro, false);
   assert.equal(s.core.reportSeen, false);
   const broken = freshState();
@@ -71,7 +71,7 @@ test('새 필드가 없는 이전 저장도 기본값으로 열리고 잘못된 
   broken.bonus = { cloudy: 'yes', planet: 'done' };
   const fixed = restore(JSON.parse(JSON.stringify(broken)));
   assert.deepEqual(fixed.stats, { observations: 0, reviews: 9999, retries: 0, hints: 3 });
-  assert.deepEqual(fixed.bonus, { cloudy: '', planet: 'done' });
+  assert.deepEqual(fixed.bonus, { cloudy: '', planet: 'done', path: '' });
 });
 
 test('연구소 복구율은 실제 기록 다섯 개와 코어 재가동이 모두 있어야 100%다', () => {

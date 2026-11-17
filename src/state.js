@@ -53,7 +53,8 @@ export function freshState() {
     challengeAnswers: { 1: "", 2: "", 3: "", 4: "", 5: "" },
     // Behaviour counts only shape the non-ranking inquiry style on the certificate.
     stats: { observations: 0, reviews: 0, retries: 0, hints: 0 },
-    bonus: { cloudy: "", planet: "" },
+    // Optional bonus rewards. A save written before a key existed opens with that key empty.
+    bonus: { cloudy: "", planet: "", path: "" },
     evidence: {},
     core: { connections: {}, angle: 15, restored: false, reportSeen: false },
     legacyV1: null,

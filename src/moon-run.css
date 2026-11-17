@@ -1,0 +1,108 @@
+/* Bonus "달빛 길 따라가기": a full-screen dialog. The 3D scene fills it and the controls sit on top. */
+dialog.classroom-dialog.moon-run-dialog { width: 100vw; height: 100dvh; max-width: none; max-height: none; border: 0; border-radius: 0; background: #0b1630; }
+.moon-run-dialog .dialog-heading { padding: 8px 16px 6px; }
+.moon-run-dialog .dialog-body { flex: 1; min-height: 0; padding: 0; display: flex; overflow: hidden; }
+.moon-run-dialog .dialog-footer { display: none; }
+.moon-run { position: relative; flex: 1; min-width: 0; min-height: 0; display: flex; }
+.moon-run > section { display: none; flex: 1; min-width: 0; min-height: 0; }
+.moon-run[data-view='intro'] > .moon-run-intro, .moon-run[data-view='done'] > .moon-run-done { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 12px 28px 24px; overflow: auto; text-align: center; }
+.moon-run[data-view='run'] > .moon-run-game, .moon-run[data-view='cards'] > .moon-run-game { display: block; position: relative; overflow: hidden; }
+.moon-run :is(.moon-run-intro, .moon-run-done) > * { max-width: 980px; margin: 0; }
+.moon-run h3 { font-family: var(--heading-font); font-weight: 400; font-size: clamp(22px, 2vw, 30px); color: #fff2c4; }
+.moon-run-record { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; width: 100%; }
+.moon-run-record figure { margin: 0; padding: 10px 6px 8px; border-radius: 14px; background: #0b1d2d; border: 1px solid #456577; }
+.moon-run-record svg { display: block; width: min(104px, 100%); height: auto; margin: 0 auto; }
+.moon-run-record figcaption { margin-top: 6px; color: #cfe3e2; font-size: var(--classroom-small); font-weight: 700; }
+.moon-run .model-note { color: #a9c6c9; font-size: var(--classroom-small) !important; }
+.moon-run-how { color: #dfe9ee; }
+.moon-run-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.moon-run-actions .btn { min-height: 56px; padding-inline: 26px; }
+.moon-run-reward { display: inline-flex; align-items: center; gap: 8px; color: #f5cf7b; font-weight: 800; }
+
+/* Play screen */
+.moon-run-stage { position: absolute; inset: 0; background: linear-gradient(#0b1630 0 35%, #173a2c); touch-action: none; outline: 0; }
+.moon-run[data-view='cards'] .moon-run-stage, .moon-run[data-view='run'] .moon-run-cards, .moon-run[data-view='cards'] :is(.moon-run-pad, .moon-run-jump) { display: none; }
+.moon-run-canvas { display: block; width: 100%; height: 100%; }
+.moon-run-labels { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.moon-run-loading { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: #fff2c4; font-size: clamp(20px, 2vw, 28px) !important; font-weight: 700; pointer-events: none; }
+.moon-run-stage[data-ready='true'] .moon-run-loading { display: none; }
+.moon-run-moon { position: absolute; left: 0; top: 0; width: 160px; height: 160px; border-radius: 50%; will-change: transform; }
+.moon-run-moon svg { display: block; width: 100%; height: 100%; }
+.moon-run-moon.is-lit { box-shadow: 0 0 0 9px #ffd771, 0 0 46px 14px #ffd771aa; }
+.moon-run-moon.is-open { box-shadow: 0 0 0 9px #a7dcc9; }
+.moon-run-moon.is-wrong svg, .moon-run-door.is-wrong svg { animation: moon-run-shake .42s ease; }
+@keyframes moon-run-shake { 20% { transform: translateX(-7px); } 45% { transform: translateX(7px); } 70% { transform: translateX(-4px); } }
+body.reduce-motion :is(.moon-run-moon, .moon-run-door).is-wrong svg { animation: none; }
+
+.moon-run-hud { position: absolute; top: 8px; left: 12px; right: 12px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 10px; pointer-events: none; }
+.moon-run-progress { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.moon-run-progress li { display: grid; place-items: center; min-width: 40px; height: 40px; padding: 0 6px; border-radius: 999px; border: 2px solid #6f8f9c; background: #0b1d2dd9; color: #cfe3e2; font-size: 18px !important; font-weight: 800; line-height: 1 !important; }
+.moon-run-progress li[data-state='now'] { border-color: #f2c266; background: #f2c266; color: #20354c; }
+.moon-run-progress li[data-state='done'] { border-color: #a7dcc9; background: #1d4a45; color: #d7f5e6; }
+.moon-run-progress li[data-state='done']::before { content: '✓'; margin-right: 2px; font-size: 14px; }
+.moon-run-target { display: grid; justify-items: center; gap: 2px; margin: 0; padding: 6px 20px 8px; border-radius: 18px; border: 2px solid #f2c266; background: #0b1d2de6; text-align: center; }
+.moon-run-target span { color: #a9c6c9; font-size: clamp(14px, 1.1vw, 17px); font-weight: 700; line-height: 1.3; }
+.moon-run-target b { color: #fff2c4; font-size: clamp(22px, 2.1vw, 32px); line-height: 1.2; }
+.moon-run-prev { justify-self: end; display: flex; align-items: center; gap: 8px; margin: 0; padding: 5px 12px 5px 6px; border-radius: 999px; border: 2px solid #6f8f9c; background: #0b1d2dd9; }
+.moon-run-prev[hidden] { display: none; }
+.moon-run-prev svg { display: block; width: 44px; height: 44px; }
+.moon-run-prev figcaption { color: #cfe3e2; font-size: clamp(14px, 1.1vw, 17px); font-weight: 700; white-space: nowrap; }
+.moon-run-tip { position: absolute; top: 92px; left: 50%; translate: -50% 0; width: max-content; max-width: min(78%, 860px); margin: 0; padding: 8px 18px; border-radius: 14px; border: 2px solid #6f8f9c; background: #fff9ecf2; color: #20354c; font-size: clamp(17px, 1.45vw, 23px) !important; font-weight: 700; line-height: 1.4 !important; text-align: center; pointer-events: none; }
+.moon-run-tip:empty { display: none; }
+.moon-run-tip[data-tone='success'] { border-color: #a7dcc9; background: #e9f8efee; color: #1d4a45; }
+
+.moon-run-pad { position: absolute; left: 18px; bottom: 18px; display: grid; grid-template: repeat(3, 1fr) / repeat(3, 1fr); width: clamp(180px, 18vw, 228px); aspect-ratio: 1; }
+.moon-run-pad button { min-width: 56px; min-height: 56px; border: 3px solid #f2c266; border-radius: 16px; background: #0b1d2de6; color: #fff2c4; font-size: clamp(22px, 2vw, 30px); box-shadow: 0 4px 0 #071224; cursor: pointer; }
+.moon-run-pad button:is(:active, [data-map-held]) { background: #f2c266; color: #20354c; translate: 0 3px; box-shadow: 0 1px 0 #071224; }
+.moon-run-pad [data-run-dir='up'] { grid-area: 1 / 2; }
+.moon-run-pad [data-run-dir='left'] { grid-area: 2 / 1; }
+.moon-run-pad [data-run-dir='right'] { grid-area: 2 / 3; }
+.moon-run-pad [data-run-dir='down'] { grid-area: 3 / 2; }
+.moon-run-jump { position: absolute; right: 22px; bottom: 26px; width: clamp(92px, 9vw, 120px); aspect-ratio: 1; border: 4px solid #8a5a12; border-radius: 50%; background: #f2c266; color: #3a2606; font-size: clamp(21px, 1.9vw, 28px); font-weight: 800; box-shadow: 0 5px 0 #8a5a12; touch-action: none; user-select: none; -webkit-user-select: none; cursor: pointer; }
+.moon-run-jump:active { translate: 0 4px; box-shadow: 0 1px 0 #8a5a12; }
+.moon-run :is(.moon-run-pad button, .moon-run-jump, .moon-run-door):focus-visible { outline: 3px solid #8fd5d2; outline-offset: 3px; }
+.moon-run-switch { position: absolute; right: 22px; bottom: calc(26px + clamp(92px, 9vw, 120px) + 16px); min-height: 52px; }
+.moon-run-switch[hidden] { display: none; }
+.moon-run-note { position: absolute; left: 50%; bottom: 6px; translate: -50% 0; margin: 0; padding: 2px 12px; border-radius: 999px; background: #0b1d2dcc; color: #cfe3e2; font-size: clamp(13px, 1vw, 16px) !important; line-height: 1.5 !important; white-space: nowrap; pointer-events: none; }
+
+/* Card way: the same doors without walking. */
+.moon-run-cards { position: absolute; inset: 150px 16px 40px; display: grid; align-content: center; justify-items: center; gap: 18px; }
+.moon-run-question { margin: 0; color: #fff2c4; font-size: clamp(22px, 2.1vw, 30px) !important; font-weight: 800; }
+.moon-run-doors { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(14px, 3vw, 40px); }
+.moon-run-door { display: grid; place-items: center; width: clamp(150px, 22vw, 240px); padding: 16px 16px 26px; border-radius: 120px 120px 18px 18px; border: 4px solid #5d6c96; background: #1f2f58; cursor: pointer; }
+.moon-run-door svg { display: block; width: 100%; height: auto; }
+.moon-run-door.is-lit { border-color: #ffd771; box-shadow: 0 0 0 4px #ffd77166, 0 0 36px #ffd77188; }
+@media (hover: hover) and (pointer: fine) { .moon-run-door:hover { border-color: #f2c266; } }
+
+@media (max-width: 899px), (max-height: 560px) {
+  .moon-run-progress li { min-width: 32px; height: 32px; font-size: 15px !important; }
+  .moon-run-tip { top: 78px; }
+  .moon-run-note { display: none; }
+  .moon-run-record { gap: 6px; }
+  .moon-run-cards { inset: 128px 10px 12px; }
+}
+/* Short screens (a phone on its side): one compact line of status, so the door moons stay clear. */
+@media (max-height: 560px) {
+  .moon-run-dialog .dialog-heading { padding: 4px 12px 2px; }
+  .moon-run-dialog .dialog-heading h2 { font-size: 18px; }
+  .moon-run-dialog .dialog-heading .icon-button { width: 40px; height: 40px; }
+  .moon-run-hud { top: 4px; gap: 6px; }
+  .moon-run-progress { gap: 3px; }
+  .moon-run-progress li { min-width: 26px; height: 26px; padding: 0 3px; font-size: 13px !important; }
+  .moon-run-progress li[data-state='done']::before { content: none; }
+  .moon-run-target { padding: 3px 12px 4px; border-radius: 12px; }
+  .moon-run-target span { display: none; }
+  .moon-run-target b { font-size: 17px; }
+  .moon-run-prev { padding: 2px 8px 2px 3px; }
+  .moon-run-prev svg { width: 26px; height: 26px; }
+  .moon-run-prev figcaption { font-size: 12px; }
+  .moon-run-tip { top: 40px; padding: 3px 12px; border-radius: 10px; font-size: 14px !important; max-width: 62%; }
+  .moon-run-pad { left: 10px; bottom: 8px; width: 164px; }
+  .moon-run-pad button { min-width: 52px; min-height: 52px; border-radius: 12px; }
+  .moon-run-jump { right: 12px; bottom: 12px; width: 84px; }
+  .moon-run-switch { right: 12px; bottom: 104px; min-height: 44px; }
+  .moon-run[data-view='intro'] > .moon-run-intro, .moon-run[data-view='done'] > .moon-run-done { gap: 6px; padding: 4px 16px 12px; }
+  .moon-run-record svg { width: min(64px, 100%); }
+  .moon-run-cards { inset: 76px 10px 8px; gap: 8px; }
+  .moon-run-door { width: clamp(110px, 18vw, 150px); padding: 8px 8px 14px; }
+}
