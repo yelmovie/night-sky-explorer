@@ -30,7 +30,13 @@
 .npc-line p b { display: block; margin-bottom: 2px; color: var(--quest-gold); font-size: var(--classroom-small); }
 
 /* Incident intro */
-dialog.story-dialog { width: min(880px, calc(100vw - 40px)); }
+/* The alert card covers about half the screen at most; the home picture stays visible around it. */
+dialog.story-dialog { width: min(clamp(520px, 50vw, 800px), calc(100vw - 32px)); max-height: min(92dvh, 860px); padding-top: 0; }
+dialog.story-dialog .dialog-body { padding-top: 0; }
+dialog.story-dialog .alert-art { aspect-ratio: 16 / 4; margin-bottom: 10px; }
+dialog.story-dialog .incident-board { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+dialog.story-dialog .incident-board p { padding: 6px 12px; }
+dialog.story-dialog .incident-board p:last-child { grid-column: auto; }
 .story-dialog .dialog-heading h2 { color: #ffd98a; }
 .incident-board { display: grid; gap: 10px; margin: 0; }
 .incident-board p { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; margin: 0 !important; padding: 10px 14px; border-radius: 14px; background: #2a1f24; border: 1px solid #b7816b; animation: quest-rise .35s ease both; }

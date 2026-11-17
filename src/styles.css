@@ -1920,10 +1920,6 @@ dialog {
   border-radius: 20px;
   box-shadow: 0 20px 90px #030817aa;
 }
-dialog::backdrop {
-  background: #020817bb;
-  backdrop-filter: blur(5px);
-}
 dialog > p {
   font-size: 15px;
   color: #c0cee1;

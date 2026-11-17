@@ -12,6 +12,8 @@
   --ui-gold-2: #f2c266;
   --ui-gold-edge: #a4712c;
   --ui-ink: #24324a;
+  /* The one popup scrim (2026-11-17 3-second rule): the scene stays visible behind every card. */
+  --ui-scrim: rgba(2, 8, 23, .28);
   --ui-radius-lg: 28px;
   --ui-radius-md: 18px;
   --ui-radius-sm: 14px;
@@ -52,7 +54,9 @@ dialog:not(.npc-scene-dialog) {
   color: var(--ui-text);
 }
 dialog:not(.npc-scene-dialog)[open] { animation: popup-in var(--dur-slow) var(--ease-out); }
-dialog::backdrop { background: radial-gradient(ellipse at 50% 40%, #0a183088, #020817d9); backdrop-filter: blur(6px); }
+dialog::backdrop { background: var(--ui-scrim); backdrop-filter: none; }
+/* Exception: concept films keep a dark room around the picture. */
+:is(.concept-dialog, .movie-dialog)::backdrop { background: #020817d9; }
 dialog:not(.npc-scene-dialog) .dialog-heading { border-bottom: 0; padding-bottom: 6px; }
 dialog:not(.npc-scene-dialog) .dialog-heading h2 { font-size: clamp(22px, 2vw, 28px); color: var(--ui-gold-1); letter-spacing: -.01em; }
 dialog:not(.npc-scene-dialog) .dialog-heading .icon-button { border-radius: 50%; width: 46px; height: 46px; }

@@ -409,7 +409,6 @@ input[type="checkbox"] { min-height: 28px; width: 28px; height: 28px; }
 .world-loading { position: absolute; z-index: 40; inset: 0; display: flex; flex-direction: column; gap: 18px; align-items: center; justify-content: center; padding: 30px; background: #11253aef; color: #fff4db; font-size: 22px; text-align: center; }
 .world-status { position: absolute; z-index: 20; left: 50%; top: 23px; transform: translateX(-50%); padding: 10px 23px; max-width: 60%; border: 1px solid #bdcbbb; border-radius: 18px; background: #10283de8; color: #fff3cc; text-align: center; font-size: 18px; }
 dialog { color: #f8f1df; border: 1px solid #8495aa; border-radius: 25px; padding: 28px; background: #162b43; box-shadow: 0 24px 80px #020a17a6; max-width: calc(100vw - 32px); }
-dialog::backdrop { background: #06101dd1; backdrop-filter: blur(4px); }
 .settings-dialog { width: min(810px, calc(100vw - 40px)); max-height: min(88dvh, 850px); padding: 0; overflow: hidden; }
 .settings-dialog[open] { display: flex; flex-direction: column; }
 .dialog-heading { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 28px 17px; border-bottom: 1px solid #7891a44f; }
