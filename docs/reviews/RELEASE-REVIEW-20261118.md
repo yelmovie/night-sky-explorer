@@ -1,6 +1,6 @@
 # 배포 검토 보고서 — 별빛 관측 연구소 (13 nightsky)
 
-> 작성일: 2026-11-19 새벽(작업명 20261118) · 브랜치: main · 기준 커밋: `e876efe` + 이번 작업 · 배포 대상: Cloudflare Workers `night-sky-explorer` (https://night-sky-explorer.yelsam.workers.dev)
+> 작성일: 2026-11-19 새벽(작업명 20261118), 07시 운영 반영 · 브랜치: main · 운영 커밋: `87a8283` (이번 작업 `6dfd553` + 기록 `4b6fb0d` + 운영 smoke 뒤 글자 보정) · 배포 대상: Cloudflare Workers `night-sky-explorer` (https://night-sky-explorer.yelsam.workers.dev)
 > 범위: 2026-11-18 밤 「놀이 화면 비율·중복 조작 버튼 정리」 작업 뒤 A~G 전체 판정. 이번에 다시 실행하지 않은 항목은 2026-11-12 보고서(`RELEASE-REVIEW-20261112.md`)·11-17~18 3초 규칙 작업 기록을 인용하고 그렇게 적었다.
 
 ## 최종 판정
@@ -15,7 +15,7 @@
 
 ### 배포 전 처리할 조건
 
-1. 운영 배포: SSD `access()` 멈춤이 풀리면 `deploy.sh 13 "13 nightsky" worker-own night-sky-explorer` → `cmp.sh` MATCH 확인 → 운영 smoke(`.tmp/layout-balance-20261118/smoke.mjs`).
+1. 없음 — 2026-11-19 07시 운영 배포 완료(`87a8283`, `cmp.sh` JS·CSS·index 모두 MATCH, 운영 smoke 통과 — G11).
 
 ### 배포 후 확인할 것
 
@@ -31,11 +31,11 @@
 | A 교육적 품질 | 14 | 2 | 0 | 0 | 1 |
 | B 기능 | 16 | 2 | 0 | 1 | 0 |
 | C 태블릿·UI | 18 | 3 | 0 | 3 | 1 |
-| D 성능 | 5 | 5 | 0 | 3 | 1 |
+| D 성능 | 6 | 5 | 0 | 2 | 1 |
 | E 코드 품질 | 9 | 3 | 0 | 0 | 2 |
 | F 데이터·안전 | 13 | 1 | 0 | 0 | 1 |
-| G 배포 | 16 | 0 | 0 | 2 | 2 |
-| **합계** | 91 | 16 | 0 | 9 | 8 |
+| G 배포 | 17 | 0 | 0 | 1 | 2 |
+| **합계** | 93 | 16 | 0 | 7 | 8 |
 
 ## 실행 환경 (실측)
 
@@ -137,7 +137,7 @@
 | C17 | PASS | 확인됨 | horizontal-overflow 0 |
 | C18 | PASS | 확인됨 | 팝업 닫는 길: 아래 닫기 + Esc(2개). 전체 화면 창은 X 유지 |
 | C19 | NOT TESTED | — | 실기 가장자리 제스처 |
-| C20 | PASS | 이전 확인됨 | 11-18 「18px 하한」 작업(이번에 글자 크기 변경 없음) |
+| C20 | PASS | 확인됨 | 운영 smoke(1280·1920 × 8화면)에서 코어 화면 「마지막 탐구 · 중앙 관측 코어 재가동」이 1280에서 16px로 잡혀(18px 규칙이 1920 전용 미디어쿼리 안에만 있었음) `src/polish.css`에 코어 라벨 18px를 모든 크기로 넣고(`87a8283`) 재배포 뒤 0건. 1024×768에서도 한 줄·스크롤 없음 |
 | C21 | PASS | 확인됨 | keep-all |
 | C22 | NOT APPLICABLE | — | Phaser 없음 |
 | C23 | PASS | 확인됨 | 활동·결과 화면 primary 1개(결과 화면 2 → 1) |
@@ -150,7 +150,7 @@
 
 | # | 판정 | 증거 | 비고 |
 |---|---|---|---|
-| D1 | NOT TESTED | — | 운영 배포 보류로 재측정 못 함(11-12 운영 실측 평균 1.67초) |
+| D1 | PASS | 확인됨 | 운영 실측(07시, 새 브라우저 3회): 시작 버튼까지 1.40~1.77초(두 차례 6회), 첫 화면 전송 1.29MB(요청 8개, 개념영상 미리 받기 0) |
 | D2 | WARNING | 이전 확인됨 | 1MB 넘는 그림 일부 |
 | D3 | WARNING | 이전 확인됨 | 개념영상 |
 | D4 | NOT APPLICABLE | — | GLB 없음(three 절차 모형) |
@@ -203,7 +203,7 @@
 | G6 | PASS | `not_found_handling: none` + 앱 라우팅 |
 | G7–G9 | PASS | 11-18 썸네일 교체 |
 | G10 | PASS | `deploy.sh`가 푸시된 `origin/main`만 빌드 |
-| G11 | NOT TESTED | 운영 배포 보류 — 01시 무렵부터 SSD에서 `access()` 호출이 멈춰(macOS 권한 확인 창 대기로 추정) git·vite/esbuild 빌드·헤드리스 Chrome이 모두 멈춤. 커밋 `6dfd553`은 GitHub API로 푸시됐고 운영은 아직 `e876efe` |
+| G11 | PASS | 확인됨 | 운영 smoke 13항목(`.tmp/layout-balance-20261118/smoke.mjs`): 첫 화면 용량·로딩, 18px 하한, s4a 별도 토글 없음·가림판 탭·Enter(초점 유지), 키트·힌트 팝업 닫기 1개, Esc 닫기, 결과 화면 지도 버튼 1개·primary 1개, s3b 새로고침 유지, 콘솔 오류 0. `cmp.sh`: `learning-*.js`·`index-*.css`·`index.html` MATCH. (01~07시 SSD `access()` 멈춤으로 배포가 늦어졌고, 사용자가 macOS 권한 창을 처리한 뒤 진행) |
 | G12 | PASS | 로그인 없음 |
 | G13 | PASS | 남의 미커밋(`src/classroom.css`, `src/concepts.js`, `public/assets/concepts/*`, 개념 자막 문서) 보존, 이번 파일만 골라 커밋 |
 | G14 | PASS | README 명령과 scripts 일치 |
@@ -211,7 +211,7 @@
 | G17 | NOT APPLICABLE | 미리보기 주소 없음 |
 | G18 | PASS | 11-18 썸네일 |
 | G19 | NOT TESTED | 인증서 실물 인쇄 |
-| G20 | PASS | 직전 운영 커밋 `e876efe` |
+| G20 | PASS | 롤백 대상: 직전 운영 커밋 `e876efe` |
 | (실기) | NOT TESTED | 학교 태블릿 실물 |
 
 ## 이번에 고친 것 (이번 범위)
