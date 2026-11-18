@@ -31,7 +31,7 @@ export function classificationFeedback(body, answer = {}) {
         ? '판정은 맞았지만 밝기와 색만으로는 설명이 부족해. 빛이 어디서 오는지 자료를 다시 봐.'
         : '밝기와 색만으로는 알 수 없어. 자료에서 빛의 근원을 찾아봐.'
       : answer.reason === body.evidence
-        ? `근거는 정확해! 그 근거라면 ${body.name}에게 어떤 이름표가 어울릴까?`
+        ? `근거는 정확해! 그 근거라면 ${body.name}에 어떤 이름표가 어울릴까?`
         : `${body.name}의 자료를 다시 읽고 이름표와 빛의 근원을 연결해 봐.` };
 }
 

@@ -3,6 +3,7 @@ import { firstReady, stageReady, photoReady } from './state.js';
 
 const regions = ['cassiopeia', 'dipper'];
 const objectParticle = word => word + ((word.charCodeAt(word.length - 1) - 0xac00) % 28 ? '을' : '를');
+const hasFinal = word => (word.charCodeAt(word.length - 1) - 0xac00) % 28 > 0;
 const hasText = value => typeof value === 'string' && value.trim().length >= 3;
 const comparisonReady = card => hasText(card.observation) && new Set(card.spots
   .filter(spot => Number.isFinite(spot.x) && Number.isFinite(spot.y) && Math.hypot(spot.x - 50, spot.y - 50) < 49)
@@ -56,7 +57,7 @@ export function getStageAction(state, round = 0) {
 export function getLearningGuide(state, ui) {
   const round = ui.round || 0, d = state.drafts;
   const next = getStageAction(state, round);
-  if (next && !next.disabled) return { target: '#stage-next', text: next.round === undefined ? `준비됐어요! ‘${next.label}’를 눌러요.` : (state.scene === 's3b' ? `이제 ‘${next.label}’를 눌러요.` : '잘했어요! 곧 다음 묶음으로 넘어가요.') };
+  if (next && !next.disabled) return { target: '#stage-next', text: next.round === undefined ? `준비됐어요! ‘${next.label}’${hasFinal(next.label) ? '을' : '를'} 눌러요.` : (state.scene === 's3b' ? `이제 ‘${next.label}’${hasFinal(next.label) ? '을' : '를'} 눌러요.` : '잘했어요! 곧 다음 묶음으로 넘어가요.') };
   switch (state.scene) {
     case 's1a': {
       const m = d.moon;
@@ -90,13 +91,13 @@ export function getLearningGuide(state, ui) {
     case 's4a': {
       const body = bodies.find(item => !d.classification.viewed.includes(item.id));
       if (!body) return { target: '#stage-next', text: '여덟 천체를 모두 살펴봤어요.' };
-      return { target: `[data-learning="body-${body.id}"]`, text: `‘${body.name}’을 눌러 빛이 어디서 오는지 봐요.` };
+      return { target: `[data-learning="body-${body.id}"]`, text: `‘${body.name}’${hasFinal(body.name) ? '을' : '를'} 눌러 빛이 어디서 오는지 봐요.` };
     }
     case 's4b': {
       const body = bodies[round * 4 + (ui.body || 0) % 4];
       return d.classification.answers[body.id]?.kind
         ? { target: '.reason-choices', text: '빛이 어디서 오는지 근거를 골라요.' }
-        : { target: '.claim-tray', text: `${body.name}은 별일까요, 행성일까요? 이름표를 골라요.` };
+        : { target: '.claim-tray', text: `${body.name}${hasFinal(body.name) ? '은' : '는'} 별일까요, 행성일까요? 이름표를 골라요.` };
     }
     case 's5a':
       return { target: '#star-view', text: '별을 하나씩 눌러요. 두 구역에서 여섯 개를 살펴봐요.' };
