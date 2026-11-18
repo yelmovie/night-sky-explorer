@@ -4,7 +4,7 @@
 
 달 관측 화면에는 OpenAI 기본 image_gen으로 생성한 `generated/moon-surface-v4.webp`를 적용했다. 밝고 어두운 지대와 충돌 구덩이를 비교하는 학습용 그림이다. 위상 계산과 별 좌표는 코드로 제어한다. 원본, 프롬프트와 SHA-256은 `docs/reviews/RELEASE-REVIEW-20261112.md`에 기록했다.
 
-`audio/voices/hint-s2a-v2.mp3`는 현재의 날짜 선택 후 기록 버튼 조작에 맞춰 ElevenLabs의 `eleven_v4`, 라이브러리의 `Soo - Warm Korean Teacher` 음성으로 생성했다. 제공자·선택한 테이크·대사·해시·자동 전사 결과는 `docs/VOICE-PROVENANCE-20261112.json`을 따른다. 해당 음성에는 제공자의 이용 조건이 적용된다.
+`audio/voices/hint-s2a-v2.mp3`는 현재의 날짜 선택 후 기록 버튼 조작에 맞춰 ElevenLabs의 `eleven_v4`, 라이브러리의 `Soo - Warm Korean Teacher` 음성으로 생성했다. 제공자·선택한 테이크·대사·해시·자동 전사 결과는 `docs/VOICE-PROVENANCE-20261112.json`을 따른다. 해당 음성에는 제공자의 이용 조건이 적용된다. 생성 당시 ElevenLabs Starter 유료 요금제를 구독 중이었다(상업 이용 가능, 2026-11-18 사용자 확인).
 
 아래의 날짜별 기록은 각 시점의 작업 범위를 설명한다. 현재 공개 배포와 검증 결과는 2026-11-12 최종 검토 문서에 정리했다.
 
@@ -35,7 +35,7 @@ OpenAI built-in `image_gen`으로 달 표면, 태양, 별빛, 코어 보정 장�
 | HYG v4.1 발췌 | `src/stars.json` 13별·좌표 투영 | David Nash/Astronomy Nexus, CC BY-SA 4.0. 기존 출처 `docs/SOURCES.md` | 아래 해당 데이터·변환 범위에만 적용. 전체 에셋으로 확장하지 않음 |
 | 직접 작성 SVG·Canvas·모형 | 공통 아이콘·달 위상·표면·별 좌표·행성 모형 | 프로젝트 코드. 지도·보행·행성 기본 그림은 아래 생성물과 구분 | 실제 과학 도형·글자·좌표는 코드로 표시 |
 | 소리 | 화면 효과음은 `src/theme-effects.js` 자체 Web Audio 합성. 지도 악당 전투 효과음 7종은 CC0 녹음(아래 2026-11-17 절). Kenney Interface Sounds 6종(`audio/*.ogg`)은 폴더에 남아 있으나 2026-11-09부터 코드에서 재생하지 않음 | Kenney: 공식 배포 페이지와 동봉 CC0 원문 확인, `audio/Kenney-CC0.txt` | 로컬 파일 재생, BGM·효과음 개별 설정 |
-| 배경음 2곡 (Suno 생성) | audio/bgm/main-theme.mp3 (시작·지도·활동 반복), audio/bgm/final-theme.mp3 (엔딩·인증서·지도 피날레 창) | 2026-11-17 사용자가 Suno로 생성해 제공. 프롬프트는 `_shared/music-prompts-10-16.html` | 원본은 references/suno 보관(Git 미포함). 상업 이용 근거(생성 당시 Suno 유료 요금제) 확인 필요 |
+| 배경음 2곡 (Suno 생성) | audio/bgm/main-theme.mp3 (시작·지도·활동 반복), audio/bgm/final-theme.mp3 (엔딩·인증서·지도 피날레 창) | 2026-11-17 사용자가 Suno로 생성해 제공. 프롬프트는 `_shared/music-prompts-10-16.html` | 원본은 references/suno 보관(Git 미포함). 상업 이용 근거: 생성 당시 Suno Premier 유료 요금제(2026-11-18 사용자 확인) |
 | 개념영상5편 | 직접 작성 SVG → sharp → FFmpeg 7.1 (개발 도구) | MP4 H.264 + WebM VP9 + 끝 장면 WebP, 각10초1280×720, 무음 | FFmpeg 실행 파일은 배포물에 포함하지 않음. 도형은 자체 코드, 달 모형은 기존 코드 재사용 |
 | sharp 0.34.5 | 생성 PNG의 WebP 서비스 변환·알파 경계 측정 | `node_modules/sharp/LICENSE`: Apache2.0 | 개발 도구. 원본은 유지하고 서비스 파일만 변환 |
 | Remotion | 사용하지 않음 | 현행 package.json에 없고 도입 계획 없음 | 관련 렌더 영상·결과물을 새로 포함하지 않음 |
