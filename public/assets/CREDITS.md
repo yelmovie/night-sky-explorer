@@ -1,5 +1,9 @@
 # 도구·자료·라이선스 기록
 
+## 2026-11-18 캐릭터 음성 통일 (ElevenLabs)
+
+지금 게임에서 재생하는 대사 음성은 모두 ElevenLabs 유료 요금제(상업 이용 가능)의 `eleven_v4`로 만든 AI 생성 음성(`audio/voices/el-*.mp3`)이다. 별여우 연구관은 `Hun 훈`, 달토끼 기록원 루미(내레이션 포함)는 `Aria – Bright & Youthful Korean`, 지도 악당 별빛 가림이는 `oki - casual and fun` 라이브러리 음성을 쓴다. 실제 인물의 목소리를 복제하지 않았다. 줄마다 대사·생성 ID·받아쓰기 검수·음량·SHA-256은 `docs/VOICE-FILL-20261118.json`에 있다. 아래 2026-11-10 Momo/Qwen3-TTS 음성과 2026-11-17 로컬 복제 음성은 더 이상 재생하지 않는다.
+
 ## 2026-11-12 학습 그림·음성 수정
 
 달 관측 화면에는 OpenAI 기본 image_gen으로 생성한 `generated/moon-surface-v4.webp`를 적용했다. 밝고 어두운 지대와 충돌 구덩이를 비교하는 학습용 그림이다. 위상 계산과 별 좌표는 코드로 제어한다. 원본, 프롬프트와 SHA-256은 `docs/reviews/RELEASE-REVIEW-20261112.md`에 기록했다.

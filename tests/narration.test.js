@@ -39,20 +39,22 @@ test('초상 말하기 상태는 실제 재생 시작과 버퍼링·일시정지
  f.audios[0].dispatchEvent(new Event('pause'));assert.equal(f.player.state.status,'paused');
  f.player.stop();f.audios[0].dispatchEvent(new Event('playing'));assert.equal(f.player.state.status,'idle');f.player.dispose();
 });
-test('29개 파일의 출처·SHA와 화면 대사 카탈로그가 일치한다',()=>{
- const original=JSON.parse(readFileSync(new URL('../docs/VOICE-PROVENANCE-20261110.json',import.meta.url),'utf8'));
- const update=JSON.parse(readFileSync(new URL('../docs/VOICE-PROVENANCE-20261112.json',import.meta.url),'utf8'));
- const dialogue=JSON.parse(readFileSync(new URL('../docs/NPC-DIALOGUE-20261112.json',import.meta.url),'utf8'));
- const hints=JSON.parse(readFileSync(new URL('../docs/VOICE-PROVENANCE-20261117.json',import.meta.url),'utf8'));
- assert.equal(original.lines.length,29);assert.equal(voiceLines.length,29);
- for(const line of [...original.lines,...update.lines,...dialogue.lines,...hints.lines]){
+test('모든 대사 음성 파일의 출처·SHA와 화면 대사 카탈로그가 일치한다',()=>{
+ const read=name=>JSON.parse(readFileSync(new URL('../docs/'+name,import.meta.url),'utf8'));
+ const fill=read('VOICE-FILL-20261118.json');
+ const older=[...read('VOICE-PROVENANCE-20261110.json').lines,...read('VOICE-PROVENANCE-20261112.json').lines,...read('NPC-DIALOGUE-20261112.json').lines,...read('VOICE-PROVENANCE-20261117.json').lines];
+ const filled=new Set(fill.lines.map(line=>line.key));
+ assert.equal(voiceLines.length,new Set(voiceLines.map(line=>line.id)).size);
+ // 2026-11-18: 모든 연결 음성은 ElevenLabs(el-*) 파일이다.
+ for(const line of voiceLines){assert.match(line.src,/\/assets\/audio\/voices\/el-[\w-]+\.mp3$/,line.id);readFileSync(new URL('../public'+line.src,import.meta.url));}
+ for(const line of fill.lines){
+  const data=readFileSync(new URL('../'+line.file,import.meta.url));
+  assert.equal(createHash('sha256').update(data).digest('hex'),line.sha256,line.key);
+  const wired=voiceLines.find(x=>x.id===line.key);assert.equal(wired.text,line.text,line.key);assert.equal('public'+wired.src,line.file,line.key);
+ }
+ for(const line of older.filter(line=>!filled.has(line.id)&&voiceLines.some(x=>x.id===line.id&&x.src==='/'+String(line.target).replace(/^public\//,'')))){
   const data=readFileSync(new URL('../'+line.target,import.meta.url));
   assert.equal(createHash('sha256').update(data).digest('hex'),line.sha256,line.id);
  }
- const current=new Map([...original.lines,...update.lines,...dialogue.lines,...hints.lines].map(line=>[line.id,line]));
- for(const line of current.values()){
-  assert.equal(voiceLines.find(x=>x.id===line.id).text,line.text);
-  if(line.provider==='ElevenLabs')assert.equal(voiceLines.find(x=>x.id===line.id).src,'/'+line.src);
-  assert.equal(voiceForText('안내자 '+line.text)?.id,line.id);
- }
+ for(const line of voiceLines)assert.equal(voiceForText('안내자 '+line.text)?.id,line.id,line.id);
 });

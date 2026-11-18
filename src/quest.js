@@ -98,13 +98,14 @@ export function introPanel(step, name) {
 }
 const movieScenes = [
   { at: 0, caption: '중앙 관측 코어에 오류가 났던 밤. 다섯 기록 시스템이 서로 다른 데이터를 보냈어요.' },
-  { at: 3000, caption: '연구원이 직접 관찰하고 검증한 다섯 개의 관측 기록이 모였어요.' },
-  { at: 8000, caption: '다섯 기록이 중앙 관측 코어의 알맞은 채널로 들어가요.' },
-  { at: 13000, caption: '보정 링이 기준에 맞춰지자 코어가 빛나고 천문 돔이 열려요.' },
-  { at: 18000, caption: '' },
+  { at: 7000, caption: '연구원이 직접 관찰하고 검증한 다섯 개의 관측 기록이 모였어요.' },
+  { at: 12500, caption: '다섯 기록이 중앙 관측 코어의 알맞은 채널로 들어가요.' },
+  { at: 17200, caption: '보정 링이 기준에 맞춰지자 코어가 빛나고 천문 돔이 열려요.' },
+  { at: 22600, caption: '' },
 ];
+// Each caption is narrated (movie-1..4, about 4.3-6.6 s); scenes last long enough for their line.
 // The final line is about 7.5 seconds; give it time to finish before moving focus.
-export const MOVIE_LENGTH = 27000;
+export const MOVIE_LENGTH = 31600;
 export function movieMarkup(s) {
   const records = chapters.map(chapter => `<figure class="movie-card" style="--i:${chapter.id - 1}">${evidenceVisual(chapter.id, s.evidence[chapter.id]?.data)}<figcaption><small>${evidenceTag(chapter.id)}</small>${chapter.record}<span>${evidenceFact(chapter.id, s.evidence[chapter.id]?.data)}</span></figcaption></figure>`).join('');
   return `<div class="final-movie" data-scene="0">

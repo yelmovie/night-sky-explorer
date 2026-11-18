@@ -10,6 +10,8 @@
 - Runtime effects now use procedural synthesis without download/decode latency. Existing procedural music retained.
 
 ## NPC narration
+
+> 2026-11-18: 아래 Supertonic/Momo 기록은 예전 기록이다. 현재 재생하는 대사 음성은 모두 ElevenLabs `eleven_v4`(유료 요금제, 상업 이용 가능) `el-*.mp3`이며 줄별 출처는 `docs/VOICE-FILL-20261118.json`에 있다.
 - Existing Korean F1 welcome narration preserved; no new generation, recording, or recognition.
 - Original source metadata: `18710060-3e91-445e-bc87-fac02a4c54b8.json`, model `momo-voice`, Korean `ko`, voice `F1`, generated 2026-11-07T22:01:48.592Z. The metadata identifies Supertonic 3 / OpenRAIL-M. Its script exactly matches the runtime caption.
 - Source WAV and distributed AAC durations are recorded below. Matching script and duration support the conversion lineage; lossy AAC cannot share the WAV hash.
