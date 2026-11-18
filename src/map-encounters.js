@@ -113,14 +113,15 @@ export function mountMapEncounters({
   const pose={hero:null,ally:null};
   let current=null,lastNear=null,lastHit=-Infinity,lastTone=-Infinity,saved={},last=null,closed=false,mountedAt=null,lastAppear=-Infinity,victoryAt=0;
 
-  function speak(foe,text,time){
+  // 명중·퇴장 대사는 그 순간의 전투 효과음 뒤로 약 300ms 늦게 목소리를 낸다(말풍선은 바로). 도발 대사는 그대로.
+  function speak(foe,text,time,voiceDelay=0){
     for(const other of foes)if(other!==foe){other.saidUntil=0;other.bubble.hidden=true;}
     foe.bubble.textContent=text;
     foe.bubble.hidden=false;
     lastSpeechLayout=-Infinity;
     foe.saidUntil=time;
     live.textContent=text;
-    say(text);
+    if(voiceDelay)(view??globalThis).setTimeout(()=>{if(!closed&&foe.bubble.textContent===text)say(text);},voiceDelay);else say(text);
   }
   function hit(){
     if(closed||!current||!last||paused())return;
@@ -133,7 +134,7 @@ export function mountMapEncounters({
     foe.poseUntil=impact+duration;foe.hitAt=impact;foe.impactAt=impact;foe.impactCue=n;foe.hurtAt=undefined;
     pose.hero={kind:'attack',direction:-foe.facing,start:time,end:time+(calm?140:320)};
     saved={...saved,[foe.s.id]:n};onSave({...saved});tone('swing',n);
-    speak(foe, n===HITS?foe.s.finish??'앗, 물러날게!':foe.s.hit?.[n-1]??(n===1?'앗, 들켰네!':'이번 건 제법인데!'),time+(n===HITS?2750:1800));
+    speak(foe, n===HITS?foe.s.finish??'앗, 물러날게!':foe.s.hit?.[n-1]??(n===1?'앗, 들켰네!':'이번 건 제법인데!'),time+(n===HITS?2750:1800),300);
     live.textContent+=n===HITS?' 세 번 명중! 악당이 물러나요.':` ${n}번 명중. ${HITS-n}번 남았어요.`;
     if(n===HITS&&requiredFoes>0&&stages.length===requiredFoes&&stages.every(s=>(saved[s.id]??record[s.id])===HITS)){finaleAt=impact+2920;victoryAt=impact+VICTORY_CUE;}
     update({...last,now:time});

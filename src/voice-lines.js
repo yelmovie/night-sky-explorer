@@ -637,6 +637,12 @@ export const voiceLines = [
     "src": "/assets/audio/voices/el-villain-4-2.mp3"
   },
   {
+    "id": "villain-4-3",
+    "speaker": "별빛 가림이",
+    "text": "앗, 가짜 별 조명이 깜빡여!",
+    "src": "/assets/audio/voices/el-villain-4-3.mp3"
+  },
+  {
     "id": "villain-4-4",
     "speaker": "별빛 가림이",
     "text": "관측 데크에 진짜 별빛이 들어오잖아!",

@@ -47,14 +47,7 @@
    "reason": "API 첫 테이크 받아쓰기 미달(아잇)"
   }
  ],
- "notWired": [
-  {
-   "key": "villain-4-3",
-   "text": "앗, 가짜 별 조명이 깜빡여!",
-   "reason": "받아쓰기 검수 두 테이크 모두 미통과(마지막 match 0.857, end 0.9, 들린 글 '아휴, 가짜 별 조명이 깜빡여!')",
-   "requestId": "m43RfWEvSZbbGJVoq4uh"
-  }
- ],
+ "notWired": [],
  "createdAt": "2026-11-18",
  "charactersUsed": {
   "mcpCredits": 4266,
@@ -2137,6 +2130,27 @@
    "duration": 4.65,
    "sha256": "4c1b9acf4e30ee62fc79a253a778501d61613d74af8517cd8044d6d6384b8a01",
    "file": "public/assets/audio/voices/el-villain-5-5.mp3"
+  },
+  {
+   "key": "villain-4-3",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "provider": "ElevenLabs API",
+   "requestId": "m43RfWEvSZbbGJVoq4uh",
+   "text": "앗, 가짜 별 조명이 깜빡여!",
+   "prompt": "[mischievous] 앗, 가짜 별 조명이 깜빡여!",
+   "asr": "아휴, 가짜 별 조명이 깜빡여!",
+   "match": 0.857,
+   "end": 0.9,
+   "manualJudgment": "사용자 청취 확인(2026-11-18): 받아쓰기 미달 테이크를 사용자가 직접 듣고 괜찮다고 해서 재생성 없이 연결",
+   "userListening": "사용자 청취 확인(2026-11-18)",
+   "lufs": -16.76,
+   "peakDbtp": -1.74,
+   "duration": 3.19,
+   "sha256": "0e520915084f2de445b9e2a7ea4d5deeeff4b278233d85967a37b19a7fa64a95",
+   "file": "public/assets/audio/voices/el-villain-4-3.mp3"
   }
  ]
 }

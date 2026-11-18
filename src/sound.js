@@ -21,12 +21,16 @@ export const mapCues = {
   cardSlot: ['pickup-01.mp3', .4, 1],              // 카드가 칸에 들어갈 때
   cardComplete: ['victory-jingle-01.mp3', .45, 1], // 다섯 장 완성
 };
+// 지도 전투 효과음(휘두르기·명중·퇴장·등장·접촉)은 인물 목소리 덕킹으로 꺼지거나 막히지 않는다. 음소거·효과음 끄기·숨은 탭은 그대로 따른다.
+// 격퇴 차임과 성취 카드 효과음은 이 예외에 넣지 않는다.
+const combatCues = new Set(['swing', 'hit1', 'hit2', 'heavy', 'exit', 'appear', 'contact']);
 /** Map encounter kinds (swing, hit, heavy, exit, appear, contact, victory) → cue names; hit 2 is a lower, stronger take. */
 export function mapCueName(kind, hits = 0) { return kind === 'hit' ? (hits === 2 ? 'hit2' : 'hit1') : mapCues[kind] ? kind : null; }
 export function createSound(getSettings) {
   let music, track = 'main', finaleDone = false, started = false, disposed = false, ducked = false, lastEffect = 0;
   const effects = createThemeEffects('sky', () => ({ muted: quiet(), enabled: getSettings().sfx, volume: .8 }));
   function quiet() { return disposed || ducked || document.hidden || getSettings().muted; }
+  function silent(name) { return combatCues.has(name) ? disposed || document.hidden || getSettings().muted : quiet(); }
   function musicLevel() {
     const settings = getSettings();
     if (disposed || !started || document.hidden || settings.muted || !settings.bgm || !settings.bgmVolume || (track === 'finale' && finaleDone)) return 0;
@@ -61,16 +65,16 @@ export function createSound(getSettings) {
     if (!decoded.has(file)) decoded.set(file, fetchCue(name).then(data => data && new Promise(done => context.decodeAudioData(data.slice(0), done, () => done(null)))).catch(() => null));
     return decoded.get(file);
   }
-  function stopSamples() { for (const voice of voices.values()) { try { voice.stop(); } catch {} } voices.clear(); }
+  function stopSamples(keepCombat = false) { for (const [name, voice] of voices) { if (keepCombat && combatCues.has(name)) continue; try { voice.stop(); } catch {} voices.delete(name); } }
   function cue(name) {
     const entry = mapCues[name];
-    if (!entry || quiet() || !getSettings().sfx || !started) return;
+    if (!entry || silent(name) || !getSettings().sfx || !started) return;
     const context = samples(); if (!context) return;
     if (context.state === 'suspended') context.resume().catch(() => {});
     const asked = performance.now();
     bufferFor(name).then(buffer => {
       // A cue that arrives late (first download) is dropped rather than heard out of sync.
-      if (!buffer || quiet() || !getSettings().sfx || context.state !== 'running' || performance.now() - asked > 250) return;
+      if (!buffer || silent(name) || !getSettings().sfx || context.state !== 'running' || performance.now() - asked > 250) return;
       voices.get(name)?.stop?.();
       const source = context.createBufferSource(), gain = context.createGain();
       source.buffer = buffer; source.playbackRate.value = entry[2]; gain.gain.value = entry[1];
@@ -82,7 +86,8 @@ export function createSound(getSettings) {
   function stopEffect() { effects.stop(); stopSamples(); }
   function sync() {
     syncMusic();
-    if (quiet() || !getSettings().sfx) stopEffect();
+    // 목소리 덕킹만으로는 울리고 있는 전투 효과음을 끊지 않는다.
+    if (quiet() || !getSettings().sfx) { effects.stop(); stopSamples(getSettings().sfx && !silent('hit1')); }
   }
   function play(name = 'click') {
     if (quiet() || !getSettings().sfx || !kinds.has(name)) return;
