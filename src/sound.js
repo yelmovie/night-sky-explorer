@@ -14,6 +14,12 @@ export const mapCues = {
   appear: ['villain-appear-02.mp3', .22, 1],// 악당이 처음 보일 때 작게 '퐁'
   contact: ['hurt-bump-01.mp3', .3, 1],     // 아군이 악당에 닿아 움찔
   victory: ['reward-01.mp3', .45, 1],       // 모두 격퇴: 피날레 배경음 전에 끝나는 짧은 반짝 차임
+  // 성취 카드(map-reward-cards.js): 같은 CC0 라이브러리 파일이고, 카드 공개는 격퇴 차임과 같은 파일을 쓴다.
+  cardWhoosh: ['wind-whoosh-03.mp3', .3, 1],       // 카드가 날아올 때·보관함 칸으로 날아갈 때
+  cardReveal: ['reward-01.mp3', .45, 1],           // 카드 공개(브론즈·실버·골드)
+  cardEpic: ['reward-03.mp3', .45, 1],             // 카드 공개(홀로·레전드): 긴 징글
+  cardSlot: ['pickup-01.mp3', .4, 1],              // 카드가 칸에 들어갈 때
+  cardComplete: ['victory-jingle-01.mp3', .45, 1], // 다섯 장 완성
 };
 /** Map encounter kinds (swing, hit, heavy, exit, appear, contact, victory) → cue names; hit 2 is a lower, stronger take. */
 export function mapCueName(kind, hits = 0) { return kind === 'hit' ? (hits === 2 ? 'hit2' : 'hit1') : mapCues[kind] ? kind : null; }
@@ -90,6 +96,8 @@ export function createSound(getSettings) {
     /** Download the map cues while the map is open, before the first attack. */
     preload() { for (const name of Object.keys(mapCues)) { if (sampleContext) bufferFor(name); else fetchCue(name); } },
     mapCue(kind, hits) { const name = mapCueName(kind, hits); if (name) cue(name); },
+    /** Cut the map cues still ringing (the card set jingle) when the finale theme takes over. */
+    stopCues: stopSamples,
     sync, play, tap(success = false) { play(success ? 'success' : 'click'); },
     setDucked(value) { ducked = !!value; sync(); },
     setMusic(next) { if (next === track) return; track = next; if (next === 'finale') finaleDone = false; sync(); },

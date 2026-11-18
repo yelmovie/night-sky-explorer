@@ -71,7 +71,7 @@ const reduced = () => state.settings.reducedMotion || matchMedia('(prefers-reduc
 function persist() { if (studentSnapshot) return; if (!session.save(state)) { notify(session.warning); showSaveWarning(); } }
 function showSaveWarning() { if (!session.warning || document.querySelector('#save-warning')) return; const note = document.createElement('aside'); note.id = 'save-warning'; note.setAttribute('role', 'alert'); note.innerHTML = `<span>${esc(session.warning)}</span><button class="btn" type="button">기록 파일 저장</button>`; note.querySelector('button').onclick = () => action('export'); document.body.append(note); }
 function notify(message) { const toast = document.querySelector('#toast'); toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 3800); }
-function controls() { return `<header class="floating-controls"><nav aria-label="화면 이동">${button(icon('home'), 'home', 'icon-button', 'aria-label="홈"')}${button(icon('back'), 'back', 'icon-button', 'aria-label="이전"')}</nav><nav aria-label="연구 키트와 설정">${state.scene === 'map' ? button(icon('book'), 'kit', 'icon-button', 'aria-label="연구 키트 열기" title="연구 키트 열기"') : ''}${button(icon(state.settings.muted ? 'mute' : 'sound'), 'sound', 'icon-button', `aria-label="${state.settings.muted ? '소리 켜기' : '소리 끄기'}" aria-pressed="${state.settings.muted}"`)}${button(icon('settings'), 'settings', 'icon-button', 'aria-label="설정"')}</nav></header>${state.settings.adminUnlock ? '<div class="preview-ribbon">교사 시연 · 자동저장 안 함 · 설정에서 시연 종료</div>' : ''}`; }
+function controls() { return `<header class="floating-controls"><nav aria-label="화면 이동">${button(icon('home'), 'home', 'icon-button', 'aria-label="홈"')}${button(icon('back'), 'back', 'icon-button', 'aria-label="이전"')}</nav><nav aria-label="연구 키트와 설정">${state.scene === 'map' ? button(icon('book'), 'kit', 'icon-button', 'aria-label="연구 키트 열기" title="연구 키트 열기"') : ''}${state.scene === 'map' && mapScreen ? mapScreen.rewardSlotsHtml(state.mapHits) : ''}${button(icon(state.settings.muted ? 'mute' : 'sound'), 'sound', 'icon-button', `aria-label="${state.settings.muted ? '소리 켜기' : '소리 끄기'}" aria-pressed="${state.settings.muted}"`)}${button(icon('settings'), 'settings', 'icon-button', 'aria-label="설정"')}</nav></header>${state.settings.adminUnlock ? '<div class="preview-ribbon">교사 시연 · 자동저장 안 함 · 설정에서 시연 종료</div>' : ''}`; }
 function home() { return `<main class="experience home-v2"><div class="room-bg home-background"></div><section class="hero"><img class="hero-logo" src="/assets/logo.webp" alt="별빛 관측 연구소"/><h1 id="screen-title" tabindex="-1">너의 관측으로<br>연구소의 불빛을 켜요.</h1><p class="hero-story">루미와 함께 달을 찾고, 행성을 돌리고,<br>나만의 별 지도를 만들어요.</p><div class="home-cta">${state.started ? '' : '<label class="sr-only" for="nickname">연구원 별명</label><input id="nickname" maxlength="20" placeholder="연구원 별명 (선택)"/>'}${button(state.started ? '탐구 이어 하기' : '루미와 출발하기', 'start', 'primary')}${state.started ? button(`${icon('book')} 연구 키트`, 'kit') : ''}</div><p class="home-progress">${state.started ? `관측 데이터 ${completedCount(state)}/5 · 연구소 복구 ${restorePercent(state)}%` : '다섯 관측 기록으로 중앙 코어를 복구해요.'}</p></section><img class="home-character" src="/assets/home-fox.webp" alt="별여우 연구관"/></main>`; }
 function recordMarkup(number, data) {
   if (!data) return '<p>관측을 마치면 이곳에 기록이 남아요.</p>';
@@ -389,6 +389,9 @@ function render() {
     if (!state.settings.adminUnlock && chapters.some(c => state.evidence[c.id] && (state.mapHits?.[c.id] ?? 0) < 3)) sound.preload();
     const world = mapScreen.mountWorld($('#world'), state, {
       lastSite, restoredSites, save: persist, tone:(kind,hits)=>sound.mapCue(kind,hits), say: villainVoice, onHint: showHint, onStatus: notify, onSite: enterSite,
+      // 성취 카드: 악당의 세 번째 타격이 저장되면 퇴장 뒤 카드가 뜬다. 목소리 중에는 효과음이 나지 않으므로 악당의 퇴장 대사가 끝난 뒤에 뜬다.
+      // 카드가 열린 동안 #app이 inert라 지도·악당·파이널 영상이 기다린다.
+      onMapHits: (before, patch) => mapScreen.awardRewardCards(before, patch, { hits: () => state.mapHits, open: () => state.scene === 'map' && !!$('#world'), sound: name => sound.mapCue(name), masked: () => !['idle', 'muted', 'error'].includes(narration.state.status), reduced: reduced() }),
       onReady: () => {
         pendingRestoration.splice(0, restoredSites.length);
         if (document.activeElement === document.body) $('#world')?.focus({ preventScroll: true });
@@ -434,6 +437,7 @@ function mountCalibration() {
 // 캡처 단계에서 받아, 지도 방향 버튼처럼 이벤트를 멈추는 곳을 처음 눌러도 배경음이 시작된다.
 document.addEventListener('pointerdown', () => sound.start(), true);
 document.addEventListener('keydown', () => sound.start(), true);
-document.addEventListener('map-finale', event => { mapFinaleOpen = !!event.detail; syncMusic(); });
+// 파이널 창이 열리면 아직 울리는 카드 완성 징글을 끊고 파이널 곡으로 넘어간다.
+document.addEventListener('map-finale', event => { mapFinaleOpen = !!event.detail; if (mapFinaleOpen) sound.stopCues(); syncMusic(); });
 render();
 if (loaded.warning) { notify(loaded.warning); showSaveWarning(); }

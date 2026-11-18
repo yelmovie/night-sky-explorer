@@ -135,6 +135,23 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 | `audio/sfx/villain-exit-01.mp3` | classic dizzy take slide whistle.wav · martian | https://freesound.org/people/martian/sounds/403002 | 악당 퇴장 |
 | `audio/sfx/villain-appear-02.mp3` | Mouth Pop 1 · michorvath | https://freesound.org/people/michorvath/sounds/269501 | 악당이 지도에 처음 보일 때(페이지당 악당마다 한 번) |
 | `audio/sfx/hurt-bump-01.mp3` | LowHit_01.wav · Faulkin | https://freesound.org/people/Faulkin/sounds/336495 | 별탐험가·루미가 악당에 닿을 때(둘 다 닿아도 한 번) |
-| `audio/sfx/reward-01.mp3` | Fantasy_ui_Button_3.wav · ZenithInfinitiveStudios | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745 | 다섯 악당 모두 격퇴 직후(파이널 배경음이 시작되기 전에 끝남) |
+| `audio/sfx/reward-01.mp3` | Fantasy_ui_Button_3.wav · ZenithInfinitiveStudios | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745 | 다섯 악당 모두 격퇴 직후(파이널 배경음이 시작되기 전에 끝남). 2026-11-18부터 마지막 악당의 성취 카드가 뜰 때는 카드의 컬렉션 완성 징글이 대신하고, 카드 공개 소리로도 쓴다 |
 
 음소거·효과음 끄기·탭 숨김·인물 목소리 재생 중에는 나지 않는다(기존 효과음 규칙과 같음).
+
+## 성취 카드 5장과 효과음 (2026-11-18)
+
+지도 악당(별빛 가림이)을 세 번 맞혀 물리치면 받는 성취 카드의 그림과 소리.
+
+- 그림 `reward-cards/card-{1..5}-{1..5}.webp`(640×960), `reward-cards/thumb-{1..5}-{1..5}.webp`(96×144): 2026-11-18 ChatGPT 앱의 Codex 내장 이미지 도구(GPT 이미지)로 이 프로젝트를 위해 생성했다. 지도의 학생 연구원(`generated/student.webp`, `map-encounters/hero-redraw.png`)·달토끼 루미(`rabbit.webp`)와 각 시설의 배경 그림(`rooms/`)을 화풍 참고로 붙였다. 글자 없이 생성했고 테두리·별·이름은 코드(`src/reward-cards.js`, `src/reward-cards.css`)로 올린다. 원본 PNG는 `_scratch/reward-cards-20261118/gen/13/`에 있다(Git 미포함). 학습용 장면 그림이며 과학 사실의 증거로 쓰지 않는다. 생성 당시 계정의 이용 조건을 따르며, 이 문서가 별도 권리를 부여하지 않는다.
+- 소리: 과학34 공용 효과음 라이브러리(`_shared/sfx-library-20261117`)에서 그대로 복사했다(가공은 라이브러리에서 한 무음 제거·짧은 페이드·음량 맞춤뿐). 모두 **CC0 1.0**이며 라이브러리 작성 때(2026-11-17) 원본 페이지에서 라이선스를 다시 확인한 파일이다. `src/sound.js`의 `mapCues`(`card…`)가 음량을 정한다.
+
+| 서비스 파일 | 원본 · 제작자 | 원본 페이지 | 연결 |
+|---|---|---|---|
+| `audio/sfx/wind-whoosh-03.mp3` | Slow Swosh 40 · qubodup | https://freesound.org/people/qubodup/sounds/60027 | 카드가 날아올 때·보관함 칸으로 날아갈 때 |
+| `audio/sfx/reward-01.mp3` | Fantasy_ui_Button_3.wav · ZenithInfinitiveStudios | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745 | 카드 공개(브론즈·실버·골드). 위 전투 효과음과 같은 파일 |
+| `audio/sfx/reward-03.mp3` | Achievement Happy Beeps Jingle · CogFireStudios | https://freesound.org/people/CogFireStudios/sounds/619838 | 카드 공개(홀로·레전드, 긴 징글) |
+| `audio/sfx/pickup-01.mp3` | item-pickup-v1.wav · DeltaCode | https://freesound.org/people/DeltaCode/sounds/678384 | 카드가 보관함 칸에 들어갈 때 |
+| `audio/sfx/victory-jingle-01.mp3` | Game Success Fanfare Short · el_boss | https://freesound.org/people/el_boss/sounds/677858 | 다섯 장을 모두 모았을 때(지도 파이널 창이 열리면 멈춤) |
+
+카드 소리도 다른 효과음처럼 음소거·효과음 끄기·탭 숨김·인물 목소리 재생 중에는 나지 않는다. 그래서 카드는 악당의 퇴장 대사가 끝난 뒤에 뜬다.
