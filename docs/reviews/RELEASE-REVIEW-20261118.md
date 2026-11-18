@@ -15,7 +15,7 @@
 
 ### 배포 전 처리할 조건
 
-1. 없음(이번 범위의 FAIL 없음). 아래 「배포 후 확인할 것」과 남은 WARNING은 납품 조건으로 넘긴다.
+1. 운영 배포: SSD `access()` 멈춤이 풀리면 `deploy.sh 13 "13 nightsky" worker-own night-sky-explorer` → `cmp.sh` MATCH 확인 → 운영 smoke(`.tmp/layout-balance-20261118/smoke.mjs`).
 
 ### 배포 후 확인할 것
 
@@ -31,11 +31,11 @@
 | A 교육적 품질 | 14 | 2 | 0 | 0 | 1 |
 | B 기능 | 16 | 2 | 0 | 1 | 0 |
 | C 태블릿·UI | 18 | 3 | 0 | 3 | 1 |
-| D 성능 | 6 | 5 | 0 | 2 | 1 |
+| D 성능 | 5 | 5 | 0 | 3 | 1 |
 | E 코드 품질 | 9 | 3 | 0 | 0 | 2 |
 | F 데이터·안전 | 13 | 1 | 0 | 0 | 1 |
-| G 배포 | 16 | 0 | 0 | 1 (+G11 배포 뒤) | 2 |
-| **합계** | 92 | 16 | 0 | 7 | 8 |
+| G 배포 | 16 | 0 | 0 | 2 | 2 |
+| **합계** | 91 | 16 | 0 | 9 | 8 |
 
 ## 실행 환경 (실측)
 
@@ -137,7 +137,7 @@
 | C17 | PASS | 확인됨 | horizontal-overflow 0 |
 | C18 | PASS | 확인됨 | 팝업 닫는 길: 아래 닫기 + Esc(2개). 전체 화면 창은 X 유지 |
 | C19 | NOT TESTED | — | 실기 가장자리 제스처 |
-| C20 | PASS | 확인됨 | 11-18 「18px 하한」 작업, 운영 smoke에서 재측정(G11) |
+| C20 | PASS | 이전 확인됨 | 11-18 「18px 하한」 작업(이번에 글자 크기 변경 없음) |
 | C21 | PASS | 확인됨 | keep-all |
 | C22 | NOT APPLICABLE | — | Phaser 없음 |
 | C23 | PASS | 확인됨 | 활동·결과 화면 primary 1개(결과 화면 2 → 1) |
@@ -150,7 +150,7 @@
 
 | # | 판정 | 증거 | 비고 |
 |---|---|---|---|
-| D1 | PASS | 확인됨 | 운영 smoke 첫 화면 시간(G11 결과 참조) |
+| D1 | NOT TESTED | — | 운영 배포 보류로 재측정 못 함(11-12 운영 실측 평균 1.67초) |
 | D2 | WARNING | 이전 확인됨 | 1MB 넘는 그림 일부 |
 | D3 | WARNING | 이전 확인됨 | 개념영상 |
 | D4 | NOT APPLICABLE | — | GLB 없음(three 절차 모형) |
@@ -203,7 +203,7 @@
 | G6 | PASS | `not_found_handling: none` + 앱 라우팅 |
 | G7–G9 | PASS | 11-18 썸네일 교체 |
 | G10 | PASS | `deploy.sh`가 푸시된 `origin/main`만 빌드 |
-| G11 | (배포 뒤 기록) | 운영 smoke |
+| G11 | NOT TESTED | 운영 배포 보류 — 01시 무렵부터 SSD에서 `access()` 호출이 멈춰(macOS 권한 확인 창 대기로 추정) git·vite/esbuild 빌드·헤드리스 Chrome이 모두 멈춤. 커밋 `6dfd553`은 GitHub API로 푸시됐고 운영은 아직 `e876efe` |
 | G12 | PASS | 로그인 없음 |
 | G13 | PASS | 남의 미커밋(`src/classroom.css`, `src/concepts.js`, `public/assets/concepts/*`, 개념 자막 문서) 보존, 이번 파일만 골라 커밋 |
 | G14 | PASS | README 명령과 scripts 일치 |
