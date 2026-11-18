@@ -1765,7 +1765,7 @@ small {
   margin-bottom: 8px;
 }
 .certificate p {
-  font-size: 14px;
+  font-size: var(--classroom-small);
   margin-bottom: 10px;
   color: #becbe0;
 }

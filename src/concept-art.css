@@ -22,7 +22,7 @@
 .record-light-pair figcaption { font-size: 15px; }
 .report-page .certificate { display: block; overflow-wrap: anywhere; }
 .report-page .certificate p, .report-page .certificate small { color: #425e6c; }
-.report-page .certificate small { display: block; font-size: 14px; line-height: 1.5; }
+.report-page .certificate small { display: block; font-size: var(--classroom-small); line-height: 1.5; }
 .report-card .record-strip { flex-wrap: wrap; justify-content: flex-start; overflow: visible; gap: 8px; }
 .pattern-report .star-chart { flex: 0 0 120px; min-height: 0; max-height: 100px; background: #102c43; border: 1px solid #77909e; border-radius: 12px; }
 @media (min-width: 701px) and (max-height: 700px) {

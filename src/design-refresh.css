@@ -72,7 +72,7 @@ dialog:not(.npc-scene-dialog) .dialog-body { scrollbar-width: thin; scrollbar-co
 .alert-art { display: block; width: 100%; aspect-ratio: 16 / 5; object-fit: cover; border-radius: var(--ui-radius-md); margin-bottom: 14px; border: 1px solid var(--ui-line); }
 
 /* Certificate: illustrated frame behind the existing text. */
-.cert-v2.has-art { background: url('/assets/ui/cert-frame.webp') center / 100% 100% no-repeat !important; border: 0; border-radius: 6px !important; box-shadow: 0 24px 60px #02081a99 !important; padding: 10% 13% 12% !important; aspect-ratio: 1586 / 992; display: flex; flex-direction: column; justify-content: center; }
+.cert-v2.has-art { background: url('/assets/ui/cert-frame.webp') center / 100% 100% no-repeat !important; border: 0; border-radius: 6px !important; box-shadow: 0 24px 60px #02081a99 !important; padding: 9% 12% 10% !important; aspect-ratio: 1586 / 992; display: flex; flex-direction: column; justify-content: center; }
 .cert-v2.has-art .cert-frame { border: 0; outline: 0; background: none; box-shadow: none; padding: 0; }
 .cert-v2.has-art .cert-frame footer { border-top-color: #c9a65d99; }
 
@@ -116,10 +116,16 @@ dialog .incident-board .incident-icon { background: none; width: 34px; height: 3
 /* Touch targets never drop under 44px, even on short screens (cards scroll instead). */
 #app .learning-v2 .toolbox .btn, #app .learning-v2 .light-lab .btn.light-toggle { min-height: 44px !important; }
 
-.cert-v2.has-art .cert-kicker { margin-top: 4px; }
-.cert-v2.has-art h2 { margin: 2px 0 8px !important; font-size: clamp(26px, 2.5vw, 38px) !important; }
-.cert-v2.has-art .cert-text { font-size: 14px; line-height: 1.55; margin: 6px 0; }
-.cert-v2.has-art .cert-stats { gap: 6px; margin: 6px 0; }
-.cert-v2.has-art .cert-stats > div { padding: 5px 6px; }
-.cert-v2.has-art .cert-style { font-size: 13px; margin: 4px 0; }
-.cert-v2.has-art .cert-frame footer { font-size: 13px; padding-top: 6px; }
+.cert-v2.has-art .cert-kicker { margin-top: 0; }
+.cert-v2.has-art h2 { margin: 2px 0 6px !important; font-size: clamp(26px, 2vw, 34px) !important; }
+.cert-v2.has-art .cert-text { font-size: var(--classroom-small); line-height: 1.42; margin: 4px 0; max-width: none; }
+.cert-v2.has-art .cert-stats { gap: 6px; margin: 4px 0; }
+.cert-v2.has-art .cert-stats > div { padding: 3px 6px; }
+/* 18px text still fits the frame's own proportions: one row of blanks, one line per stat. */
+.cert-v2.has-art .cert-fields { flex-wrap: nowrap; gap: 6px 12px; margin-bottom: 6px; }
+.cert-v2.has-art .cert-field.cert-name input { width: 6em; }
+.cert-v2.has-art .cert-stats dd { font-size: var(--classroom-small); white-space: nowrap; }
+@media (min-width: 701px) { .cert-v2.has-art .cert-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1101px) { .results-layout:has(.cert-v2.has-art) { grid-template-columns: minmax(0, 1.85fr) minmax(280px, 1fr); } }
+.cert-v2.has-art .cert-style { font-size: var(--classroom-small); margin: 4px 0; }
+.cert-v2.has-art .cert-frame footer { font-size: var(--classroom-small); padding: 4px 5% 0; justify-content: center; gap: 2px 18px; }
