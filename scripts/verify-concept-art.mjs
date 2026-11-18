@@ -158,7 +158,7 @@ try {
       await verifyImages(scene); await layout(scene); await shot(scene);
       if (scene === 's4a') {
         await lightState('open');
-        await page.locator('[data-learning="light-toggle"]').click();
+        await page.locator('[data-shield]').click();
         await verifyImages('light-blocked'); await lightState('blocked'); await layout('light-blocked'); await shot('light-blocked');
       }
       if (scene === 's5a' || scene === 's5b') {

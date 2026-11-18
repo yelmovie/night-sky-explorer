@@ -155,7 +155,7 @@ try {
         if (item.round) await click(`[data-learning="round-${item.round}"]`);
         if (item.scene === 's4a' && item.draft === 'filled') await click('.sky-body');
         if (item.variant === 'overlay') await click('[data-learning="overlay-phase"]');
-        if (item.variant === 'blocked') await click('[data-learning="light-toggle"]');
+        if (item.variant === 'blocked') await click('[data-shield]');
         if (item.variant === 'three') { await click('[data-learning="toggle-three"]'); await page.locator('#planet-viewer canvas').waitFor(); }
         if (item.variant === 'zoom2x') await page.locator('#planet-zoom').evaluate(input => { input.value = '2'; input.dispatchEvent(new Event('input', { bubbles: true })); });
         await page.evaluate(settleMedia);

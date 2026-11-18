@@ -185,7 +185,7 @@ try {
     await page.mouse.move(shield.x + shield.width / 2, shield.y + shield.height / 2); await page.mouse.down();
     await page.mouse.move(art.x + art.width * 182 / 360, art.y + art.height * 78 / 218, { steps: 10 }); await page.mouse.up();
     await page.locator('[data-shield].is-blocking').waitFor();
-    assert.equal(await page.locator('[data-learning="light-toggle"]').getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('[data-shield]').getAttribute('aria-pressed'), 'true');
   }
   assert.equal(await page.locator('.sky-body').count(), 8);
   for (const body of bodies) {

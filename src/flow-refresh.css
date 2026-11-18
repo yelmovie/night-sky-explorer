@@ -144,11 +144,12 @@
 
 /* s4a: the screen is a draggable object in the light diagram. */
 .light-lab .light-shield { cursor: grab; touch-action: none; }
+.light-lab .light-shield:focus { outline: none; }
+.light-lab .light-shield:focus-visible rect:last-of-type { stroke: #ffe3a1; stroke-width: 4; }
 .light-lab .light-shield.is-parked rect:last-of-type { animation: shield-pulse 1.6s ease-in-out infinite; }
 .light-lab .light-shield.is-dragging { cursor: grabbing; opacity: .9; }
 .light-lab .light-lab-art { touch-action: none; }
 .light-lab .shield-tip { margin: 0 0 6px; color: #e8f2ef; font-weight: 700; }
-#app .learning-v2 .light-lab .btn.light-toggle { min-height: 44px; padding: 3px 12px; font-size: var(--classroom-button); width: auto; margin: 0 auto !important; display: block; }
 @keyframes shield-pulse { 50% { stroke: #fff2c4; stroke-width: 4; } }
 
 @media (prefers-reduced-motion: reduce) { .learning-v2 .planet-viewport .fog-tip, .light-lab .light-shield.is-parked rect:last-of-type { animation: none; } }

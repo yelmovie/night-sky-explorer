@@ -85,7 +85,6 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   function action(a){
     if(advancing&&(a.startsWith('kind-')||a.startsWith('reason-')))return;
     if(a!=='capture-phase'&&!a.startsWith('day-'))sound?.play(a.startsWith('capture-')?'capture':a.startsWith('record-')?'discover':'click');
-    if(a==='light-toggle'){learningUI.lightBlocked=!learningUI.lightBlocked;render();return;}
     if(a.startsWith('round-')){learningUI.round=+a.at(-1);learningUI.body=0;learningUI.selectedStar=null;learningUI.inspectedBody=null;learningUI.piece=null;learningUI.overlayVisible=false;redraw();return;}
     if(a.startsWith('pan-')){pan(...{up:[0,-8],down:[0,8],left:[-8,0],right:[8,0]}[a.slice(4)]);return;}
     if(a==='capture-moon'){const m=d.moon;if(!photoReady(m))return;if(round()===1&&!m.photos[0])return notify('먼저 전체 모습 사진을 한 장 담아 줘.');if(m.photos.some((p,j)=>j!==round()&&Math.abs(p.zoom-m.zoom)<.09))return notify('이번에는 배율을 조금 바꾸어서 촬영해 줘.');m.photos[round()]={x:m.x,y:m.y,zoom:m.zoom,focus:m.focus};track(s,'observations');if(round()===0)learningUI.round=1;redraw();notify('관측사진을 연구 노트에 담았어.');return;}
@@ -126,7 +125,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   }
   if(scene==='s2a'){on($('#phase-day'),'input',e=>{d.phases.day=+e.target.value;updateDay();commit();});on($('#phase-day'),'change',e=>{const target=snapDay(+e.target.value,discoveryDays,d.phases.captures);if(target!==undefined){d.phases.day=target;captureDay(target);}});}
   if(scene==='s3a'&&$('.planet-fog')){const id=d.planets.selected;requestAnimationFrame(()=>{if(!disposed)mountFogWipe($('.planet-fog'),{signal:gestures.signal,onReveal(){if(disposed||d.planets.selected!==id)return;learningUI.revealed[id]=true;sound?.play('discover');redraw();}});});}
-  if(scene==='s4a')mountShieldDrag($('.light-lab-art'),{blocked:learningUI.lightBlocked,signal:gestures.signal,onChange(value){learningUI.lightBlocked=value;sound?.play(value?'place':'click');track(s,'reviews');render();}});
+  if(scene==='s4a')mountShieldDrag($('.light-lab-art'),{blocked:learningUI.lightBlocked,signal:gestures.signal,onChange(value,byKey){learningUI.lightBlocked=value;sound?.play(value?'place':'click');track(s,'reviews');render();if(byKey)document.querySelector('.light-lab [data-shield]')?.focus({preventScroll:true});}});
   if(scene==='s2b'){on($('#prediction-amount'),'input',e=>{prediction().amount=+e.target.value;$('#prediction-amount-value').textContent=e.target.value+'%';$('#prediction-moon').innerHTML=moonSVG(prediction().amount,prediction().side);commit();});}
   if(scene==='s3a'){
     if(learningUI.three)import('./planet.js').then(({mountPlanet})=>{if(disposed)return;viewer=mountPlanet($('#planet-viewer'),planets.find(v=>v.id===d.planets.selected));viewer.setView(learningUI.rotation,learningUI.zoom);}).catch(()=>{if(!disposed)$('#planet-viewer').innerHTML='<p>입체 모형을 열지 못했어. 그림으로도 조사할 수 있어.</p>';});

@@ -86,6 +86,10 @@ D: 임시 폴더 존재·쓰기 권한을 먼저 확인해. 결과·다운로드
 
 공통 모듈 `src/reward-cards.js`·`src/reward-cards.css`는 `../_shared/reward-cards`의 복사본이라 고치지 않아. 이 프로젝트의 설정·연결은 `src/map-reward-cards.js`(카드 이름·보유 계산·띄우는 시점)에 있고 지도 화면 묶음(`src/map-screen.js`)과 함께 불러와. 그림은 `public/assets/reward-cards/`, 효과음은 `public/assets/audio/sfx/`의 5개(`src/sound.js`의 `card…` 항목), 출처는 [CREDITS](public/assets/CREDITS.md)에 있어.
 
+## 2026-11-18 놀이 화면 비율·중복 버튼 정리
+
+놀이 영역 비율을 세 해상도로 쟀더니 활동 10개(1280×800 높이 79%·면적 77%, 1920×1080 82.6%·81%)와 지도(100%)는 이미 기준(높이 70%·면적 55% 이상)을 넘어서 배치는 그대로 뒀어. 대신 같은 일을 하는 조작을 정리했어. s4a 빛 실험의 「태양빛 가리기」 버튼을 없애고 가림판 자체를 누르거나 끌거나 Enter/Space로 켜고 끄게 했고, 결과 화면 맨 아래 「탐구 지도로」(위쪽 「다시 관측하기」와 같은 동작)를 뺐고, 아래에 닫기 버튼이 있는 정보 팝업은 머리의 X를 빼서 닫는 길을 하나로 했어(개념영상·달빛 길·엔딩은 X 유지, Esc는 그대로). 진단·수치는 [LAYOUT-BALANCE-20261118](docs/LAYOUT-BALANCE-20261118.md), 최종 점검은 [RELEASE-REVIEW-20261118](docs/reviews/RELEASE-REVIEW-20261118.md)·[SCORE-20261118](docs/reviews/SCORE-20261118.md).
+
 ## 문서·원본
 
 - [디자인 기준](docs/DESIGN.md) · [공통 SVG아이콘](docs/icon-prompts.md)

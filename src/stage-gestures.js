@@ -57,11 +57,19 @@ export function mountShieldDrag(svg, { blocked, onChange, signal }) {
     shield.setAttribute('transform', `translate(${p.x - start.x} ${p.y - start.y})`);
   }, { signal });
   const drop = event => {
-    if (!start) return; start = null; shield.classList.remove('is-dragging');
+    if (!start) return;
+    const from = start; start = null; shield.classList.remove('is-dragging');
     const p = toSvg(event), inBeam = p.x >= BEAM_ZONE.x1 && p.x <= BEAM_ZONE.x2 && p.y >= BEAM_ZONE.y1 && p.y <= BEAM_ZONE.y2;
     shield.removeAttribute('transform');
-    if (inBeam !== blocked) onChange(inBeam);
+    // A tap (no real drag) flips the shield, so the separate toggle button is no longer needed.
+    if (Math.hypot(p.x - from.x, p.y - from.y) < 6) onChange(!blocked);
+    else if (inBeam !== blocked) onChange(inBeam);
   };
+  shield.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    onChange(!blocked, true);
+  }, { signal });
   shield.addEventListener('pointerup', drop, { signal });
   shield.addEventListener('pointercancel', () => { start = null; shield.removeAttribute('transform'); shield.classList.remove('is-dragging'); }, { signal });
 }

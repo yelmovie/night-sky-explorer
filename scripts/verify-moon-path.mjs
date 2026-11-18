@@ -225,10 +225,10 @@ if (process.env.TEST_ONLY !== 'live') {
     await page.click('.dialog-heading [data-action="close-modal"]');
     await page.click('[data-action="bonus-cloudy"]');
     assert.equal(await page.locator('#cloudy-check').count(), 1);
-    await page.click('.dialog-heading [data-action="close-modal"]');
+    await page.click('.dialog-footer [data-action="close-modal"]');
     await page.click('[data-action="bonus-planet"]');
     assert.equal(await page.locator('#planet-check').count(), 1);
-    await page.click('.dialog-heading [data-action="close-modal"]');
+    await page.click('.dialog-footer [data-action="close-modal"]');
     await page.click('[data-action="map"]');
     await page.locator('#world').waitFor({ timeout: 20000 });
     console.log('PASS no WebGL: card fallback, other bonuses and the map open');
@@ -245,7 +245,7 @@ if (process.env.TEST_ONLY !== 'live') {
     assert.equal(await page.locator('.moon-run-canvas').count(), 0);
     assert.equal(await page.evaluate(() => window.__moonRun), undefined);
     await page.click('[data-action="bonus-cloudy"]');
-    await page.click('.dialog-heading [data-action="close-modal"]');
+    await page.click('.dialog-footer [data-action="close-modal"]');
     await page.click('[data-action="map"]');
     await page.locator('#world').waitFor({ timeout: 20000 });
     const save = await stored(page);

@@ -114,7 +114,7 @@ dialog .incident-board .incident-icon { background: none; width: 34px; height: 3
 .sr-only.sr-only-focusable:focus-within { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 .learning-v2[data-scene='s2b'] .prediction-board.is-overlay .prediction-card { overflow: visible; }
 /* Touch targets never drop under 44px, even on short screens (cards scroll instead). */
-#app .learning-v2 .toolbox .btn, #app .learning-v2 .light-lab .btn.light-toggle { min-height: 44px !important; }
+#app .learning-v2 .toolbox .btn { min-height: 44px !important; }
 
 .cert-v2.has-art .cert-kicker { margin-top: 0; }
 .cert-v2.has-art h2 { margin: 2px 0 6px !important; font-size: clamp(26px, 2vw, 34px) !important; }
