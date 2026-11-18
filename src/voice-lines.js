@@ -635,6 +635,48 @@ export const voiceLines = [
     "speaker": "별빛 가림이",
     "text": "내 가짜 별도 반짝이는 건 진짜라고!",
     "src": "/assets/audio/voices/el-villain-4-2.mp3"
+  },
+  {
+    "id": "villain-4-4",
+    "speaker": "별빛 가림이",
+    "text": "관측 데크에 진짜 별빛이 들어오잖아!",
+    "src": "/assets/audio/voices/el-villain-4-4.mp3"
+  },
+  {
+    "id": "villain-4-5",
+    "speaker": "별빛 가림이",
+    "text": "흥, 렌즈에 붙인 별은 떼어 갈게!",
+    "src": "/assets/audio/voices/el-villain-4-5.mp3"
+  },
+  {
+    "id": "villain-5-1",
+    "speaker": "별빛 가림이",
+    "text": "북극성으로 방향을 찾았어? 내가 돌려 둔 북쪽 화살표는 어쩌고!",
+    "src": "/assets/audio/voices/el-villain-5-1.mp3"
+  },
+  {
+    "id": "villain-5-2",
+    "speaker": "별빛 가림이",
+    "text": "다음엔 모든 화살표를 내 기지로 돌려야지!",
+    "src": "/assets/audio/voices/el-villain-5-2.mp3"
+  },
+  {
+    "id": "villain-5-3",
+    "speaker": "별빛 가림이",
+    "text": "앗, 북쪽 표지가 돌아갔어!",
+    "src": "/assets/audio/voices/el-villain-5-3.mp3"
+  },
+  {
+    "id": "villain-5-4",
+    "speaker": "별빛 가림이",
+    "text": "내가 가린 별자리 그림이 다 보인다!",
+    "src": "/assets/audio/voices/el-villain-5-4.mp3"
+  },
+  {
+    "id": "villain-5-5",
+    "speaker": "별빛 가림이",
+    "text": "쳇, 북쪽은 그대로 둘게. 난 반대편으로 퇴장!",
+    "src": "/assets/audio/voices/el-villain-5-5.mp3"
   }
 ];
 export const voiceForText = text => voiceLines.find(line => String(text).replace(/\s+/g, " ").includes(line.text.replace(/\s+/g, " ")));
