@@ -22,57 +22,27 @@
   }
  ],
  "replacedFiles": "report.mp3·welcome.mp3(Momo), map-1..3·hint-s1b..s5b·retry-*·kit-*(Momo preset-02), hint-s1a-v2·hint-s2a-v3(로컬 0.6B 복제)는 코드에서 더 이상 쓰지 않음(파일은 지우지 않음)",
- "notWired": [
+ "rejectedTakes": [
   {
    "key": "villain-1-3",
-   "text": "앗, 렌즈 덮개가 들렸어!",
-   "reason": "받아쓰기 검수 미통과(match 0.889, end 0.889, 들린 글 '앗, 렌즈 덮개가 빌렸어!'). ElevenLabs 일일 생성 한도(429 daily_generation_limit_reached)로 재생성 불가",
-   "generationId": "EaAILG8lw1PYpm4QV1hX"
+   "generationId": "EaAILG8lw1PYpm4QV1hX",
+   "reason": "첫 테이크 받아쓰기 0.889 미달 → 2026-11-18 한도 해제 후 한 번 다시 만들어 통과",
+   "file": "_scratch/voice-fill-20261118/13/raw-rejected/villain-1-3.take1.mp3"
   },
   {
    "key": "villain-1-4",
-   "text": "내가 흐린 달 사진이 선명해졌잖아!",
-   "reason": "받아쓰기 검수 미통과(match 0.889, end 1.0, 들린 글 '내가 인달 사진이 선명해졌잖아!'). ElevenLabs 일일 생성 한도(429 daily_generation_limit_reached)로 재생성 불가",
-   "generationId": "J9DeUA02wTgB443sZqYW"
+   "generationId": "J9DeUA02wTgB443sZqYW",
+   "reason": "첫 테이크 받아쓰기 0.889 미달 → 2026-11-18 한도 해제 후 한 번 다시 만들어 통과",
+   "file": "_scratch/voice-fill-20261118/13/raw-rejected/villain-1-4.take1.mp3"
   },
   {
    "key": "villain-2-5",
-   "text": "흥, 관측 날짜는 원래대로 써 둘게!",
-   "reason": "받아쓰기 검수 미통과(match 0.889, end 1.0, 들린 글 '흐흐, 관측 날짜는 원래대로 써 둘게.'). ElevenLabs 일일 생성 한도(429 daily_generation_limit_reached)로 재생성 불가",
-   "generationId": "PKcGJ5PugouYVKSzL9XK"
+   "generationId": "PKcGJ5PugouYVKSzL9XK",
+   "reason": "첫 테이크 받아쓰기 0.889 미달 → 2026-11-18 한도 해제 후 한 번 다시 만들어 통과",
+   "file": "_scratch/voice-fill-20261118/13/raw-rejected/villain-2-5.take1.mp3"
   }
  ],
  "notGenerated": [
-  {
-   "key": "villain-3-3",
-   "speaker": "별빛 가림이",
-   "text": "앗, 행성 표가 제자리로!",
-   "reason": "ElevenLabs 일일 생성 한도 도달로 생성 중단"
-  },
-  {
-   "key": "villain-3-4",
-   "speaker": "별빛 가림이",
-   "text": "내가 바꿔 둔 이름표가 떨어졌어!",
-   "reason": "ElevenLabs 일일 생성 한도 도달로 생성 중단"
-  },
-  {
-   "key": "villain-3-5",
-   "speaker": "별빛 가림이",
-   "text": "쳇, 행성 목록에 내 이름은 빼 줘!",
-   "reason": "ElevenLabs 일일 생성 한도 도달로 생성 중단"
-  },
-  {
-   "key": "villain-4-1",
-   "speaker": "별빛 가림이",
-   "text": "별과 행성의 빛을 구별했어? 내가 붙인 가짜 별이 들통이잖아!",
-   "reason": "ElevenLabs 일일 생성 한도 도달로 생성 중단"
-  },
-  {
-   "key": "villain-4-2",
-   "speaker": "별빛 가림이",
-   "text": "내 가짜 별도 반짝이는 건 진짜라고!",
-   "reason": "ElevenLabs 일일 생성 한도 도달로 생성 중단"
-  },
   {
    "key": "villain-4-3",
    "speaker": "별빛 가림이",
@@ -123,7 +93,7 @@
   }
  ],
  "createdAt": "2026-11-18",
- "charactersUsed": 4090,
+ "charactersUsed": 4266,
  "asrModel": "openai/whisper-large-v3-turbo (vf.py, match>=0.9 & end>=0.8)",
  "normalization": "vf.py norm: -16 LUFS, peak -1.5 dBTP, mono 44.1kHz 96kbps",
  "license": "ElevenLabs 유료 요금제(Creator) 생성물, 상업 이용 가능",
@@ -1819,6 +1789,158 @@
    "duration": 4.39,
    "sha256": "3adf2ab2600d021156ebb266a6beedd127b3c227225c8a6227c701c06969d0f3",
    "file": "public/assets/audio/voices/el-villain-3-2.mp3"
+  },
+  {
+   "key": "villain-1-3",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "flowId": "xLUUUqVbWkPsnL0HHzYY",
+   "generationId": "pKULj2KvULLli7UhxoT5",
+   "text": "앗, 렌즈 덮개가 들렸어!",
+   "prompt": "[mischievous] 앗, 렌즈 덮개가 들렸어!",
+   "asr": "앗, 렌즈 덮개가 들렸어!",
+   "match": 1.0,
+   "end": 1.0,
+   "lufs": -16.67,
+   "peakDbtp": -1.82,
+   "duration": 2.87,
+   "sha256": "171232e5037024f737d36128d7d006b304c447ccbf8856f979ad2ee961fefcd7",
+   "file": "public/assets/audio/voices/el-villain-1-3.mp3"
+  },
+  {
+   "key": "villain-1-4",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "flowId": "xLUUUqVbWkPsnL0HHzYY",
+   "generationId": "YX5po9dEPFn6KVBFGpET",
+   "text": "내가 흐린 달 사진이 선명해졌잖아!",
+   "prompt": "[mischievous] 내가 흐린 달 사진이 선명해졌잖아!",
+   "asr": "내가 흐린달 사진이 선명해졌잖아!",
+   "match": 1.0,
+   "end": 1.0,
+   "lufs": -16.77,
+   "peakDbtp": -1.74,
+   "duration": 3.68,
+   "sha256": "fd8b6f394602a91e0f90c4476b49da11d0ace7838ff784d4a1d50239e07a5b0a",
+   "file": "public/assets/audio/voices/el-villain-1-4.mp3"
+  },
+  {
+   "key": "villain-2-5",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "flowId": "xLUUUqVbWkPsnL0HHzYY",
+   "generationId": "ZK5R6mnvV7TsuQpPn49G",
+   "text": "흥, 관측 날짜는 원래대로 써 둘게!",
+   "prompt": "[mischievous] 흥, 관측 날짜는 원래대로 써 둘게!",
+   "asr": "흠 관측 날짜는 원래대로 써 둘게",
+   "match": 0.923,
+   "end": 1.0,
+   "lufs": -16.7,
+   "peakDbtp": -1.82,
+   "duration": 3.76,
+   "sha256": "30d3acedae88f1b93c36bbba5681a46dca76a958ba7ccdc08461ac30469b1243",
+   "file": "public/assets/audio/voices/el-villain-2-5.mp3"
+  },
+  {
+   "key": "villain-3-3",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "flowId": "xLUUUqVbWkPsnL0HHzYY",
+   "generationId": "ht9OBSDwhUHXMSBjPSH4",
+   "text": "앗, 행성 표가 제자리로!",
+   "prompt": "[mischievous] 앗, 행성 표가 제자리로!",
+   "asr": "앗, 행성표가 제자리로!",
+   "match": 1.0,
+   "end": 1.0,
+   "lufs": -16.75,
+   "peakDbtp": -1.61,
+   "duration": 2.64,
+   "sha256": "6cc7998ade9711da5625c1d0d8250656a2ba2992babf133dbe2985680369f9df",
+   "file": "public/assets/audio/voices/el-villain-3-3.mp3"
+  },
+  {
+   "key": "villain-3-4",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "flowId": "xLUUUqVbWkPsnL0HHzYY",
+   "generationId": "q3U6noAOEuVYE8Xu91RU",
+   "text": "내가 바꿔 둔 이름표가 떨어졌어!",
+   "prompt": "[mischievous] 내가 바꿔 둔 이름표가 떨어졌어!",
+   "asr": "내가 바꿔둔 이름표가 떨어졌어!",
+   "match": 1.0,
+   "end": 1.0,
+   "lufs": -16.57,
+   "peakDbtp": -1.59,
+   "duration": 3.11,
+   "sha256": "4ede7ae73bbee52c5a639f96c70562b348b07347113eb96e006425657be6bd98",
+   "file": "public/assets/audio/voices/el-villain-3-4.mp3"
+  },
+  {
+   "key": "villain-3-5",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "flowId": "xLUUUqVbWkPsnL0HHzYY",
+   "generationId": "iaaiIj2NJf2rwNoMMuek",
+   "text": "쳇, 행성 목록에 내 이름은 빼 줘!",
+   "prompt": "[mischievous] 쳇, 행성 목록에 내 이름은 빼 줘!",
+   "asr": "행성 목록에 내 이름은 빼줘!",
+   "match": 0.957,
+   "end": 1.0,
+   "lufs": -16.85,
+   "peakDbtp": -1.74,
+   "duration": 3.53,
+   "sha256": "ab12730642fd622679b8c0ff371a7724bd4f622a9e4b536f8d47ce21fd6fc61c",
+   "file": "public/assets/audio/voices/el-villain-3-5.mp3"
+  },
+  {
+   "key": "villain-4-1",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "flowId": "xLUUUqVbWkPsnL0HHzYY",
+   "generationId": "MHuVFtfeo6iS1mqXTGwX",
+   "text": "별과 행성의 빛을 구별했어? 내가 붙인 가짜 별이 들통이잖아!",
+   "prompt": "[mischievous] 별과 행성의 빛을 구별했어? 내가 붙인 가짜 별이 들통이잖아!",
+   "asr": "별과 행성의 빛을 구별했어? 내가 붙인 가짜별이 들통이잖아!",
+   "match": 1.0,
+   "end": 1.0,
+   "lufs": -16.78,
+   "peakDbtp": -1.74,
+   "duration": 5.59,
+   "sha256": "3b103eda40db139e12fe6ab20372847cb6067a720f15e11ddd924ffeb3a836fd",
+   "file": "public/assets/audio/voices/el-villain-4-1.mp3"
+  },
+  {
+   "key": "villain-4-2",
+   "speaker": "별빛 가림이",
+   "voiceId": "IQt4I2Udet4gAwcFGAlU",
+   "voiceName": "oki - casual and fun",
+   "model": "eleven_v4",
+   "flowId": "xLUUUqVbWkPsnL0HHzYY",
+   "generationId": "EUUhkt3kj5uHPljpk4Nx",
+   "text": "내 가짜 별도 반짝이는 건 진짜라고!",
+   "prompt": "[mischievous] 내 가짜 별도 반짝이는 건 진짜라고!",
+   "asr": "내 가짜별도 반짝이는 건 진짜라고!",
+   "match": 1.0,
+   "end": 1.0,
+   "lufs": -16.54,
+   "peakDbtp": -1.58,
+   "duration": 4.0,
+   "sha256": "d4b067c5ae05c4437992155deaea17d288e1eeb92b94b39cd735a32a8438d694",
+   "file": "public/assets/audio/voices/el-villain-4-2.mp3"
   }
  ]
 }

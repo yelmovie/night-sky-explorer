@@ -58,3 +58,11 @@ test('모든 대사 음성 파일의 출처·SHA와 화면 대사 카탈로그�
  }
  for(const line of voiceLines)assert.equal(voiceForText('안내자 '+line.text)?.id,line.id,line.id);
 });
+
+test('지도 악당 음성은 말풍선 글과 정확히 같은 글이다', async()=>{
+ const { encounterStage } = await import('../src/map-encounter-theme.js');
+ const said=new Set([0,1,2,3,4].flatMap(i=>{const s=encounterStage(i,i+1,'',{x:0,y:0});return [...s.lines,...s.hit,s.finish];}));
+ const villain=voiceLines.filter(line=>line.id.startsWith('villain-'));
+ assert.ok(villain.length>0);
+ for(const line of villain){assert.ok(said.has(line.text),line.id);assert.equal(line.speaker,'별빛 가림이');}
+});

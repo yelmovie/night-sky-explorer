@@ -547,6 +547,18 @@ export const voiceLines = [
     "src": "/assets/audio/voices/el-villain-1-2.mp3"
   },
   {
+    "id": "villain-1-3",
+    "speaker": "별빛 가림이",
+    "text": "앗, 렌즈 덮개가 들렸어!",
+    "src": "/assets/audio/voices/el-villain-1-3.mp3"
+  },
+  {
+    "id": "villain-1-4",
+    "speaker": "별빛 가림이",
+    "text": "내가 흐린 달 사진이 선명해졌잖아!",
+    "src": "/assets/audio/voices/el-villain-1-4.mp3"
+  },
+  {
     "id": "villain-1-5",
     "speaker": "별빛 가림이",
     "text": "쳇, 달 관측대는 열어 둘게!",
@@ -577,6 +589,12 @@ export const voiceLines = [
     "src": "/assets/audio/voices/el-villain-2-4.mp3"
   },
   {
+    "id": "villain-2-5",
+    "speaker": "별빛 가림이",
+    "text": "흥, 관측 날짜는 원래대로 써 둘게!",
+    "src": "/assets/audio/voices/el-villain-2-5.mp3"
+  },
+  {
     "id": "villain-3-1",
     "speaker": "별빛 가림이",
     "text": "행성의 특징으로 표찰을 맞췄어? 목성을 내 맘대로 분류했는데!",
@@ -587,6 +605,36 @@ export const voiceLines = [
     "speaker": "별빛 가림이",
     "text": "나도 새 행성으로 등록해. 이름은 ‘악당성’!",
     "src": "/assets/audio/voices/el-villain-3-2.mp3"
+  },
+  {
+    "id": "villain-3-3",
+    "speaker": "별빛 가림이",
+    "text": "앗, 행성 표가 제자리로!",
+    "src": "/assets/audio/voices/el-villain-3-3.mp3"
+  },
+  {
+    "id": "villain-3-4",
+    "speaker": "별빛 가림이",
+    "text": "내가 바꿔 둔 이름표가 떨어졌어!",
+    "src": "/assets/audio/voices/el-villain-3-4.mp3"
+  },
+  {
+    "id": "villain-3-5",
+    "speaker": "별빛 가림이",
+    "text": "쳇, 행성 목록에 내 이름은 빼 줘!",
+    "src": "/assets/audio/voices/el-villain-3-5.mp3"
+  },
+  {
+    "id": "villain-4-1",
+    "speaker": "별빛 가림이",
+    "text": "별과 행성의 빛을 구별했어? 내가 붙인 가짜 별이 들통이잖아!",
+    "src": "/assets/audio/voices/el-villain-4-1.mp3"
+  },
+  {
+    "id": "villain-4-2",
+    "speaker": "별빛 가림이",
+    "text": "내 가짜 별도 반짝이는 건 진짜라고!",
+    "src": "/assets/audio/voices/el-villain-4-2.mp3"
   }
 ];
 export const voiceForText = text => voiceLines.find(line => String(text).replace(/\s+/g, " ").includes(line.text.replace(/\s+/g, " ")));
