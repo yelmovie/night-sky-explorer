@@ -160,3 +160,8 @@ html:has(.learning-v2), body:has(.learning-v2) { height: 100%; overflow: hidden;
   .core-v3.core-final .core-board, .core-v3.core-final .core-board > section, .core-v3.core-final .calibration-panel { height: auto; max-height: none; overflow: visible; }
   #app:has(.core-v3.core-final) .floating-controls { position: absolute; }
 }
+/* Short landscape screens (1024x600): the 18px floor can make the sentence panels taller than the room left,
+   so those panels scroll instead of hiding their last line. */
+@media (max-height: 700px) {
+  .learning-v2:not([data-layout='portrait']):is([data-scene='s2b'], [data-scene='s5b'], [data-scene='s3a']) .toolbox { overflow-y: auto; overscroll-behavior: contain; }
+}

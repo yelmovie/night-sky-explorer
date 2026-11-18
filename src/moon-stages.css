@@ -123,3 +123,9 @@
   .learning-v2[data-scene='s2a'] .lunar-records .record-strip .moon-art,
   .learning-v2[data-scene='s2b'] .lunar-records .record-strip .moon-art { width: 44px; height: 44px; }
 }
+/* 18px floor (2026-11-17): the sentence cards get a slightly wider, tighter panel so it fits without scrolling. */
+.learning-v2:not([data-layout='portrait'])[data-scene='s2b'] .activity-layout { grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); }
+#app .learning-v2[data-scene='s2b'] .toolbox .sentence-chip { min-height: 44px; padding: 5px 12px; box-shadow: 0 2px 0 #d9c79b; }
+.learning-v2[data-scene='s2b'] .reflection-choices { gap: 6px; }
+.learning-v2[data-scene='s2b'] .reflection-choices .choice-row { gap: 4px; }
+.learning-v2[data-scene='s2b'] .reflection-choices legend { margin-bottom: 2px; }
