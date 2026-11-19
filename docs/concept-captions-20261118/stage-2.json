@@ -1,34 +1,35 @@
 {
-  "src": "../../../_scratch/caption-motion-20261118/concepts/13/src/stage-2.mp4",
-  "out": "../../public/assets/concepts/stage-2.mp4",
-  "out_webm": "../../public/assets/concepts/stage-2.webm",
-  "theme": {
-    "box": "#0d1f36",
-    "accent": "#f5cf7b",
-    "hot": "#ffd35c"
+ "src": "../../../_scratch/caption-motion-20261118/concepts/13/src/stage-2.mp4",
+ "out": "../../public/assets/concepts/stage-2.mp4",
+ "out_webm": "../../public/assets/concepts/stage-2.webm",
+ "theme": {
+  "box": "#0d1f36",
+  "accent": "#f5cf7b",
+  "hot": "#ffd35c"
+ },
+ "bottom": 40,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.5,
+   "text": "여러 날 관찰한 달은 어떻게 달라질까요?"
   },
-  "bottom": 40,
-  "sweep": false,
-  "cues": [
-    {
-      "s": 0,
-      "e": 3.5,
-      "text": "여러 날 관찰한 달은 어떻게 달라질까요?"
-    },
-    {
-      "s": 3.6,
-      "e": 7.9,
-      "text": "처음에는 [오른쪽]이 밝고, [밝은 부분]이 점점 커져요."
-    },
-    {
-      "s": 8,
-      "e": 12.1,
-      "text": "[보름달] 뒤에는 [왼쪽]이 밝고, [밝은 부분]이 작아져요."
-    },
-    {
-      "s": 12.2,
-      "e": 16,
-      "text": "달 모양은 약 [30일]마다 같은 순서로 바뀌어서\n다음 모습을 [예상]할 수 있어요."
-    }
-  ]
+  {
+   "s": 3.6,
+   "e": 7.9,
+   "text": "처음에는 [오른쪽]이 밝고, [밝은 부분]이 점점 커져요."
+  },
+  {
+   "s": 8,
+   "e": 12.1,
+   "text": "[보름달] 뒤에는 [왼쪽]이 밝고, [밝은 부분]이 작아져요.",
+   "bottom": 4
+  },
+  {
+   "s": 12.2,
+   "e": 16,
+   "text": "달 모양은 약 [30일]마다 같은 순서로 바뀌어서\n다음 모습을 [예상]할 수 있어요."
+  }
+ ]
 }

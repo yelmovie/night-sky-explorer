@@ -1,34 +1,37 @@
 {
-  "src": "../../../_scratch/caption-motion-20261118/concepts/13/src/stage-1.mp4",
-  "out": "../../public/assets/concepts/stage-1.mp4",
-  "out_webm": "../../public/assets/concepts/stage-1.webm",
-  "theme": {
-    "box": "#0d1f36",
-    "accent": "#f5cf7b",
-    "hot": "#ffd35c"
+ "src": "../../../_scratch/caption-motion-20261118/concepts/13/src/stage-1.mp4",
+ "out": "../../public/assets/concepts/stage-1.mp4",
+ "out_webm": "../../public/assets/concepts/stage-1.webm",
+ "theme": {
+  "box": "#0d1f36",
+  "accent": "#f5cf7b",
+  "hot": "#ffd35c"
+ },
+ "bottom": 40,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.5,
+   "text": "[배율]을 높이면 [달]이 더 커지는 걸까요?"
   },
-  "bottom": 40,
-  "sweep": false,
-  "cues": [
-    {
-      "s": 0,
-      "e": 3.5,
-      "text": "[배율]을 높이면 [달]이 더 커지는 걸까요?"
-    },
-    {
-      "s": 3.6,
-      "e": 7.9,
-      "text": "같은 [달]을 1배와 2배로 찍어 비교해요."
-    },
-    {
-      "s": 8,
-      "e": 12.1,
-      "text": "[어두운 곳], [밝은 곳], 둥근 [구덩이]가 자세히 보여요."
-    },
-    {
-      "s": 12.2,
-      "e": 16,
-      "text": "[달]이 커진 것이 아니라,\n원래 있던 [무늬]가 자세히 보이는 거예요."
-    }
-  ]
+  {
+   "s": 3.6,
+   "e": 7.9,
+   "text": "같은 [달]을 1배와 2배로 찍어 비교해요.",
+   "bottom": 4,
+   "x": 908
+  },
+  {
+   "s": 8,
+   "e": 12.1,
+   "text": "[어두운 곳], [밝은 곳], 둥근 [구덩이]가 자세히 보여요.",
+   "bottom": 16
+  },
+  {
+   "s": 12.2,
+   "e": 16,
+   "text": "[달]이 커진 것이 아니라,\n원래 있던 [무늬]가 자세히 보이는 거예요."
+  }
+ ]
 }

@@ -1,34 +1,36 @@
 {
-  "src": "../../../_scratch/caption-motion-20261118/concepts/13/src/stage-3.mp4",
-  "out": "../../public/assets/concepts/stage-3.mp4",
-  "out_webm": "../../public/assets/concepts/stage-3.webm",
-  "theme": {
-    "box": "#0d1f36",
-    "accent": "#f5cf7b",
-    "hot": "#ffd35c"
+ "src": "../../../_scratch/caption-motion-20261118/concepts/13/src/stage-3.mp4",
+ "out": "../../public/assets/concepts/stage-3.mp4",
+ "out_webm": "../../public/assets/concepts/stage-3.webm",
+ "theme": {
+  "box": "#0d1f36",
+  "accent": "#f5cf7b",
+  "hot": "#ffd35c"
+ },
+ "bottom": 40,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.5,
+   "text": "[태양] 둘레에는 어떤 천체들이 있을까요?"
   },
-  "bottom": 40,
-  "sweep": false,
-  "cues": [
-    {
-      "s": 0,
-      "e": 3.5,
-      "text": "[태양] 둘레에는 어떤 천체들이 있을까요?"
-    },
-    {
-      "s": 3.6,
-      "e": 7.9,
-      "text": "[태양]에서 가까운 순서로 여덟 [행성]이 있어요.\n지구도 [행성]이에요."
-    },
-    {
-      "s": 8,
-      "e": 12.1,
-      "text": "표면, [줄무늬], [고리]처럼 [행성]마다 특징이 달라요."
-    },
-    {
-      "s": 12.2,
-      "e": 16,
-      "text": "[태양]과 그 둘레를 도는 [행성] 등을 [태양계]라고 해요.\n크기와 거리는 [모형]이에요."
-    }
-  ]
+  {
+   "s": 3.6,
+   "e": 7.9,
+   "text": "[태양]에서 가까운 순서로\n여덟 [행성]이 있어요.\n지구도 [행성]이에요.",
+   "bottom": 4,
+   "x": 360
+  },
+  {
+   "s": 8,
+   "e": 12.1,
+   "text": "표면, [줄무늬], [고리]처럼 [행성]마다 특징이 달라요."
+  },
+  {
+   "s": 12.2,
+   "e": 16,
+   "text": "[태양]과 그 둘레를 도는 [행성] 등을 [태양계]라고 해요.\n크기와 거리는 [모형]이에요."
+  }
+ ]
 }
