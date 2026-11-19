@@ -14,5 +14,8 @@ async function clean(directory) {
 }
 await clean(dist);
 // Also guard against exFAT sidecars being regenerated after the build.
-await writeFile(join(dist, '.assetsignore'), '**/._*\n**/.DS_Store\n');
+// The large PNG originals and the Jua font are never requested (the app loads the WebP copies and NanumSquareNeo),
+// so they stay out of the upload.
+const unusedOriginals = ['assets/observatory.png', 'assets/logo.png', 'assets/rabbit.png', 'assets/fox.png', 'assets/fonts/jua-*.woff2'];
+await writeFile(join(dist, '.assetsignore'), ['**/._*', '**/.DS_Store', ...unusedOriginals].join('\n') + '\n');
 console.log(`Build metadata: ${removed} generated sidecars removed; deployment exclusions written.`);

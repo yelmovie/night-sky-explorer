@@ -126,10 +126,9 @@ function inspectStage() {
     if (visible(el) && text.length >= 14) paragraphs.set(text, (paragraphs.get(text) || 0) + 1);
   }
   for (const [text, count] of paragraphs) if (count > 1) add('duplicate-copy', stage, `${count}× ${text}`);
-  const isAnswer = ['s3b', 's4b'].includes(stage.dataset.scene), play = stage.querySelector('#play-time'), speed = stage.querySelector('#playback-speed');
-  if (!isAnswer && (!play || !speed)) add('missing-playback-controls', stage);
-  if (isAnswer && play) add('answer-autoplay-present', play);
-  if (speed && !['0.5', '1', '2'].every(value => [...speed.options].some(option => option.value === value))) add('missing-playback-speeds', speed);
+  // The auto-observe player was removed from every stage; students move the experiment themselves.
+  const autoplay = stage.querySelector('#play-time, #playback-speed');
+  if (autoplay) add('autoplay-control-present', autoplay);
   return { issues, stage: bounds.toJSON(), logicalSize: { width: stage.clientWidth, height: stage.clientHeight }, document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight } };
 }
 
