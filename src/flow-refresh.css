@@ -84,6 +84,11 @@
 #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body small { font-size: var(--classroom-small); }
 #app .learning-v2[data-scene='s4b'] .body-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 #app .learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-bodies.all-bodies { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* 좁은 태블릿(1024 등)에서 카드 설명 글 폭을 128→141px로 넓혀 「밤하늘에서는 / 작고 노르스름한 / 빛의 / 점으로 보여.」처럼 가운데 한 낱말만 남는 줄을 없앤다. 1280 이상은 그대로. */
+@media (min-width: 701px) and (max-width: 1150px) {
+  #app .learning-v2[data-scene='s4a'] .sky-bodies.all-bodies { column-gap: 6px; }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body { padding-inline: 3px; }
+}
 @media (max-width: 700px) { #app .learning-v2[data-scene='s4a'] .sky-bodies.all-bodies { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; } }
 
 /* Each star glows in its own colour so the three stars no longer look like copies. */
