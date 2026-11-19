@@ -66,3 +66,16 @@ test('지도 악당 음성은 말풍선 글과 정확히 같은 글이다', asyn
  assert.ok(villain.length>0);
  for(const line of villain){assert.ok(said.has(line.text),line.id);assert.equal(line.speaker,'별빛 가림이');}
 });
+
+// 소리 2차(2026-11-19): 지도 악당 대사가 나오는 중에 온 안내 음성은 끊지 않고 그 뒤로(최대 2초) 미룬다.
+test('안내 음성은 재생 중인 악당 대사를 끊지 않고 끝난 뒤에 나온다', async () => {
+ const f=fixture();const villain=voiceLines.find(line=>line.id.startsWith('villain-'));
+ await f.player.play(villain.id);const v=f.audios[0];assert.equal(v.playing,true);
+ f.player.stop({spareVillain:true});assert.equal(v.playing,true,'창이 열려도 악당 대사는 계속');
+ const guide=f.player.play('intro-fox');await new Promise(r=>setTimeout(r,20));
+ assert.equal(v.playing,true);assert.equal(f.audios.length,1,'안내 음성은 아직 시작하지 않음');
+ v.dispatchEvent(new Event('ended'));assert.equal(await guide,true);assert.equal(f.audios[1].playing,true);
+ // 기다리는 동안 창을 닫으면(일반 stop) 미뤄 둔 안내 음성은 나오지 않는다.
+ await f.player.play(villain.id);const late=f.player.play('intro-lumi');f.player.stop();assert.equal(await late,false);
+ f.player.dispose();
+});

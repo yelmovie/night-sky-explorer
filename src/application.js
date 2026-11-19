@@ -140,7 +140,7 @@ function closeModal(returnToParent = true) {
   if (returnToParent && back) queueMicrotask(back);
 }
 function dialog(title, body, after, footer = '', back = null) {
-  narration.stop();
+  narration.stop({ spareVillain: true }); // 지도 악당 대사는 끝까지 두고, 창의 안내 음성이 그 뒤로 미뤄진다(narration.js)
   const element = $('#dialog');
   if (element.open) closeModal(false);
   modalReturn = document.activeElement;
@@ -468,7 +468,7 @@ function mountCalibration() {
 // 캡처 단계에서 받아, 지도 방향 버튼처럼 이벤트를 멈추는 곳을 처음 눌러도 배경음이 시작된다.
 document.addEventListener('pointerdown', () => sound.start(), true);
 document.addEventListener('keydown', () => sound.start(), true);
-// 파이널 창이 열리면 아직 울리는 카드 완성 징글을 끊고 파이널 곡으로 넘어간다.
-document.addEventListener('map-finale', event => { mapFinaleOpen = !!event.detail; if (mapFinaleOpen) sound.stopCues(); syncMusic(); });
+// 파이널 창이 열리면 파이널 곡으로 넘어간다. 카드 완성 징글이 아직 울리면 끊지 않고 곡을 0에서 올린다(sound.js).
+document.addEventListener('map-finale', event => { mapFinaleOpen = !!event.detail; syncMusic(); });
 render();
 if (loaded.warning) { notify(loaded.warning); showSaveWarning(); }

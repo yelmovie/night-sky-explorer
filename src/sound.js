@@ -51,11 +51,11 @@ export function createSound(getSettings) {
   }
   function stopFade() { clearInterval(fade); fade = 0; }
   // 줄이고 되돌릴 때는 0.2초에 걸쳐 바꾼다. 처음 틀 때, 곡이 바뀔 때, 멈췄다 다시 틀 때는 바로 맞춘다.
-  function glide(level) {
+  function glide(level, ms = 200) {
     stopFade();
-    const player = music, from = player.volume; if (from === level) return;
+    const player = music, from = player.volume, steps = Math.max(1, Math.round(ms / 25)); if (from === level) return;
     let step = 0;
-    fade = setInterval(() => { step++; player.volume = step >= 8 ? level : from + (level - from) * step / 8; if (step >= 8) stopFade(); }, 25);
+    fade = setInterval(() => { step++; player.volume = step >= steps ? level : from + (level - from) * step / steps; if (step >= steps) stopFade(); }, 25);
   }
   function syncMusic() {
     const level = musicLevel(), file = track === 'finale' && finaleDone ? 'main' : track;
@@ -64,7 +64,10 @@ export function createSound(getSettings) {
       stopFade(); music?.pause();
       music = new Audio(musicFiles[file]); music.dataset.track = file; music.loop = file === 'main'; music.preload = 'auto';
       music.onended = () => { if (track === 'finale' && music?.dataset.track === 'finale') { finaleDone = true; syncMusic(); } };
-      music.volume = level;
+      // 카드 완성 징글이 아직 울리면 끊지 않고, 파이널 곡을 0에서 1.2초에 걸쳐 올린다.
+      const rising = file === 'finale' && voices.has('cardComplete');
+      music.volume = rising ? 0 : level;
+      if (rising) { music.play().catch(() => {}); glide(level, 1200); return; }
     } else if (music.paused) { stopFade(); music.volume = level; }
     else glide(level);
     if (music.paused) music.play().catch(() => {});
@@ -133,7 +136,8 @@ export function createSound(getSettings) {
   function sync() {
     syncMusic();
     // 목소리 덕킹만으로는 울리고 있는 전투 효과음을 끊지 않는다.
-    if (quiet() || !getSettings().sfx) { effects.stop(); stopSamples(getSettings().sfx && !silent('hit1')); }
+    // 완료·정답 합성음은 바로 이어지는 대사(덕킹)에 끊기지 않고 끝까지 난다. 음소거·효과음 끄기·숨은 탭에는 멈춘다.
+    if (quiet() || !getSettings().sfx) { if (!getSettings().sfx || silent('hit1')) effects.stop(); stopSamples(getSettings().sfx && !silent('hit1')); }
     if (stepSilent()) stopStep();
   }
   function play(name = 'click') {

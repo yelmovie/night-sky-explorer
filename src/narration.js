@@ -11,7 +11,21 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
     if (previous) { previous.pause(); previous.removeAttribute('src'); previous.load(); }
     duck(false); state = { id: null, status: 'idle' }; emit();
   }
+  // 지도 악당의 짧은 대사가 나오는 중에 다른 인물의 안내 음성이 오면 끊지 않고 그 대사 뒤로(최대 2초) 미룬다.
+  let asks = 0;
+  const villainSpeaking = () => !!player && String(state.id).startsWith('villain-') && ['loading', 'playing'].includes(state.status);
+  function villainDone(limit = 2000) {
+    const audio = player;
+    return new Promise(done => {
+      const end = () => { clearTimeout(timer); done(); }, timer = setTimeout(done, limit);
+      for (const type of ['ended', 'error', 'pause']) audio.addEventListener(type, end, { once: true });
+    });
+  }
+  /** Public stop. spareVillain leaves a villain line playing (a dialog opening on the map waits for it instead). */
+  function cancel({ spareVillain = false } = {}) { if (spareVillain && villainSpeaking()) return; asks++; stop(); }
   async function play(id) {
+    const ticket = ++asks;
+    if (!String(id).startsWith('villain-') && villainSpeaking()) { await villainDone(); if (ticket !== asks || disposed) return false; }
     const line = voiceLines.find(item => item.id === id);
     stop();
     if (!line || disposed) return false;
@@ -35,14 +49,14 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
       return true;
     } catch { fail(); return false; }
   }
-  const hidden = () => { if (doc.hidden) stop(); };
-  const muted = () => { if (isMuted()) stop(); };
+  const hidden = () => { if (doc.hidden) cancel(); };
+  const muted = () => { if (isMuted()) cancel(); };
   doc.addEventListener('visibilitychange', hidden); doc.addEventListener('change', muted);
-  page.addEventListener('pagehide', stop); page.addEventListener('popstate', stop); page.addEventListener('hashchange', stop);
+  page.addEventListener('pagehide', cancel); page.addEventListener('popstate', cancel); page.addEventListener('hashchange', cancel);
   return {
-    play, stop, get state() { return state; },
+    play, stop: cancel, get state() { return state; },
     subscribe(listener) { listeners.add(listener); listener(state); return () => listeners.delete(listener); },
-    dispose() { disposed = true; stop(); listeners.clear(); doc.removeEventListener('visibilitychange', hidden); doc.removeEventListener('change', muted); page.removeEventListener('pagehide', stop); page.removeEventListener('popstate', stop); page.removeEventListener('hashchange', stop); }
+    dispose() { disposed = true; cancel(); listeners.clear(); doc.removeEventListener('visibilitychange', hidden); doc.removeEventListener('change', muted); page.removeEventListener('pagehide', cancel); page.removeEventListener('popstate', cancel); page.removeEventListener('hashchange', cancel); }
   };
 }
 

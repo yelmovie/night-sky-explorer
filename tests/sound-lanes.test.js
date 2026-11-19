@@ -75,3 +75,36 @@ test('footstep files are shipped and credited', () => {
     assert.ok(credits.includes('audio/sfx/' + file), file + ' credit');
   }
 });
+
+test('a completion tone is not cut when the next voice ducks the music', async () => {
+  fakeAudio();
+  const oscillators = [];
+  const Base = globalThis.AudioContext;
+  globalThis.AudioContext = class extends Base { createOscillator() { const o = super.createOscillator(); o.disconnect = () => { o.cut = true; }; oscillators.push(o); return o; } };
+  const settings = { muted: false, sfx: true, bgm: false, bgmVolume: 50 };
+  const sound = createSound(() => settings);
+  sound.start(); sound.play('success');
+  assert.ok(oscillators.length > 0);
+  sound.setDucked(true);
+  assert.ok(oscillators.every(o => !o.cut), 'the success tone rings on under the voice'); // stop(t) at creation only schedules its natural end
+  settings.muted = true; sound.sync();
+  assert.ok(oscillators.every(o => o.cut), 'mute still stops it');
+  sound.dispose(); cleanupAudio();
+});
+
+test('the finale theme rises from 0 while the card set jingle still rings, and the jingle is not cut', async t => {
+  const sources = fakeAudio();
+  const players = [];
+  globalThis.Audio = class { constructor(src) { this.src = src; this.dataset = {}; this.paused = true; this.volume = 1; players.push(this); } play() { this.paused = false; return Promise.resolve(); } pause() { this.paused = true; } };
+  const sound = createSound(() => ({ muted: false, sfx: true, bgm: true, bgmVolume: 50 }));
+  sound.start();
+  sound.mapCue('cardComplete'); await settle();
+  t.mock.timers.enable({ apis: ['setInterval'] });
+  sound.setMusic('finale');
+  const finale = players.at(-1);
+  assert.match(finale.src, /final-theme/); assert.equal(finale.volume, 0);
+  t.mock.timers.tick(600); assert.ok(finale.volume > .2 && finale.volume < .4);
+  t.mock.timers.tick(600); assert.equal(+finale.volume.toFixed(4), .6);
+  assert.ok(sources.every(source => !source.stopped), 'jingle rings on');
+  sound.dispose(); cleanupAudio();
+});

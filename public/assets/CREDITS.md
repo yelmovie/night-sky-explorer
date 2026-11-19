@@ -152,7 +152,7 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 | `audio/sfx/reward-01.mp3` | Fantasy_ui_Button_3.wav · ZenithInfinitiveStudios | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745 | 카드 공개(브론즈·실버·골드). 위 전투 효과음과 같은 파일 |
 | `audio/sfx/reward-03.mp3` | Achievement Happy Beeps Jingle · CogFireStudios | https://freesound.org/people/CogFireStudios/sounds/619838 | 카드 공개(홀로·레전드, 긴 징글) |
 | `audio/sfx/pickup-01.mp3` | item-pickup-v1.wav · DeltaCode | https://freesound.org/people/DeltaCode/sounds/678384 | 카드가 보관함 칸에 들어갈 때 |
-| `audio/sfx/victory-jingle-01.mp3` | Game Success Fanfare Short · el_boss | https://freesound.org/people/el_boss/sounds/677858 | 다섯 장을 모두 모았을 때(지도 파이널 창이 열리면 멈춤) |
+| `audio/sfx/victory-jingle-01.mp3` | Game Success Fanfare Short · el_boss | https://freesound.org/people/el_boss/sounds/677858 | 다섯 장을 모두 모았을 때(2026-11-19부터 지도 파이널 창이 열려도 끝까지 나고, 그동안 파이널 곡을 0에서 1.2초에 걸쳐 올림) |
 
 카드 소리도 다른 효과음처럼 음소거·효과음 끄기·탭 숨김·인물 목소리 재생 중에는 나지 않는다. 그래서 카드는 악당의 퇴장 대사가 끝난 뒤에 뜬다.
 
