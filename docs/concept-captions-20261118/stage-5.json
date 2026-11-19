@@ -1,0 +1,34 @@
+{
+  "src": "../../../_scratch/caption-motion-20261118/concepts/13/src/stage-5.mp4",
+  "out": "../../public/assets/concepts/stage-5.mp4",
+  "out_webm": "../../public/assets/concepts/stage-5.webm",
+  "theme": {
+    "box": "#0d1f36",
+    "accent": "#f5cf7b",
+    "hot": "#ffd35c"
+  },
+  "bottom": 40,
+  "sweep": false,
+  "cues": [
+    {
+      "s": 0,
+      "e": 3.5,
+      "text": "[북극성] 주변의 별들은 어떻게 알아볼까요?"
+    },
+    {
+      "s": 3.6,
+      "e": 7.9,
+      "text": "밝은 별들을 [선]으로 이으면 모양이 보여요."
+    },
+    {
+      "s": 8,
+      "e": 12.1,
+      "text": "[북두칠성]과 [카시오페이아자리] 사이에 [북극성]이 있어요."
+    },
+    {
+      "s": 12.2,
+      "e": 16,
+      "text": "[선]은 사람이 이어 그린 표현이에요.\n별의 [배열]을 보고 [패턴]을 찾아요."
+    }
+  ]
+}

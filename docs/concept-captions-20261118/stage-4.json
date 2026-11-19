@@ -1,0 +1,34 @@
+{
+  "src": "../../../_scratch/caption-motion-20261118/concepts/13/src/stage-4.mp4",
+  "out": "../../public/assets/concepts/stage-4.mp4",
+  "out_webm": "../../public/assets/concepts/stage-4.webm",
+  "theme": {
+    "box": "#0d1f36",
+    "accent": "#f5cf7b",
+    "hot": "#ffd35c"
+  },
+  "bottom": 40,
+  "sweep": false,
+  "cues": [
+    {
+      "s": 0,
+      "e": 3.5,
+      "text": "밤하늘에서 밝게 보이면 모두 [별]일까요?"
+    },
+    {
+      "s": 3.6,
+      "e": 7.9,
+      "text": "태양[빛]을 가리면 [행성]도 어둡게 보여요."
+    },
+    {
+      "s": 8,
+      "e": 12.1,
+      "text": "태양 같은 [별]은 [스스로 빛]을 내고,\n[행성]은 태양[빛]을 [반사]해요."
+    },
+    {
+      "s": 12.2,
+      "e": 16,
+      "text": "밝기나 색이 아니라, [빛]이 어디에서 오는지로 판단해요."
+    }
+  ]
+}

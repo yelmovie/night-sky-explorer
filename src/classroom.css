@@ -67,10 +67,25 @@ dialog.classroom-dialog[open] { display: flex; flex-direction: column; }
 .reward-summary { text-align: center; }
 .reward-symbol { width: 88px; height: 88px; display: grid; place-items: center; margin: 0 auto 16px; border: 1px solid #dcc18b; border-radius: 50%; color: #f5cf7b; background: #1a4151; }
 .reward-summary h3 { font-family: var(--heading-font); font-size: 30px; font-weight: 400; color: #f5cf7b; margin-bottom: 12px; }
-.concept-dialog { width: min(1080px, calc(100vw - 48px)) !important; }
-.concept-dialog .dialog-body { text-align: center; padding-top: 10px; }
-.concept-picture { position: relative; display: grid; place-items: center; background: #0b1b30; border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 9; max-height: 49dvh; margin: auto; }
-.concept-picture video, .concept-picture img { width: 100%; height: 100%; max-height: 49dvh; object-fit: contain; }
+/* 개념영상: 전체 화면(검은 바탕, contain). 자막은 영상 그림 안에 있으니 재생 중 아래 30%는 아무것도 덮지 않는다.
+   제목·돌아가기·닫기는 위쪽, 장면 버튼은 일시정지·끝·화면을 건드릴 때만 위쪽에 보인다. */
+dialog.classroom-dialog.concept-dialog { width: 100dvw !important; height: 100dvh; max-width: none; max-height: none; margin: 0; border: 0; border-radius: 0; background: #000; box-shadow: none; }
+dialog.concept-dialog .dialog-heading { position: absolute; z-index: 6; top: 0; left: 0; right: 0; padding: 8px 14px 14px; padding-right: 270px; border: 0; background: linear-gradient(#000c, #0000); pointer-events: none; }
+dialog.concept-dialog .dialog-heading > * { pointer-events: auto; }
+dialog.concept-dialog .dialog-heading h2 { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: clamp(17px, 1.6vw, 22px); color: #f3e3b8; text-shadow: 0 1px 4px #000; }
+dialog.concept-dialog .dialog-heading .icon-button { position: absolute; top: 8px; right: 14px; width: 44px; min-width: 44px; height: 44px; min-height: 44px; }
+dialog.concept-dialog .dialog-footer { position: absolute; z-index: 6; top: 8px; right: 68px; padding: 0; border: 0; background: none; }
+dialog.concept-dialog .dialog-footer .btn { min-height: 44px; padding: 6px 16px; font-size: 17px; }
+dialog.concept-dialog .dialog-body { position: absolute; inset: 0; padding: 0; overflow: hidden; text-align: center; }
+dialog.concept-dialog #concept-host { position: absolute; inset: 0; }
+dialog.concept-dialog .concept-picture { position: absolute; inset: 0; display: block; max-height: none; aspect-ratio: auto; margin: 0; border-radius: 0; background: #000; }
+dialog.concept-dialog .concept-picture video, dialog.concept-dialog .concept-picture img { vertical-align: top; width: 100%; height: 100%; max-height: none !important; object-fit: contain; background: #000; }
+dialog.concept-dialog .science-focus-rail { position: absolute; z-index: 5; top: 62px; left: 50%; width: min(760px, calc(100% - 24px)); margin: 0; transform: translateX(-50%); transition: opacity .25s; }
+dialog.concept-dialog #concept-host.film-live:not(.film-awake) .science-focus-rail:not(:focus-within) { opacity: 0; pointer-events: none; }
+dialog.concept-dialog #concept-host.film-frames .concept-caption { position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+dialog.concept-dialog .concept-caption { position: absolute; z-index: 4; left: 50%; bottom: 64px; width: min(880px, calc(100% - 24px)); margin: 0; padding: 8px 16px; transform: translateX(-50%); border-radius: 14px; background: #0b1b30e0; }
+dialog.concept-dialog .concept-fallback { position: absolute; z-index: 4; left: 50%; bottom: 16px; width: min(880px, calc(100% - 24px)); max-height: 42%; margin: 0; padding: 12px 18px 12px 40px; overflow: auto; transform: translateX(-50%); border-radius: 14px; background: #0b1b30e8; text-align: left; }
+@media (max-height: 500px) { dialog.concept-dialog .dialog-heading { padding-top: 4px; } dialog.concept-dialog .dialog-heading .icon-button, dialog.concept-dialog .dialog-footer { top: 4px; } dialog.concept-dialog .science-focus-rail { top: 52px; } }
 .concept-end { position: absolute; inset: 0; pointer-events: none; }
 .concept-caption { margin: 14px auto 8px; max-width: 880px; min-height: 58px; font-size: clamp(21px, 1.6vw, 29px) !important; color: #fff4cf; }
 .concept-dots { display: flex; justify-content: center; gap: 10px; margin: 10px; }

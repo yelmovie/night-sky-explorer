@@ -43,14 +43,37 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
   const end = host.querySelector('.concept-end');
   const play = host.querySelector('.concept-play');
   let lastCue = -1, closed = false, failed = false, pendingCue = -1;
-  // 자막 줄마다 루미 음성(concept-N-M). 앞 줄 음성이 끝나기 전에 다음 큐가 오면 자막을 그 음성 끝까지 유지한다.
+  // 자막은 영상 그림 안에 입혀 두었다(docs/concept-captions-20261118). 줄마다 루미 음성(concept-N-M)이 나오고,
+  // 앞 줄 음성이 아직 나오는 중에 다음 자막 경계(또는 영상 끝)에 닿으면 영상을 잠깐 멈춰 음성이 끝날 때까지 기다린다.
+  let hold = false, selfPause = false, releasing = false, watching = false, skipHold = -1, holdTimer = 0, awakeTimer = 0;
+  // 재생 중에는 기본 조작 막대가 그림 속 자막을 덮지 않게 숨기고, 멈춤·끝·화면을 건드릴 때만 보인다.
+  const live = on => { host.classList.toggle('film-live', on); syncControls(); };
+  const syncControls = () => { video.controls = !host.classList.contains('film-live') || host.classList.contains('film-awake'); };
   const cueVoice = index => `concept-${number}-${index + 1}`;
   const voiceBusy = () => !!narration && String(narration.state.id).startsWith(`concept-${number}-`) && ['loading', 'playing'].includes(narration.state.status);
   const speak = () => { if (narration && !closed && (!video.paused || video.ended) && lastCue >= 0) narration.play(cueVoice(lastCue)); };
   let releaseFocus=()=>{};
   reduced=reduced||matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cueAt = time => Math.max(0, clip.cues.findLastIndex(([at]) => at <= time));
+  function guard() {
+    if (closed || failed || hold || video.paused || video.ended || !voiceBusy()) return;
+    const index = cueAt(video.currentTime), boundary = index + 1 < clip.cues.length ? clip.cues[index + 1][0] : (video.duration || clip.seconds);
+    if (index !== lastCue || skipHold === index + 1 || video.currentTime < boundary - 0.4) return;
+    hold = true; selfPause = true; video.pause();
+    holdTimer = setTimeout(release, 9000); // 음성이 멈춰 버려도 영상이 계속 서 있지 않게
+  }
+  function release() {
+    clearTimeout(holdTimer);
+    if (!hold) return;
+    hold = false;
+    if (closed || failed || document.hidden) return;
+    releasing = true;
+    video.play().catch(() => { releasing = false; });
+  }
+  function watchFrames() { if (watching || closed || !video.requestVideoFrameCallback) return; watching = true; video.requestVideoFrameCallback(() => { watching = false; guard(); if (!video.paused) watchFrames(); }); }
   function caption() {
-    const index = Math.max(0, clip.cues.findLastIndex(([at]) => at <= video.currentTime));
+    guard();
+    const index = cueAt(video.currentTime);
     if (index === lastCue) return;
     if (index > lastCue && lastCue >= 0 && voiceBusy()) { pendingCue = index; return; }
     showCue(index);
@@ -62,10 +85,14 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
     host.querySelectorAll('.concept-dots i').forEach((dot, position) => dot.classList.toggle('on', position === lastCue));
     speak();
   }
-  const unsubscribeVoice = narration?.subscribe(state => { if (state.status === 'idle' && pendingCue >= 0 && !closed) showCue(pendingCue); }) || (() => {});
+  const unsubscribeVoice = narration?.subscribe(state => {
+    if (closed || voiceBusy()) return;
+    if (state.status === 'idle' && pendingCue >= 0) showCue(pendingCue);
+    if (hold) release();
+  }) || (() => {});
   function fallback() {
     if (closed || failed) return;
-    failed = true;releaseFocus();
+    failed = true;releaseFocus();clearTimeout(holdTimer);hold = false;host.classList.remove('film-frames');live(false);
     video.pause();
     video.querySelectorAll('source').forEach(source => source.removeAttribute('src'));
     video.load();
@@ -88,10 +115,20 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
   const timer = setTimeout(() => { if (video.readyState < 1) fallback(); }, 7000);
   video.addEventListener('loadedmetadata', () => { clearTimeout(timer); if (!reduced) start(); }, { once: true });
   video.addEventListener('timeupdate', caption);
-  video.addEventListener('play', () => { if (!voiceBusy()) speak(); });
-  video.addEventListener('pause', () => { if (!video.ended && voiceBusy()) narration.stop(); });
+  video.addEventListener('play', () => {
+    if (releasing) { releasing = false; return; }
+    // 기다리는 중에 직접 재생을 누르면 이번 경계는 기다리지 않고 넘어간다(음성은 그대로).
+    if (hold) { hold = false; clearTimeout(holdTimer); skipHold = cueAt(video.currentTime) + 1; return; }
+    if (!voiceBusy()) speak();
+  });
+  video.addEventListener('pause', () => { if (selfPause) { selfPause = false; return; } live(false); if (!video.ended && voiceBusy()) narration.stop(); });
+  video.addEventListener('playing', () => { live(true); watchFrames(); });
+  video.addEventListener('loadeddata', () => { if (!failed) host.classList.add('film-frames'); }, { once: true });
+  video.addEventListener('seeking', () => { skipHold = -1; if (hold) { hold = false; clearTimeout(holdTimer); if (voiceBusy()) narration.stop(); } });
   video.addEventListener('seeked', caption);
-  video.addEventListener('ended', () => { end.hidden = false; play.hidden = false; play.textContent = '다시 보기'; });
+  video.addEventListener('ended', () => { live(false); skipHold = -1; end.hidden = false; play.hidden = false; play.textContent = '다시 보기'; });
+  const wake = () => { host.classList.add('film-awake'); syncControls(); clearTimeout(awakeTimer); awakeTimer = setTimeout(() => { host.classList.remove('film-awake'); syncControls(); }, 2500); };
+  for (const type of ['pointermove', 'pointerdown', 'focusin']) host.addEventListener(type, wake);
   video.addEventListener('error', fallback);
   play.addEventListener('click', start);
   function visibility() { if (document.hidden) { video.pause(); play.hidden = false; play.textContent = '이어서 재생'; } }
@@ -101,7 +138,8 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
   releaseFocus=bindConceptFocus(host,video,{steps:clip.cues.map(([at],i)=>({at,term:clip.steps[i]})),terms:clip.terms,caption:host.querySelector('.concept-caption'),anchor:host.querySelector('.concept-picture'),controls:false,reduced});
   return () => {
     releaseFocus();closed = true;unsubscribeVoice();if (voiceBusy()) narration.stop();
-    clearTimeout(timer);
+    clearTimeout(timer);clearTimeout(holdTimer);clearTimeout(awakeTimer);
+    for (const type of ['pointermove', 'pointerdown', 'focusin']) host.removeEventListener(type, wake);
     document.removeEventListener('visibilitychange', visibility);
     video.pause();
     video.querySelectorAll('source').forEach(source => source.removeAttribute('src'));
