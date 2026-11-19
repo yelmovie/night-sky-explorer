@@ -49,9 +49,16 @@ export function mountNpcDialogue(dialog, narration, { reduced = false, typewrite
     typing = true;
     cue.textContent = '한 번 누르면 문장을 모두 볼 수 있어요';
     next.textContent = '문장 모두 보기';
+    // Not-yet-typed letters stay in place but invisible, so every line breaks where the finished sentence will.
+    const typed = document.createTextNode('');
+    const rest = document.createElement('span');
+    rest.className = 'dialogue-typing-rest';
+    rest.textContent = letters.join('');
+    visual.append(typed, rest);
     timer = setInterval(() => {
       shown = Math.min(letters.length, shown + 2);
-      visual.textContent = letters.slice(0, shown).join('');
+      typed.data = letters.slice(0, shown).join('');
+      rest.textContent = letters.slice(shown).join('');
       if (shown === letters.length) finishTyping();
     }, 40);
   }
