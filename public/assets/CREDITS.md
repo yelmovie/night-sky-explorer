@@ -155,3 +155,19 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 | `audio/sfx/victory-jingle-01.mp3` | Game Success Fanfare Short · el_boss | https://freesound.org/people/el_boss/sounds/677858 | 다섯 장을 모두 모았을 때(지도 파이널 창이 열리면 멈춤) |
 
 카드 소리도 다른 효과음처럼 음소거·효과음 끄기·탭 숨김·인물 목소리 재생 중에는 나지 않는다. 그래서 카드는 악당의 퇴장 대사가 끝난 뒤에 뜬다.
+
+## 발자국·스테이지 열림·달빛 길 효과음 (2026-11-19)
+
+- 소리: 과학34 공용 효과음 라이브러리(`_shared/sfx-library-20261117`, `manifest.json`·`CREDITS.md`)에서 그대로 복사했다(가공은 라이브러리에서 한 앞뒤 무음 제거·짧은 페이드·음량 맞춤·모노 MP3 변환뿐, 피치·속도 변경 없음). 모두 **CC0 1.0**(https://creativecommons.org/publicdomain/zero/1.0/)이며 라이브러리 작성 때(2026-11-17) 원본 페이지에서 라이선스를 다시 확인한 파일이다. 음량·재생 속도는 `src/sound.js`의 `stepCue`·`mapCues`(`open`, `openSparkle`, `jump`, `splash`)가 정한다. CC0라 표기 의무는 없지만 출처를 남긴다.
+
+| 서비스 파일 | 원본 · 제작자 | 원본 페이지 | 연결 |
+|---|---|---|---|
+| `audio/sfx/step-01.mp3` | Footstep on Stone · sgossner | https://freesound.org/people/sgossner/sounds/197778 | 지도·달빛 길 발자국(번갈아 재생, 재생 속도 ×1.1 ±6%) |
+| `audio/sfx/step-02.mp3` | concrete footstep 4 · Yoyodaman234 | https://freesound.org/people/Yoyodaman234/sounds/166506 | 지도·달빛 길 발자국 |
+| `audio/sfx/open-01.mp3` | maximize_008 · Kenney (Interface Sounds 1.0) | https://kenney.nl/assets/interface-sounds | 지도에 새 관측소·중앙 코어가 처음 열릴 때 |
+| `audio/sfx/twinkle-03.mp3` | Fantasy_ui_Button_2.wav · ZenithInfinitiveStudios | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376746 | 열림 소리 0.12초 뒤 작은 종 반짝임 |
+| `audio/sfx/water-splash-02.mp3` | water splash 2.wav · VacekH | https://freesound.org/people/VacekH/sounds/189499 | 달빛 길에서 개울에 빠질 때 |
+| `audio/sfx/wind-whoosh-03.mp3` | Slow Swosh 40 · qubodup | https://freesound.org/people/qubodup/sounds/60027 | 달빛 길 점프(카드 소리와 같은 파일) |
+| `audio/sfx/hurt-bump-01.mp3` | LowHit_01.wav · Faulkin | https://freesound.org/people/Faulkin/sounds/336495 | 달빛 길에서 닫힌 문에 부딪힐 때(지도 접촉음과 같은 파일) |
+
+발자국은 다른 소리를 끊지 않고 다른 소리에 끊기지도 않으며, 효과음 끄기·음소거·탭 숨김을 따르고 인물 목소리 중에는 절반 크기로 난다.

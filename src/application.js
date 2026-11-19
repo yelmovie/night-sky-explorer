@@ -393,15 +393,17 @@ function render() {
   if (!waiting && learning) cleanup = observationScreen.mountLearning(app, { state, save: persist, render, notify, dialog, on, refresh, sound, onFeedback: syncFeedbackVoice });
   if (!waiting && map) {
     const restoredSites = studentSnapshot ? [] : pendingRestoration.slice();
-    // 지도에 남은 악당이 있을 때만 전투 효과음을 미리 받는다.
-    if (!state.settings.adminUnlock && chapters.some(c => state.evidence[c.id] && (state.mapHits?.[c.id] ?? 0) < 3)) sound.preload();
+    // 발자국·열림 소리는 늘 미리 받고, 전투 효과음은 지도에 남은 악당이 있을 때만 받는다.
+    sound.preload(!state.settings.adminUnlock && chapters.some(c => state.evidence[c.id] && (state.mapHits?.[c.id] ?? 0) < 3));
+    const opened = newlyOpenSites();
     const world = mapScreen.mountWorld($('#world'), state, {
-      lastSite, restoredSites, save: persist, tone:(kind,hits)=>sound.mapCue(kind,hits), say: villainVoice, onHint: showHint, onStatus: notify, onSite: enterSite,
+      lastSite, restoredSites, save: persist, tone:(kind,hits)=>sound.mapCue(kind,hits), say: villainVoice, onStep: sound.step, onHint: showHint, onStatus: notify, onSite: enterSite,
       // 성취 카드: 악당의 세 번째 타격이 저장되면 퇴장 뒤 카드가 뜬다. 목소리 중에는 효과음이 나지 않으므로 악당의 퇴장 대사가 끝난 뒤에 뜬다.
       // 카드가 열린 동안 #app이 inert라 지도·악당·파이널 영상이 기다린다.
       onMapHits: (before, patch) => mapScreen.awardRewardCards(before, patch, { hits: () => state.mapHits, open: () => state.scene === 'map' && !!$('#world'), sound: name => sound.mapCue(name), masked: () => !['idle', 'muted', 'error'].includes(narration.state.status), reduced: reduced() }),
       onReady: () => {
         pendingRestoration.splice(0, restoredSites.length);
+        if (opened) announceOpen(signal);
         if (document.activeElement === document.body) $('#world')?.focus({ preventScroll: true });
       },
       onError: () => {
@@ -418,6 +420,27 @@ function render() {
   syncFeedbackVoice(app.querySelector('#planet-feedback, #classification-feedback'));
   refresh(); sound.sync(); syncMusic();
   if (state.scene === 'core' && completedCount(state) === 5 && !state.core.restored && !state.core.reportSeen) finalReport();
+}
+// 스테이지 열림 소리: 열린 시설(관측소 1~5, 중앙 코어 0)을 메모리에 들고, 지도에 새로 열린 곳이 보이면 한 번 낸다.
+// 앱을 열 때 이미 열린 곳은 알린 것으로 치므로 새로고침·재방문 때는 다시 나지 않는다. 교사 시연(전체 해금)은 알리지 않는다.
+const openSites = s => [0, ...chapters.map(c => c.id)].filter(n => n ? stageOpen(s, n) : completedCount(s) === 5);
+let knownOpen = new Set(openSites(state));
+function newlyOpenSites() {
+  if (state.settings.adminUnlock) return false;
+  const now = openSites(state), fresh = now.some(n => !knownOpen.has(n));
+  knownOpen = new Set(now);
+  return fresh;
+}
+// 완료음·보상 창·대사가 끝난 뒤에 낸다: 지도가 그려지고 0.4초 뒤부터, 창이 없고 목소리가 쉬는 첫 순간(최대 8초 기다림).
+function announceOpen(signal) {
+  const begin = performance.now();
+  const check = () => {
+    if (signal.aborted) return;
+    const busy = !!document.querySelector('dialog[open]') || !!app.closest('[inert]') || app.inert || !['idle', 'muted', 'error'].includes(narration.state.status);
+    if (!busy) return sound.stageOpen();
+    if (performance.now() - begin < 8000) setTimeout(check, 150);
+  };
+  setTimeout(check, 400);
 }
 function mountCalibration() {
   const core = activeCore(), dial = $('#calibration'), input = $('#core-angle'), locked = () => coreConnected(core) < 5 || core.restored;

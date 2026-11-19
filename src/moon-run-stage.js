@@ -63,7 +63,7 @@ class Runner {
     this.world = world; this.walk = walk;
     this.group = new THREE.Group(); this.position = new THREE.Vector3(); this.velocity = new THREE.Vector3();
     this.capsule = new Capsule(new THREE.Vector3(0, RADIUS, 0), new THREE.Vector3(0, RADIUS + BODY, 0), RADIUS);
-    this.onFloor = false; this.floor = 0; this.stunned = 0; this.cheering = false; this.still = false; this.time = 0;
+    this.onFloor = false; this.floor = 0; this.stunned = 0; this.cheering = false; this.still = false; this.time = 0; this.jumped = false;
     cell(walk, 0, 3);
     this.sprite = standing(cutout(walk), 1.35, 1.35);
     this.shadow = new THREE.Mesh(new THREE.CircleGeometry(0.42, 20), new THREE.MeshBasicMaterial({ color: '#040a14', transparent: true, opacity: 0.4, depthWrite: false }));
@@ -81,7 +81,8 @@ class Runner {
     this.stunned = Math.max(0, this.stunned - dt);
     const length = Math.hypot(steer.x, steer.y), free = this.stunned === 0 && !this.cheering;
     const dx = free && length ? steer.x / length : 0, dz = free && length ? -steer.y / length : 0;
-    if (free && steer.jump && this.onFloor) { this.velocity.y = JUMP; this.onFloor = false; }
+    this.jumped = false;
+    if (free && steer.jump && this.onFloor) { this.velocity.y = JUMP; this.onFloor = false; this.jumped = true; }
     if (this.cheering && this.onFloor && !this.still) { this.velocity.y = 4.2; this.onFloor = false; }
     const h = dt / STEPS, move = new THREE.Vector3();
     for (let i = 0; i < STEPS; i++) {
@@ -133,7 +134,7 @@ class Runner {
  * host: element that receives the canvas. labels: element laid over it for the door moons.
  * onDoor(gateIndex, doorIndex) -> { ok, reveal, answer } is the only place a result is decided.
  */
-export async function createMoonRun({ host, labels, gates, reduced = false, read, onDoor, onNear = () => {}, onFall = () => {}, onArrive = () => {}, onLost = () => {} }) {
+export async function createMoonRun({ host, labels, gates, reduced = false, read, onDoor, onNear = () => {}, onFall = () => {}, onArrive = () => {}, onLost = () => {}, onCue = () => {} }) {
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'low-power' }); }
   catch { throw new Error('webgl-unavailable'); }
@@ -306,7 +307,7 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
   const runner = new Runner(world, walk); scene.add(runner.group);
   runner.still = reduced; runner.place(0, 0.05, 0);
   const bounds = { minX: -HALF + 0.42, maxX: HALF - 0.42, minZ: -(observatoryS - 3.4), maxZ: 4.2 };
-  let current = 0, clock = 0, lastFloorS = 0, arrived = false, stopped = false, paused = false, raf = 0, last = 0, camFloor = 0, width = 1, height = 1;
+  let current = 0, clock = 0, sinceStep = 1, lastFloorS = 0, arrived = false, stopped = false, paused = false, raf = 0, last = 0, camFloor = 0, width = 1, height = 1;
   const seen = new Set(), steps = slabs.flatMap((slab, i) => (i && Math.abs(slab.s0 - slabs[i - 1].s1) < 0.01 ? [slab.s0] : []));
   /** A gate shows its moons from the moment Lumi is through the gate before it until she is through this one. */
   const facing = gate => gate.index <= current && (!gate.index || runner.position.z < course[gate.index - 1].z - 0.8) && runner.position.z > gate.z - 1.2;
@@ -370,6 +371,10 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
     if (paused || document.hidden || !dt) return;
     clock += dt;
     runner.step(dt, arrived ? { x: 0, y: 0, jump: false } : read(), bounds, barrier);
+    // Sounds of Lumi's own moves: the jump she was asked for, and a footstep every 300 ms while she runs on the ground.
+    if (runner.jumped) onCue('jump');
+    sinceStep += dt;
+    if (!arrived && runner.onFloor && runner.stunned === 0 && Math.hypot(runner.velocity.x, runner.velocity.z) > 0.4 && sinceStep >= 0.3) { sinceStep = sinceStep < 0.6 ? sinceStep - 0.3 : 0; onCue('step'); }
     const s = -runner.position.z;
     if (runner.onFloor && slabAt(s)) lastFloorS = s;
     if (runner.position.y < checkpointFor(lastFloorS).top - WATER_DROP - 0.35) {

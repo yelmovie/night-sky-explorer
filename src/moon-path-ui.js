@@ -148,6 +148,7 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
     }
     async function startRun() {
       show('run'); hud(); host.dataset.ready = 'false'; tip('');
+      sound.preload?.(); // footsteps, jump, splash and bump arrive before Lumi's first move
       try {
         const { createMoonRun } = await loadStage();
         if (signal.aborted || view !== 'run') return;
@@ -157,9 +158,12 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
           host, labels: find('.moon-run-labels'), gates, reduced,
           // If the dialog is replaced without a close event, the next frame notices and frees the 3D scene.
           read: () => { if (!root.isConnected) { queueMicrotask(cleanup); return idle; } return controls.read(); },
-          onDoor: tryDoor,
+          // A closed door Lumi runs into: the same bump the map uses when a villain touches the hero, beside the retry tone.
+          onDoor: (gateIndex, doorIndex) => { const result = tryDoor(gateIndex, doorIndex); if (!result.ok && gateIndex === current) sound.mapCue?.('contact'); return result; },
           onNear: kind => tip(kind === 'jump' ? '개울은 점프로 건너요. 점프 버튼이나 스페이스를 눌러요.' : '턱은 점프로 올라가요.', 'hint', true),
-          onFall: () => tip('개울에 빠졌어요. 조금 앞에서 다시 달려요. 개울 앞에서 점프!', 'hint', true),
+          onFall: () => { sound.mapCue?.('splash'); tip('개울에 빠졌어요. 조금 앞에서 다시 달려요. 개울 앞에서 점프!', 'hint', true); },
+          // Footsteps and the jump whoosh (sound.js stepCue, mapCues.jump).
+          onCue: kind => { if (kind === 'step') sound.step?.(); else sound.mapCue?.(kind); },
           onArrive: () => { timer = setTimeout(finish, reduced ? 300 : 1500); },
           onLost: () => startCards('3D 화면 연결이 끊겨서 달 카드로 이어 가요.'),
         });
