@@ -376,7 +376,7 @@ function render() {
   const scene = state.scene, signal = events.signal;
   app.innerHTML = (waiting ? controls() + screenLoading(map, failure) : learning ? observationScreen.learningView(state, controls()) : controls() + (scene === 'home' ? home() : map ? mapScreen.worldMarkup(state) : scene === 'core' ? coreView() : resultsView())) + '<dialog id="dialog" aria-labelledby="dialog-title"></dialog>';
   on($('#dialog'), 'cancel', event => { event.preventDefault(); closeModal(); });
-  if (state.scene === 'home') welcomeCleanup = mountWelcomeVoice(app.querySelector('.hero'), { caption: '밤하늘 탐험에 온 걸 환영해! 달과 별, 행성을 자세히 살펴보고, 관찰한 특징을 기록하며 우주의 단서를 찾아보자.', isMuted: () => state.settings.muted || !state.settings.sfx, duck: value => sound.setDucked(value) });
+  if (state.scene === 'home') welcomeCleanup = mountWelcomeVoice(app.querySelector('.hero'), { caption: '밤하늘 탐험에 온 걸 환영해! 달과 별, 행성을 자세히 살펴보고, 관찰한 특징을 기록하며 우주의 단서를 찾아보자.', isMuted: () => state.settings.muted || !state.settings.sfx, duck: value => sound.setDucked(value, 'welcome') });
   bindActions(app);
   cleanup = () => {};
   if (needsCode && !failure) {

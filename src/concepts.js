@@ -133,7 +133,7 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
   play.addEventListener('click', start);
   function visibility() { if (document.hidden) { video.pause(); play.hidden = false; play.textContent = '이어서 재생'; } }
   document.addEventListener('visibilitychange', visibility);
-  sound?.setDucked(true);
+  sound?.setDucked(true, 'concept'); // 자막 음성이 한 줄 끝나도 영상이 열려 있는 동안은 줄인 채로 둔다
   caption();
   releaseFocus=bindConceptFocus(host,video,{steps:clip.cues.map(([at],i)=>({at,term:clip.steps[i]})),terms:clip.terms,caption:host.querySelector('.concept-caption'),anchor:host.querySelector('.concept-picture'),controls:false,reduced});
   return () => {
@@ -145,7 +145,7 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
     video.querySelectorAll('source').forEach(source => source.removeAttribute('src'));
     video.removeAttribute('src');
     video.load();
-    sound?.setDucked(false);
+    sound?.setDucked(false, 'concept');
     onClose?.();
   };
 }

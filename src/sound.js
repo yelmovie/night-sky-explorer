@@ -28,6 +28,8 @@ const combatCues = new Set(['swing', 'hit1', 'hit2', 'heavy', 'exit', 'appear', 
 export function mapCueName(kind, hits = 0) { return kind === 'hit' ? (hits === 2 ? 'hit2' : 'hit1') : mapCues[kind] ? kind : null; }
 export function createSound(getSettings) {
   let music, track = 'main', finaleDone = false, started = false, disposed = false, ducked = false, lastEffect = 0;
+  // 배경음을 줄이는 이유별 이름표(대사 'voice', 환영 음성 'welcome', 개념영상 'concept'). 전부 빠져야 평소 크기로 돌아간다.
+  const duckers = new Set();
   const effects = createThemeEffects('sky', () => ({ muted: quiet(), enabled: getSettings().sfx, volume: .8 }));
   function quiet() { return disposed || ducked || document.hidden || getSettings().muted; }
   function silent(name) { return combatCues.has(name) ? disposed || document.hidden || getSettings().muted : quiet(); }
@@ -104,7 +106,7 @@ export function createSound(getSettings) {
     /** Cut the map cues still ringing (the card set jingle) when the finale theme takes over. */
     stopCues: stopSamples,
     sync, play, tap(success = false) { play(success ? 'success' : 'click'); },
-    setDucked(value) { ducked = !!value; sync(); },
+    setDucked(value, reason = 'voice') { if (value) duckers.add(reason); else duckers.delete(reason); ducked = duckers.size > 0; sync(); },
     setMusic(next) { if (next === track) return; track = next; if (next === 'finale') finaleDone = false; sync(); },
     dispose() { disposed = true; effects.dispose(); stopSamples(); sampleContext?.close().catch(() => {}); document.removeEventListener('visibilitychange', sync); sync(); music = null; },
   };
