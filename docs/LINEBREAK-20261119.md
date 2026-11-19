@@ -51,3 +51,4 @@
 - Version ID `ca6455b8-acab-4de8-a2bb-bf25da0f2df0`
 - `cmp.sh`: `assets/index-BdPvMpeP.css` build=b19b20b322c7bf0d live 동일 MATCH, index MATCH / `assets/index-BFFz7qWb.js` d8345f454e5bfa63 동일
 - 운영 측정(1280×800, 배포 뒤): 문제 블록 8개 = 위 오탐 7개 + 판단 통과 1개, 실제 문제 0
+- 추가 수정(2026-11-20, 지침 8절): `src/reward-cards.css` `.rc-locked` 컨테이너 규칙 4줄 → 보관함 잠긴 카드 문구가 1280·1920은 한 줄, 1024는 「악당을 / 물리치면 / 열려요」 세 줄, 카드 넘침 없음(로컬 빌드 측정·스크린샷). 커밋 `71f332b`, Version ID `ce9dfa01-8f27-49ff-8cea-0bd316785d75`, `cmp.sh` `assets/map-screen-DzQpF8Br.css` e2edc3e5b3611fa4 MATCH, index MATCH
