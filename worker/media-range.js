@@ -3,7 +3,7 @@
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname;
-    if (!/^\/assets\/concepts\/stage-[1-5]\.(mp4|webm)$/.test(path)
+    if (!/^\/assets\/(concepts\/stage-[1-5]|map-encounters\/map-finale)\.(mp4|webm)$/.test(path)
         || !['GET', 'HEAD'].includes(request.method)) {
       return env.ASSETS.fetch(request);
     }
