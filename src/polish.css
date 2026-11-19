@@ -630,6 +630,8 @@ dialog { color: #f8f1df; border: 1px solid #8495aa; border-radius: 25px; padding
 @media (max-height: 690px) and (min-width: 701px) {
   :root { --touch: 48px; }
   .experience { min-height: 540px; }
+  /* Home is the one screen that may scroll here: it grows with its hero so the welcome narration is never cut off (915×412). */
+  .experience.home-v2 { height: auto; min-height: max(540px, 100dvh); }
   .floating-controls { top: 14px; }
   .icon-button { width: 48px; height: 48px; min-width: 48px; min-height: 48px; padding: 11px; border-radius: 14px; }
   .activity-heading { top: 16px; }

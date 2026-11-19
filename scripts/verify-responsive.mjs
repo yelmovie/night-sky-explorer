@@ -155,9 +155,12 @@ function inspectLayout() {
     if (!visible(element)) continue;
     // An expanded restoration drawer intentionally covers the world behind it.
     // The close summary and persistent navigation still remain subject to checks.
-    if (element.matches('.world-pin,.map-companion') && document.querySelector('.map-repair[open]')) continue;
-    const r = element.getBoundingClientRect();
+    if (element.matches('.world-pin,.map-companion,.world-map-tools button') && document.querySelector('.map-repair[open]')) continue;
+    let r = element.getBoundingClientRect();
     if (element.matches('.learning-v2 button, dialog:modal button') && (r.width < 43 || r.height < 43)) {
+      // A control below the fold of a scrolling panel is reached by scrolling; measure it where a finger meets it.
+      const box = element.parentElement?.closest('.toolbox, .dialog-body'), view = box?.getBoundingClientRect();
+      if (view && (r.top < view.top || r.bottom > view.bottom)) { element.scrollIntoView({ block: 'nearest', behavior: 'instant' }); r = element.getBoundingClientRect(); }
       // Scaled lessons widen the touch area with an invisible ::before (responsive.css). Measure what a finger
       // actually hits just outside each edge, not only the drawn box.
       const own = (x, y) => { const hit = document.elementFromPoint(x, y); return hit && (hit === element || element.contains(hit)); };
