@@ -21,6 +21,20 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
       for (const type of ['ended', 'error', 'pause']) audio.addEventListener(type, end, { once: true });
     });
   }
+  // 새로고침 직후 아직 아무 입력이 없으면 브라우저가 재생을 거부한다(NotAllowedError). 그때는 시도하지 않고 첫 입력 뒤에 한 번 낸다.
+  // 그 입력이 화면을 바꾸거나 다른 대사를 틀면(stop·play로 차례가 바뀌면) 생략한다. 거부된 줄을 「읽은 줄」로 소모하지 않는다.
+  const activated = () => { const user = globalThis.navigator?.userActivation; return !user || user.hasBeenActive; };
+  let waitInput = null;
+  function afterFirstInput(ticket, id) {
+    waitInput?.abort(); waitInput = new AbortController();
+    const signal = waitInput.signal;
+    const go = () => setTimeout(() => {
+      if (ticket !== asks || disposed) { waitInput?.abort(); return; }
+      if (!activated()) return; // Esc 같은 입력은 재생 허락이 아니다. 다음 입력을 기다린다.
+      waitInput?.abort(); play(id);
+    }, 0);
+    for (const type of ['pointerup', 'keydown']) doc.addEventListener(type, go, { capture: true, signal });
+  }
   /** Public stop. spareVillain leaves a villain line playing (a dialog opening on the map waits for it instead). */
   function cancel({ spareVillain = false } = {}) { if (spareVillain && villainSpeaking()) return; asks++; stop(); }
   async function play(id) {
@@ -30,6 +44,7 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
     stop();
     if (!line || disposed) return false;
     if (doc.hidden || isMuted()) { state = { id, status: 'muted' }; emit(); return false; }
+    if (!activated()) { afterFirstInput(ticket, id); return false; }
     const token = request, audio = makeAudio(); player = audio;
     audio.preload = 'none'; audio.src = line.src;
     const finish = () => { if (token === request) stop(); };
@@ -56,7 +71,7 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
   return {
     play, stop: cancel, get state() { return state; },
     subscribe(listener) { listeners.add(listener); listener(state); return () => listeners.delete(listener); },
-    dispose() { disposed = true; cancel(); listeners.clear(); doc.removeEventListener('visibilitychange', hidden); doc.removeEventListener('change', muted); page.removeEventListener('pagehide', cancel); page.removeEventListener('popstate', cancel); page.removeEventListener('hashchange', cancel); }
+    dispose() { disposed = true; waitInput?.abort(); cancel(); listeners.clear(); doc.removeEventListener('visibilitychange', hidden); doc.removeEventListener('change', muted); page.removeEventListener('pagehide', cancel); page.removeEventListener('popstate', cancel); page.removeEventListener('hashchange', cancel); }
   };
 }
 

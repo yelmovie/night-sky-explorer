@@ -33,13 +33,14 @@ export const concepts = {
   ], steps: ['질문', '별 잇기', '북극성 주변', '사람이 그은 선'], terms: ['북극성', '북두칠성', '카시오페이아자리', '선', '배열', '패턴'] },
 };
 
-export function mountConcept(host, number, { reduced = false, sound, onClose, audible = false, narration = null } = {}) {
+export function mountConcept(host, number, { reduced = false, sound, onClose, audible = false, volume = 1, narration = null } = {}) {
   const clip = concepts[number];
   const base = `/assets/concepts/stage-${number}`;
   host.innerHTML = `<div class="concept-picture"><video playsinline controls preload="metadata" poster="${base}.webp" aria-label="${clip.title} · 개념영상 ${clip.seconds}초"><source src="${base}.webm" type="video/webm"><source src="${base}.mp4" type="video/mp4"></video><img class="concept-end" src="${base}.webp" alt="${clip.title} 정리 장면" hidden></div><p class="concept-caption" role="status" aria-live="polite"></p><div class="concept-dots" aria-hidden="true">${clip.cues.map(() => '<i></i>').join('')}</div><ol class="concept-fallback" hidden>${clip.cues.map(([, text]) => `<li>${text}</li>`).join('')}</ol><button class="btn primary concept-play">${reduced ? '영상 재생' : '다시 보기'}</button>`;
   const video = host.querySelector('video');
-  // 효과음 설정이 켜져 있을 때만 영상 효과음을 낸다(음악·음성 없음).
+  // 효과음 설정이 켜져 있을 때만 영상 효과음을 낸다(Kenney 효과음뿐, 음악·대사 없음). 크기는 효과음 크기 설정을 따른다.
   video.muted = !audible;
+  video.volume = volume;
   const end = host.querySelector('.concept-end');
   const play = host.querySelector('.concept-play');
   let lastCue = -1, closed = false, failed = false, pendingCue = -1;
@@ -85,7 +86,17 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
     host.querySelectorAll('.concept-dots i').forEach((dot, position) => dot.classList.toggle('on', position === lastCue));
     speak();
   }
+  // 자막 음성(목소리 스위치)이 나오는 동안 영상 소리를 ×0.3으로 줄이고, 끝나면 0.2초에 걸쳐 되돌린다.
+  let duckFade = 0;
+  function duckVideo() {
+    const target = volume * (voiceBusy() ? .3 : 1), from = video.volume;
+    clearInterval(duckFade); duckFade = 0;
+    if (closed || Math.abs(from - target) < .001) return;
+    let step = 0;
+    duckFade = setInterval(() => { step++; video.volume = step >= 8 ? target : from + (target - from) * step / 8; if (step >= 8) { clearInterval(duckFade); duckFade = 0; } }, 25);
+  }
   const unsubscribeVoice = narration?.subscribe(state => {
+    duckVideo();
     if (closed || voiceBusy()) return;
     if (state.status === 'idle' && pendingCue >= 0) showCue(pendingCue);
     if (hold) release();
@@ -137,7 +148,7 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
   caption();
   releaseFocus=bindConceptFocus(host,video,{steps:clip.cues.map(([at],i)=>({at,term:clip.steps[i]})),terms:clip.terms,caption:host.querySelector('.concept-caption'),anchor:host.querySelector('.concept-picture'),controls:false,reduced});
   return () => {
-    releaseFocus();closed = true;unsubscribeVoice();if (voiceBusy()) narration.stop();
+    releaseFocus();closed = true;clearInterval(duckFade);unsubscribeVoice();if (voiceBusy()) narration.stop();
     clearTimeout(timer);clearTimeout(holdTimer);clearTimeout(awakeTimer);
     for (const type of ['pointermove', 'pointerdown', 'focusin']) host.removeEventListener(type, wake);
     document.removeEventListener('visibilitychange', visibility);

@@ -40,7 +40,7 @@ test("v2는 기존 저장키를 유지하고 BGM·효과음·음량 기본값을
   const s = freshState();
   assert.equal(s.version, 2);
   assert.equal(SAVE_KEY, "starlight-lab:v1");
-  assert.deepEqual(s.settings, { muted: false, reducedMotion: false, adminUnlock: false, bgm: true, sfx: true, bgmVolume: 25 });
+  assert.deepEqual(s.settings, { muted: false, reducedMotion: false, adminUnlock: false, bgm: true, sfx: true, bgmVolume: 25, voice: true, sfxVolume: 100 });
   assert.notEqual(s.drafts.phases.predictions[14], s.drafts.phases.predictions[24]);
   assert.notEqual(s.drafts.pattern.cases.cassiopeia, s.drafts.pattern.cases.dipper);
 });

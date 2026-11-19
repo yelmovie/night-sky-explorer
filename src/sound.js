@@ -40,7 +40,9 @@ export function createSound(getSettings) {
   let music, track = 'main', finaleDone = false, started = false, disposed = false, ducked = false, lastEffect = 0, fade = 0;
   // 배경음을 줄이는 이유별 이름표(대사 'voice', 환영 음성 'welcome', 개념영상 'concept'). 전부 빠져야 평소 크기로 돌아간다.
   const duckers = new Set();
-  const effects = createThemeEffects('sky', () => ({ muted: quiet(), enabled: getSettings().sfx, volume: .8 }));
+  // 효과음 크기(설정, 0~100%, 기본 100): UI 합성음·전투·카드·열림 샘플·발자국 모두에 곱한다. 100%면 이전과 같은 크기다.
+  const fx = () => { const value = getSettings().sfxVolume; return Number.isFinite(value) ? Math.max(0, Math.min(100, value)) / 100 : 1; };
+  const effects = createThemeEffects('sky', () => ({ muted: quiet(), enabled: getSettings().sfx, volume: .8 * fx() }));
   function quiet() { return disposed || ducked || document.hidden || getSettings().muted; }
   function silent(name) { return combatCues.has(name) ? disposed || document.hidden || getSettings().muted : quiet(); }
   function musicLevel() {
@@ -101,7 +103,7 @@ export function createSound(getSettings) {
       if (!buffer || silent(name) || !getSettings().sfx || context.state !== 'running' || performance.now() - asked > 250) return;
       voices.get(name)?.stop?.();
       const source = context.createBufferSource(), gain = context.createGain();
-      source.buffer = buffer; source.playbackRate.value = entry[2]; gain.gain.value = entry[1];
+      source.buffer = buffer; source.playbackRate.value = entry[2]; gain.gain.value = entry[1] * fx();
       source.connect(gain); gain.connect(context.destination);
       source.onended = () => { source.disconnect(); gain.disconnect(); if (voices.get(name) === source) voices.delete(name); };
       voices.set(name, source); source.start();
@@ -126,7 +128,7 @@ export function createSound(getSettings) {
       stopStep();
       const source = context.createBufferSource(), gain = context.createGain();
       source.buffer = buffer; source.playbackRate.value = stepCue.rate * (1 + (Math.random() * 2 - 1) * stepCue.spread);
-      gain.gain.value = stepCue.gain * (ducked ? .5 : 1);
+      gain.gain.value = stepCue.gain * fx() * (ducked ? .5 : 1);
       source.connect(gain); gain.connect(context.destination);
       const voice = { source, gain };
       source.onended = () => { source.disconnect(); gain.disconnect(); if (stepVoice === voice) stepVoice = null; };

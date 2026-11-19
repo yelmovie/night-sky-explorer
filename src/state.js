@@ -31,6 +31,8 @@ export function freshState() {
     settings: {
       muted: false, reducedMotion: false, adminUnlock: false,
       bgm: true, sfx: true, bgmVolume: 25,
+      // 소리 3차(2026-11-20): 목소리 스위치(대사·내레이션·악당 음성·개념 자막 음성)와 효과음 크기(%, 100 = 이전과 같은 크기).
+      voice: true, sfxVolume: 100,
     },
     visited: [],
     drafts: {
@@ -307,6 +309,9 @@ export function restore(raw) {
  s.mapRepairs=Array.isArray(raw.mapRepairs)?[...new Set(raw.mapRepairs.filter(n=>Number.isInteger(n)&&n>=0&&n<5))]:[];
   normalizeDrafts(s);
   s.settings.bgmVolume = bounded(s.settings.bgmVolume, 0, 100, 25);
+  // 3차 전 저장에는 목소리 값이 없다. 그때까지 목소리는 효과음 스위치를 따랐으므로 그 값을 이어받는다.
+  if (typeof raw.settings?.voice !== "boolean") s.settings.voice = s.settings.sfx;
+  s.settings.sfxVolume = Math.round(bounded(s.settings.sfxVolume, 0, 100, 100) / 5) * 5;
   s.evidence = {};
   for (const n of stageIds) {
     const ev = raw.evidence?.[n];
