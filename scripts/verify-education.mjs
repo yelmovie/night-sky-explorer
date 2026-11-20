@@ -34,15 +34,13 @@ try {
   }
   checks.push('10 pages show their standard, highlighted concept and one current action');
   await seed('s2a', state => { state.drafts.phases.captures = []; });
+  // One tap on a date observes and records that day's Moon.
   await learn('seek-day-3');
-  assert.equal((await stored()).drafts.phases.captures.length, 0);
-  assert.equal(await page.locator('#capture-phase.is-next').count(), 1);
-  await learn('capture-phase');
   assert.deepEqual((await stored()).drafts.phases.captures, [3]);
   assert.equal(await page.locator('[data-learning="seek-day-7"].is-next').count(), 1);
   assert.match(await page.locator('#screen-title').textContent(), /7일째/);
   assert.equal(await page.locator('#phase-moon image').getAttribute('href'), '/assets/generated/moon-surface-v4.webp');
-  checks.push('Date selection, explicit capture, next-date guidance and new Moon art agree');
+  checks.push('Tapping a date records it, then next-date guidance and the Moon art agree');
   await seed('s4a', state => { state.drafts.classification.viewed = []; });
   await learn('body-sun');
   assert.equal(await page.locator('[data-learning="body-sirius"].is-next').count(), 1);

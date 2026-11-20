@@ -81,7 +81,7 @@ export function mountNarrationControl(host, id, narration, { autoplay = true, co
   const row = document.createElement('span'); row.className = 'npc-dialogue-voice'; row.dataset.voiceId = id;
   row.style.cssText = 'display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px;max-width:100%;';
   const button = document.createElement('button'); button.type = 'button'; button.className = 'btn secondary';
-  const status = document.createElement('span'); status.setAttribute('role', 'status'); status.style.cssText = 'font-size:14px;line-height:1.4;';
+  const status = document.createElement('span'); status.setAttribute('role', 'status'); status.style.cssText = 'font-size:var(--classroom-small,18px);line-height:1.4;';
   if (compact) status.className = 'sr-only';
   row.append(button, status); host.append(row);
   const unsubscribe = narration.subscribe(state => {

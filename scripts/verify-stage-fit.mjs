@@ -20,9 +20,9 @@ const allowed = process.env.QA_SCENES?.split(',');
 const scenarios = [];
 for (const scene of Array.from({ length: 5 }, (_, i) => [`s${i + 1}a`, `s${i + 1}b`]).flat())
   for (const draft of ['empty', 'filled'])
-    for (const round of ['s2a', 's3a'].includes(scene) ? [0] : [0, 1]) scenarios.push({ scene, draft, round });
+    for (const round of ['s2a', 's3a', 's4a', 's4b'].includes(scene) ? [0] : [0, 1]) scenarios.push({ scene, draft, round });
 for (const round of [0, 1]) scenarios.push({ scene: 's2b', draft: 'filled', round, variant: 'overlay' });
-scenarios.push({ scene: 's4a', draft: 'filled', round: 1, variant: 'blocked' });
+scenarios.push({ scene: 's4a', draft: 'filled', round: 0, variant: 'blocked' });
 for (const variant of ['zoom2x', 'three']) scenarios.push({ scene: 's3a', draft: 'filled', round: 0, variant });
 const cases = scenarios.filter(item => !allowed || allowed.includes(item.scene));
 
@@ -154,8 +154,9 @@ try {
         if (item.round) await click(`[data-learning="round-${item.round}"]`);
         if (item.scene === 's4a' && item.draft === 'filled') await click('.sky-body');
         if (item.variant === 'overlay') await click('[data-learning="overlay-phase"]');
-        if (item.variant === 'blocked') await click('[data-shield]');
+        if (item.variant === 'blocked') await page.locator('[data-shield]').click(); // the shield is SVG: a real tap, not el.click()
         if (item.variant === 'three') { await click('[data-learning="toggle-three"]'); await page.locator('#planet-viewer canvas').waitFor(); }
+        if (item.variant === 'zoom2x') await click('[data-learning="toggle-three"]');
         if (item.variant === 'zoom2x') await page.locator('#planet-zoom').evaluate(input => { input.value = '2'; input.dispatchEvent(new Event('input', { bubbles: true })); });
         await page.evaluate(settleMedia);
         if (item.round && await page.locator(`[data-learning="round-${item.round}"]`).getAttribute('aria-pressed') !== 'true') throw Error('Requested activity tab is not active.');
