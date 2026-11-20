@@ -28,3 +28,5 @@
 .learning-v2 .body-fact p { text-wrap: balance; }
 /* 13 nightsky: 지도 복구 작업대의 안내·상태 글(「…또렷해지는 / 곳을 찾아요.」)이 끝줄에 짧게 떨어지지 않게 */
 .map-repair .repair-body :is(p, output) { text-wrap: balance; }
+/* 13 nightsky: 지도 악당 말풍선(18px·최대 260px)이 「…내 이름은 / 빼 줘!」처럼 끝줄에 짧게 떨어지지 않게. 폭·위치는 18px 작업 값 그대로 */
+.map-encounter-say { text-wrap: balance; }
