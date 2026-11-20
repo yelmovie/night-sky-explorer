@@ -52,3 +52,14 @@
 - `cmp.sh`: `assets/index-BdPvMpeP.css` build=b19b20b322c7bf0d live 동일 MATCH, index MATCH / `assets/index-BFFz7qWb.js` d8345f454e5bfa63 동일
 - 운영 측정(1280×800, 배포 뒤): 문제 블록 8개 = 위 오탐 7개 + 판단 통과 1개, 실제 문제 0
 - 추가 수정(2026-11-20, 지침 8절): `src/reward-cards.css` `.rc-locked` 컨테이너 규칙 4줄 → 보관함 잠긴 카드 문구가 1280·1920은 한 줄, 1024는 「악당을 / 물리치면 / 열려요」 세 줄, 카드 넘침 없음(로컬 빌드 측정·스크린샷). 커밋 `71f332b`, Version ID `ce9dfa01-8f27-49ff-8cea-0bd316785d75`, `cmp.sh` `assets/map-screen-DzQpF8Br.css` e2edc3e5b3611fa4 MATCH, index MATCH
+
+## 남은 것 정리 (2026-11-20, 지침 9절)
+
+`.tmp/linebreak-20261119/extra.mjs`로 1280×800·1024×768·1920×1080에서 쟀다.
+
+- **지도 악당 말풍선** `.map-encounter-say`: 악당 5명 대사 전부(등장 2줄·명중 2줄·퇴장 1줄 × 5 + 기본 3줄 = 28줄)와 사라진 뒤 위쪽 안내 `.map-encounter-clear` 5줄을 지도 화면에 실제 클래스로 띄워 잼 → 3개 크기 모두 문제 0. 보정 필요 없음. (처음 1024 측정은 시험 말풍선이 화면 밖 악당 자리에 붙어 무효라, 화면 안 고정 위치로 다시 잼. 말풍선 폭·위치 규칙은 바꾸지 않았다.)
+- **1차 때 못 연 DOM 화면**: 지도 복구 작업대, 보관함·큰 카드, 시설 입장 대화창·선택 도전·답 대화창(1280·1920; 1024는 지도 걷기가 시간 안에 문에 닿지 않아 못 엶), 보너스 의뢰 3종(구름 낀 날·새 행성·달빛 길 3D 무대의 DOM 안내), 엔딩 영상 화면.
+  - 전 2곳 → 후 0곳(판단 통과 1곳 제외). 고친 곳: 지도 복구 작업대 안내 「렌즈를 천천히 움직여 별빛이 또렷해지는 / 곳을 찾아요.」(31%) → `src/korean-linebreak.css` 프로젝트 보정 `.map-repair .repair-body :is(p, output) { text-wrap: balance }`.
+  - 판단 통과: 보너스 새 행성 특징 카드 「두꺼운 구름으로 / 덮인 모습」(s3a와 같은 카드, 뜻 단위·끝줄 59%).
+- **캔버스 글**: 지도 캔버스(`world.js`)는 그림만 그리고 글이 없다. 3D 달빛 길 표지판 `moon-run-stage.js` `fillText(\`${day}일째\`)` 한 줄 이름표뿐 → 확인함, 문제없음. `planet.js` 캔버스는 행성 표면 그림.
+- 배포: 커밋 `a714a5c`, `run-lock.sh lbk-deploy-1 deploy.sh 13 "13 nightsky" worker-own night-sky-explorer`, Version ID `bc0a0132-99e6-45e1-a7c8-323512ed32df`, `cmp.sh` `assets/index-CyfoplX5.css` 00f844c567c4876c MATCH, index MATCH(배포 직후 몇 초 빈 응답 뒤 일치).
