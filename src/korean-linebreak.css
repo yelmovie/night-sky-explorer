@@ -26,3 +26,5 @@
 .learning-v2 .drag-tip { text-wrap: balance; }
 /* 13 nightsky: 별·행성 비교 오른쪽 자료 안내 두 줄이 「볼 / 수 있어요」처럼 끊기지 않게 */
 .learning-v2 .body-fact p { text-wrap: balance; }
+/* 13 nightsky: 지도 복구 작업대의 안내·상태 글(「…또렷해지는 / 곳을 찾아요.」)이 끝줄에 짧게 떨어지지 않게 */
+.map-repair .repair-body :is(p, output) { text-wrap: balance; }
