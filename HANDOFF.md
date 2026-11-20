@@ -1,5 +1,13 @@
 # 별빛 관측 연구소 MVP 인계
 
+## 2026-11-20 인증서 인쇄: 통계 칸 글자 — 완료
+
+- 증상: 「인증서 출력」으로 인쇄하면 통계 칸 네 개(탐구·관측 기록·연구소 복구·탐구 스타일)의 제목·값이 어두운 칸에 묻혔다. 실제 PDF(A4 가로, 배경 그래픽 켬·끔 둘 다)에서 글자 `#263b54` / 칸 `#1f4258`, 대비 1.08:1.
+- 원인: `src/styles.css`의 옛 인쇄 규칙 `.certificate * { color: #263b54 !important }`가 새 인증서(`.certificate.cert-v2`)의 칸 글자까지 덮었다. 칸 바탕은 `print-color-adjust: exact`라 배경 그래픽을 꺼도 그대로 인쇄된다.
+- 수정: `src/quest.css`의 `@media print` 안에서 칸 제목·값만 화면과 같은 색으로 되돌렸다(커밋 `5ffaae4`). 인쇄에서 제목 6.94:1, 값 9.85:1. 화면 매체는 1280×800·1024×768·1920×1080에서 위치·색이 수정 전과 같다.
+- 운영 반영: Worker `91c029f2-8069-43e3-8510-466a6a8be5db`(`deploy.sh 13 "13 nightsky" worker-own night-sky-explorer`), `assets/index-DkthKCB1.css`·index 빌드=운영 SHA-256 MATCH, 운영 주소에서 인쇄 매체·PDF 다시 확인, 콘솔 오류 0. `npm test` 159개 통과. 확인 도구·PDF·스크린숏은 `.tmp/existing-fix-20261120/`.
+- 고치지 않고 본 것: 인쇄 PDF에서 인증서가 A4 가로 폭의 약 75%만 차지하고 왼쪽에 붙는다(수정 전부터 같음).
+
 ## 2026-11-20 제작·저작권 표기 — 완료
 
 - 표기 문구는 `기획·제작: 옐샘 & ⓒ 아이스크림미디어` 하나다(`src/settingsContent.js`의 `appInfo.credit`, 커밋 `fd1f1a0`). 설정의 앱 정보 줄·저작권 줄과 인증서 아래 줄이 이 값을 쓴다.
