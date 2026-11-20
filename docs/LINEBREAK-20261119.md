@@ -63,3 +63,10 @@
   - 판단 통과: 보너스 새 행성 특징 카드 「두꺼운 구름으로 / 덮인 모습」(s3a와 같은 카드, 뜻 단위·끝줄 59%).
 - **캔버스 글**: 지도 캔버스(`world.js`)는 그림만 그리고 글이 없다. 3D 달빛 길 표지판 `moon-run-stage.js` `fillText(\`${day}일째\`)` 한 줄 이름표뿐 → 확인함, 문제없음. `planet.js` 캔버스는 행성 표면 그림.
 - 배포: 커밋 `a714a5c`, `run-lock.sh lbk-deploy-1 deploy.sh 13 "13 nightsky" worker-own night-sky-explorer`, Version ID `bc0a0132-99e6-45e1-a7c8-323512ed32df`, `cmp.sh` `assets/index-CyfoplX5.css` 00f844c567c4876c MATCH, index MATCH(배포 직후 몇 초 빈 응답 뒤 일치).
+
+## 악당 글자 18px 뒤 다시 재기 (2026-11-20 밤, 지침 10절)
+
+- 기준: 18px 커밋 `f1099ea`(말풍선 18px·최대 폭 260px, 격퇴 안내 18px·440px, 공격 버튼 18px)가 들어간 `origin/main` `643fa31` 빌드. 앞 단락(9절) 측정은 18px 전 빌드였다.
+- 방법: `.tmp/linebreak-20261119/v18.mjs` — 지도에서 실제 클래스(`.map-encounter-say`, `role="status"`인 `.map-encounter-clear`)로 악당 대사 28줄 + 격퇴 안내 5줄을 하나씩 띄워 1280×800·1024×768·1920×1080에서 `measure.js`와 줄 수를 잼(33줄 × 3 = 99).
+- 결과: 문제 0 → 0, **문제없음**(고친 것 없음, 배포 없음). 말풍선 최대 3줄(긴 등장 대사 3줄: 「행성의 특징으로…」「별과 행성의 빛을…」「북극성으로 방향을…」), 나머지 2줄 이하. 격퇴 안내는 모두 2줄 이하.
+- 공격 버튼 `.map-encounter-attack`은 아이콘만 있고 보이는 글이 없어 잴 글이 없음.
