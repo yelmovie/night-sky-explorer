@@ -300,7 +300,9 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
 @media print {
   body.print-certificate .report-page > :not(.results-layout), body.print-certificate .results-side { display: none !important; }
   body.print-certificate .results-layout { display: block; }
-  .cert-v2 { box-shadow: none !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .cert-v2, .cert-v2.cert-v2.has-art { box-shadow: none !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  /* 「인증서 출력」: 화면용 max-width 850px·margin 0 때문에 A4 가로에서 종이 폭의 75%로 왼쪽에 붙던 것을, 한 장에 들어가는 크기로 키워 가운데에 둔다. 그림 틀(.has-art)의 그림자도 여기서 끈다(위 규칙보다 우선순위가 높아 인쇄에 남았다). */
+  body.print-certificate .cert-v2 { max-width: min(100%, 260mm) !important; margin: 0 auto !important; }
   .cert-field input { border-bottom-color: #555; }
   /* styles.css의 옛 인쇄 규칙(.certificate * → 어두운 글자)이 어두운 통계 칸 글자까지 덮어 대비가 1.08:1이 된다. 칸 바탕은 위 exact로 그대로 인쇄되므로 글자도 화면과 같은 색으로 둔다. */
   .cert-v2 .cert-stats dt { color: var(--quest-mint) !important; }
