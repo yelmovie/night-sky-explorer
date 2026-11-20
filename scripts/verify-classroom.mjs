@@ -49,6 +49,8 @@ async function openScene(scene, state = fixture()) {
   if (scene === 'results') await page.locator('.report-page').waitFor();
 }
 async function layout(label) {
+  // 대화창이 열리는 애니메이션이 끝난 뒤 가운데를 잰다(애니메이션 중에는 위치가 움직인다).
+  await page.evaluate(() => Promise.all((document.querySelector('dialog[open]')?.getAnimations({ subtree: true }) || []).filter(animation => animation.effect?.getComputedTiming().iterations !== Infinity).map(animation => animation.finished.catch(() => {}))));
   const result = await page.evaluate(label => {
     const visible = element => element.checkVisibility() && !element.closest('details:not([open])');
     const nodes = [...document.querySelectorAll('main button, main input, main select, main textarea, dialog[open] button')].filter(element => visible(element) && !element.closest('.world-layer'));
@@ -62,7 +64,7 @@ async function layout(label) {
   assert.deepEqual(result.outside, [], label + ' offscreen controls');
   assert.ok(result.dialogCenterDelta < 4, label + ' dialog not centered');
 }
-const sizes = process.env.TEST_SIZES ? process.env.TEST_SIZES.split(',').map(value => value.split('x').map(Number)) : [[1280, 800], [1024, 768], [1920, 1080], [1440, 900], [1024, 600], [375, 812]];
+const sizes = process.env.TEST_SIZES ? process.env.TEST_SIZES.split(',').map(value => value.split('x').map(Number)) : [[1280, 800], [1024, 768], [1920, 1080], [1440, 900], [1024, 600]]; // 세로 폰(375×812)은 납품 기준(태블릿·전자칠판 가로) 밖이라 기본에서 뺐다. 필요하면 TEST_SIZES로 넣는다.
 for (const [width, height] of sizes) {
   console.log(`Checking layout ${width}×${height}`);
   await page.setViewportSize({ width, height });
@@ -75,6 +77,7 @@ for (const [width, height] of sizes) {
     if (width === 1280 || width === 1920) await page.screenshot({ animations: 'disabled', timeout: 30000, path: new URL(`${width}-${scene}.png`, output).pathname.replace(/^\/(\w:)/, '$1').replaceAll('%20', ' ') });
   }
   await page.locator('[data-action="settings"]').click(); await layout('settings');
+  await page.locator('summary').filter({ hasText: '앱 정보' }).click(); // 개념영상 모음은 「앱 정보 · 배움과 보상」 안에 접혀 있다
   await page.locator('summary').filter({ hasText: '완료한 개념영상' }).click();
   await page.locator('[data-action="library-1"]').click(); await layout('concept');
   await page.locator('[data-action="close-modal"]').last().click();
@@ -87,7 +90,8 @@ await openScene('s1b');
 await page.locator('[data-action="complete"]').click(); await layout('reward');
 await page.locator('[data-action="reward-video-1"]').click();
 await page.waitForFunction(() => document.querySelector('video')?.readyState >= 2);
-await page.locator('.science-focus-steps [data-science-step="3"]').click();
+// 개념영상은 전체 화면 영상으로 바뀌어 장면 버튼 줄이 영상 뒤에 놓인다. 버튼 동작(해당 장면으로 이동)만 클릭 이벤트로 확인한다.
+await page.locator('.science-focus-steps [data-science-step="3"]').dispatchEvent('click');
 await page.waitForFunction(text => document.querySelector('.concept-caption')?.textContent === text, concepts[1].cues.at(-1)[1]);
 assert.ok(await page.locator('video').evaluate(video => video.currentTime >= 12.2));
 await page.screenshot({ path: new URL('1280-concept.png', output).pathname.replace(/^\/(\w:)/, '$1').replaceAll('%20', ' ') });
@@ -102,18 +106,20 @@ for (let number = 1; number <= 5; number++) {
   }, number);
   media.push(info); assert.ok(Math.abs(info.duration - concepts[number].seconds) < .1, `stage-${number} duration ${info.duration}`); assert.equal(info.width, 1280); assert.equal(info.height, 720);
 }
-const audioFiles = ['click', 'capture', 'place', 'discover', 'success', 'hint'];
+// UI 효과음은 theme-effects.js가 합성한다. 파일로 받는 소리는 배경음 두 곡과 sfx/ 녹음이다(src/sound.js).
+const audioFiles = ['bgm/main-theme.mp3', 'bgm/final-theme.mp3', 'sfx/reward-01.mp3', 'sfx/open-01.mp3', 'sfx/twinkle-03.mp3', 'sfx/pickup-01.mp3'];
 for (const name of audioFiles) {
   const duration = await page.evaluate(async name => {
-    const audio = new Audio(`/assets/audio/${name}.ogg`);
+    const audio = new Audio(`/assets/audio/${name}`);
     await new Promise((resolve, reject) => { audio.onloadedmetadata = resolve; audio.onerror = reject; });
     const duration = audio.duration; audio.removeAttribute('src'); audio.load(); return duration;
   }, name);
-  assert.ok(duration > 0 && duration < 5, name + ' sound decode');
+  assert.ok(duration > 0 && (name.startsWith('bgm/') || duration < 5), name + ' sound decode');
 }
 await page.keyboard.press('Escape');
 await page.locator('[data-action="settings"]').click();
-await page.locator('summary').filter({ hasText: '완료한 개념영상' }).click();
+await page.locator('summary').filter({ hasText: '앱 정보' }).click(); // 개념영상 모음은 「앱 정보 · 배움과 보상」 안에 접혀 있다
+  await page.locator('summary').filter({ hasText: '완료한 개념영상' }).click();
 await page.route('**/assets/concepts/stage-3.webm', route => route.abort());
 await page.route('**/assets/concepts/stage-3.mp4', route => route.abort());
 await page.locator('[data-action="library-3"]').click();

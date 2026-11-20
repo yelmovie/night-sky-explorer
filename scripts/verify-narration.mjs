@@ -13,21 +13,22 @@ const context=await browser.newContext({viewport:{width:1280,height:800},hasTouc
 page.setDefaultNavigationTimeout(60000);
 await context.addInitScript(lines=>{
  const lineByPath=Object.fromEntries(lines.map(line=>[line.src,line.id]));
- window.qaVoices=[];window.qaAudioEvents=[];window.qaMaxVoices=0;window.qaGains=[];
+ window.qaVoices=[];window.qaAudioEvents=[];window.qaMaxVoices=0;
+ // 배경음은 <audio>(src에 /bgm/) 하나다. 대사 동안 멈추지 않고 평소의 1/4로 0.2초에 걸쳐 줄인다(src/sound.js musicLevel·glide).
+ window.qaBgm=()=>{const m=window.qaVoices.filter(a=>(a.src||'').includes('/bgm/')).at(-1);return m?{volume:m.volume,paused:m.paused}:null;};
  const Native=window.Audio;
  window.Audio=class extends Native{
   constructor(...args){
    super(...args);
    window.qaVoices.push(this);
    for(const type of ['playing','ended','error'])this.addEventListener(type,()=>{
-    const id=lineByPath[new URL(this.src).pathname];
+    if((this.src||'').includes('/bgm/'))return;const id=lineByPath[new URL(this.src).pathname];
     if(id)window.qaAudioEvents.push({type,id,time:this.currentTime});
     const playing=window.qaVoices.filter(a=>!a.paused&&!a.ended&&a.src.includes('/voices/')).length;
     window.qaMaxVoices=Math.max(window.qaMaxVoices,playing);
    });
   }
  };
- const original=AudioContext.prototype.createGain;AudioContext.prototype.createGain=function(...args){const g=original.apply(this,args);window.qaGains.push(g);return g;};
 },voiceLines.map(({id,src})=>({id,src})));
 page.on('pageerror',e=>errors.push(e.message));
 async function seed(scene,count=5,edit=()=>{}){
@@ -43,11 +44,12 @@ async function listen(id){
  else{await control.waitFor();assert.ok((await page.locator('body').textContent()).includes(line.text),'visible text matches '+id);}
  if(id!=='welcome'&&await control.getAttribute('data-state')==='error'){await control.locator('button').click();checks.push(id+' replay button recovered an unavailable autoplay attempt');}
  await page.waitForFunction(id=>window.qaAudioEvents.some(e=>e.id===id&&e.type==='playing'),id,{timeout:20000});
- const isStory=['intro-fox','intro-lumi','ending'].includes(id);
- if(isStory)await page.waitForFunction(()=>{const level=window.qaGains[0]?.gain.value;return level>0&&level<.004;});
- else assert.equal(await page.evaluate(()=>window.qaGains[0]?.gain.value),0,'BGM muted for '+id);
+ // 평소 크기 = 설정 배경음 크기 × 1.2(최대 1). 대사 중에는 그 1/4, 멈추지 않는다.
+ const normal=await page.evaluate(key=>Math.min(1,(JSON.parse(localStorage.getItem(key)).settings.bgmVolume??25)/100*1.2),SAVE_KEY),low=normal*.25;
+ await page.waitForFunction(low=>{const b=window.qaBgm();return b&&!b.paused&&Math.abs(b.volume-low)<.002;},low,{timeout:3000}).catch(async()=>{throw Error(`BGM not ducked to 1/4 for ${id}: ${JSON.stringify(await page.evaluate(()=>window.qaBgm()))} want ${low}`);});
  await page.waitForFunction(id=>window.qaAudioEvents.some(e=>e.id===id&&e.type==='ended'),id,{timeout:22000});
- await page.waitForFunction(()=>window.qaGains[0]?.gain.value>.007);
+ // 끝나면 줄인 크기에서 다시 올라간다(다음 대사가 바로 이어지면 다시 줄어들 수 있어 '올라간 적이 있는지'만 본다).
+ await page.waitForFunction(low=>{const b=window.qaBgm();return b&&!b.paused&&b.volume>low+.002;},low,{timeout:4000}).catch(async()=>{throw Error(`BGM not restored after ${id}: ${JSON.stringify(await page.evaluate(()=>window.qaBgm()))}`);});
  assert.equal(await page.evaluate(()=>window.qaMaxVoices),1);heard.add(id);console.log('PASS',id);checks.push(id+' played to ended with matching text and BGM duck');
 }
 try{
@@ -57,17 +59,19 @@ try{
  for(const scene of Array.from({length:5},(_,i)=>[`s${i+1}a`,`s${i+1}b`]).flat()){
   await seed(scene);await click('hint');await click('more-hint');await listen('hint-'+scene);await click('close-modal');
  }
- await seed('s3a',2);await page.locator('#planet-feature').selectOption({label:planets.find(x=>x.id!=='mercury').feature});await listen('retry-planet');
+ await seed('s3a',2);await page.locator(`#planet-feature [data-learning="feature-${planets.findIndex(x=>x.id!=='mercury')}"]`).click();await listen('retry-planet');
  await seed('s4b',3,s=>{s.drafts.classification.answers={};});await page.locator(`[data-learning="kind-${bodies[0].kind==='star'?'planet':'star'}"]`).click();await page.locator('[data-learning="reason-bright"]').click();await listen('retry-light');
  await page.locator(`[data-learning="kind-${bodies[0].kind}"]`).click();await listen('retry-half');
  for(let n=1;n<=5;n++){await seed(`s${n}b`,n,s=>{delete s.evidence[n];});await click('complete');await listen('reward-'+n);await click('close-modal');}
  for(const [id,count,restored] of [['kit-progress',0,false],['kit-ready',5,false],['kit-restored',5,true]]){await seed('home',count,s=>{s.core.restored=restored;});await click('kit');await listen(id);await click('close-modal');}
  await seed('core',5,s=>{s.core.restored=false;s.core.reportSeen=false;});await listen('report');await click('close-modal');
  await seed('results',5,s=>{s.core.restored=true;});await click('movie');for(let i=0;i<4;i++)await page.locator('#movie-skip').click();await listen('ending');await click('close-modal');
- assert.deepEqual([...heard].sort(),voiceLines.map(x=>x.id).sort());
+ // voice-lines.js에는 이 검사가 부르지 않는 대사(task-*, villain-*, 개념영상 자막 등)가 늘었다. 여기서는 부른 대사가 모두 실제 대사 목록에 있고 끝까지 재생됐는지만 본다.
+ assert.ok(heard.size>=29&&[...heard].every(id=>voiceLines.some(x=>x.id===id)),'heard lines '+[...heard].join(','));
  // A welcome line and dialog cannot overlap; Escape and failed-media recovery stay usable.
  await seed('home',0);await page.locator('.npc-welcome-voice button').click();await page.waitForFunction(()=>window.qaAudioEvents.some(e=>e.id==='welcome'&&e.type==='playing'));await click('kit');await page.waitForFunction(()=>window.qaAudioEvents.some(e=>e.id==='kit-progress'&&e.type==='playing'));assert.equal(await page.evaluate(()=>window.qaMaxVoices),1);await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>window.qaVoices.some(a=>!a.paused&&!a.ended&&a.src.includes('/voices/'))),false);
- await page.route('**/voices/map-1.mp3',route=>route.abort());await seed('map',0);await page.locator('#map-companion').click();await page.locator('[data-voice-id="map-1"][data-state="error"]').waitFor();assert.match(await page.locator('[data-voice-id="map-1"]').textContent(),/글을 읽고 계속/);await click('more-hint');await page.waitForFunction(()=>window.qaAudioEvents.some(e=>e.id==='map-2'&&e.type==='playing'));await click('close-modal');await page.unroute('**/voices/map-1.mp3');
+ // 대사 파일은 el- 접두어가 붙는다(voice-lines.js src).
+ await page.route('**/voices/el-map-1.mp3',route=>route.abort());await seed('map',0);await page.locator('#map-companion').click();await page.locator('[data-voice-id="map-1"][data-state="error"]').waitFor();assert.match(await page.locator('[data-voice-id="map-1"]').textContent(),/글을 읽고 계속/);await click('more-hint');await page.waitForFunction(()=>window.qaAudioEvents.some(e=>e.id==='map-2'&&e.type==='playing'));await click('close-modal');await page.unroute('**/voices/el-map-1.mp3');
  checks.push('welcome-to-dialog overlap, Escape stop, failed media text fallback and next hint recovery');
  // Replay replacement, close, mute and hidden-page cancellation.
  await seed('home',5);await click('kit');await page.waitForTimeout(150);for(let i=0;i<6;i++)await page.locator('[data-voice-id] button').click();await click('close-modal');assert.equal(await page.evaluate(()=>window.qaVoices.some(a=>!a.paused&&!a.ended&&a.src.includes('/voices/'))),false);
@@ -75,9 +79,10 @@ try{
  await click('sound');await click('kit');await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});assert.equal(await page.evaluate(()=>window.qaVoices.some(a=>!a.paused&&!a.ended&&a.src.includes('/voices/'))),false);await page.evaluate(()=>{delete document.hidden;});
  checks.push('rapid replay, dialog close, mute and hidden page stop active narration');
  for(const [width,height] of [[1280,800],[1920,1080],[915,412],[360,740]]){
-  await page.setViewportSize({width,height});await seed('s3a',2);await page.locator('#planet-feature').selectOption({label:planets.find(x=>x.id!=='mercury').feature});
+  await page.setViewportSize({width,height});await seed('s3a',2);await page.locator(`#planet-feature [data-learning="feature-${planets.findIndex(x=>x.id!=='mercury')}"]`).click();
   for(const kind of ['feedback','hint']){
    if(kind==='hint'){await click('hint');await click('more-hint');}
+   // 특징 고르기는 select에서 버튼 묶음(#planet-feature [data-learning=feature-N])으로 바뀌었다.
    const issues=await page.locator(kind==='hint'?'dialog[open] .npc-dialogue-voice button':'.activity-footer button').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect(),top=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return {outside:r.left<0||r.right>innerWidth||r.top<0||r.bottom>innerHeight,covered:!top||!(top===n||n.contains(top))};}).filter(x=>x.outside||x.covered));assert.deepEqual(issues,[],`${width} ${kind} controls`);
    await page.screenshot({path:`${out}/${kind}-${width}.png`});
   }

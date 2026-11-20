@@ -1,6 +1,6 @@
 import { nearestStar } from './star-hit.js';
-import { chapters,planets,requiredPlanets,solarOrder,bodies,planetGroups,patternRegions } from './data.js';
-import { firstReady,stageReady,photoReady,clone,track } from './state.js';
+import { chapters,planets,solarOrder,bodies,planetGroups } from './data.js';
+import { photoReady,clone,track } from './state.js';
 import { moonSVG,dayMoon } from './drawing.js';
 import { button,esc,icon,token } from './ui.js';
 import { learningUI } from './learning-ui.js';

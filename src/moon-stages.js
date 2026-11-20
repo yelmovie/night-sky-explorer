@@ -1,8 +1,8 @@
 import {discoveryRoute} from './discovery-route.js';
 import './discovery-route.css';
-import { representativeDays, recordCountLabel } from './observation-records.js';
+import { representativeDays } from './observation-records.js';
 import { moonSVG, dayMoon } from './drawing.js';
-import { learnButton as b, range, field, imageFor, icon } from './ui.js';
+import { learnButton as b, range, imageFor, icon } from './ui.js';
 import './moon-stages.css';
 import { moonSurfaceChoices, phaseChoices, choiceMarkup } from './reflection-chips.js';
 
