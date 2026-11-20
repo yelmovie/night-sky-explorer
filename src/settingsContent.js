@@ -1,6 +1,6 @@
 import { version } from '../package.json';
 
-export const appInfo = { version, credit: '옐샘 & 아이스크림미디어' };
+export const appInfo = { version, credit: '기획·제작: 옐샘 & ⓒ 아이스크림미디어' };
 export { standards, learningObjectives } from './curriculum.js';
 export const studentGuide = [
   '별명을 정하고 연구소로 출발해요. 지도에서 빛나는 건물을 누르면 달토끼와 걸어가요.',
