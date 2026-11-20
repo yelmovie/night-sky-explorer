@@ -108,6 +108,9 @@ dialog .incident-board .incident-icon { background: none; width: 34px; height: 3
 .npc-welcome-voice { background: var(--ui-glass) !important; color: var(--ui-text) !important; border: 1px solid var(--ui-line); border-radius: var(--ui-radius-md) !important; backdrop-filter: blur(10px); box-shadow: 0 10px 26px #02081a55; }
 .npc-welcome-voice > button { background: transparent !important; color: var(--ui-gold-1) !important; border: 1px solid var(--ui-line-strong) !important; border-radius: 999px !important; }
 .npc-welcome-voice small, .npc-welcome-voice [role='status'] { color: var(--ui-sub) !important; }
+/* Home: small maker/copyright line in the bottom-right corner. Plain text, never interactive. */
+.home-v2 .home-credit { position: fixed; z-index: 2; right: calc(22px + env(safe-area-inset-right)); bottom: calc(18px + env(safe-area-inset-bottom)); margin: 0; font-size: clamp(10px, .9vw, 13px); font-weight: 700; line-height: 1.2; white-space: nowrap; color: #f3ecd6; text-shadow: 0 0 2px #071425, 0 0 3px #071425, 0 1px 6px #071425; pointer-events: none; }
+.npc-dialogue-open .home-v2 .home-credit, #app:has(dialog[open]) .home-credit { visibility: hidden; }
 .kit-item summary .kit-check { width: 40px; height: 40px; background: none !important; border: 0 !important; padding: 0; }
 
 /* Keyboard helpers stay hidden until focused; then they show normally. */
