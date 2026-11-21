@@ -79,7 +79,7 @@
   "lazyLoaded": true,
   "range206": true,
   "newVoiceLines": 4,
-  "note": "인트로 3 Gemini 영상 교체(앱 4d0d72c, Worker 5e526f05). 남은 임시: 인트로 2·엔딩 1·엔딩 3, 2026-11-22 이른 아침 재시도 예정(예약 미설정)"
+  "note": "인트로 3 Gemini 영상 교체(앱 4d0d72c, Worker 5e526f05). 남은 임시: 인트로 2·엔딩 1·엔딩 3, 2026-11-22 06:30 예약 재시도(nightsky-film-retry-0630)"
  },
  "codeStructure": {
   "largestCssLines": 1069,
