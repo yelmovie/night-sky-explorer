@@ -28,6 +28,8 @@ export function freshState() {
     resume: "map",
     started: false,
     intro: false,
+    // 인트로 영상(2026-11-21)을 한 번 띄웠는지. 다시 시작하면 바로 이야기 화면으로 간다.
+    introFilm: false,
     settings: {
       muted: false, reducedMotion: false, adminUnlock: false,
       bgm: true, sfx: true, bgmVolume: 25,

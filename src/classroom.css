@@ -213,3 +213,4 @@ dialog.film-dialog .film-play { position: absolute; left: 50%; top: 50%; transfo
 dialog.film-dialog .film-transcript { position: absolute; z-index: 6; top: 56px; left: 14px; max-width: min(460px, calc(100% - 28px)); text-align: left; color: #eef1f8; font-size: var(--classroom-small, 18px); }
 dialog.film-dialog .film-transcript summary { cursor: pointer; display: inline-block; padding: 6px 12px; border-radius: 999px; background: #0b1428cc; border: 1px solid #f2c26655; }
 dialog.film-dialog .film-transcript ol { margin: 8px 0 0; padding: 12px 16px 12px 32px; border-radius: 12px; background: #0b1428e6; line-height: 1.5; }
+dialog.film-dialog .dialog-footer .btn { min-height: 48px; }
