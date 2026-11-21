@@ -1,7 +1,7 @@
 {
  "no": "13",
  "name": "별빛 관측 연구소",
- "appCommit": "c07774c",
+ "appCommit": "acad851",
  "measuredAt": "2026-11-21T11:10+09:00",
  "score": {
   "total": 93,
@@ -79,5 +79,16 @@
   "lazyLoaded": true,
   "range206": true,
   "newVoiceLines": 4
+ },
+ "codeStructure": {
+  "largestCssLines": 1069,
+  "stylesCssSplit": "3201 -> 1068/1067/1069",
+  "largestJs": {
+   "file": "src/application.js",
+   "KB": 58,
+   "lines": 546
+  },
+  "linesOver300": "약 200(대부분 화면 템플릿, 멈춤)",
+  "cssBundleIdentical": true
  }
 }
