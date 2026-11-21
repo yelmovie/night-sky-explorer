@@ -8,3 +8,10 @@
 4. 합성: `python3 compose.py intro`, `python3 compose.py final`(플로우 영상이 있으면 그것을, 없으면 `clips-kb`를 자동으로 쓴다) → `burn.py burn-intro.json`, `burn-final.json` → 웹용 2패스 인코딩(VP9 340k + Opus 40k, H.264 360k + AAC 48k) → `public/assets/films/`. 폴더 합계는 5MB 아래로 유지한다.
 5. 확인: `.tmp/intro-video-20261121/film-check.mjs`(세 화면 크기), `film-end.mjs`(끝까지 재생·건너뛰기), `npm test`, 빌드 → 경로 지정 커밋 → 푸시 → 운영 배포 → `prodcmp 13` MATCH → 운영에서 다시 확인.
 6. `provenance.json`의 clips 항목과 권리 장부 V3 줄을 새 세션 ID·시각으로 고친다. 플로우 영상의 필수 「Veo」 표시는 지우지 않는다.
+
+## 2026-11-21 저녁 결과 (보조 계정으로 진행)
+
+- 보조 계정의 Flow 크레딧은 다른 프로젝트(11·14번)에 배정돼, 13번은 Gemini 앱 동영상 만들기로 했다(`_shared/FILMS-FLOW-EXTRA-ACCOUNTS-20261121.md` 6장).
+- 바꾼 것: **엔딩 2컷**(보조 계정 1, 16:39). 앱 `50c0b47`, Range 처리 `510f679`, 운영 Worker `ba45e9fe`.
+- 그대로 둔 것(카메라 움직임 판): 인트로 2·3, 엔딩 1(각 두 번 시도, Gemini 오류·용량 부족으로 영상 없음), 엔딩 3(두 번 받았지만 별자리가 틀려 쓰지 않음, `clips-rejected/`).
+- 장면마다 두 번까지라는 규칙을 다 써서 더 시도하지 않는다. 다시 하려면 사용자 결정이 필요하다.

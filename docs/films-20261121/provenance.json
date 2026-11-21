@@ -16,17 +16,17 @@
    "sha256": "c88cd11efee6e0d8f7f4b219314eadb58b792763058fda1d511907a3db48c26b"
   },
   "public/assets/films/final.webm": {
-   "bytes": 1085650,
-   "sha256": "c9f0b4cc418914b0a10b0ba5d64183b8905722eee99e6dde7aaf5b825294aeeb"
+   "bytes": 1050777,
+   "sha256": "1b3e584a65abd5ffb3733081e29db4f3d4e2bfeaf43d6cd8e2a0227aa31a1ccf"
   },
   "public/assets/films/final.mp4": {
-   "bytes": 1171414,
-   "sha256": "446f6bf372293481957b7828774cc2868c90b54a3a65e3886a09894bdbab7ee8",
+   "bytes": 1176791,
+   "sha256": "c788e7b4439fa7f4234cfe4a580d750888490ce180598ef3f2c854053566eb09",
    "duration": 23.8
   },
   "public/assets/films/final.webp": {
-   "bytes": 122026,
-   "sha256": "142f9694fcc30d890d8ed6ba9d461d0c5cacabf43cae3d6e40167bbfacd0b7b0"
+   "bytes": 121978,
+   "sha256": "657a73ad08e8e186b92e5fb945ab37532339d92fb5910af5fce9db5c0b325aed"
   }
  },
  "stills": [
@@ -104,14 +104,20 @@
    "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
   },
   {
-   "file": "references/film-20261121/clips-kb/final-2.mp4",
+   "file": "references/film-20261121/clips-kb/final-3.mp4",
    "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
    "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
   },
   {
-   "file": "references/film-20261121/clips-kb/final-3.mp4",
-   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
-   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
+   "file": "references/film-20261121/clips/final-2.mp4",
+   "tool": "Gemini 앱 동영상 만들기(Veo), 1280x720 24fps 약 10초(앞 8초 사용)",
+   "account": "보조 계정 1(Gemini 주소 순번 u/2)",
+   "plan": "화면 표시 PRO(같은 계정 Flow 패널, 2026-11-21 15:25 조율 세션 확인) · 사용자 확인 2026-11-21: 유료",
+   "made": "2026-11-21 16:39 KST",
+   "chat": "931c3b2ca959e7bf",
+   "promptKey": "v-f2",
+   "sha256": "65015284fcaa39b035180b602fdc857a936b4e4760ff4432285fcd7a051acf31",
+   "watermark": "오른쪽 아래 작은 Veo 표시(지우지 않음)"
   }
  ],
  "voices": {
@@ -169,5 +175,65 @@
  },
  "captions": "_shared/caption-motion-20261118/burn.py(Jua 글꼴, SIL OFL 1.1), 화자 이름표·말 속도 스윕",
  "motionGraphics": "compose.py: 0.7초 교차 페이드, 제목 drawtext(Jua) 떠오르기·사라지기, 처음·끝 페이드, 분위기 소리 0.35 + 대사 믹스, 리미터",
- "encode": "webm VP9 2패스 340kbps + Opus 40k, mp4 H.264 2패스 360kbps + AAC 48k, 1280x720 30fps"
+ "encode": "webm VP9 2패스 340kbps + Opus 40k, mp4 H.264 2패스 360kbps + AAC 48k, 1280x720 30fps",
+ "geminiAttempts": [
+  {
+   "shot": "final-3",
+   "account": "보조 계정 1(u/2)",
+   "time": "16:39",
+   "chat": "bec55322db4e3928",
+   "result": "영상 받음 → 쓰지 않음: 4초 뒤 별자리 선이 북두칠성이 아닌 모양으로 바뀜",
+   "file": "references/film-20261121/clips-rejected/final-3-gemini-1.mp4"
+  },
+  {
+   "shot": "final-3",
+   "account": "보조 계정 2(u/1)",
+   "time": "17:44",
+   "chat": "8608629f987ddbaf",
+   "promptKey": "v-f3r",
+   "result": "영상 받음 → 쓰지 않음: 안내선 가운데에 큰 별이 생겨 북극성 위치처럼 보임",
+   "file": "references/film-20261121/clips-rejected/final-3-gemini-2.mp4"
+  },
+  {
+   "shot": "intro-2",
+   "account": "보조 계정 1(u/2)",
+   "time": "17:05, 17:34",
+   "chats": [
+    "e850d9445e65c5fe",
+    "02e5e7537996549a"
+   ],
+   "result": "두 번 모두 영상 없음('Sorry, something went wrong' 등). 사용량 변화 없음"
+  },
+  {
+   "shot": "final-1",
+   "account": "보조 계정 1(u/2)",
+   "time": "17:05, 17:34",
+   "chats": [
+    "8137b057a0937345",
+    "147ea4bb371cdfcb"
+   ],
+   "result": "두 번 모두 영상 없음('I'm having a hard time fulfilling your request' 등)"
+  },
+  {
+   "shot": "intro-3",
+   "account": "보조 계정 2(u/1)",
+   "time": "17:44, 17:59",
+   "chats": [
+    "3f87a47fceedacb2",
+    "b6d64c120069aff3"
+   ],
+   "result": "두 번 모두 영상 없음('encountering an error', 'at full capacity')"
+  }
+ ],
+ "usageRead": {
+  "보조 계정 1(u/2)": "16:38 20% → 16:59 59%(19:02 초기화)",
+  "보조 계정 2(u/1)": "17:44 41% → 17:59 61%(18:17 초기화)",
+  "주 계정": "17:44 79%(쓰지 않음)"
+ },
+ "stillCameraMoveShots": [
+  "intro-2",
+  "intro-3",
+  "final-1",
+  "final-3"
+ ]
 }
