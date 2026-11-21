@@ -1,9 +1,9 @@
-// These ten short clips are kept below 2 MiB by the media asset budget test.
+// These short clips (concept films, map finale, intro/ending films) are kept below 2 MiB by the media asset budget test.
 // Static Assets does not serve byte ranges, which browsers need for seeking.
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname;
-    if (!/^\/assets\/(concepts\/stage-[1-5]|map-encounters\/map-finale)\.(mp4|webm)$/.test(path)
+    if (!/^\/assets\/(concepts\/stage-[1-5]|map-encounters\/map-finale|films\/(intro|final))\.(mp4|webm)$/.test(path)
         || !['GET', 'HEAD'].includes(request.method)) {
       return env.ASSETS.fetch(request);
     }

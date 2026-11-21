@@ -71,3 +71,13 @@ test('일반 자산과 304·404 응답은 자산 바인딩의 결과를 사용�
     assert.equal(result.status, status);
   }
 });
+
+test('인트로·엔딩 영상도 2MiB 이하이고 구간 요청에 206으로 답한다', async () => {
+  for (const name of ['intro', 'final']) {
+    for (const extension of ['mp4', 'webm']) {
+      assert.ok(statSync(new URL(`../public/assets/films/${name}.${extension}`, import.meta.url)).size < 2 * 1024 * 1024);
+      const response = await worker.fetch(new Request(`https://example.test/assets/films/${name}.${extension}`, { headers: { Range: 'bytes=0-1' } }), environment());
+      assert.equal(response.status, 206, `${name}.${extension}`);
+    }
+  }
+});
