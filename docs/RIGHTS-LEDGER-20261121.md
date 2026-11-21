@@ -13,9 +13,9 @@
 
 | 상태 | 줄 수 | 해당 줄 |
 |---|---:|---|
-| 확인됨 | 22 | I6, I9–I19, V2, M1, S1–S2, A1–A4, F1–F2 |
-| 근거 약함 | 1 | I8 `favicon.svg` |
-| 출처 미확인 | 7 | I1 `observatory.webp`, I2 `logo.webp`, I3 `fox.webp`, I4 `rabbit.webp`, I5 `home-fox.webp`, I7 `og.jpg`, V1 개념영상 15개(루미·별여우 그림 포함) |
+| 확인됨 | 29 | I1–I7, I9–I19, V1–V2, M1, S1–S2, A1–A4, F1–F2 (I1–I5·I7·V1은 2026-11-21 사용자 확인) |
+| 근거 약함 | 1 | I8 `favicon.svg`(직접 작성 SVG라 사용자 확인 범위 밖, 그대로 둠) |
+| 출처 미확인 | 0 | 2026-11-21 사용자 확인 전에는 7줄(I1–I5, I7, V1) |
 | **합계** | **30** | |
 
 업로드되는 파일 수: 그림 60(아래 I1–I19), 영상 묶음 16(mp4 5·webm 5·끝 장면 webp 5·지도 파이널 mp4 1), 배경음 2, 효과음 16, 음성 143, 글꼴 2(+라이선스 원문 2).
@@ -28,18 +28,19 @@
 4. 성취 카드(I18), 달빛 길 시작 카드(I15 `start-card.webp`)는 참고 그림으로 출처 미확인인 루미 원본(`rabbit.webp`/`rabbit.png`)을 붙여 만들었다. 생성 기록은 확인됐지만 캐릭터 디자인 권리는 I4에 기댄다.
 5. 음성 143개 전부 출처 JSON의 SHA-256과 현재 파일이 일치한다(2026-11-21 대조: VOICE-FILL 105/105, NPC-DIALOGUE 8/8, CINEMA-VOICE 1/1, VOICE-PROVENANCE-20261110 29/29). 배경음 2곡은 `references/suno/` 원본과 바이트가 같다.
 6. **(2026-11-21 보강) 대화 초상(I6)의 생성 기록을 찾았다.** Codex 세션 `rollout-2026-11-12T21-49-36-01a1cfce…`에서 2026-11-12 21:53(KST) `image_gen`으로 만든 2×2 시트(`exec-131a80cc…`)를 `../_scratch/npc-10-13-20261112/raw/13.png`로 옮기고 `pack.mjs`로 잘랐다. `pack.mjs`를 메모리에서 다시 돌린 결과가 지금 `dialogue/fox.webp`·`rabbit.webp`와 SHA-256까지 같다. 다만 참고 그림이 `home-fox.webp`(I5)·`rabbit.webp`(I4)라 캐릭터 디자인 권리는 I3·I4에 기댄다. I1–I4 원본은 2026-10-14 이전에 받은 것이라 이 맥의 생성 기록(11-05부터)으로는 확인할 수 없었다(10월 Codex 세션 5개와 13번 Claude Code 대화에도 `chatgpt_generated`·출처 언급 없음). I5·I7·V1은 그 원본을 잘라 쓰거나 합성했으므로 그대로 둔다.
+7. **(2026-11-21 09:25 사용자 확인)** 조율 세션이 사용자에게 「16곳 그림은 전부 Codex(GPT), 영상은 제미나이, 모두 유료 요금제로 만든 게 맞아?」라고 묻고 「전부 맞아」라는 답을 받았다(`../_shared/CODEX-IMAGE-RECORDS-20261121.md` 「16곳 전체 확인」). 그 쓰는 법대로 생성 로그가 없는 사용자 원본 4장(I1–I4)을 「확인됨(사용자 확인)」으로, 그 그림을 잘라 쓰거나 합성한 I5·I7을 승계로 바꿨다. 저장소에 다른 출처를 가리키는 증거는 없었다(원본 이름 `chatgpt_generated_*`도 같은 쪽). **어긋난 곳 하나:** 개념영상(V1)은 저장소 기록(`films/build.mjs`, `films/REVIEW.md`, 커밋 `5bae5a8`·`500c3e3`·`7ff790b`)으로는 제미나이가 아니라 HyperFrames로 직접 렌더한 영상이다. 그래서 만든 도구는 증거대로 두고, 안에 든 그림만 사용자 확인을 승계해 「확인됨」으로 적었다. I8 `favicon.svg`는 직접 쓴 SVG라 이 확인의 범위가 아니어서 「근거 약함」 그대로다.
 
 ## 그림
 
 | 줄 | 파일(묶음) | 만든 곳 | 만든 날·기록 위치 | 이용 조건 | 근거 파일 경로 | 상태 |
 |---|---|---|---|---|---|---|
-| I1 | `assets/observatory.webp` (1672×941, 홈·공통 배경) | 사용자 제공. 원본 파일명이 `chatgpt_generated_31.png`라 AI 생성으로 보이나 서비스·계정·요금제 기록 없음 | 2026-10-14 이전 제공. 2026-11-09 PNG→WebP 변환(`347bf30`) | 미확인. CREDITS가 「제공을 상업 사용 허가로 간주하지 않음」이라고 적음 | `public/assets/CREDITS.md`(「기존 제공 이미지」), `references/README.md`, `references/manifest.json`, `references/images/backgrounds/chatgpt_generated_31.png` | 출처 미확인 |
-| I2 | `assets/logo.webp` (1200×400, 홈 로고) | 사용자 제공(`chatgpt_generated_41.png`). 위와 같음 | 위와 같음 | 미확인 | 위 CREDITS 표, `references/images/branding/chatgpt_generated_41.png` | 출처 미확인 |
-| I3 | `assets/fox.webp` (1672×941, 별여우 포즈 시트 5×2) | 사용자 제공(`chatgpt_generated_43.png`) | 위와 같음 | 미확인 | 위 CREDITS 표, `references/images/characters/chatgpt_generated_43.png` | 출처 미확인 |
-| I4 | `assets/rabbit.webp` (1672×941, 루미 포즈 시트 5×2) | 사용자 제공(`chatgpt_generated_42.png`) | 위와 같음 | 미확인 | 위 CREDITS 표, `references/images/characters/chatgpt_generated_42.png` | 출처 미확인 |
-| I5 | `assets/home-fox.webp` (334×470, 홈 별여우) | `fox.webp` 첫 칸을 잘라낸 파일 | 2026-11-11(CREDITS), 커밋 `11b72bf`(2026-11-12) | 원본(I3) 조건을 그대로 따름 | `public/assets/CREDITS.md`(「첫 화면 캐릭터 최적화」) | 출처 미확인(I3 승계) |
+| I1 | `assets/observatory.webp` (1672×941, 홈·공통 배경) | Codex(GPT 이미지) — 사용자가 만들어 준 원본 `chatgpt_generated_31.png`. 파일 이름(ChatGPT 생성)과 사용자 확인이 어긋나지 않음 | 2026-10-14 이전(이 맥의 생성 기록은 11-05부터라 로그 없음). 2026-11-09 PNG→WebP 변환(`347bf30`). 사용자 확인 2026-11-21 09:25(조율 세션 질문 「16곳 그림은 전부 Codex(GPT), 영상은 제미나이, 모두 유료 요금제로 만든 게 맞아?」 → 「전부 맞아」), `../_shared/CODEX-IMAGE-RECORDS-20261121.md` 「16곳 전체 확인」 | ChatGPT 유료 요금제(사용자 확인). 요금제 화면 캡처는 납품 증빙으로 따로 남김 | `public/assets/CREDITS.md`(「기존 제공 이미지」), `references/manifest.json`, `references/images/backgrounds/chatgpt_generated_31.png` | 확인됨(사용자 확인) |
+| I2 | `assets/logo.webp` (1200×400, 홈 로고) | Codex(GPT 이미지) — 사용자가 만들어 준 원본 `chatgpt_generated_41.png`. 파일 이름(ChatGPT 생성)과 사용자 확인이 어긋나지 않음 | 2026-10-14 이전(이 맥의 생성 기록은 11-05부터라 로그 없음). 2026-11-09 PNG→WebP 변환(`347bf30`). 사용자 확인 2026-11-21 09:25(조율 세션 질문 「16곳 그림은 전부 Codex(GPT), 영상은 제미나이, 모두 유료 요금제로 만든 게 맞아?」 → 「전부 맞아」), `../_shared/CODEX-IMAGE-RECORDS-20261121.md` 「16곳 전체 확인」 | ChatGPT 유료 요금제(사용자 확인). 요금제 화면 캡처는 납품 증빙으로 따로 남김 | `public/assets/CREDITS.md`(「기존 제공 이미지」), `references/manifest.json`, `references/images/branding/chatgpt_generated_41.png` | 확인됨(사용자 확인) |
+| I3 | `assets/fox.webp` (1672×941, 별여우 포즈 시트 5×2) | Codex(GPT 이미지) — 사용자가 만들어 준 원본 `chatgpt_generated_43.png`. 파일 이름(ChatGPT 생성)과 사용자 확인이 어긋나지 않음 | 2026-10-14 이전(이 맥의 생성 기록은 11-05부터라 로그 없음). 2026-11-09 PNG→WebP 변환(`347bf30`). 사용자 확인 2026-11-21 09:25(조율 세션 질문 「16곳 그림은 전부 Codex(GPT), 영상은 제미나이, 모두 유료 요금제로 만든 게 맞아?」 → 「전부 맞아」), `../_shared/CODEX-IMAGE-RECORDS-20261121.md` 「16곳 전체 확인」 | ChatGPT 유료 요금제(사용자 확인). 요금제 화면 캡처는 납품 증빙으로 따로 남김 | `public/assets/CREDITS.md`(「기존 제공 이미지」), `references/manifest.json`, `references/images/characters/chatgpt_generated_43.png` | 확인됨(사용자 확인) |
+| I4 | `assets/rabbit.webp` (1672×941, 루미 포즈 시트 5×2) | Codex(GPT 이미지) — 사용자가 만들어 준 원본 `chatgpt_generated_42.png`. 파일 이름(ChatGPT 생성)과 사용자 확인이 어긋나지 않음 | 2026-10-14 이전(이 맥의 생성 기록은 11-05부터라 로그 없음). 2026-11-09 PNG→WebP 변환(`347bf30`). 사용자 확인 2026-11-21 09:25(조율 세션 질문 「16곳 그림은 전부 Codex(GPT), 영상은 제미나이, 모두 유료 요금제로 만든 게 맞아?」 → 「전부 맞아」), `../_shared/CODEX-IMAGE-RECORDS-20261121.md` 「16곳 전체 확인」 | ChatGPT 유료 요금제(사용자 확인). 요금제 화면 캡처는 납품 증빙으로 따로 남김 | `public/assets/CREDITS.md`(「기존 제공 이미지」), `references/manifest.json`, `references/images/characters/chatgpt_generated_42.png` | 확인됨(사용자 확인) |
+| I5 | `assets/home-fox.webp` (334×470, 홈 별여우) | `fox.webp` 첫 칸을 잘라낸 파일 | 2026-11-11(CREDITS), 커밋 `11b72bf`(2026-11-12) | 원본(I3) 조건을 그대로 따름 | `public/assets/CREDITS.md`(「첫 화면 캐릭터 최적화」) | 확인됨(I3 승계, 사용자 확인) |
 | I6 | `assets/dialogue/fox.webp`, `rabbit.webp` (각 1024×512, 입 닫힘·열림 2칸) | Codex 내장 이미지 도구(GPT 이미지, `image_gen`)로 만든 2열×2행 투명 시트 한 장을 `pack.mjs`가 잘라 칸당 512² WebP로 만듦. 참고 그림으로 `home-fox.webp`(I5)·`rabbit.webp`(I4)를 붙임 | 2026-11-12 21:53 KST(12:53:44Z), Codex 세션 `rollout-2026-11-12T21-49-36-01a1cfce…`의 `image_gen.generation` `exec-131a80cc…`(「Use case: illustration-story. Deliverable: one production-ready educational adventure game dialogue portrait spritesheet」). 같은 세션에서 `../_scratch/npc-10-13-20261112/raw/13.png`(1254²)로 복사 → `pack.mjs`로 분리. 2026-11-21 `pack.mjs`를 메모리에서 다시 돌려 두 파일 SHA-256 일치 확인. 커밋 `3b8a072`(2026-11-13) | 생성 당시 OpenAI 계정 이용 조건(요금제 기록 없음). 캐릭터 디자인은 I3·I4 조건 | `../_scratch/npc-10-13-20261112/HANDOFF.md`(10행), `raw/13.png`, `pack.mjs`(10행), `../_scratch/npc-dialogue-plan-20261112/HANDOFF-5-16.md`(39행), `../_shared/codex-image-records-20261121/index.jsonl`(81행) | 확인됨(캐릭터 디자인은 I3·I4에 기댐) |
-| I7 | `og.jpg` (1200×630, 공유 썸네일) | 관측소 배경(I1)과 로고(I2)를 합성. 새 생성 없음 | 커밋 `053c819`(2026-11-10) 메시지 | I1·I2 조건을 따름 | git log `053c819` | 출처 미확인(I1·I2 승계) |
+| I7 | `og.jpg` (1200×630, 공유 썸네일) | 관측소 배경(I1)과 로고(I2)를 합성. 새 생성 없음 | 커밋 `053c819`(2026-11-10) 메시지 | I1·I2 조건을 따름 | git log `053c819` | 확인됨(I1·I2 승계, 사용자 확인) |
 | I8 | `favicon.svg` (64×64 SVG 별 하나) | 직접 작성 SVG로 보임. CREDITS의 「직접 작성 SVG·Canvas」 줄이 아이콘 전반을 말하지만 파일 이름은 없음 | 커밋 `f2df05a`(2026-10-28) | 프로젝트 자체 제작(표기 「기획·제작: 옐샘 & ⓒ 아이스크림미디어」) | `public/assets/CREDITS.md`(도구·라이선스 검토 표), git log | 근거 약함 |
 | I9 | `generated/world.webp` (1672×941, 지도) | OpenAI built-in image_gen(Codex) | 2026-10-22. 원본 `references/generated/world.png`, SHA-256·크기 manifest, 지도 프롬프트 | 생성 당시 OpenAI 계정 이용 조건(요금제 기록 없음) | `references/generated/manifest.json`, `docs/ASSET_PRODUCTION_V2.md`(「지도 프롬프트」), `docs/SOURCES.md` | 확인됨 |
 | I10 | `generated/student.webp`, `rabbit-walk.webp` (각 1254², 보행 시트) + `sprites.json`(코드가 만든 칸 좌표 데이터) | OpenAI built-in image_gen | 2026-10-22, 원본·manifest·「보행 시트 프롬프트」. `rabbit-walk`는 2026-11-10 교체(`6bd1a3c`) | 위와 같음 | 위 manifest, `docs/ASSET_PRODUCTION_V2.md`, `scripts/prepare-generated.mjs` | 확인됨 |
@@ -57,7 +58,7 @@
 
 | 줄 | 파일(묶음) | 만든 곳 | 만든 날·기록 위치 | 이용 조건 | 근거 파일 경로 | 상태 |
 |---|---|---|---|---|---|---|
-| V1 | `concepts/stage-{1..5}.mp4`·`.webm`·끝 장면 `.webp` (15개, 1280×720, 16초, 소리 있음) | HyperFrames로 렌더(`films/`). 그림은 게임 에셋 재사용: 달·태양·별빛·행성(I11·I13·I14) + **`fox.png`·`rabbit.png` 포즈 시트를 잘라 넣음**. 소리는 Kenney CC0 효과음 5종(`.ogg`, 업로드 제외 파일이지만 영상 소리에 들어감). 2026-11-19 자막을 Jua 글꼴로 화면에 입힘 | 2026-11-09 교체(`5bae5a8`), 11-14 재렌더(`500c3e3`), 11-19 자막 입힘(`7ff790b`) | 루미·별여우 그림은 I3·I4 조건. 소리 CC0, 글꼴 OFL 1.1(렌더된 글자 사용 허용) | `films/build.mjs`(2·26·36·37행), `films/REVIEW.md`, `docs/concept-captions-20261118/stage-*.ass`(Fontname Jua), `../_shared/FULLSCREEN-CAPTION-CONCEPTS-20261118.md`, CREDITS(2026-10-22 절) | 출처 미확인(포함된 루미·별여우 그림 승계) |
+| V1 | `concepts/stage-{1..5}.mp4`·`.webm`·끝 장면 `.webp` (15개, 1280×720, 16초, 소리 있음) | HyperFrames로 렌더(`films/`). 그림은 게임 에셋 재사용: 달·태양·별빛·행성(I11·I13·I14) + **`fox.png`·`rabbit.png` 포즈 시트를 잘라 넣음**. 소리는 Kenney CC0 효과음 5종(`.ogg`, 업로드 제외 파일이지만 영상 소리에 들어감). 2026-11-19 자막을 Jua 글꼴로 화면에 입힘 | 2026-11-09 교체(`5bae5a8`), 11-14 재렌더(`500c3e3`), 11-19 자막 입힘(`7ff790b`) | 루미·별여우 그림은 I3·I4 조건. 소리 CC0, 글꼴 OFL 1.1(렌더된 글자 사용 허용) | `films/build.mjs`(2·26·36·37행), `films/REVIEW.md`, `docs/concept-captions-20261118/stage-*.ass`(Fontname Jua), `../_shared/FULLSCREEN-CAPTION-CONCEPTS-20261118.md`, CREDITS(2026-10-22 절) | 확인됨(자체 렌더. 포함된 루미·별여우 그림은 I3·I4 사용자 확인 승계). 만든 도구는 저장소 기록대로 HyperFrames이고 제미나이가 아니다(아래 7번) |
 | V2 | `map-encounters/map-finale.mp4` (640×360, 6초, 무음) | 실제 지도 공격 장면 캡처(`../_scratch/live-map-contact-review/originals/13-attack.png`) 한 장에 FFmpeg로 확대·글자(drawtext)를 얹음. 화면 속 그림은 I9·I10·I19 | 2026-11-14(`33c7ee8`), 같은 날 글꼴을 나눔스퀘어 네오로 다시 만듦(`7a8745c`) | 화면 속 그림·글꼴 조건을 따름 | `../_scratch/stage-villain-dialogue/movies.py`(5–16행), git log | 확인됨(기록이 저장소 밖) |
 
 ## 음악
@@ -101,7 +102,7 @@
 
 | 파일 | 출처 기록 |
 |---|---|
-| `assets/observatory.png`, `logo.png`, `rabbit.png`, `fox.png` | I1–I4의 원본 크기 PNG(사용자 제공, 출처 미확인). 개념영상 제작(`films/build.mjs`)과 달빛 길 시작 카드 참고 그림으로 쓰였다 |
+| `assets/observatory.png`, `logo.png`, `rabbit.png`, `fox.png` | I1–I4의 원본 크기 PNG(사용자 제공, 2026-11-21 사용자 확인으로 Codex 생성). 개념영상 제작(`films/build.mjs`)과 달빛 길 시작 카드 참고 그림으로 쓰였다 |
 | `assets/fonts/jua-korean-400.woff2`, `jua-latin-400.woff2` | Jua, SIL OFL 1.1(`Jua-OFL.txt`) |
 | `assets/audio/*.ogg` 6개(`click`, `capture`, `place`, `discover`, `success`, `hint`) | Kenney Interface Sounds, CC0(`Kenney-CC0.txt`, CREDITS 2026-10-22 절). 2026-11-09부터 앱에서 재생 안 함. 개념영상 소리에는 들어 있음(V1) |
 | `assets/audio/npc-welcome.m4a` | Momo `momo-voice`(Supertonic 3, OpenRAIL-M), `docs/AUDIO-PROVENANCE.md`, `docs/SUPERTONIC3-LICENSE.txt` |
@@ -114,9 +115,9 @@
 
 ## 사용자가 줘야 하는 자료
 
-1. **사용자 제공 그림 4종(I1–I4)의 원출처 증빙** — `references/images/`의 `chatgpt_generated_31`(관측소 배경), `_41`(로고), `_42`(루미), `_43`(별여우)을 만든 서비스(ChatGPT 등)·계정·생성 날짜와 그때 요금제 화면, 또는 대화 링크·생성 기록 캡처. 외주·지원받은 그림이면 계약서나 납품 메일(이용 범위·권리 귀속 조항 포함). 이것이 풀리면 I5·I7·V1과 참고 그림으로 쓴 I6 대화 초상·I15 `start-card`·I18의 캐릭터 디자인 문제도 함께 풀린다(점검표 F12).
+1. ~~**사용자 제공 그림 4종(I1–I4)의 원출처 증빙**~~ — 2026-11-21 사용자 확인(Codex·유료 요금제)으로 장부는 채웠다. 남는 것은 3번 요금제 증빙(그때 날짜의 구독 화면)뿐이다. (원래 요청: — `references/images/`의 `chatgpt_generated_31`(관측소 배경), `_41`(로고), `_42`(루미), `_43`(별여우)을 만든 서비스(ChatGPT 등)·계정·생성 날짜와 그때 요금제 화면, 또는 대화 링크·생성 기록 캡처. 외주·지원받은 그림이면 계약서나 납품 메일(이용 범위·권리 귀속 조항 포함). 이것이 풀리면 I5·I7·V1과 참고 그림으로 쓴 I6 대화 초상·I15 `start-card`·I18의 캐릭터 디자인 문제도 함께 풀린다(점검표 F12).)
 2. ~~**대화 초상(I6) 제작 경위**~~ — 2026-11-21 Codex 세션 기록으로 확인해 더 필요 없다(I6 줄).
-3. **OpenAI(ChatGPT·Codex) 요금제 증빙** — 그림 생성 날짜별 구독 화면이나 영수증: 2026-10-22(I9–I12, Windows 쪽 Codex 계정), 10-28(I13), 11-12(I6·I14), 11-14(I19), 11-16~17(I15–I17), 11-18(I18).
+3. **OpenAI(ChatGPT·Codex) 요금제 증빙**(납품 때 붙이는 증빙, 장부를 채우는 데는 필요 없음) — 그림 생성 날짜별 구독 화면이나 영수증: 2026-10-14 이전(I1–I4), 2026-10-22(I9–I12, Windows 쪽 Codex 계정), 10-28(I13), 11-12(I6·I14), 11-14(I19), 11-16~17(I15–I17), 11-18(I18).
 4. **ElevenLabs 결제 증빙** — 11-12~13 생성분(A2·A3)의 Starter, 11-18 생성분(A1)의 Creator 구독·결제 화면이나 영수증. 라이브러리 음성(Hun 훈·Aria·oki) 사용 조건 화면이 있으면 함께.
 5. **Suno Premier 증빙** — 2026-11-17 두 곡(M1) 생성 시점의 구독 화면이나 영수증, 두 곡의 Suno 곡 페이지 링크.
 6. **(선택) Qwen3-TTS 모델 라이선스 원문** — A4 29개를 계속 업로드한다면 모델 카드의 Apache-2.0 원문 사본. 업로드 제외 목록에 넣는다면 필요 없다.
