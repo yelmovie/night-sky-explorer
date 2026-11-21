@@ -253,8 +253,10 @@ function challenge(number) {
   const challenge = challenges[number];
   dialog('한 걸음 더 · 선택 도전', `<p>${challenge.question}</p><div class="challenge-choices">${challenge.options.map((option, index) => button(option, `answer-${number}-${index}`)).join('')}</div>`);
 }
-function go(scene) {
+function go(scene, { fromHistory = false } = {}) {
   if (!canAccess(state, scene)) return notify('앞선 관측을 먼저 마쳐 주세요.');
+  // 브라우저 뒤로 가기가 앱 안 앞 화면으로 가도록 화면을 옮길 때마다 기록에 쌓는다(뒤로 가기로 온 이동은 쌓지 않는다).
+  if (!fromHistory && scene !== state.scene) history.pushState({ ...history.state, starlightScene: scene }, '');
   if (scene !== state.scene) { screenFailure = null; if(learningUI.playback){learningUI.playback.playing=false;learningUI.playback.step=0;learningUI.playback.finished=false;} learningUI.round = 0; learningUI.body = 0; learningUI.selectedStar = null; learningUI.overlayVisible = false; learningUI.piece = null; learningUI.inspectedBody = null; learningUI.pendingAdvance = null; hintLevel = 0; }
   state.scene = scene;
   if (/^s[1-5][ab]$/.test(scene)) {
@@ -485,4 +487,24 @@ document.addEventListener('keydown', () => sound.start(), true);
 // 파이널 창이 열리면 파이널 곡으로 넘어간다. 카드 완성 징글이 아직 울리면 끊지 않고 곡을 0에서 올린다(sound.js).
 document.addEventListener('map-finale', event => { mapFinaleOpen = !!event.detail; syncMusic(); });
 render();
+// 브라우저 뒤로 가기: 활동 → 지도 → 시작 화면 순서로 앞 화면에 가고, 시작 화면에서 한 번 더 누르면 평소처럼 앱을 나간다.
+// 처음 열 때(새로고침이 아닐 때) 시작 화면·지도를 기록 아래에 깔아 둔다. 진행 저장은 건드리지 않는다.
+if (!history.state?.starlightScene) {
+  const below = state.scene === 'home' ? [] : ['map', 'home'].includes(state.scene) ? ['home'] : ['home', 'map'];
+  history.replaceState({ ...history.state, starlightScene: below[0] || state.scene }, '');
+  for (const scene of [...below.slice(1), state.scene].slice(below.length ? 0 : 1)) history.pushState({ ...history.state, starlightScene: scene }, '');
+}
+addEventListener('popstate', event => {
+  const target = event.state?.starlightScene;
+  if (!target) return;
+  if ($('#dialog')?.open) closeModal(false);
+  if (target === state.scene) return;
+  if (canAccess(state, target)) return go(target, { fromHistory: true });
+  history.replaceState({ ...history.state, starlightScene: 'map' }, '');
+  go('map', { fromHistory: true });
+});
 if (loaded.warning) { notify(loaded.warning); showSaveWarning(); }
+// 오프라인 재방문: 배포 빌드에서만 서비스워커를 쓴다(public/sw.js). 자리 잡기 전에 받은 파일 목록도 넘겨 저장하게 한다.
+if (import.meta.env?.PROD && 'serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(() => navigator.serviceWorker.ready).then(reg => reg.active?.postMessage({ cacheUrls: performance.getEntriesByType('resource').map(entry => entry.name) })).catch(() => {}); });
+}
