@@ -1,0 +1,1069 @@
+/* styles-3.css: 원래 styles.css(3,201줄)를 규칙 순서 그대로 세 파일로 나눈 3번째 부분(2026-11-21 코드 구조 정리). application.js가 1→2→3 순서로 불러와 예전과 같은 순서로 합쳐진다. */
+@media (min-width: 1600px) {
+  .home-hero {
+    min-height: 650px;
+  }
+  .hero-copy h1 {
+    font-size: 34px;
+  }
+  .hero-logo {
+    width: 470px;
+  }
+  .hero-description {
+    font-size: 18px;
+  }
+  .mission-letter {
+    max-width: 390px;
+  }
+  .home-chapters {
+    margin-bottom: 25px;
+  }
+}
+@media (max-width: 1150px) {
+  .shell {
+    padding: 0 22px;
+  }
+  .shell-middle {
+    display: none;
+  }
+  .page {
+    padding: 27px 25px 20px;
+  }
+  .home-screen {
+    padding: 0 4vw;
+  }
+  .home-hero {
+    min-height: 540px;
+    gap: 35px;
+  }
+  .hero-copy h1 {
+    font-size: 25px;
+  }
+  .home-chapters {
+    gap: 8px;
+  }
+  .chapter-mini {
+    gap: 8px;
+    padding: 20px 10px;
+  }
+  .chapter-mini small {
+    display: none;
+  }
+  .chapter-mini strong {
+    font-size: 12px;
+  }
+  .mini-icon svg {
+    width: 21px;
+  }
+  .learning-grid {
+    grid-template-columns: minmax(0, 1fr) 295px;
+    gap: 18px;
+  }
+  .control-panel {
+    padding: 20px;
+  }
+  .screen-heading h1 {
+    font-size: 29px;
+  }
+  .map-layout {
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 18px;
+  }
+  .map-panel {
+    min-height: 500px;
+  }
+  .map-panel #world-map {
+    min-height: 500px;
+  }
+  .map-pin {
+    font-size: 10px;
+    padding: 6px 9px;
+  }
+  .map-legend {
+    font-size: 10px;
+    gap: 12px;
+  }
+  .map-legend span:last-child {
+    display: none;
+  }
+  .map-topline {
+    padding: 14px;
+    gap: 8px;
+  }
+  .map-topline > span {
+    display: none;
+  }
+  .core-layout {
+    grid-template-columns: 210px 1fr 235px;
+    gap: 12px;
+  }
+  .record-bank {
+    padding: 20px 12px;
+  }
+  .core-machine {
+    padding: 22px 12px;
+  }
+  .core-control {
+    padding: 20px 15px;
+  }
+  .record-chip {
+    font-size: 11px;
+    padding: 12px 9px;
+    gap: 8px;
+  }
+  .body-card small {
+    font-size: 10px;
+  }
+  .evidence-row {
+    grid-template-columns: 65px 80px 1fr;
+    gap: 10px;
+  }
+  .evidence-table {
+    padding: 15px;
+  }
+  .evidence-row > strong {
+    font-size: 13px;
+  }
+  .bottom-actions .btn {
+    font-size: 13px;
+  }
+  .npc-message p {
+    font-size: 13px;
+  }
+  .page-bottom {
+    gap: 16px;
+  }
+  .solar-board {
+    gap: 8px;
+    padding: 22px 15px;
+  }
+  .solar-piece {
+    min-width: 52px;
+    padding: 8px;
+  }
+  .telescope {
+    width: 280px;
+    height: 280px;
+  }
+  .surface-moon {
+    width: 280px;
+  }
+  .viewer-controls {
+    grid-template-columns: auto 1fr;
+    gap: 5px 12px;
+  }
+  .planet-viewer {
+    height: 280px;
+  }
+}
+@media (max-width: 850px) {
+  .save-state {
+    display: none;
+  }
+  .shell {
+    height: 72px;
+    padding: 0 16px;
+  }
+  .nav-divider {
+    margin: 0 6px;
+  }
+  .home-screen {
+    min-height: calc(100vh - 72px);
+    padding: 0 25px;
+  }
+  .home-hero {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+    padding-top: 32px;
+  }
+  .hero-copy h1 {
+    font-size: 22px;
+  }
+  .hero-logo {
+    margin-bottom: 18px;
+  }
+  .hero-description {
+    font-size: 14px;
+  }
+  .mission-letter {
+    padding: 18px;
+  }
+  .mission-letter p {
+    font-size: 12px;
+  }
+  .mission-rule {
+    font-size: 10px;
+    line-height: 1.7;
+  }
+  .letter-label {
+    font-size: 11px;
+  }
+  .hero-npc {
+    transform: scale(0.82);
+    margin: -65px auto -20px;
+    width: 168px;
+  }
+  .home-chapters {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .chapter-mini {
+    flex-direction: column;
+    padding: 19px 8px 13px;
+    gap: 6px;
+    text-align: center;
+    min-height: 88px;
+  }
+  .chapter-mini strong {
+    font-size: 10px;
+  }
+  .home-footer {
+    font-size: 10px;
+  }
+  .learning-grid {
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 14px;
+  }
+  .control-panel {
+    padding: 17px;
+  }
+  .panel-title h2 {
+    font-size: 14px;
+  }
+  .control-panel > p {
+    font-size: 13px;
+  }
+  .screen-heading h1 {
+    font-size: 27px;
+  }
+  .subtitle {
+    font-size: 14px;
+  }
+  .page {
+    padding: 24px 20px;
+  }
+  .panel-top {
+    padding: 13px;
+    font-size: 10px;
+  }
+  .panel-top > span:last-child {
+    font-size: 9px;
+  }
+  .badge {
+    font-size: 9px;
+    padding: 6px 8px;
+  }
+  .telescope {
+    width: 240px;
+    height: 240px;
+    margin-top: 35px;
+  }
+  .direction-pad {
+    grid-template-columns: 48px 48px 48px;
+    grid-template-rows: 48px 48px 48px;
+  }
+  .observation-panel {
+    min-height: 420px;
+  }
+  .surface-moon {
+    width: 245px;
+    margin-top: 35px;
+  }
+  .sample-crop {
+    width: 80px;
+    height: 80px;
+  }
+  .prediction-pair {
+    gap: 15px;
+    min-height: 230px;
+    padding: 20px 15px;
+  }
+  .prediction-pair .moon-art,
+  .unknown-moon {
+    width: 135px;
+    height: 135px;
+  }
+  .viewer-controls {
+    padding: 0 12px;
+  }
+  .planet-viewer {
+    height: 260px;
+  }
+  .planet-tabs {
+    gap: 3px;
+  }
+  .planet-tab {
+    font-size: 10px;
+    padding: 6px;
+  }
+  .planet-tabs i {
+    width: 6px;
+    height: 6px;
+  }
+  .body-grid {
+    gap: 10px;
+    padding: 10px 15px 20px;
+  }
+  .body-card {
+    padding: 20px 10px;
+    gap: 8px;
+  }
+  .body-card small {
+    display: none;
+  }
+  .evidence-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .evidence-row > strong {
+    grid-column: 1/-1;
+  }
+  .evidence-row label:last-child {
+    grid-column: 2;
+    grid-row: auto;
+  }
+  .evidence-row select {
+    font-size: 11px;
+  }
+  .evidence-table {
+    gap: 9px;
+  }
+  .evidence-row {
+    padding-bottom: 10px;
+  }
+  .map-layout {
+    grid-template-columns: 1fr 240px;
+    gap: 14px;
+  }
+  .map-sidebar .site-item {
+    gap: 9px;
+    padding: 8px;
+    min-height: 58px;
+  }
+  .site-item strong {
+    font-size: 12px;
+  }
+  .site-symbol {
+    width: 26px;
+  }
+  .map-panel #world-map {
+    min-height: 480px;
+  }
+  .map-pin {
+    font-size: 9px;
+  }
+  .pin-1 {
+    top: 30%;
+  }
+  .pin-2 {
+    top: 39%;
+  }
+  .pin-3 {
+    top: 58%;
+  }
+  .pin-4 {
+    top: 65%;
+  }
+  .pin-5 {
+    top: 52%;
+  }
+  .core-pin {
+    top: 48%;
+  }
+  .map-legend {
+    left: 15px;
+  }
+  .core-layout {
+    grid-template-columns: 210px 1fr;
+  }
+  .core-control {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  .core-control .panel-title,
+  .core-control p {
+    margin: 0;
+  }
+  .core-control .calibration {
+    grid-row: 2/5;
+    grid-column: 2;
+  }
+  .core-control input,
+  .core-control .range-label {
+    margin: 0;
+  }
+  .core-control > .btn {
+    grid-column: 2;
+    grid-row: 5/7;
+  }
+  .certificate {
+    padding: 25px;
+    gap: 25px;
+  }
+  .certificate-stars {
+    display: none;
+  }
+  .result-toolbar {
+    align-items: flex-start;
+  }
+  .result-toolbar h2 {
+    font-size: 17px;
+  }
+  .result-toolbar .btn {
+    font-size: 12px;
+    padding: 10px 13px;
+  }
+  .result-moon {
+    display: block;
+  }
+  .result-moon > .moon-art {
+    width: 100px;
+    margin: 0 auto 15px;
+  }
+  .result-card {
+    padding: 19px;
+  }
+  .result-card h3 {
+    font-size: 14px;
+  }
+  .page-bottom {
+    align-items: flex-start;
+  }
+  .npc-message {
+    gap: 10px;
+  }
+  .npc-avatar {
+    width: 46px;
+    background-size: 280px 158px;
+  }
+  .bottom-actions {
+    flex-direction: column;
+  }
+  .bottom-actions .btn {
+    min-width: 170px;
+  }
+}
+@media (max-width: 650px) {
+  .brand {
+    display: none;
+  }
+  .nav-divider {
+    display: none;
+  }
+  .shell {
+    height: 66px;
+    padding: 0 12px;
+  }
+  .shell nav {
+    gap: 7px;
+  }
+  .icon-button {
+    height: 48px;
+    width: 48px;
+  }
+  .page {
+    padding: 23px 16px;
+  }
+  .home-screen {
+    padding: 0 23px;
+  }
+  .home-hero {
+    display: block;
+    padding-top: 32px;
+  }
+  .hero-copy h1 {
+    font-size: 25px;
+  }
+  .hero-description {
+    font-size: 15px;
+  }
+  .hero-logo {
+    width: 340px;
+  }
+  .home-actions .btn.large {
+    min-height: 54px;
+    font-size: 16px;
+  }
+  .home-note {
+    font-size: 11px;
+  }
+  .mission-letter {
+    margin: 48px auto 28px;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 130px;
+    text-align: left;
+    padding: 20px;
+    min-height: 190px;
+  }
+  .letter-label {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .hero-npc {
+    grid-column: 2;
+    grid-row: 1/4;
+    transform: scale(0.7);
+    transform-origin: top left;
+    margin: 0 0 -70px 0;
+    width: 168px;
+    position: relative;
+    top: -16px;
+  }
+  .mission-letter p {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 14px 0 0;
+    font-size: 12px;
+  }
+  .mission-rule {
+    grid-column: 1/-1;
+    grid-row: 4;
+    margin-top: 15px;
+    justify-content: flex-start;
+  }
+  .home-chapters {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+  }
+  .chapter-mini {
+    min-height: 90px;
+  }
+  .home-footer {
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 15px;
+  }
+  .screen-heading {
+    margin-bottom: 21px;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  .screen-heading h1 {
+    font-size: 25px;
+  }
+  .screen-heading .eyebrow {
+    font-size: 9px;
+  }
+  .subtitle {
+    font-size: 13px;
+  }
+  .lesson-progress {
+    min-width: 78px;
+  }
+  .lesson-progress > span {
+    font-size: 25px;
+  }
+  .lesson-progress small {
+    font-size: 11px;
+  }
+  .progress-dots {
+    flex-wrap: wrap;
+    max-width: 78px;
+    margin-left: auto;
+  }
+  .progress-dots i {
+    width: 11px;
+  }
+  .lesson-progress .text-button {
+    font-size: 10px;
+    padding-right: 0;
+    gap: 4px;
+  }
+  .learning-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .observation-panel {
+    min-height: 350px;
+  }
+  .control-panel {
+    padding: 21px;
+  }
+  .control-panel > p {
+    font-size: 15px;
+  }
+  .panel-title h2 {
+    font-size: 16px;
+  }
+  .panel-top .badge {
+    font-size: 9px;
+  }
+  .panel-top > span:last-child {
+    max-width: 150px;
+    text-align: right;
+    font-size: 9px;
+  }
+  .telescope {
+    width: 245px;
+    height: 245px;
+    margin: 18px auto;
+  }
+  .surface-moon {
+    width: 250px;
+    margin: 20px auto;
+  }
+  .direction-pad {
+    grid-template-columns: 48px 48px 48px;
+    grid-template-rows: 48px 48px 48px;
+  }
+  .direction-pad + .panel-title {
+    margin-top: 20px;
+  }
+  .page-bottom {
+    flex-direction: column;
+    gap: 17px;
+    align-items: stretch;
+  }
+  .bottom-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .bottom-actions .btn {
+    min-width: 0;
+    font-size: 14px;
+  }
+  .npc-message p {
+    font-size: 13px;
+  }
+  .npc-avatar {
+    width: 52px;
+    height: 66px;
+    background-size: 315px 177px;
+  }
+  .map-layout {
+    display: flex;
+    flex-direction: column;
+  }
+  .map-panel {
+    min-height: 360px;
+  }
+  .map-panel #world-map {
+    min-height: 360px;
+    height: 360px;
+  }
+  .map-pin {
+    font-size: 9px;
+    padding: 5px 8px;
+    min-height: 48px;
+  }
+  .pin-1 {
+    top: 24%;
+  }
+  .pin-2 {
+    top: 37%;
+  }
+  .pin-3 {
+    top: 59%;
+  }
+  .pin-4 {
+    top: 67%;
+  }
+  .pin-5 {
+    top: 51%;
+  }
+  .map-sidebar .site-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .map-sidebar .site-item {
+    min-height: 65px;
+    padding: 9px;
+  }
+  .site-item strong {
+    font-size: 11px;
+  }
+  .site-item small {
+    font-size: 8px;
+  }
+  .site-symbol {
+    width: 23px;
+  }
+  .site-symbol svg {
+    width: 21px;
+  }
+  .site-status svg {
+    width: 14px;
+  }
+  .destination-card {
+    margin-top: 10px;
+    padding: 22px;
+    background: #19253e;
+    border: 1px solid #586b8b55;
+    border-radius: 15px;
+  }
+  .progress-medal {
+    min-width: 70px;
+    padding-left: 14px;
+  }
+  .progress-medal strong {
+    font-size: 28px;
+  }
+  .progress-medal small {
+    font-size: 9px;
+  }
+  .phase-stage {
+    height: 260px;
+  }
+  .phase-stage .moon-art {
+    width: 205px;
+  }
+  .prediction-pair {
+    min-height: 230px;
+    padding-top: 30px;
+  }
+  .prediction-pair .moon-art {
+    width: 140px;
+    height: 140px;
+  }
+  .prediction-pair .stage-label {
+    font-size: 12px;
+  }
+  .sample-row {
+    gap: 25px;
+  }
+  .sample-crop {
+    width: 110px;
+    height: 110px;
+  }
+  .sample {
+    max-width: 120px;
+  }
+  .viewer-controls {
+    grid-template-columns: auto 1fr auto 1fr;
+    gap: 10px;
+  }
+  .planet-viewer {
+    height: 280px;
+  }
+  .viewer-controls .range-label {
+    min-width: 55px;
+    gap: 6px;
+    font-size: 10px;
+  }
+  .solar-board {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    min-height: 360px;
+  }
+  .solar-slot {
+    min-height: 100px;
+  }
+  .solar-tray {
+    padding: 15px 10px;
+  }
+  .solar-piece {
+    min-width: 54px;
+  }
+  .body-grid {
+    gap: 12px;
+    padding: 12px 15px;
+  }
+  .body-card {
+    min-height: 155px;
+  }
+  .body-card strong {
+    font-size: 15px;
+  }
+  .body-card small {
+    display: block;
+    font-size: 10px;
+  }
+  .evidence-table {
+    padding: 15px;
+  }
+  .evidence-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .evidence-row label:last-child {
+    min-width: 0;
+  }
+  .evidence-row label:first-of-type {
+    max-width: 130px;
+  }
+  .evidence-row select {
+    font-size: 12px;
+  }
+  .core-layout {
+    display: flex;
+    flex-direction: column;
+  }
+  .record-bank {
+    padding: 20px;
+  }
+  .record-bank h2 {
+    margin-bottom: 15px;
+  }
+  .record-chip {
+    min-height: 65px;
+    font-size: 13px;
+    margin-bottom: 9px;
+  }
+  .record-chip small {
+    font-size: 11px;
+  }
+  .core-center {
+    margin-bottom: 30px;
+  }
+  .core-machine {
+    padding: 25px;
+  }
+  .core-control {
+    display: block;
+    padding: 23px;
+  }
+  .core-control .panel-title {
+    margin: 10px 0 15px;
+  }
+  .core-control .calibration {
+    margin: 20px auto;
+  }
+  .core-control p {
+    margin: 10px 0;
+  }
+  .socket {
+    min-height: 65px;
+  }
+  .socket > span {
+    font-size: 14px;
+  }
+  .socket small {
+    font-size: 11px;
+  }
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+  .certificate {
+    padding: 25px 18px;
+    gap: 18px;
+  }
+  .certificate-seal {
+    width: 80px;
+    height: 80px;
+  }
+  .certificate-seal > svg {
+    width: 30px;
+  }
+  .certificate-seal small {
+    font-size: 6px;
+  }
+  .certificate h2 {
+    font-size: 23px;
+  }
+  .certificate p {
+    font-size: 12px;
+  }
+  .certificate .eyebrow {
+    font-size: 9px;
+  }
+  .certificate small {
+    font-size: 10px;
+  }
+  .result-toolbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .result-toolbar > div {
+    width: 100%;
+  }
+  .result-toolbar .btn {
+    flex: 1;
+    font-size: 12px;
+  }
+  .result-moon {
+    display: flex;
+  }
+  .result-moon > .moon-art {
+    width: 105px;
+    margin: 0;
+  }
+  .result-card {
+    padding: 22px;
+  }
+  .result-card h3 {
+    font-size: 16px;
+  }
+  .result-card .sample-crop {
+    width: 55px;
+    height: 55px;
+  }
+  .result-card .sample-row {
+    gap: 12px;
+  }
+  .result-card:last-child .star-chart {
+    max-height: 300px;
+  }
+  .results-page .screen-heading > .badge {
+    display: none;
+  }
+  dialog {
+    padding: 23px 19px;
+  }
+  .dialog-heading h2 {
+    font-size: 18px;
+  }
+  .dialog-heading {
+    gap: 10px;
+  }
+  .modal-actions {
+    flex-direction: column;
+  }
+  .modal-actions .btn {
+    width: 100%;
+  }
+  .notebook-list summary {
+    font-size: 12px;
+    gap: 7px;
+  }
+  .notebook-list summary span {
+    font-size: 9px;
+  }
+  .notebook-list .result-moon {
+    display: block;
+  }
+  .notebook-list .result-moon > svg {
+    margin: auto;
+  }
+  .toggle-row b {
+    font-size: 14px;
+  }
+  .toggle-row small {
+    font-size: 11px;
+  }
+  .science-fact {
+    padding: 18px;
+    gap: 10px;
+  }
+  .science-fact p {
+    font-size: 14px;
+  }
+  .original-prediction {
+    font-size: 10px;
+    gap: 8px;
+  }
+  .chart-caption {
+    font-size: 11px;
+  }
+}
+@media print {
+  body {
+    background: white;
+    color: #17223b;
+  }
+  .shell,
+  .admin-banner,
+  .screen-heading,
+  .page-bottom,
+  .result-toolbar,
+  #toast,
+  dialog {
+    display: none !important;
+  }
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+  .certificate,
+  .result-card {
+    background: white !important;
+    color: #17223b;
+    border: 1px solid #596b7f;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .certificate *,
+  .result-card * {
+    color: #263b54 !important;
+  }
+  .certificate-seal {
+    color: #78642e !important;
+  }
+  .results-grid {
+    display: block;
+  }
+  .result-card {
+    margin: 18px 0;
+    break-inside: avoid;
+  }
+  .star-chart {
+    background: #13213b;
+    max-height: 260px;
+  }
+  .filmstrip {
+    background: #e4e8ef;
+  }
+  .filmstrip > div {
+    background: #cbd6e0;
+  }
+  .certificate-stars {
+    display: none;
+  }
+  .result-card h3 svg {
+    color: #475c79;
+  }
+  a {
+    color: black;
+  }
+}
+
+.shell {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(12px);
+}
+.photo-thumbnail {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #091429;
+  border: 3px solid #3c4e69;
+  display: grid;
+  place-items: center;
+}
+.photo-thumbnail .moon-art {
+  width: 85%;
+  height: 85%;
+}
+.chart-zoom {
+  margin-bottom: 12px;
+}
+.chart-zoom .btn {
+  font-size: 11px;
+}
+.notebook-list .photo-thumbnail {
+  width: 100px;
+  height: 100px;
+}
+@media (max-width: 850px) {
+  .result-moon > .photo-thumbnail {
+    margin: 0 auto 15px;
+  }
+}
+@media (max-width: 650px) {
+  .result-moon > .photo-thumbnail {
+    width: 105px;
+    height: 105px;
+    margin: 0;
+  }
+  .notebook-list .result-moon > .photo-thumbnail {
+    margin: 0 auto 15px;
+  }
+}
+
+/* Map controls: clear local feedback without moving the layout. */
+[data-map-pad] { min-width:44px; min-height:44px; touch-action:none; user-select:none; -webkit-user-select:none; }
+[data-map-pad] > * { pointer-events:none; }
+[data-map-pad][data-map-held] { filter:brightness(1.15); outline:3px solid #f4bc45; outline-offset:1px; box-shadow:inset 0 0 0 2px #fff8da; }
+[data-map-pad]:focus-visible { outline:3px solid #165fba; outline-offset:3px; }
+[data-map-pad]:disabled { opacity:.5; }
+
+/* Settings adopt the shared light paper while the observatory stays dark. */
+html dialog.science-settings-stars .dialog-heading h2,
+html dialog.science-settings-stars .dialog-body label,
+html dialog.science-settings-stars .dialog-body output {color:#243a2c}
+html dialog.science-settings-stars > .science-settings-footer {background:#fffdf3}
+html dialog.science-settings-stars .settings-star-volume {grid-column:1/-1;white-space:nowrap}
+html dialog.science-settings-stars .settings-star-volume output {min-width:3em;text-align:right}

@@ -12,5 +12,6 @@ test('화면 글꼴은 공식 나눔스퀘어 네오 웹폰트와 라이선스�
   assert.match(license, /NanumSquareNeo/);
   assert.match(license, /SIL OPEN FONT LICENSE/);
   assert.match(license, /DISCLAIMER/);
-  assert.match(readFileSync(new URL('src/styles.css', root), 'utf8'), /font-family: "NanumSquareNeo"/);
+  // styles.css는 2026-11-21 규칙 순서 그대로 styles-1·2·3.css로 나뉘었다.
+  assert.match(['src/styles-1.css', 'src/styles-2.css', 'src/styles-3.css'].map(file => readFileSync(new URL(file, root), 'utf8')).join('\n'), /font-family: "NanumSquareNeo"/);
 });
