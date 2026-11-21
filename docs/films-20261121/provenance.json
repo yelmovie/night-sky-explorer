@@ -1,0 +1,173 @@
+{
+ "project": "13 별빛 관측 연구소",
+ "createdAt": "2026-11-21",
+ "files": {
+  "public/assets/films/intro.webm": {
+   "bytes": 1047328,
+   "sha256": "0bd2f8a4b104fe274723f4cceebcee133afe9b6e016ba4a1680a0a6d22804b2d"
+  },
+  "public/assets/films/intro.mp4": {
+   "bytes": 1177325,
+   "sha256": "d79fa87042e7545b8fd4a8e8801daba0db50a21c6b1392294e58276b12734f63",
+   "duration": 23.22
+  },
+  "public/assets/films/intro.webp": {
+   "bytes": 121770,
+   "sha256": "c88cd11efee6e0d8f7f4b219314eadb58b792763058fda1d511907a3db48c26b"
+  },
+  "public/assets/films/final.webm": {
+   "bytes": 1085650,
+   "sha256": "c9f0b4cc418914b0a10b0ba5d64183b8905722eee99e6dde7aaf5b825294aeeb"
+  },
+  "public/assets/films/final.mp4": {
+   "bytes": 1171414,
+   "sha256": "446f6bf372293481957b7828774cc2868c90b54a3a65e3886a09894bdbab7ee8",
+   "duration": 23.8
+  },
+  "public/assets/films/final.webp": {
+   "bytes": 122026,
+   "sha256": "142f9694fcc30d890d8ed6ba9d461d0c5cacabf43cae3d6e40167bbfacd0b7b0"
+  }
+ },
+ "stills": [
+  {
+   "file": "references/film-20261121/stills/intro-1.png",
+   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+   "generated": "2026-11-21 11:30-11:32 KST",
+   "promptKey": "p-i1",
+   "references": "observatory.webp, dome-restored.webp",
+   "sha256": "e0389f1f6950d393218fe9fcbd8e843ee634e11d3fbc4a760cd523130ed11217"
+  },
+  {
+   "file": "references/film-20261121/stills/intro-2.png",
+   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+   "generated": "11:32-11:34",
+   "promptKey": "p-i2",
+   "references": "alert-scene.webp, map-encounters/villain-redraw.png",
+   "sha256": "a2fdc8b55d21e580fc256f43a2fd61c7a90f42918e9863f5a2fbbff84f277627"
+  },
+  {
+   "file": "references/film-20261121/stills/intro-3.png",
+   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+   "generated": "11:34-11:36",
+   "promptKey": "p-i3",
+   "references": "fox.webp, rabbit.webp, dome-restored.webp, core-dial-v3.webp",
+   "sha256": "5160227194fa3937043082d65bf36565611b079becc4069c771d5e688b663dcd"
+  },
+  {
+   "file": "references/film-20261121/stills/final-1.png",
+   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+   "generated": "11:36-11:37",
+   "promptKey": "p-f1",
+   "references": "fox.webp, rabbit.webp, ui/badge-*.webp, dome-restored.webp",
+   "sha256": "9f2ec5d406b51b898eb542fec1369b06174bee55ad8c6f680423593450bb6538"
+  },
+  {
+   "file": "references/film-20261121/stills/final-2.png",
+   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+   "generated": "11:37-11:39",
+   "promptKey": "p-f2",
+   "references": "core-dial-v3.webp, dome-restored.webp, villain-redraw.png",
+   "sha256": "a3d6f3d61d04101b57584e5686e05290846e63b2353bdd142a45b046d707b1df"
+  },
+  {
+   "file": "references/film-20261121/stills/final-3.png",
+   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+   "generated": "11:39-11:41",
+   "promptKey": "p-f3",
+   "references": "student.webp, fox.webp, rabbit.webp, observatory.webp",
+   "sha256": "dd48c3ca9e3436c7eeb827b67fbd472b32847b71617d99bbb8e8e36fbaaba2fc"
+  }
+ ],
+ "clips": [
+  {
+   "file": "references/film-20261121/clips/intro-1.mp4",
+   "tool": "Google Flow · Veo 3.1 Fast(image-to-video, 16:9, 8초, 20크레딧)",
+   "via": "Aside 세션 AhMpD7yBVh8uUMTY(2026-11-21 11:33-11:39 KST)",
+   "promptKey": "v-i1",
+   "sha256": "bf82dcee02af870d581db835dbdf3008f21f5e20f27361b767107efdc1baf476",
+   "watermark": "오른쪽 아래 작은 'Veo' 표시(계정 지역 설정상 필수, 지우지 않음)"
+  },
+  {
+   "file": "references/film-20261121/clips-kb/intro-2.mp4",
+   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
+   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
+  },
+  {
+   "file": "references/film-20261121/clips-kb/intro-3.mp4",
+   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
+   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
+  },
+  {
+   "file": "references/film-20261121/clips-kb/final-1.mp4",
+   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
+   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
+  },
+  {
+   "file": "references/film-20261121/clips-kb/final-2.mp4",
+   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
+   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
+  },
+  {
+   "file": "references/film-20261121/clips-kb/final-3.mp4",
+   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
+   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
+  }
+ ],
+ "voices": {
+  "new": [
+   {
+    "status": 200,
+    "requestId": "wFzxmjRvxusY5H8Jw7c6",
+    "chars": 50,
+    "key": "film-intro-1",
+    "model": "eleven_v4",
+    "provider": "ElevenLabs API",
+    "voice": "Aria(루미) O2KReOFLpoR65nz6C9Se",
+    "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
+    "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
+   },
+   {
+    "status": 200,
+    "requestId": "sbW0CdFQt7vmQjgjU1DW",
+    "chars": 44,
+    "key": "film-intro-2a",
+    "model": "eleven_v4",
+    "provider": "ElevenLabs API",
+    "voice": "Aria(루미) O2KReOFLpoR65nz6C9Se",
+    "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
+    "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
+   },
+   {
+    "status": 200,
+    "requestId": "H6WCAAbLdTPGzcflWCBH",
+    "chars": 34,
+    "key": "film-intro-2b",
+    "model": "eleven_v4",
+    "provider": "ElevenLabs API",
+    "voice": "oki(별빛 가림이) IQt4I2Udet4gAwcFGAlU",
+    "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
+    "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
+   },
+   {
+    "status": 200,
+    "requestId": "J8HVcImsi15SrW0JH1gT",
+    "chars": 42,
+    "key": "film-intro-3",
+    "model": "eleven_v4",
+    "provider": "ElevenLabs API",
+    "voice": "Hun(별여우 연구관) AjALR5PRxl87zOoe9Q31",
+    "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
+    "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
+   }
+  ],
+  "reused": [
+   "public/assets/audio/voices/el-movie-2.mp3",
+   "public/assets/audio/voices/el-movie-4.mp3",
+   "public/assets/audio/voices/el-ending.mp3"
+  ]
+ },
+ "captions": "_shared/caption-motion-20261118/burn.py(Jua 글꼴, SIL OFL 1.1), 화자 이름표·말 속도 스윕",
+ "motionGraphics": "compose.py: 0.7초 교차 페이드, 제목 drawtext(Jua) 떠오르기·사라지기, 처음·끝 페이드, 분위기 소리 0.35 + 대사 믹스, 리미터",
+ "encode": "webm VP9 2패스 340kbps + Opus 40k, mp4 H.264 2패스 360kbps + AAC 48k, 1280x720 30fps"
+}

@@ -1,0 +1,51 @@
+{
+ "src": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/intro-video-20261121/src-final.mp4",
+ "out": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/intro-video-20261121/cap-final.mp4",
+ "theme": {
+  "box": "#0d1f36",
+  "accent": "#f5cf7b",
+  "hot": "#ffd35c"
+ },
+ "speakers": {
+  "루미": "#f2c266",
+  "별여우 연구관": "#f08a3c",
+  "별빛 가림이": [
+   "#3b3f8f",
+   "#ffffff"
+  ]
+ },
+ "bottom": 40,
+ "sweep": true,
+ "cues": [
+  {
+   "s": 0.8,
+   "e": 6.37,
+   "speech": [
+    0.9,
+    6.02
+   ],
+   "who": "루미",
+   "text": "연구원이 직접 관찰하고 검증한 [다섯 개의 관측 기록]이 모였어요."
+  },
+  {
+   "s": 8.1,
+   "e": 13.59,
+   "speech": [
+    8.2,
+    13.24
+   ],
+   "who": "루미",
+   "text": "[보정 링]이 기준에 맞춰지자 코어가 빛나고 [천문 돔]이 열려요."
+  },
+  {
+   "s": 15.1,
+   "e": 23.05,
+   "speech": [
+    15.2,
+    22.7
+   ],
+   "who": "별여우 연구관",
+   "text": "연구소가 다시 정확한 밤하늘을 기록하기 시작했어. 이건 네가 [직접 관찰하고 검증한] 결과야."
+  }
+ ]
+}

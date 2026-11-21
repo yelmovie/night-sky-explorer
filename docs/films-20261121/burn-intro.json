@@ -1,0 +1,61 @@
+{
+ "src": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/intro-video-20261121/src-intro.mp4",
+ "out": "/Volumes/T7 Shield/iscreammedia_sc34/13 nightsky/.tmp/intro-video-20261121/cap-intro.mp4",
+ "theme": {
+  "box": "#0d1f36",
+  "accent": "#f5cf7b",
+  "hot": "#ffd35c"
+ },
+ "speakers": {
+  "루미": "#f2c266",
+  "별여우 연구관": "#f08a3c",
+  "별빛 가림이": [
+   "#3b3f8f",
+   "#ffffff"
+  ]
+ },
+ "bottom": 40,
+ "sweep": true,
+ "cues": [
+  {
+   "s": 0.8,
+   "e": 6.92,
+   "speech": [
+    0.9,
+    6.57
+   ],
+   "who": "루미",
+   "text": "별빛 관측 연구소의 밤이에요. 오늘도 하늘은 [맑고 고요해요]."
+  },
+  {
+   "s": 7.4,
+   "e": 12.3,
+   "speech": [
+    7.5,
+    12.31
+   ],
+   "who": "루미",
+   "text": "그런데 연구소 장치들이 [엉뚱한 데이터]를 보내기 시작했어요!"
+  },
+  {
+   "s": 12.4,
+   "e": 16.2,
+   "speech": [
+    12.5,
+    16.34
+   ],
+   "who": "별빛 가림이",
+   "text": "히히, 망원경 [덮개]를 꽉 닫아 놨지!"
+  },
+  {
+   "s": 16.3,
+   "e": 21.79,
+   "speech": [
+    16.4,
+    21.44
+   ],
+   "who": "별여우 연구관",
+   "text": "신입 연구원, 기다리고 있었어. 우리 연구소를 [함께 고쳐] 줄래?"
+  }
+ ]
+}

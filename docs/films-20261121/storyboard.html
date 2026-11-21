@@ -1,0 +1,268 @@
+<title>별빛 관측소 영상 콘티</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: 관측 일지처럼 위에서 아래로 — 흐름 한 줄, 인트로 3컷, 파이널 3컷, 공통 규칙. 컷마다 그림 프롬프트와 영상 프롬프트를 나란히 */
+:root {
+  --night: #0b1428;
+  --panel: #13203b;
+  --panel-2: #1a2a4b;
+  --line: #2c3f66;
+  --ink: #eef1f8;
+  --sub: #b4bfd6;
+  --brass: #f2c266;
+  --brass-ink: #1b1305;
+  --alert: #ff8a80;
+  --mint: #80e0c5;
+  --display: "Gowun Dodum", "Noto Sans KR", system-ui, sans-serif;
+  --body: "Noto Sans KR", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--night); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; display: grid; gap: 40px; }
+header.top { display: grid; gap: 10px; }
+.eyebrow { font-size: 13px; letter-spacing: .12em; color: var(--brass); font-weight: 600; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 5vw, 46px); line-height: 1.2; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--display); font-weight: 400; font-size: clamp(24px, 3.4vw, 32px); margin: 0; text-wrap: balance; }
+h3 { font-size: 19px; margin: 0; font-weight: 800; text-wrap: balance; }
+p { margin: 0; }
+.lede { color: var(--sub); max-width: 68ch; }
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.flow div { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14px; color: var(--sub); }
+.flow b { display: block; color: var(--ink); font-size: 15px; }
+.flow .film { border-color: var(--brass); }
+.flow .film b { color: var(--brass); }
+section.part { display: grid; gap: 18px; }
+.part-head { display: grid; gap: 6px; }
+.part-head p { color: var(--sub); max-width: 70ch; }
+.shot { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 16px; }
+.shot-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.tag { font-family: var(--mono); font-size: 13px; background: var(--brass); color: var(--brass-ink); border-radius: 6px; padding: 2px 8px; font-weight: 600; }
+.time { font-family: var(--mono); font-size: 13px; color: var(--sub); }
+.story { color: var(--ink); max-width: 75ch; }
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.meta div { background: var(--panel-2); border-radius: 10px; padding: 10px 12px; font-size: 14px; min-width: 0; }
+.meta dt { color: var(--brass); font-size: 12px; letter-spacing: .06em; font-weight: 600; margin-bottom: 2px; }
+.meta dd { margin: 0; color: var(--sub); word-break: keep-all; overflow-wrap: anywhere; }
+.meta code { font-family: var(--mono); font-size: 12.5px; color: var(--ink); }
+.prompts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.prompt { display: grid; gap: 8px; min-width: 0; align-content: start; }
+.prompt-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.prompt-head span { font-size: 13px; font-weight: 600; color: var(--mint); letter-spacing: .04em; }
+.prompt pre { margin: 0; background: #0a1222; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-family: var(--mono); font-size: 13px; line-height: 1.55; color: var(--ink); white-space: pre-wrap; word-break: break-word; max-height: 360px; overflow: auto; }
+button.copy { font: 600 13px var(--body); color: var(--brass-ink); background: var(--brass); border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer; min-height: 32px; }
+button.copy:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+button.copy.done { background: var(--mint); }
+.rules { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 12px; }
+.rules ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--sub); }
+.rules b { color: var(--ink); }
+.refs { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--brass); font-weight: 600; font-size: 13px; }
+td code { font-family: var(--mono); font-size: 12.5px; }
+.alert { color: var(--alert); }
+@media (max-width: 760px) { .prompts { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: no-preference) { button.copy { transition: background .2s; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">13 · 별빛 관측 연구소 · 영상 제작 콘티</p>
+    <h1>인트로 3컷 · 파이널 3컷</h1>
+    <p class="lede">GPT(Codex 이미지)로 장면 그림 6장을 먼저 만들고, 그 그림을 첫 장면으로 넣어 제미나이로 8초짜리 영상 6개를 만드는 순서야. 이야기는 앱 안의 흐름(연구소 경보 → 별여우 연구관의 의뢰 → 루미의 연구 키트 / 다섯 관측 기록 → 코어 복구·돔 열림 → 탐구 완료)을 그대로 따라가. 인트로 24초, 파이널 24초.</p>
+  </header>
+
+  <div class="flow" aria-label="앱 흐름과 영상 위치">
+    <div class="film"><b>인트로 영상</b>새로 만들 3컷 · 24초</div>
+    <div><b>시작 이야기</b>경보 → 별여우 → 루미</div>
+    <div><b>지도 · 탐구 1~5</b>달, 달 변화, 행성, 별과 행성, 북극성 주변 별자리</div>
+    <div><b>중앙 관측 코어</b>기록 다섯 개 연결</div>
+    <div class="film"><b>파이널 영상</b>새로 만들 3컷 · 24초</div>
+    <div><b>인증서</b>탐구 완료</div>
+  </div>
+
+  <section class="rules" aria-labelledby="rules-title">
+    <h2 id="rules-title">여섯 컷 모두 지킬 것</h2>
+    <ul>
+      <li><b>참고 그림을 꼭 붙여.</b> 별여우·루미·별빛 가림이·학생 연구원·관측소는 앱에 이미 있는 그림이랑 똑같아야 해. 컷마다 붙일 파일을 적어 뒀어.</li>
+      <li><b>그림에 글자를 넣지 마.</b> 제목·자막은 앱이 따로 얹어. 프롬프트 끝에 "no text, no letters, no logos"가 들어가 있어.</li>
+      <li><b>크기:</b> GPT에서 1536×1024 가로로 만들고, 중요한 건 가운데 16:9 범위(위아래 약 80px 안쪽)에 두게 했어. 제미나이는 16:9, 8초로 만들어.</li>
+      <li><b>영상 소리:</b> 앱이 배경음과 목소리를 따로 틀어. 그래서 제미나이 영상에는 대사·음악 없이 작은 분위기 소리만 넣게 했어(앱에서 영상 소리는 줄여서 재생돼).</li>
+      <li><b>화풍:</b> 앱 그림처럼 밝고 귀여운 애니메이션 일러스트, 남색 밤하늘 + 황동·금빛 장치, 부드러운 빛. 무섭거나 어두운 연출은 빼.</li>
+    </ul>
+  </section>
+
+  <section class="part" aria-labelledby="intro-title">
+    <div class="part-head">
+      <h2 id="intro-title">인트로 · 고장 난 관측소</h2>
+      <p>밤하늘은 아무 문제가 없는데 연구소 장치만 엉망이 됐다는 걸 보여 주고, 학생이 신입 연구원으로 불려 가는 데서 끝나. 마지막 컷이 앱의 「별여우 연구관의 의뢰」 화면으로 바로 이어져.</p>
+    </div>
+
+    <article class="shot" aria-labelledby="i1">
+      <div class="shot-head"><span class="tag">INTRO 1</span><h3 id="i1">평화로운 밤의 별빛 관측소</h3><span class="time">0:00 – 0:08</span></div>
+      <p class="story">은하수와 보름달 아래, 호숫가 언덕 위의 별빛 관측 연구소. 하늘은 맑고 고요해. 카메라가 천천히 다가가면 중앙 돔은 꼭 닫혀 있고, 창문 하나에서 붉은 불빛이 한 번 깜빡여.</p>
+      <dl class="meta">
+        <div><dt>참고 그림</dt><dd><code>public/assets/observatory.webp</code>, <code>public/assets/generated/dome-restored.webp</code></dd></div>
+        <div><dt>앱과 이어지는 곳</dt><dd>시작 화면 배경(관측소) → 경보 장면</dd></div>
+      </dl>
+      <div class="prompts">
+        <div class="prompt"><div class="prompt-head"><span>GPT 그림 프롬프트</span><button class="copy" type="button" data-copy="p-i1">복사</button></div><pre id="p-i1">Use the attached images as the exact style and location reference (the observatory balcony and the domed observation hall).
+Wide cinematic establishing shot of the "Starlight Observatory Lab" at night: a fantasy astronomy observatory with a large closed brass-and-navy dome, sitting on a hill above a calm mountain lake. Sky: a bright full moon, the Milky Way, scattered twinkling stars and one shooting star, deep navy-to-violet gradient. Warm brass lanterns glow along the balcony railing and the telescopes on the terrace. The night sky is perfectly peaceful. In one small window of the dome a single tiny red warning light glows (subtle hint that something inside is wrong).
+Style: bright, cute anime storybook illustration for elementary school students, soft painterly lighting, navy and gold palette, clean shapes, high detail, no characters.
+Composition: 16:9 safe area in the center, dome slightly right of center, open sky on the upper left for a title later.
+Landscape 1536x1024. No text, no letters, no logos, no watermark.</pre></div>
+        <div class="prompt"><div class="prompt-head"><span>제미나이 영상 프롬프트</span><button class="copy" type="button" data-copy="v-i1">복사</button></div><pre id="v-i1">Animate this image as the opening shot (image-to-video, 8 seconds, 16:9).
+Camera: very slow push-in toward the closed observatory dome, slight upward tilt.
+Motion: stars twinkle gently, the Milky Way shimmers, a single shooting star crosses the upper left around second 2, lake reflections ripple softly, lantern flames flicker. At second 6 the tiny red light in the dome window blinks twice.
+Keep the art style, colors and buildings exactly as in the image. No people, no new objects, no text.
+Audio: quiet night ambience only (soft wind, distant crickets, one faint electronic beep at the red blink). No music, no voice.</pre></div>
+      </div>
+    </article>
+
+    <article class="shot" aria-labelledby="i2">
+      <div class="shot-head"><span class="tag">INTRO 2</span><h3 id="i2">관측 데이터 충돌 · 별빛 가림이의 장난</h3><span class="time">0:08 – 0:16</span></div>
+      <p class="story">연구소 안. 다섯 관측 장치(달 망원경, 시간 기록 장치, 태양계 자료 장치, 별빛 판별 장치, 북쪽 하늘 지도)의 화면이 붉게 깜빡이며 엉킨 파형을 보여. 구석에서 동그란 별빛 가림이가 망원경 렌즈에 덮개를 씌우고 키득거려. 창밖 밤하늘은 여전히 평화로워.</p>
+      <dl class="meta">
+        <div><dt>참고 그림</dt><dd><code>public/assets/ui/alert-scene.webp</code>, <code>public/assets/map-encounters/villain-redraw.png</code>(별빛 가림이, 6칸 시트 중 하나)</dd></div>
+        <div><dt>앱과 이어지는 곳</dt><dd>「연구소 경보 · 관측 데이터 충돌」 화면, 지도 악당 대사 「망원경 덮개를 꽉 닫아 놨는데!」</dd></div>
+      </dl>
+      <div class="prompts">
+        <div class="prompt"><div class="prompt-head"><span>GPT 그림 프롬프트</span><button class="copy" type="button" data-copy="p-i2">복사</button></div><pre id="p-i2">Use the attached images as exact references: the observatory control room (brass machines, red alert screens) and the villain character "Starlight Blocker", a small round navy creature with a gold antenna ring and star decorations. Keep the villain's design exactly; it is mischievous and silly, not scary.
+Scene: inside the observatory control room at night. Five brass observation machines in a gentle arc: a moon telescope, a time-record machine with a calendar dial, a solar-system data console with small planet models, a starlight analyzer with a prism, and a north-sky map table. Every screen flashes red with tangled wave lines and small warning lamps glow. In the lower left, the Starlight Blocker is sneakily putting a round cover cap over the lens of the moon telescope, grinning. Through the big arched window behind, the real night sky is calm and beautiful with the full moon and stars.
+Style: bright, cute anime storybook illustration for elementary school students, navy and brass-gold palette with red alert accents, warm lamp light, clean readable shapes.
+Composition: 16:9 safe area in the center, machines across the middle, window on the upper right.
+Landscape 1536x1024. No text, no letters, no numbers on screens, no logos, no watermark.</pre></div>
+        <div class="prompt"><div class="prompt-head"><span>제미나이 영상 프롬프트</span><button class="copy" type="button" data-copy="v-i2">복사</button></div><pre id="v-i2">Animate this image (image-to-video, 8 seconds, 16:9).
+Camera: slow sideways dolly from right to left along the row of machines, ending on the small villain at the telescope.
+Motion: red warning lamps pulse on and off, screen wave lines jitter, small gears spin and stutter. The round villain finishes pressing the cover onto the telescope lens, giggles with a little bounce, then hops out of frame to the left at second 7. Outside the window the stars keep twinkling calmly.
+Keep all character designs, colors and the room exactly as in the image. Playful, not scary. No text.
+Audio: soft alarm chime loop at low volume, small mechanical clicks, one comic "boing" when the villain hops away. No music, no voice.</pre></div>
+      </div>
+    </article>
+
+    <article class="shot" aria-labelledby="i3">
+      <div class="shot-head"><span class="tag">INTRO 3</span><h3 id="i3">별여우 연구관과 루미의 의뢰</h3><span class="time">0:16 – 0:24</span></div>
+      <p class="story">닫힌 중앙 관측 코어 앞에서 별여우 연구관이 관측 기록판을 들고 화면 쪽(학생)을 바라보며 손을 내밀어. 옆에서 달토끼 기록원 루미가 별무늬 연구 키트 가방을 두 손으로 내밀어. 코어는 빛이 꺼진 채 다섯 칸이 비어 있어. 이 장면에서 앱의 「별여우 연구관의 의뢰」 대화로 넘어가.</p>
+      <dl class="meta">
+        <div><dt>참고 그림</dt><dd><code>public/assets/fox.webp</code>(별여우 연구관), <code>public/assets/rabbit.webp</code>(루미), <code>public/assets/generated/dome-restored.webp</code>(중앙 홀), <code>public/assets/generated/core-dial-v3.webp</code>(코어 다이얼)</dd></div>
+        <div><dt>앱과 이어지는 곳</dt><dd>「별여우 연구관의 의뢰」 → 「연구 키트를 받았어요」</dd></div>
+      </dl>
+      <div class="prompts">
+        <div class="prompt"><div class="prompt-head"><span>GPT 그림 프롬프트</span><button class="copy" type="button" data-copy="p-i3">복사</button></div><pre id="p-i3">Use the attached images as exact character and location references. Characters must match the sheets exactly: the Star Fox researcher (orange fox in a navy coat with gold star trim, holding a clipboard) and Lumi, the moon-rabbit record keeper (cream rabbit with long ears, navy beret with a crescent moon, navy coat with gold trim, small brown satchel).
+Scene: inside the grand domed observation hall at night, in front of the central observation core, a round brass pedestal with a large dial that is dark and switched off, with five empty glowing-outline slots around it. The dome above is still closed. The Star Fox researcher stands on the left, looking toward the viewer with a hopeful, slightly worried smile, one paw reaching out as if inviting the viewer to help. Lumi stands on the right, smiling warmly, holding out a navy research kit bag decorated with small gold stars toward the viewer.
+Style: bright, cute anime storybook illustration for elementary school students, navy and brass-gold palette, soft warm lantern light with cool moonlight from the windows.
+Composition: 16:9 safe area in the center, characters in the lower two thirds, eye level with a child, open space above the core for a caption.
+Landscape 1536x1024. No text, no letters, no logos, no watermark.</pre></div>
+        <div class="prompt"><div class="prompt-head"><span>제미나이 영상 프롬프트</span><button class="copy" type="button" data-copy="v-i3">복사</button></div><pre id="v-i3">Animate this image (image-to-video, 8 seconds, 16:9).
+Camera: gentle push-in toward the two characters at child eye level, ending in a medium shot.
+Motion: the fox researcher looks from the dark core to the viewer, gives a small determined nod and beckons with one paw. Lumi gives a little hop, then holds the star research kit forward with both paws; the stars on the bag twinkle once. The five empty slots on the core glow faintly in sequence, one by one, then dim again (showing what must be filled). Dust motes float in the lantern light.
+Keep both characters exactly as designed and keep the room unchanged. Mouths closed or gentle smiles only (no lip-sync). No text.
+Audio: soft room ambience, a light sparkle sound when the bag twinkles, five soft ticks as the slots glow. No music, no voice.</pre></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="part" aria-labelledby="final-title">
+    <div class="part-head">
+      <h2 id="final-title">파이널 · 다시 정확해진 밤하늘</h2>
+      <p>학생이 모은 다섯 관측 기록이 코어로 들어가고, 돔이 열리고, 모두가 함께 북극성을 올려다보며 끝나. 앱의 엔딩 영상 순서(기록 → 코어 연결 → 보정 링 → 돔 열림 → 복구 완료)와 같아서 앱 자막 넉 줄과 시간이 맞아.</p>
+    </div>
+
+    <article class="shot" aria-labelledby="f1">
+      <div class="shot-head"><span class="tag">FINAL 1</span><h3 id="f1">다섯 관측 기록이 모였어요</h3><span class="time">0:00 – 0:08</span></div>
+      <p class="story">어두운 중앙 홀에 빛나는 관측 기록 카드 다섯 장이 떠올라. 달 표면, 달 모양 변화, 행성, 별빛, 북쪽 하늘 별자리를 상징하는 그림이 카드마다 빛나. 별여우와 루미가 놀란 얼굴로 올려다봐.</p>
+      <dl class="meta">
+        <div><dt>참고 그림</dt><dd><code>fox.webp</code>, <code>rabbit.webp</code>, <code>ui/badge-moon.webp</code>·<code>badge-time.webp</code>·<code>badge-planet.webp</code>·<code>badge-light.webp</code>·<code>badge-sky.webp</code>(기록 배지 5개), <code>generated/dome-restored.webp</code></dd></div>
+        <div><dt>앱 자막과 맞춤</dt><dd>「연구원이 직접 관찰하고 검증한 다섯 개의 관측 기록이 모였어요.」</dd></div>
+      </dl>
+      <div class="prompts">
+        <div class="prompt"><div class="prompt-head"><span>GPT 그림 프롬프트</span><button class="copy" type="button" data-copy="p-f1">복사</button></div><pre id="p-f1">Use the attached images as exact references for the two characters (Star Fox researcher, Lumi the moon rabbit), the five record badges and the domed observation hall.
+Scene: the observation hall is dim and blue. Five glowing observation record cards float in a gentle arc above the dark central core, each card a soft golden frame with one simple icon matching the attached badges: the moon surface, the changing moon phases, a planet with rings, a bright star with light rays, and the Big Dipper pointing to the North Star. Thin streams of starlight trail behind each card. The Star Fox researcher and Lumi stand in the lower foreground looking up in wonder, paws clasped, eyes sparkling.
+Style: bright, cute anime storybook illustration for elementary school students, navy and brass-gold palette, magical soft glow, hopeful mood.
+Composition: 16:9 safe area in the center, cards in the upper middle, characters lower left and lower right.
+Landscape 1536x1024. No text, no letters, no numbers, no logos, no watermark.</pre></div>
+        <div class="prompt"><div class="prompt-head"><span>제미나이 영상 프롬프트</span><button class="copy" type="button" data-copy="v-f1">복사</button></div><pre id="v-f1">Animate this image (image-to-video, 8 seconds, 16:9).
+Camera: slow tilt up from the characters to the floating cards, slight orbit to the right.
+Motion: the five record cards drift into a neat arc one by one, each brightening with a soft pulse as it settles. Starlight trails swirl gently. The fox and the rabbit look up and turn to each other with delighted smiles; Lumi's ears perk up.
+Keep characters, icons and the room exactly as designed. No new objects, no text, mouths closed or simple smiles.
+Audio: soft rising chimes, one gentle sparkle per card (five in total). No music, no voice.</pre></div>
+      </div>
+    </article>
+
+    <article class="shot" aria-labelledby="f2">
+      <div class="shot-head"><span class="tag">FINAL 2</span><h3 id="f2">코어가 빛나고 천문 돔이 열려요</h3><span class="time">0:08 – 0:16</span></div>
+      <p class="story">카드 다섯 장이 코어의 다섯 칸으로 쏙 들어가고, 보정 링이 기준에 딱 맞춰지면서 코어에서 금빛이 퍼져. 거대한 돔 지붕이 꽃잎처럼 열리고 진짜 밤하늘이 드러나. 그 순간 별빛 가림이가 별똥별처럼 휙 날아가며 퇴장해.</p>
+      <dl class="meta">
+        <div><dt>참고 그림</dt><dd><code>generated/core-dial-v3.webp</code>(코어 다이얼), <code>generated/dome-restored.webp</code>, <code>map-encounters/villain-redraw.png</code></dd></div>
+        <div><dt>앱 자막과 맞춤</dt><dd>「다섯 기록이 중앙 관측 코어의 알맞은 채널로 들어가요.」 → 「보정 링이 기준에 맞춰지자 코어가 빛나고 천문 돔이 열려요.」</dd></div>
+      </dl>
+      <div class="prompts">
+        <div class="prompt"><div class="prompt-head"><span>GPT 그림 프롬프트</span><button class="copy" type="button" data-copy="p-f2">복사</button></div><pre id="p-f2">Use the attached images as exact references for the central observation core dial, the domed hall, and the round navy villain "Starlight Blocker".
+Scene: the climax moment in the observation hall. The central core is fully lit: its brass calibration ring is aligned and a warm golden beam rises from the core. Five slots around the core glow with the five record icons (moon, moon phases, planet, star rays, Big Dipper). Above, the huge glass dome is opening in segments like petals, revealing a deep starry sky with the Milky Way. In the upper corner, the tiny Starlight Blocker is flying away as a small comet with a sparkly tail, looking comically dizzy, not hurt.
+Style: bright, cute anime storybook illustration for elementary school students, navy and brass-gold palette, radiant golden light, celebratory mood.
+Composition: 16:9 safe area in the center, core in the lower center, opening dome filling the top.
+Landscape 1536x1024. No text, no letters, no numbers, no logos, no watermark.</pre></div>
+        <div class="prompt"><div class="prompt-head"><span>제미나이 영상 프롬프트</span><button class="copy" type="button" data-copy="v-f2">복사</button></div><pre id="v-f2">Animate this image (image-to-video, 8 seconds, 16:9).
+Camera: start close on the core, then a smooth crane up toward the opening dome.
+Motion (in order): seconds 0-2 the calibration ring turns a little and clicks into alignment; seconds 2-4 golden light spreads from the core across the floor; seconds 4-7 the dome segments slide open and starlight pours in; around second 6 the little villain zips away across the sky as a tiny comet.
+Keep the core, the room and the villain design exactly as in the image. No text, no new characters.
+Audio: a satisfying mechanical click, a warm rising hum, a soft whoosh as the dome opens, a tiny cartoon "zip" for the villain. No music, no voice.</pre></div>
+      </div>
+    </article>
+
+    <article class="shot" aria-labelledby="f3">
+      <div class="shot-head"><span class="tag">FINAL 3</span><h3 id="f3">다시 정확한 밤하늘 · 탐구 완료</h3><span class="time">0:16 – 0:24</span></div>
+      <p class="story">열린 돔 아래 관측 데크. 학생 연구원, 별여우 연구관, 루미가 나란히 서서 밤하늘을 가리켜. 북두칠성 국자 끝에서 북극성까지 가는 선이 은은하게 나타나고, 카시오페이아자리도 빛나. 셋이 기뻐하며 손을 들고, 위쪽 하늘에는 제목 자리가 비어 있어. 앱의 「탐구 완료」 화면과 인증서로 이어져.</p>
+      <dl class="meta">
+        <div><dt>참고 그림</dt><dd><code>generated/student.webp</code>(학생 연구원 시트), <code>fox.webp</code>, <code>rabbit.webp</code>, <code>observatory.webp</code></dd></div>
+        <div><dt>앱 자막과 맞춤</dt><dd>별여우: 「연구소가 다시 정확한 밤하늘을 기록하기 시작했어. 이건 네가 직접 관찰하고 검증한 결과야.」</dd></div>
+      </dl>
+      <div class="prompts">
+        <div class="prompt"><div class="prompt-head"><span>GPT 그림 프롬프트</span><button class="copy" type="button" data-copy="p-f3">복사</button></div><pre id="p-f3">Use the attached images as exact character and location references: the student researcher (child with short curly brown hair, navy cape with gold stars, brown boots), the Star Fox researcher and Lumi the moon rabbit. Keep all three designs exactly.
+Scene: on the observatory deck under the now fully open dome, seen from slightly behind and beside the three characters so their faces are visible in three-quarter view. They stand side by side looking up; the student points at the sky, the fox raises a clipboard happily, Lumi cheers with both paws up. In the sky: a clear Big Dipper with a soft glowing guide line running from its two pointer stars at the end of the bowl up to a bright Polaris, and Cassiopeia (W shape) shining on the other side of Polaris. The full moon and the Milky Way glow softly; the observatory telescopes are lit with warm brass lights.
+Style: bright, cute anime storybook illustration for elementary school students, navy and brass-gold palette, joyful triumphant mood.
+Composition: 16:9 safe area in the center, characters in the lower third, open sky in the upper half for a title.
+Landscape 1536x1024. No text, no letters, no logos, no watermark.</pre></div>
+        <div class="prompt"><div class="prompt-head"><span>제미나이 영상 프롬프트</span><button class="copy" type="button" data-copy="v-f3">복사</button></div><pre id="v-f3">Animate this image (image-to-video, 8 seconds, 16:9).
+Camera: slow pull-back and gentle tilt up from the three characters to the full sky, ending on a wide shot.
+Motion: the guide line from the Big Dipper's pointer stars to Polaris draws itself in soft gold over 3 seconds; Polaris twinkles brightly once it is reached; Cassiopeia's stars glow in turn. The three characters cheer: the student jumps once, Lumi hops, the fox waves the clipboard. A few shooting stars cross the sky near the end.
+Keep the characters, star positions and art style exactly as in the image. No text, mouths in simple smiles (no lip-sync).
+Audio: gentle magical twinkle as the line reaches Polaris, a soft cheer of breath without words, calm night ambience fading out. No music, no voice.</pre></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="rules" aria-labelledby="files-title">
+    <h2 id="files-title">파일 이름과 넣는 곳 (제안)</h2>
+    <div class="refs">
+      <table>
+        <thead><tr><th>컷</th><th>그림(GPT)</th><th>영상(제미나이)</th><th>길이</th></tr></thead>
+        <tbody>
+          <tr><td>INTRO 1~3</td><td><code>intro-1.png</code> ~ <code>intro-3.png</code></td><td><code>intro-1.mp4</code> ~ <code>intro-3.mp4</code></td><td>8초씩</td></tr>
+          <tr><td>FINAL 1~3</td><td><code>final-1.png</code> ~ <code>final-3.png</code></td><td><code>final-1.mp4</code> ~ <code>final-3.mp4</code></td><td>8초씩</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li>만든 파일은 외장 SSD <code>13 nightsky/references/film-20261121/</code>에 넣어 주면 내가 이어 붙이고 웹용으로 줄여서 앱 인트로·엔딩에 연결할게.</li>
+      <li>그림이 참고 그림과 캐릭터가 다르게 나오면 영상으로 넘기기 전에 다시 뽑아 줘. 영상에서 캐릭터가 바뀌면 그 컷만 다시 만들면 돼.</li>
+      <li class="alert">권리 장부에 남기려면 GPT·제미나이 생성 날짜와 쓴 요금제(유료)만 같이 알려 줘.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+document.querySelectorAll('button.copy').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const el = document.getElementById(btn.dataset.copy);
+    const text = el ? el.textContent : '';
+    const done = () => { btn.textContent = '복사됨'; btn.classList.add('done'); setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('done'); }, 1600); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = '선택됨 · ⌘C'; };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch { fallback(); }
+  });
+});
+</script>

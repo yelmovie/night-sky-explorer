@@ -13,10 +13,10 @@
 
 | 상태 | 줄 수 | 해당 줄 |
 |---|---:|---|
-| 확인됨 | 29 | I1–I7, I9–I19, V1–V2, M1, S1–S2, A1–A4, F1–F2 (I1–I5·I7·V1은 2026-11-21 사용자 확인) |
+| 확인됨 | 30 | I1–I7, I9–I19, V1–V3, M1, S1–S2, A1–A4, F1–F2 (I1–I5·I7·V1은 2026-11-21 사용자 확인, V3은 2026-11-21 생성 기록) |
 | 근거 약함 | 1 | I8 `favicon.svg`(직접 작성 SVG라 사용자 확인 범위 밖, 그대로 둠) |
 | 출처 미확인 | 0 | 2026-11-21 사용자 확인 전에는 7줄(I1–I5, I7, V1) |
-| **합계** | **30** | |
+| **합계** | **31** | |
 
 업로드되는 파일 수: 그림 60(아래 I1–I19), 영상 묶음 16(mp4 5·webm 5·끝 장면 webp 5·지도 파이널 mp4 1), 배경음 2, 효과음 16, 음성 143, 글꼴 2(+라이선스 원문 2).
 
@@ -60,6 +60,7 @@
 |---|---|---|---|---|---|---|
 | V1 | `concepts/stage-{1..5}.mp4`·`.webm`·끝 장면 `.webp` (15개, 1280×720, 16초, 소리 있음) | HyperFrames로 렌더(`films/`). 그림은 게임 에셋 재사용: 달·태양·별빛·행성(I11·I13·I14) + **`fox.png`·`rabbit.png` 포즈 시트를 잘라 넣음**. 소리는 Kenney CC0 효과음 5종(`.ogg`, 업로드 제외 파일이지만 영상 소리에 들어감). 2026-11-19 자막을 Jua 글꼴로 화면에 입힘 | 2026-11-09 교체(`5bae5a8`), 11-14 재렌더(`500c3e3`), 11-19 자막 입힘(`7ff790b`) | 루미·별여우 그림은 I3·I4 조건. 소리 CC0, 글꼴 OFL 1.1(렌더된 글자 사용 허용) | `films/build.mjs`(2·26·36·37행), `films/REVIEW.md`, `docs/concept-captions-20261118/stage-*.ass`(Fontname Jua), `../_shared/FULLSCREEN-CAPTION-CONCEPTS-20261118.md`, CREDITS(2026-10-22 절) | 확인됨(자체 렌더. 포함된 루미·별여우 그림은 I3·I4 사용자 확인 승계). 만든 도구는 저장소 기록대로 HyperFrames이고 제미나이가 아니다(아래 7번) |
 | V2 | `map-encounters/map-finale.mp4` (640×360, 6초, 무음) | 실제 지도 공격 장면 캡처(`../_scratch/live-map-contact-review/originals/13-attack.png`) 한 장에 FFmpeg로 확대·글자(drawtext)를 얹음. 화면 속 그림은 I9·I10·I19 | 2026-11-14(`33c7ee8`), 같은 날 글꼴을 나눔스퀘어 네오로 다시 만듦(`7a8745c`) | 화면 속 그림·글꼴 조건을 따름 | `../_scratch/stage-villain-dialogue/movies.py`(5–16행), git log | 확인됨(기록이 저장소 밖) |
+| V3 | `films/intro.{webm,mp4,webp}`, `films/final.{webm,mp4,webp}` (인트로·엔딩 영상 각 약 23초, 1280×720, 대사·자막 포함, 2026-11-21) | 장면 그림 6장: Codex 내장 이미지 도구(GPT 이미지, `gpt-imagegen`). 인트로 1컷: Google Flow · Veo 3.1 Fast(그림→영상). 나머지 5컷: 같은 그림에 ffmpeg 카메라 움직임(Flow 크레딧 부족). 새 대사 4줄: ElevenLabs API(eleven_v4, 기존 Aria·oki·Hun 목소리), 엔딩 대사는 기존 `el-movie-2·4`·`el-ending` 재사용. 자막: Jua(OFL) | 2026-11-21 11:30–11:41 그림 생성, 11:33–11:39 Flow(Aside 세션 `AhMpD7yBVh8uUMTY`), ElevenLabs requestId `wFzxmjRvxusY5H8Jw7c6`·`sbW0CdFQt7vmQjgjU1DW`·`H6WCAAbLdTPGzcflWCBH`·`J8HVcImsi15SrW0JH1gT` | ChatGPT·Google Flow·ElevenLabs 유료 요금제(2026-11-21 사용자 확인 「전부 맞아」, ElevenLabs Creator). Flow 영상에는 계정 지역 설정상 필수인 작은 「Veo」 표시가 오른쪽 아래에 있다(지우지 않음). 캐릭터 디자인은 I3·I4 | `docs/films-20261121/provenance.json`(파일별 SHA-256·생성 시각·프롬프트 키), `prompts.json`, `voice-api-log.jsonl`, `compose.py`·`kb.py`·`burn-*.json`, 원본 `references/film-20261121/` | 확인됨 |
 
 ## 음악
 

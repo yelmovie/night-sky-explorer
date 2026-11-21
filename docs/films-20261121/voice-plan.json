@@ -1,0 +1,6 @@
+[
+ {"key": "film-intro-1", "speaker": "달토끼 기록원 루미", "voiceId": "O2KReOFLpoR65nz6C9Se", "text": "별빛 관측 연구소의 밤이에요. 오늘도 하늘은 맑고 고요해요.", "prompt": "[friendly, calm] 별빛 관측 연구소의 밤이에요. 오늘도 하늘은 맑고 고요해요."},
+ {"key": "film-intro-2a", "speaker": "달토끼 기록원 루미", "voiceId": "O2KReOFLpoR65nz6C9Se", "text": "그런데 연구소 장치들이 엉뚱한 데이터를 보내기 시작했어요!", "prompt": "[surprised] 그런데 연구소 장치들이 엉뚱한 데이터를 보내기 시작했어요!"},
+ {"key": "film-intro-2b", "speaker": "별빛 가림이", "voiceId": "IQt4I2Udet4gAwcFGAlU", "text": "히히, 망원경 덮개를 꽉 닫아 놨지!", "prompt": "[mischievous] 히히, 망원경 덮개를 꽉 닫아 놨지!"},
+ {"key": "film-intro-3", "speaker": "별여우 연구관", "voiceId": "AjALR5PRxl87zOoe9Q31", "text": "신입 연구원, 기다리고 있었어. 우리 연구소를 함께 고쳐 줄래?", "prompt": "[warm] 신입 연구원, 기다리고 있었어. 우리 연구소를 함께 고쳐 줄래?"}
+]
