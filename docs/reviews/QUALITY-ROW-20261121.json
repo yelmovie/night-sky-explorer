@@ -1,19 +1,19 @@
 {
  "no": "13",
  "name": "별빛 관측 연구소",
- "appCommit": "5034c83",
- "measuredAt": "2026-11-21T08:10+09:00",
+ "appCommit": "eabae11",
+ "measuredAt": "2026-11-21T09:35+09:00",
  "score": {
-  "total": 86,
-  "noDevice": 91,
+  "total": 90,
+  "noDevice": 95,
   "items": {
    "learning": 9,
    "fun": 7,
-   "function": 8,
+   "function": 9,
    "code": 9,
    "design": 10,
    "a11y": 9,
-   "perf": 5,
+   "perf": 8,
    "firstScreen": 10,
    "data": 9,
    "deploy": 10
@@ -59,14 +59,14 @@
  },
  "weight": {
   "firstScreenKB": 1262,
-  "distMB": 29.8
+  "distMB": 25.4
  },
  "robust": {
   "reloadRestores": true,
   "corruptSaveHandled": true,
-  "offlineRevisit": false,
-  "backButtonStaysInApp": false,
+  "offlineRevisit": true,
+  "backButtonStaysInApp": true,
   "certificatePrintsOnePage": true
  },
- "notes": "운영 Worker b60aeabd(5034c83). 첫 화면 1262KB 중 글꼴 755KB·그림 399KB(캐시 끔, 요청 9개, 시작 버튼까지 2.15초). distMB는 업로드 제외 14+5개를 뺀 254파일(대사 8.5MB, 배경음 3.4MB, 개념영상 7.5MB). 단계 수는 잠금 조건에서 센 값(s1a 5·s2a 6·s3a 6·s5a 6·s4a 8 등). wrongAnswerLevels 3은 s4b(이유+힌트+다시), s3a는 힌트+다시. 보상 연출 7: 증거 확보 창, 성취 카드 회전 공개, 카드 5장 완성, 시설 열림 소리·반짝임, 코어 복구, 엔딩 영상·인증서, 지도 피날레 영상. 오프라인 새로고침은 ERR_INTERNET_DISCONNECTED, 뒤로 가기는 about:blank로 나감(둘 다 3-2단계 결정 반영 예정). 깨진 저장은 원본 유지+안내+파일 저장 버튼. D6: 앱이 안 부르는 옛 음성 29개(1.84MB)가 아직 업로드됨(다음 수정 줄)."
+ "notes": "운영 Worker 089597ed(eabae11). 첫 화면 1262KB 중 글꼴 755KB·그림 399KB(캐시 끔, 요청 9개, 시작 버튼까지 2.06초). distMB는 업로드 제외 뒤 226파일(대사 6.7MB, 배경음 3.4MB, 개념영상 4.85MB). 단계 수는 잠금 조건에서 센 값(s1a 5·s2a 6·s3a 6·s5a 6·s4a 8 등). wrongAnswerLevels 3은 s4b(이유+힌트+다시), s3a는 힌트+다시. 보상 연출 7: 증거 확보 창, 성취 카드 회전 공개, 카드 5장 완성, 시설 열림 소리·반짝임, 코어 복구, 엔딩 영상·인증서, 지도 피날레 영상. 오프라인 재방문은 서비스워커(3-2a), 뒤로 가기는 앱 안 앞 화면(3-2a). 깨진 저장은 원본 유지+안내+파일 저장 버튼."
 }
