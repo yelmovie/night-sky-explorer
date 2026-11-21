@@ -84,6 +84,21 @@ function polarisPointer(group) {
   const below = dy > 0;
   return `<g class="polaris-pointer" aria-label="이 방향 화면 밖에 북극성이 있어요"><path d="M-4 -2L1 -2L1 -4L5 0L1 4L1 2L-4 2Z" fill="#ffd771" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${angle.toFixed(1)})"/><text x="${x.toFixed(1)}" y="${(y + (below ? -6 : 9)).toFixed(1)}" text-anchor="middle" fill="#ffd771" style="font-size:4.5px">북극성 쪽</text></g>`;
 }
+// 북극성 찾기(5단원, 2026-11-21): 북두칠성 국자 끝 두 별(메라크 → 두베)을 이은 선과, 그 간격을 다섯 번 늘인 점선·눈금.
+// 이 지도(북극 중심 투영)에서 두베 → 북극성은 두 별 간격의 약 5.3배다(실제 하늘에서도 약 5배).
+function polarisGuide(pointers, found) {
+  const at = (id) => projectedStars.find((s) => s.id === id);
+  const merak = at("Merak"), dubhe = at("Dubhe"), pole = at("Polaris");
+  let out = pointers.map((id) => `<circle cx="${at(id).x}" cy="${at(id).y}" r="13" class="pointer-mark"/>`).join("");
+  if (pointers.length === 2) {
+    const dx = dubhe.x - merak.x, dy = dubhe.y - merak.y;
+    out += `<line x1="${merak.x}" y1="${merak.y}" x2="${dubhe.x}" y2="${dubhe.y}" class="pointer-line"/>`;
+    out += `<line x1="${dubhe.x}" y1="${dubhe.y}" x2="${(dubhe.x + dx * 5.6).toFixed(1)}" y2="${(dubhe.y + dy * 5.6).toFixed(1)}" class="pointer-extend"/>`;
+    for (let k = 1; k <= 5; k++) out += `<g class="pointer-tick"><circle cx="${(dubhe.x + dx * k).toFixed(1)}" cy="${(dubhe.y + dy * k).toFixed(1)}" r="3"/><text x="${(dubhe.x + dx * k - 9).toFixed(1)}" y="${(dubhe.y + dy * k + 4).toFixed(1)}" text-anchor="end">${k}</text></g>`;
+  }
+  if (found) out += `<circle cx="${pole.x}" cy="${pole.y}" r="16" class="polaris-found"/>`;
+  return `<g class="polaris-guide" aria-hidden="true">${out}</g>`;
+}
 export function starChart({
   lines = [],
   reference = false,
@@ -92,6 +107,8 @@ export function starChart({
   interactive = true,
   region = "all",
   starHref = conceptArt.star.src,
+  pointers = null,
+  polarisFound = false,
 } = {}) {
   const imageId = `starLight${uid++}`;
   const group = projectedStars.filter((s) =>
@@ -101,8 +118,10 @@ export function starChart({
           s.id,
         ),
   );
-  const bounds =
-    region === "all"
+  // 북극성 찾기에서는 별이 모인 가운데 부분만 크게 보여 준다(출처 문구는 다른 지도에 있음).
+  const bounds = pointers
+    ? "150 40 300 360"
+    : region === "all"
       ? "0 0 600 440"
       : `${Math.min(...group.map((s) => s.x)) - 30} ${Math.min(...group.map((s) => s.y)) - 30} ${Math.max(...group.map((s) => s.x)) - Math.min(...group.map((s) => s.x)) + 60} ${Math.max(...group.map((s) => s.y)) - Math.min(...group.map((s) => s.y)) + 60}`;
   const line = ([a, b], cls) => {
@@ -112,11 +131,11 @@ export function starChart({
       ? `<line x1="${x.x}" y1="${x.y}" x2="${y.x}" y2="${y.y}" class="${cls}"/>`
       : "";
   };
-  return `<svg viewBox="${bounds}" class="star-chart" style="overflow:hidden" aria-label="북극성 주변 별 관측 지도"><defs><symbol id="${imageId}" viewBox="0 0 ${conceptArt.star.width} ${conceptArt.star.height}"><image href="${esc(starHref)}" width="${conceptArt.star.width}" height="${conceptArt.star.height}"/></symbol></defs><circle cx="300" cy="220" r="190" fill="none" stroke="#33445e" stroke-dasharray="3 8"/><circle cx="300" cy="220" r="100" fill="none" stroke="#26334c"/>${reference ? referenceLines.map((l) => line(l, "reference-line")).join("") : ""}${lines.map((l) => line(l, "my-line")).join("")}${projectedStars
+  return `<svg viewBox="${bounds}" class="star-chart" style="overflow:hidden" aria-label="북극성 주변 별 관측 지도"><defs><symbol id="${imageId}" viewBox="0 0 ${conceptArt.star.width} ${conceptArt.star.height}"><image href="${esc(starHref)}" width="${conceptArt.star.width}" height="${conceptArt.star.height}"/></symbol></defs><circle cx="300" cy="220" r="190" fill="none" stroke="#33445e" stroke-dasharray="3 8"/><circle cx="300" cy="220" r="100" fill="none" stroke="#26334c"/>${reference ? referenceLines.map((l) => line(l, "reference-line")).join("") : ""}${lines.map((l) => line(l, "my-line")).join("")}${pointers ? polarisGuide(pointers, polarisFound) : ""}${projectedStars
     .filter((s) => region === "all" || group.includes(s))
     .map((s) => {
       const size = (s.id === "Polaris" ? 7 : Math.max(3, 7 - s.mag)) * 4;
-      return `<g ${interactive ? `role="button" tabindex="0" data-star="${s.id}" aria-label="${starNames[s.id]} 관찰"` : ""} class="star-node ${selected === s.id ? "selected" : ""}"><circle cx="${s.x}" cy="${s.y}" r="10" fill="transparent"/><use href="#${imageId}" x="${s.x - size / 2}" y="${s.y - size / 2}" width="${size}" height="${size}" pointer-events="none" aria-hidden="true"/><circle cx="${s.x}" cy="${s.y}" r="8" fill="none" stroke="${selected === s.id ? "#ffd771" : observed.includes(s.id) ? "#80e0c577" : "transparent"}"/><text x="${s.x + (region === "all" ? 8 : 4)}" y="${s.y - (region === "all" ? 8 : 4)}" class="star-label" style="font-size:${region === "all" ? 12 : 5}px">${s.id === "Polaris" ? "북극성" : projectedStars.indexOf(s) + 1}</text></g>`;
+      return `<g ${interactive ? `role="button" tabindex="0" data-star="${s.id}" aria-label="${starNames[s.id]} 관찰"` : ""} class="star-node ${selected === s.id ? "selected" : ""}"><circle cx="${s.x}" cy="${s.y}" r="10" fill="transparent"/><use href="#${imageId}" x="${s.x - size / 2}" y="${s.y - size / 2}" width="${size}" height="${size}" pointer-events="none" aria-hidden="true"/><circle cx="${s.x}" cy="${s.y}" r="8" fill="none" stroke="${selected === s.id ? "#ffd771" : observed.includes(s.id) ? "#80e0c577" : "transparent"}"/><text x="${s.x + (region === "all" ? 8 : 4)}" y="${s.y - (region === "all" ? 8 : 4)}" class="star-label" style="font-size:${region === "all" ? 12 : 5}px">${s.id === "Polaris" && (!pointers || polarisFound) ? "북극성" : projectedStars.indexOf(s) + 1}</text></g>`;
     })
     .join(
       "",

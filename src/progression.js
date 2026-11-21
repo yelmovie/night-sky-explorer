@@ -15,12 +15,25 @@ const lineCount = (lines, stars) => new Set((lines || []).filter(line => line.le
   line[0] !== line[1] && line.every(id => stars.includes(id))).map(line => [...line].sort().join(':'))).size;
 
 // This only chooses the next useful UI action. State remains the authority for completion.
+const lockedReasons = {
+  s1a: '배율을 바꿔 사진 2장을 담으면 열려요.',
+  s1b: '비교 카드 두 장에 서로 다른 곳 두 군데를 누르고 문장을 고르면 열려요.',
+  s2a: '보름 전과 보름 뒤 날을 섞어 달을 6번 담으면 열려요.',
+  s2b: '14일째와 24일째 모두 예상하고, 관측과 비교한 문장을 고르면 열려요.',
+  s3a: '여섯 행성의 특징을 모두 찾아 기록하면 열려요.',
+  s3b: '행성을 태양에서 가까운 순서대로 모두 놓으면 열려요.',
+  s4a: '하늘의 천체를 하나씩 모두 눌러 살펴보면 열려요.',
+  s4b: '천체마다 종류와 근거를 골라 모두 맞히면 열려요.',
+  s5b: '두 별 무리 모두 처음 선과 다시 이은 선을 두 개씩 긋고 비교 문장을 고르면 열려요.',
+};
 export function getStageAction(state, round = 0) {
   if (!/^s[1-5][ab]$/.test(state.scene)) return null;
   const number = +state.scene[1], first = state.scene.endsWith('a'), drafts = state.drafts;
   const ready = first ? firstReady(state, number) : stageReady(state, number);
   const result = { label: first ? '다음 활동으로' : '연구 기록 완성', action: first ? 'next' : 'complete', disabled: !ready };
   if (ready) return result;
+  // 잠긴 버튼 옆 이유 한 줄(B15, docs/reviews/COPY-DRAFT-20261121.md 제안 1). s5a는 조건이 북극성 찾기로 바뀌어 넣지 않았다.
+  if (lockedReasons[state.scene]) result.reason = lockedReasons[state.scene];
   let done, labels;
   switch (state.scene) {
     case 's1b':
@@ -36,8 +49,13 @@ export function getStageAction(state, round = 0) {
       labels = ['행성 순서 맞추기', '선택 탐구'];
       break;
     case 's5a':
-      done = regions.map(region => patternRegions[region].stars.filter(id => drafts.pattern.observed.includes(id)).length >= 3);
-      labels = ['위쪽 별 무리로', '아래쪽 별 무리로'];
+    {
+      // 두 무리에서 각각 2개 이상, 모두 6개를 채웠으면 남은 북극성 찾기로 바로 안내한다.
+      const counts = regions.map(region => patternRegions[region].stars.filter(id => drafts.pattern.observed.includes(id)).length);
+      const enough = counts.every(count => count >= 2) && counts[0] + counts[1] >= 6;
+      done = [enough || counts[0] >= 3, enough || counts[1] >= 3, !!drafts.pattern.polaris?.found];
+    }
+      labels = ['위쪽 별 무리로', '아래쪽 별 무리로', '북극성 찾기로'];
       break;
     case 's5b':
       done = regions.map(region => {
@@ -48,10 +66,9 @@ export function getStageAction(state, round = 0) {
       break;
     default: return result;
   }
-  const current = round === 1 ? 1 : 0, other = 1 - current;
-  return done[current] && !done[other]
-    ? { label: labels[other], action: `activity-round-${other}`, disabled: false, round: other }
-    : result;
+  const current = Math.max(0, Math.min(done.length - 1, round || 0)), other = done.findIndex((value, index) => !value && index !== current);
+  if (done[current] && other >= 0) { delete result.reason; return { label: labels[other], action: `activity-round-${other}`, disabled: false, round: other }; }
+  return result;
 }
 
 export function getLearningGuide(state, ui) {
@@ -99,8 +116,13 @@ export function getLearningGuide(state, ui) {
         ? { target: '.reason-choices', text: '빛이 어디서 오는지 근거를 골라요.' }
         : { target: '.claim-tray', text: `${body.name}${hasFinal(body.name) ? '은' : '는'} 별일까요, 행성일까요? 이름표를 골라요.` };
     }
-    case 's5a':
-      return { target: '#star-view', text: '별을 하나씩 눌러요. 두 구역에서 여섯 개를 살펴봐요.' };
+    case 's5a': {
+      if (round !== 2) return { target: '#star-view', text: '별을 하나씩 눌러요. 두 구역에서 여섯 개를 살펴봐요.' };
+      const p = d.pattern.polaris;
+      if (p.found) return { target: '#star-view', text: '북극성을 찾았어요! 여섯 별을 다 살펴봤는지 확인해요.' };
+      if (p.pointers.length < 2) return { target: '#star-view', text: '북두칠성 국자 끝의 두 별을 아래 별부터 차례로 눌러 이어요.' };
+      return { target: '#star-view', text: '이은 선을 두 별 간격의 다섯 배쯤 늘인 곳에서 별을 찾아 눌러요.' };
+    }
     case 's5b': {
       const card = d.pattern.cases[regions[round]];
       if (card.lines.length < 2) return { target: '#star-view', text: '별을 차례로 눌러 나만의 선 두 개를 이어요.' };

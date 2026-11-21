@@ -66,6 +66,10 @@ test('별 관찰은 세 별에서 구역 이동을 권하지만 기존 두 별�
   state.drafts.pattern.observed = patternRegions.cassiopeia.stars.slice(0, 3);
   assert.equal(getStageAction(state, 0).round, 1);
   state.drafts.pattern.observed = [...patternRegions.cassiopeia.stars.slice(0, 2), ...patternRegions.dipper.stars.slice(0, 4)];
+  // 2026-11-21: 여섯 별을 채우면 북극성 찾기(세 번째 묶음)로 안내하고, 찾은 뒤에 다음 활동이 열린다.
+  assert.equal(firstReady(state, 5), false);
+  assert.equal(getStageAction(state, 1).round, 2);
+  state.drafts.pattern.polaris = { pointers: ['Merak', 'Dubhe'], found: true };
   assert.equal(firstReady(state, 5), true);
   assert.equal(getStageAction(state, 1).action, 'next');
   assert.equal(getStageAction(state, 1).disabled, false);

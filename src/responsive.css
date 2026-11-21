@@ -49,6 +49,12 @@ html:has(.learning-v2), body:has(.learning-v2) { height: 100%; overflow: hidden;
   grid-template-columns: minmax(0, 1.85fr) minmax(280px, 1fr);
   gap: 12px;
 }
+/* 2026-11-21: 폭 1200px 이상에서 놀이 영역을 넓혔다(1.85fr → 2.6fr, 1280×800에서 화면 면적 약 50% → 55%).
+   1024 같은 좁은 화면은 도구 상자가 최소 280px에 걸려 선택 카드 글이 서너 줄로 쪼개지므로 전 비율을 둔다. */
+@media (min-width: 1200px) { .learning-v2 .activity-layout { grid-template-columns: minmax(0, 2.6fr) minmax(280px, 1fr); } }
+/* 잠긴 「다음 활동으로」·「연구 기록 완성」 옆 이유 한 줄(B15) */
+.learning-v2 .activity-action { display: flex; align-items: center; justify-content: flex-end; gap: 12px; min-width: 0; }
+.learning-v2 .stage-next-reason { margin: 0; min-width: 0; font-size: var(--classroom-small, 18px); line-height: 1.35; color: #f4efe0; text-align: right; text-wrap: balance; word-break: keep-all; text-shadow: 0 1px 3px #000c; }
 .learning-v2 .experiment-zone, .learning-v2 .toolbox {
   min-width: 0;
   min-height: 0;

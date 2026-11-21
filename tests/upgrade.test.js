@@ -106,6 +106,8 @@ test("별배열은 영역별 관찰과 서로 다른 자유 패턴 두 개를 �
   s.drafts.pattern.observed = [...patternRegions.cassiopeia.stars, "Dubhe"];
   assert.equal(firstReady(s, 5), false);
   s.drafts.pattern.observed = ["Caph", "Schedar", "Cih", "Dubhe", "Merak", "Phecda"];
+  assert.equal(firstReady(s, 5), false); // 2026-11-21: 북극성 찾기 전
+  s.drafts.pattern.polaris = { pointers: ["Merak", "Dubhe"], found: true };
   assert.equal(firstReady(s, 5), true);
   for (const [id, r] of Object.entries(patternRegions)) s.drafts.pattern.cases[id] = {
     lines: [[r.stars[0], r.stars[3]], [r.stars[1], r.stars[4]]],

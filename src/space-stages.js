@@ -73,9 +73,18 @@ export function renderSpaceStage(s, scene, i, ui, helpers) {
       break;
     }
     case 's5a': {
-      const region = regions[i], observed = d.pattern.observed.filter(id => id !== 'Polaris').length;
+      const region = regions[i], observed = d.pattern.observed.filter(id => id !== 'Polaris').length, polaris = d.pattern.polaris;
+      const roundTabs = tabs(['위쪽 별 무리', '아래쪽 별 무리', '북극성 찾기'], [...regions.map(key => patternRegions[key].stars.filter(id => d.pattern.observed.includes(id)).length >= 2), polaris.found]);
+      if (i === 2) {
+        // 북극성 찾기: 북두칠성 국자 끝 두 별을 이어 그 간격의 다섯 배쯤 늘이면 북극성이 있다(성취기준 [4과13-03] 북극성 주변 별자리 관찰).
+        instruction = '북두칠성으로 북극성을 찾아요.';
+        main = `${roundTabs}<div id="star-view" class="polaris-view">${starChart({ observed: d.pattern.observed, selected: ui.selectedStar, pointers: polaris.pointers, polarisFound: polaris.found })}</div>`;
+        const step = polaris.found ? '북극성을 찾았어요. 북극성은 거의 움직이지 않아 북쪽을 알려 줘요.' : polaris.pointers.length < 2 ? `① 북두칠성 국자 끝의 두 별을 아래 별부터 차례로 눌러 이어요. (${polaris.pointers.length}/2)` : '② 이은 선을 두 별 간격의 다섯 배쯤 늘인 곳에서 별을 찾아 눌러요.';
+        tools = `<div id="star-observation" class="observation-card ${!polaris.found && ui.polarisHint ? 'is-hint' : ''}" role="status">${!polaris.found && ui.polarisHint ? ui.polarisHint : step}</div><span class="flow-progress">관찰 ${observed}개 · 북극성 ${polaris.found ? '찾음' : '찾는 중'}</span>`;
+        break;
+      }
       instruction = '별 사이의 간격과 방향을 살펴봐요.';
-      main = `${tabs(['위쪽 별 무리', '아래쪽 별 무리'], regions.map(key => patternRegions[key].stars.filter(id => d.pattern.observed.includes(id)).length >= 2))}<div id="star-view">${starChart({ observed: d.pattern.observed, selected: ui.selectedStar, region })}</div><div class="chart-legend"><span><i class="legend-observed" aria-hidden="true"></i>관찰한 별</span><span><i class="legend-selected" aria-hidden="true"></i>선택한 별</span></div>`;
+      main = `${roundTabs}<div id="star-view">${starChart({ observed: d.pattern.observed, selected: ui.selectedStar, region })}</div><div class="chart-legend"><span><i class="legend-observed" aria-hidden="true"></i>관찰한 별</span><span><i class="legend-selected" aria-hidden="true"></i>선택한 별</span></div>`;
       tools = `<div id="star-observation" class="observation-card">${ui.selectedStar ? starNames[ui.selectedStar] : '별을 눌러 관찰해요'}</div><span class="flow-progress">관찰 ${observed}개 · 목표 6개</span>`;
       break;
     }

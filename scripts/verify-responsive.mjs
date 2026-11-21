@@ -66,7 +66,7 @@ function fixture(item) {
       if (stage === 2) state.drafts.phases.captures = observed.phases.captures;
       if (stage === 3) state.drafts.planets.records = observed.planets.records;
       if (stage === 4) state.drafts.classification.viewed = observed.classification.viewed;
-      if (stage === 5) state.drafts.pattern.observed = observed.pattern.observed;
+      if (stage === 5) Object.assign(state.drafts.pattern, { observed: observed.pattern.observed, polaris: { pointers: ['Merak', 'Dubhe'], found: true } }); // 2026-11-21 북극성 찾기도 A 활동
     }
   }
   Object.assign(state, { scene: item.scene, resume: item.scene, started: true, intro: true });

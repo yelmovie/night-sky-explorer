@@ -223,6 +223,15 @@ try {
     }
     if (!round) await roundOpens(1);
   }
+  // 북극성 찾기(2026-11-21): 여섯 별을 채우면 세 번째 묶음으로 넘어가고, 국자 끝 두 별 → 북극성을 눌러야 다음 활동이 열린다.
+  await roundOpens(2);
+  assert.equal(await page.locator('#stage-next').isDisabled(), true);
+  for (const id of ['Merak', 'Dubhe']) await page.locator(`[data-star="${id}"]`).click();
+  await page.locator('[data-star="Caph"]').click();
+  assert.match(await page.locator('#star-observation').textContent(), /다섯 번/);
+  await page.locator('[data-star="Polaris"]').click();
+  assert.deepEqual((await stored()).drafts.pattern.polaris, { pointers: ['Merak', 'Dubhe'], found: true });
+  pass('Polaris found by extending the two pointer stars of the Big Dipper about five times');
   await nextActivity();
   await scene('s5b');
   for (const [round, region] of Object.values(patternRegions).entries()) {

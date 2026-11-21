@@ -208,3 +208,12 @@ body.reduce-motion .learning-v2[data-scene='s4a'] .light-flow { animation: none;
 .learning-v2[data-scene='s5b'] .reflection-choices { gap: 6px; }
 .learning-v2[data-scene='s5b'] .reflection-choices .choice-row { gap: 4px; }
 .learning-v2[data-scene='s5b'] .reflection-choices legend { margin-bottom: 2px; }
+
+/* 5단원 북극성 찾기(2026-11-21): 국자 끝 두 별 표시, 이은 선, 다섯 배 늘인 점선과 눈금, 찾은 북극성 */
+.polaris-guide .pointer-mark { fill: none; stroke: #ffd771; stroke-width: 2.5; }
+.polaris-guide .pointer-line { stroke: #ffd771; stroke-width: 3; stroke-linecap: round; }
+.polaris-guide .pointer-extend { stroke: #ffd771b3; stroke-width: 2; stroke-dasharray: 6 6; }
+.polaris-guide .pointer-tick circle { fill: #ffd771; }
+.polaris-guide .pointer-tick text { fill: #ffe9b0; font-size: 12px; font-weight: 700; }
+.polaris-guide .polaris-found { fill: none; stroke: #80e0c5; stroke-width: 3; }
+.learning-v2 .observation-card.is-hint { color: #ffe3a1; }

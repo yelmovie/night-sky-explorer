@@ -25,7 +25,7 @@ function content(s,scene){const i=round(),helpers={tabs,title,strip,feedback,tok
 export function learningView(s,chrome=''){
   const n=+s.scene[1],part=s.scene.at(-1),c=chapters[n-1],v=content(s,s.scene),next=getStageAction(s,round());
   const concept=pageConcepts[s.scene],guide=getLearningGuide(s,learningUI);
-  return `<main class="experience learning-v2" data-scene="${s.scene}" aria-label="${c.steps[part==='a'?0:1]}" data-standard="${concept.standard}"><div class="room-bg"></div>${chrome}<div class="activity-heading"><p class="lesson-concept"><span>${c.steps[part==='a'?0:1]}</span> <strong>${concept.concept}</strong></p><h1 id="screen-title" tabindex="-1" aria-live="polite">${guide.text}</h1></div><div class="activity-layout"><section class="experiment-zone" aria-label="${v.instruction}">${v.main}</section><aside class="toolbox" aria-label="실험 조작">${v.tools}</aside></div><footer class="activity-footer"><div class="lesson-help">${button('힌트','hint','ghost')}${button(`${icon('book',18)} 기록`,'kit','ghost')}</div><div class="activity-action">${button(next.label,next.action,'primary',`id="stage-next" ${next.disabled?'disabled':''}`)}</div></footer></main>`;
+  return `<main class="experience learning-v2" data-scene="${s.scene}" aria-label="${c.steps[part==='a'?0:1]}" data-standard="${concept.standard}"><div class="room-bg"></div>${chrome}<div class="activity-heading"><p class="lesson-concept"><span>${c.steps[part==='a'?0:1]}</span> <strong>${concept.concept}</strong></p><h1 id="screen-title" tabindex="-1" aria-live="polite">${guide.text}</h1></div><div class="activity-layout"><section class="experiment-zone" aria-label="${v.instruction}">${v.main}</section><aside class="toolbox" aria-label="실험 조작">${v.tools}</aside></div><footer class="activity-footer"><div class="lesson-help">${button('힌트','hint','ghost')}${button(`${icon('book',18)} 기록`,'kit','ghost')}</div><div class="activity-action"><p class="stage-next-reason" id="stage-next-reason" ${next.reason?'':'hidden'}>${next.reason||''}</p>${button(next.label,next.action,'primary',`id="stage-next" aria-describedby="stage-next-reason" ${next.disabled?'disabled':''}`)}</div></footer></main>`;
 }
 
 export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog,on,refresh,sound}=ctx,d=s.drafts,scene=s.scene;const gestures=new AbortController();let viewer=null,disposed=false,advanceTimer=null,roundTimer=null,advancing=false,touchCleanup=()=>{},starDrag=null;
@@ -150,6 +150,18 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   }
   if(scene==='s4b')touchCleanup=mountTouchDrag(root,{sources:'[data-claim]',targets:'[data-claim-target]',on,onDrop(source){if(advancing)return;answer().kind=source.dataset.claim;judgeClassification();}});
   if(scene==='s5a'||scene==='s5b'){
+    // 북극성 찾기: 국자 끝 두 별(메라크 → 두베)을 차례로 누른 뒤, 그 선을 다섯 배쯤 늘인 곳의 북극성을 누른다. 틀리면 방법을 다시 알려 준다.
+    const polarisPick=id=>{
+      const p=d.pattern.polaris;if(p.found)return;
+      if(p.pointers.length<2){
+        const want=['Merak','Dubhe'][p.pointers.length];
+        if(id===want){p.pointers.push(id);sound?.play('place');track(s,'observations');}
+        else{track(s,'retries');sound?.play('retry');learningUI.polarisHint=p.pointers.length?'국자 끝에서 방금 고른 별과 짝인 위쪽 별이에요.':'북두칠성은 국자 모양이에요. 손잡이 반대쪽, 국자 끝의 아래 별부터 눌러요.';return;}
+        learningUI.polarisHint='';return;
+      }
+      if(id==='Polaris'){p.found=true;learningUI.polarisHint='';if(!d.pattern.observed.includes(id))d.pattern.observed.push(id);sound?.play('discover');track(s,'observations');}
+      else{track(s,'retries');sound?.play('retry');learningUI.polarisHint='두베에서 두 별 간격만큼 다섯 번 건너가 봐요. 눈금 5 가까이에 있는 별이에요.';}
+    };
     const pointerStar=event=>{
       const stars=$$('[data-star]'),id=nearestStar(stars.map(star=>{const r=star.querySelector('circle').getBoundingClientRect();return {id:star.dataset.star,x:r.x+r.width/2,y:r.y+r.height/2,radius:r.width/2};}),event.clientX,event.clientY);
       return stars.find(star=>star.dataset.star===id);
@@ -158,7 +170,8 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
       function pick(event){
         const id=(event?.detail ? pointerStar(event) : element)?.dataset.star;
         if(!id)return;
-        if(scene==='s5a'){if(!d.pattern.observed.includes(id)){d.pattern.observed.push(id);sound?.play('discover');track(s,'observations');}learningUI.selectedStar=id;}
+        if(scene==='s5a'&&round()===2){polarisPick(id);learningUI.selectedStar=id;}
+        else if(scene==='s5a'){if(!d.pattern.observed.includes(id)){d.pattern.observed.push(id);sound?.play('discover');track(s,'observations');}learningUI.selectedStar=id;}
         else{if(connectStars(pattern(),learningUI.selectedStar,id))sound?.play('place');learningUI.selectedStar=learningUI.selectedStar===id?null:id;}
         redraw();
       }

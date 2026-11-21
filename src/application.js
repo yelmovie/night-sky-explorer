@@ -130,6 +130,8 @@ function refresh() {
     nextButton.textContent = next.label;
     nextButton.dataset.action = next.action;
     nextButton.disabled = next.disabled;
+    const reason = $('#stage-next-reason');
+    if (reason) { reason.textContent = next.reason || ''; reason.hidden = !next.reason; }
   }
   if ($('#completion-hint')) $('#completion-hint').textContent = nextTask(state);
   if ($('#companion-task')) $('#companion-task').textContent = nextTask(state);

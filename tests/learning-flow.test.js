@@ -130,6 +130,7 @@ test('배치 즉시 피드백은 순서와 묶기의 실제 정답 수를 따로
 test('연속 별 연결은 끝점을 이어 쓰되 자기 연결과 역방향 중복은 선 수에 넣지 않는다', () => {
   const state = freshState(), draft = state.drafts.pattern;
   draft.observed = Object.values(patternRegions).flatMap(region => region.stars.slice(0, 3));
+  draft.polaris = { pointers: ['Merak', 'Dubhe'], found: true }; // 2026-11-21 북극성 찾기 단계
   assert.equal(firstReady(state, 5), true);
   for (const [id, region] of Object.entries(patternRegions)) {
     const pattern = draft.cases[id], [a, b, c] = region.stars;

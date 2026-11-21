@@ -50,6 +50,8 @@ export function freshState() {
       pattern: {
         activeCase: "cassiopeia", observed: [],
         cases: { cassiopeia: patternCase(), dipper: patternCase() },
+        // 북극성 찾기(2026-11-21): 북두칠성 국자 끝 두 별을 차례로 누른 기록과 북극성을 찾았는지.
+        polaris: { pointers: [], found: false },
       },
     },
     challengeAnswers: { 1: "", 2: "", 3: "", 4: "", 5: "" },
@@ -120,8 +122,10 @@ export function firstReady(s, n) {
     case 5: {
       const observed = observedStars(d.pattern.observed);
       const regionStars = Object.values(patternRegions).flatMap((r) => r.stars);
+      // 이미 두 번째 활동(별 패턴)을 시작한 옛 저장은 북극성 찾기 전이라도 그대로 연다(해금이 줄지 않게).
+      const polarisDone = d.pattern.polaris?.found || Object.values(d.pattern.cases).some((c) => c?.original);
       return observed.filter((id) => regionStars.includes(id)).length >= 6 &&
-        Object.values(patternRegions).every((r) => observed.filter((id) => r.stars.includes(id)).length >= 2);
+        Object.values(patternRegions).every((r) => observed.filter((id) => r.stars.includes(id)).length >= 2) && !!polarisDone;
     }
     default: return false;
   }
@@ -239,6 +243,13 @@ function normalizeDrafts(s) {
     reason: ["own", "reflect", "bright", "color"].includes(d.classification.answers?.[b.id]?.reason) ? d.classification.answers[b.id].reason : "",
   }]));
   d.pattern.observed = observedStars(d.pattern.observed);
+  {
+    const raw = d.pattern.polaris, steps = ["Merak", "Dubhe"];
+    const given = Array.isArray(raw?.pointers) ? raw.pointers : [];
+    const pointers = [];
+    for (const id of given) { if (id !== steps[pointers.length]) break; pointers.push(id); }
+    d.pattern.polaris = { pointers, found: raw?.found === true && pointers.length === 2 };
+  }
   if (!Object.hasOwn(patternRegions, d.pattern.activeCase)) d.pattern.activeCase = "cassiopeia";
   for (const [id, r] of Object.entries(patternRegions)) {
     const c = clean(patternCase(), d.pattern.cases[id]);
