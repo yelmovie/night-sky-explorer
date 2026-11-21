@@ -1,15 +1,15 @@
 {
  "no": "13",
  "name": "별빛 관측 연구소",
- "appCommit": "eabae11",
- "measuredAt": "2026-11-21T09:35+09:00",
+ "appCommit": "c07774c",
+ "measuredAt": "2026-11-21T11:10+09:00",
  "score": {
-  "total": 91,
-  "noDevice": 96,
+  "total": 93,
+  "noDevice": 98,
   "items": {
    "learning": 9,
-   "fun": 7,
-   "function": 9,
+   "fun": 8,
+   "function": 10,
    "code": 9,
    "design": 10,
    "a11y": 9,
@@ -32,9 +32,10 @@
    "막대 조절",
    "지도 걷기",
    "3D 회전·달빛 길 달리기",
-   "별 잇기"
+   "별 잇기",
+   "선 늘여 북극성 찾기"
   ],
-  "kindsCount": 6,
+  "kindsCount": 7,
   "zonesWithOwnInteraction": 5
  },
  "feedback": {
@@ -46,7 +47,7 @@
  },
  "screen": {
   "playAreaHeightPctMedian": 79,
-  "playAreaAreaPctMedian": 50,
+  "playAreaAreaPctMedian": 55,
   "bodyTextMinPx": 18,
   "bodyTextMedianPx": 18,
   "imagesOnScreenMedian": 2
@@ -68,5 +69,5 @@
   "backButtonStaysInApp": true,
   "certificatePrintsOnePage": true
  },
- "notes": "운영 Worker 089597ed(eabae11). 첫 화면 1262KB 중 글꼴 755KB·그림 399KB(캐시 끔, 요청 9개, 시작 버튼까지 2.06초). distMB는 업로드 제외 뒤 226파일(대사 6.7MB, 배경음 3.4MB, 개념영상 4.85MB). 단계 수는 잠금 조건에서 센 값(s1a 5·s2a 6·s3a 6·s5a 6·s4a 8 등). wrongAnswerLevels 3은 s4b(이유+힌트+다시), s3a는 힌트+다시. 보상 연출 7: 증거 확보 창, 성취 카드 회전 공개, 카드 5장 완성, 시설 열림 소리·반짝임, 코어 복구, 엔딩 영상·인증서, 지도 피날레 영상. 오프라인 재방문은 서비스워커(3-2a), 뒤로 가기는 앱 안 앞 화면(3-2a). 깨진 저장은 원본 유지+안내+파일 저장 버튼. 권리 장부: 2026-11-21 사용자 확인으로 출처 미확인 7 → 0, 권리 때문에 새로 그릴 그림 4 → 0(F12 PASS)."
+ "notes": "운영 Worker b07ffc3e(c07774c). 첫 화면 1262KB 중 글꼴 755KB·그림 399KB(캐시 끔, 요청 9개, 시작 버튼까지 2.06초). distMB는 업로드 제외 뒤 226파일(대사 6.7MB, 배경음 3.4MB, 개념영상 4.85MB). 단계 수는 잠금 조건에서 센 값(s1a 5·s2a 6·s3a 6·s5a 6·s4a 8 등). wrongAnswerLevels 3은 s4b(이유+힌트+다시), s3a는 힌트+다시. 보상 연출 7: 증거 확보 창, 성취 카드 회전 공개, 카드 5장 완성, 시설 열림 소리·반짝임, 코어 복구, 엔딩 영상·인증서, 지도 피날레 영상. 오프라인 재방문은 서비스워커(3-2a), 뒤로 가기는 앱 안 앞 화면(3-2a). 깨진 저장은 원본 유지+안내+파일 저장 버튼. 권리 장부: 2026-11-21 사용자 확인으로 출처 미확인 7 → 0, 권리 때문에 새로 그릴 그림 4 → 0(F12 PASS). 3-2b·3-3b: 5단원 북극성 찾기(국자 끝 두 별 간격 5배), 잠긴 버튼 이유 문구 9화면, 놀이 영역 1280×800 55.2%(1024×768은 49%, 도구 상자 최소폭 때문에 전 비율 유지)."
 }
