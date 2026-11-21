@@ -73,13 +73,13 @@
  "films": {
   "introSeconds": 27.8,
   "finalSeconds": 26.0,
-  "realVideoShots": 3,
-  "stillCameraShots": 3,
+  "realVideoShots": 4,
+  "stillCameraShots": 2,
   "filmsMB": 4.7,
   "lazyLoaded": true,
   "range206": true,
   "newVoiceLines": 4,
-  "note": "인트로 3 Gemini 영상 교체(앱 4d0d72c, Worker 5e526f05). 남은 임시: 인트로 2·엔딩 1·엔딩 3, 2026-11-22 06:30 예약 재시도(nightsky-film-retry-0630)"
+  "note": "인트로 2 Gemini 영상 교체(2026-11-22 아침 재시도, 앱 f0c6ca8, Worker 0e4d936c). 남은 임시: 엔딩 1·엔딩 3(11-22 아침 재시도 두 번씩 모두 Gemini 오류, 임시 판 유지)"
  },
  "codeStructure": {
   "largestCssLines": 1069,

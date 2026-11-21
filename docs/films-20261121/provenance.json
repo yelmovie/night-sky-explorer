@@ -1,275 +1,299 @@
 {
- "project": "13 별빛 관측 연구소",
- "createdAt": "2026-11-21",
- "files": {
-  "public/assets/films/intro.webm": {
-   "bytes": 1132415,
-   "sha256": "5fe5f5ab39c85fd2ad94d1a4ecfb99b7b09d4cc094adb7e84d1ad6bb97cacacf"
+  "project": "13 별빛 관측 연구소",
+  "createdAt": "2026-11-21",
+  "files": {
+    "public/assets/films/intro.webm": {
+      "bytes": 1131463,
+      "sha256": "cf89a6142312c7f061efa3cc043d15f79d154ef603dadd5810c5612da014eb48"
+    },
+    "public/assets/films/intro.mp4": {
+      "bytes": 1174700,
+      "sha256": "1735856e4acb0d9e26d9dbe3d08b6b13c2f6eb09506b7c0a659f845ed6ed8a7f",
+      "duration": 27.8
+    },
+    "public/assets/films/intro.webp": {
+      "bytes": 116858,
+      "sha256": "09c4ea12158423fb58e40c5e313db4f9bf7e346601284b97fd733ee8553ccb2f"
+    },
+    "public/assets/films/final.webm": {
+      "bytes": 1033898,
+      "sha256": "fd2943e74a85bc239fdd6fe5870a82430361da288f7d394050b9992ff100daea"
+    },
+    "public/assets/films/final.mp4": {
+      "bytes": 1118662,
+      "sha256": "73c76f919ee46d74357850f1f6d2ca56a1e9de0f3548986e1b129d25684e2dba",
+      "duration": 26.0
+    },
+    "public/assets/films/final.webp": {
+      "bytes": 122374,
+      "sha256": "ee391b6072519d260501cf46c84a2d489f9301c0ce63d5910f1721e5f42d8916"
+    }
   },
-  "public/assets/films/intro.mp4": {
-   "bytes": 1175415,
-   "sha256": "836ea52553f3b44b4afb1746b32b8413de5288098003fb502d7ca9cde81e1067",
-   "duration": 27.8
-  },
-  "public/assets/films/intro.webp": {
-   "bytes": 116978,
-   "sha256": "708522c1d7acd10b1e1114c76972affdfd738ffead9df7f398e68c88a04bef7f"
-  },
-  "public/assets/films/final.webm": {
-   "bytes": 1033898,
-   "sha256": "fd2943e74a85bc239fdd6fe5870a82430361da288f7d394050b9992ff100daea"
-  },
-  "public/assets/films/final.mp4": {
-   "bytes": 1118662,
-   "sha256": "73c76f919ee46d74357850f1f6d2ca56a1e9de0f3548986e1b129d25684e2dba",
-   "duration": 26.0
-  },
-  "public/assets/films/final.webp": {
-   "bytes": 122374,
-   "sha256": "ee391b6072519d260501cf46c84a2d489f9301c0ce63d5910f1721e5f42d8916"
-  }
- },
- "stills": [
-  {
-   "file": "references/film-20261121/stills/intro-1.png",
-   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
-   "generated": "2026-11-21 11:30-11:32 KST",
-   "promptKey": "p-i1",
-   "references": "observatory.webp, dome-restored.webp",
-   "sha256": "e0389f1f6950d393218fe9fcbd8e843ee634e11d3fbc4a760cd523130ed11217"
-  },
-  {
-   "file": "references/film-20261121/stills/intro-2.png",
-   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
-   "generated": "11:32-11:34",
-   "promptKey": "p-i2",
-   "references": "alert-scene.webp, map-encounters/villain-redraw.png",
-   "sha256": "a2fdc8b55d21e580fc256f43a2fd61c7a90f42918e9863f5a2fbbff84f277627"
-  },
-  {
-   "file": "references/film-20261121/stills/intro-3.png",
-   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
-   "generated": "11:34-11:36",
-   "promptKey": "p-i3",
-   "references": "fox.webp, rabbit.webp, dome-restored.webp, core-dial-v3.webp",
-   "sha256": "5160227194fa3937043082d65bf36565611b079becc4069c771d5e688b663dcd"
-  },
-  {
-   "file": "references/film-20261121/stills/final-1.png",
-   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
-   "generated": "11:36-11:37",
-   "promptKey": "p-f1",
-   "references": "fox.webp, rabbit.webp, ui/badge-*.webp, dome-restored.webp",
-   "sha256": "9f2ec5d406b51b898eb542fec1369b06174bee55ad8c6f680423593450bb6538"
-  },
-  {
-   "file": "references/film-20261121/stills/final-2.png",
-   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
-   "generated": "11:37-11:39",
-   "promptKey": "p-f2",
-   "references": "core-dial-v3.webp, dome-restored.webp, villain-redraw.png",
-   "sha256": "a3d6f3d61d04101b57584e5686e05290846e63b2353bdd142a45b046d707b1df"
-  },
-  {
-   "file": "references/film-20261121/stills/final-3.png",
-   "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
-   "generated": "11:39-11:41",
-   "promptKey": "p-f3",
-   "references": "student.webp, fox.webp, rabbit.webp, observatory.webp",
-   "sha256": "dd48c3ca9e3436c7eeb827b67fbd472b32847b71617d99bbb8e8e36fbaaba2fc"
-  }
- ],
- "clips": [
-  {
-   "file": "references/film-20261121/clips/intro-1.mp4",
-   "tool": "Google Flow · Veo 3.1 Fast(image-to-video, 16:9, 8초, 20크레딧)",
-   "via": "Aside 세션 AhMpD7yBVh8uUMTY(2026-11-21 11:33-11:39 KST)",
-   "promptKey": "v-i1",
-   "sha256": "bf82dcee02af870d581db835dbdf3008f21f5e20f27361b767107efdc1baf476",
-   "watermark": "오른쪽 아래 작은 'Veo' 표시(계정 지역 설정상 필수, 지우지 않음)"
-  },
-  {
-   "file": "references/film-20261121/clips-kb/intro-2.mp4",
-   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
-   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
-  },
-  {
-   "file": "references/film-20261121/clips-kb/final-1.mp4",
-   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
-   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
-  },
-  {
-   "file": "references/film-20261121/clips-kb/final-3.mp4",
-   "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
-   "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
-  },
-  {
-   "file": "references/film-20261121/clips/final-2.mp4",
-   "tool": "Gemini 앱 동영상 만들기(Veo), 1280x720 24fps 약 10초(앞 8초 사용)",
-   "account": "보조 계정 1(Gemini 주소 순번 u/2)",
-   "plan": "화면 표시 PRO(같은 계정 Flow 패널, 2026-11-21 15:25 조율 세션 확인) · 사용자 확인 2026-11-21: 유료",
-   "made": "2026-11-21 16:39 KST",
-   "chat": "931c3b2ca959e7bf",
-   "promptKey": "v-f2",
-   "sha256": "65015284fcaa39b035180b602fdc857a936b4e4760ff4432285fcd7a051acf31",
-   "watermark": "오른쪽 아래 작은 Veo 표시(지우지 않음)"
-  },
-  {
-   "file": "references/film-20261121/clips/intro-3.mp4",
-   "tool": "Gemini 앱 동영상 만들기(Veo, image-to-video, 16:9, 10초 중 앞 8초 사용)",
-   "account": "보조 계정 3(u/3)",
-   "time": "2026-11-21 20:14 KST",
-   "chat": "de28979c62cf54a2",
-   "promptKey": "v-i3",
-   "sha256": "c22ca1f535ca4687c2ae372f4cb8313ec71844eaa0d97a98f7e4558df3d0cd51",
-   "check": "여우·토끼 모습 그대로, 글자 없음, 슬롯이 하나씩 빛남, 창밖 달 보름달 그대로(프레임 확인 .tmp/intro-video-20261121/cand-check/)"
-  }
- ],
- "voices": {
-  "new": [
-   {
-    "status": 200,
-    "requestId": "wFzxmjRvxusY5H8Jw7c6",
-    "chars": 50,
-    "key": "film-intro-1",
-    "model": "eleven_v4",
-    "provider": "ElevenLabs API",
-    "voice": "Aria(루미) O2KReOFLpoR65nz6C9Se",
-    "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
-    "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
-   },
-   {
-    "status": 200,
-    "requestId": "sbW0CdFQt7vmQjgjU1DW",
-    "chars": 44,
-    "key": "film-intro-2a",
-    "model": "eleven_v4",
-    "provider": "ElevenLabs API",
-    "voice": "Aria(루미) O2KReOFLpoR65nz6C9Se",
-    "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
-    "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
-   },
-   {
-    "status": 200,
-    "requestId": "H6WCAAbLdTPGzcflWCBH",
-    "chars": 34,
-    "key": "film-intro-2b",
-    "model": "eleven_v4",
-    "provider": "ElevenLabs API",
-    "voice": "oki(별빛 가림이) IQt4I2Udet4gAwcFGAlU",
-    "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
-    "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
-   },
-   {
-    "status": 200,
-    "requestId": "J8HVcImsi15SrW0JH1gT",
-    "chars": 42,
-    "key": "film-intro-3",
-    "model": "eleven_v4",
-    "provider": "ElevenLabs API",
-    "voice": "Hun(별여우 연구관) AjALR5PRxl87zOoe9Q31",
-    "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
-    "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
-   }
+  "stills": [
+    {
+      "file": "references/film-20261121/stills/intro-1.png",
+      "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+      "generated": "2026-11-21 11:30-11:32 KST",
+      "promptKey": "p-i1",
+      "references": "observatory.webp, dome-restored.webp",
+      "sha256": "e0389f1f6950d393218fe9fcbd8e843ee634e11d3fbc4a760cd523130ed11217"
+    },
+    {
+      "file": "references/film-20261121/stills/intro-2.png",
+      "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+      "generated": "11:32-11:34",
+      "promptKey": "p-i2",
+      "references": "alert-scene.webp, map-encounters/villain-redraw.png",
+      "sha256": "a2fdc8b55d21e580fc256f43a2fd61c7a90f42918e9863f5a2fbbff84f277627"
+    },
+    {
+      "file": "references/film-20261121/stills/intro-3.png",
+      "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+      "generated": "11:34-11:36",
+      "promptKey": "p-i3",
+      "references": "fox.webp, rabbit.webp, dome-restored.webp, core-dial-v3.webp",
+      "sha256": "5160227194fa3937043082d65bf36565611b079becc4069c771d5e688b663dcd"
+    },
+    {
+      "file": "references/film-20261121/stills/final-1.png",
+      "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+      "generated": "11:36-11:37",
+      "promptKey": "p-f1",
+      "references": "fox.webp, rabbit.webp, ui/badge-*.webp, dome-restored.webp",
+      "sha256": "9f2ec5d406b51b898eb542fec1369b06174bee55ad8c6f680423593450bb6538"
+    },
+    {
+      "file": "references/film-20261121/stills/final-2.png",
+      "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+      "generated": "11:37-11:39",
+      "promptKey": "p-f2",
+      "references": "core-dial-v3.webp, dome-restored.webp, villain-redraw.png",
+      "sha256": "a3d6f3d61d04101b57584e5686e05290846e63b2353bdd142a45b046d707b1df"
+    },
+    {
+      "file": "references/film-20261121/stills/final-3.png",
+      "tool": "Codex 내장 이미지 도구(GPT 이미지, gpt-imagegen 스킬)",
+      "generated": "11:39-11:41",
+      "promptKey": "p-f3",
+      "references": "student.webp, fox.webp, rabbit.webp, observatory.webp",
+      "sha256": "dd48c3ca9e3436c7eeb827b67fbd472b32847b71617d99bbb8e8e36fbaaba2fc"
+    }
   ],
-  "reused": [
-   "public/assets/audio/voices/el-movie-2.mp3",
-   "public/assets/audio/voices/el-movie-4.mp3",
-   "public/assets/audio/voices/el-ending.mp3"
-  ]
- },
- "captions": "_shared/caption-motion-20261118/burn.py(Jua 글꼴, SIL OFL 1.1), 화자 이름표·말 속도 스윕",
- "motionGraphics": "compose.py(최종): 0.4초 교차 페이드, 인트로 끝 앱 제목 로고(logo.webp)+첫 화면 문구(Jua), 엔딩 끝 앱 별빛 그림(starlight-v3.webp) 반짝임 9개 + 「탐구 완료」 도장 + 「관측 시스템 복구 100%」, 처음·끝 페이드",
- "encode": "webm VP9 2패스 290kbps + Opus 40k, mp4 H.264 2패스 300kbps + AAC 48k, 1280x720 30fps",
- "geminiAttempts": [
-  {
-   "shot": "final-3",
-   "account": "보조 계정 1(u/2)",
-   "time": "16:39",
-   "chat": "bec55322db4e3928",
-   "result": "영상 받음 → 쓰지 않음: 4초 뒤 별자리 선이 북두칠성이 아닌 모양으로 바뀜",
-   "file": "references/film-20261121/clips-rejected/final-3-gemini-1.mp4"
-  },
-  {
-   "shot": "final-3",
-   "account": "보조 계정 2(u/1)",
-   "time": "17:44",
-   "chat": "8608629f987ddbaf",
-   "promptKey": "v-f3r",
-   "result": "영상 받음 → 쓰지 않음: 안내선 가운데에 큰 별이 생겨 북극성 위치처럼 보임",
-   "file": "references/film-20261121/clips-rejected/final-3-gemini-2.mp4"
-  },
-  {
-   "shot": "intro-2",
-   "account": "보조 계정 1(u/2)",
-   "time": "17:05, 17:34",
-   "chats": [
-    "e850d9445e65c5fe",
-    "02e5e7537996549a"
-   ],
-   "result": "두 번 모두 영상 없음('Sorry, something went wrong' 등). 사용량 변화 없음"
-  },
-  {
-   "shot": "final-1",
-   "account": "보조 계정 1(u/2)",
-   "time": "17:05, 17:34",
-   "chats": [
-    "8137b057a0937345",
-    "147ea4bb371cdfcb"
-   ],
-   "result": "두 번 모두 영상 없음('I'm having a hard time fulfilling your request' 등)"
-  },
-  {
-   "shot": "intro-3",
-   "account": "보조 계정 2(u/1)",
-   "time": "17:44, 17:59",
-   "chats": [
-    "3f87a47fceedacb2",
-    "b6d64c120069aff3"
-   ],
-   "result": "두 번 모두 영상 없음('encountering an error', 'at full capacity')"
-  },
-  {
-   "account": "보조 계정 3(u/3)",
-   "time": "2026-11-21 19:10-20:48",
-   "log": ".tmp/intro-video-20261121/u3-attempts.md",
-   "result": "인트로 3 두 번째 시도에서 영상 받음 → 적용. 인트로 2·엔딩 1·엔딩 3은 세 번씩(엔딩 3·인트로 2는 실제로 네 번 보냄) 모두 영상 없음: 'unusually high traffic … at full capacity', 'I seem to be encountering an error', 'I'm having a hard time fulfilling your request', 'Sorry, something went wrong', 엔딩 3 한 번은 영상 도구 없이 글 답만. 사용량 0~1%로 한도 문제 아님",
-   "chats": {
-    "intro-2": [
-     "7dbbdda5b06f1e77",
-     "3b008ed096f43c42",
-     "d1d7afc8dc79516f",
-     "adca25cce06a492d"
+  "clips": [
+    {
+      "file": "references/film-20261121/clips/intro-1.mp4",
+      "tool": "Google Flow · Veo 3.1 Fast(image-to-video, 16:9, 8초, 20크레딧)",
+      "via": "Aside 세션 AhMpD7yBVh8uUMTY(2026-11-21 11:33-11:39 KST)",
+      "promptKey": "v-i1",
+      "sha256": "bf82dcee02af870d581db835dbdf3008f21f5e20f27361b767107efdc1baf476",
+      "watermark": "오른쪽 아래 작은 'Veo' 표시(계정 지역 설정상 필수, 지우지 않음)"
+    },
+    {
+      "file": "references/film-20261121/clips-kb/final-1.mp4",
+      "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
+      "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
+    },
+    {
+      "file": "references/film-20261121/clips-kb/final-3.mp4",
+      "tool": "ffmpeg zoompan 카메라 움직임(kb.py) — GPT 장면 그림 그대로",
+      "why": "Google Flow 크레딧 부족(잔액 2, 1개 20 필요)으로 생성 못 함. Aside 세션 g72I8KRFiLFjrLGP·Seco6FkuBwkUw8IU·UWx9BLXLPo8FZpVO·DO09sfVpxMV6MFoO·t3VuVqDLP9Qwb03k 화면 원문 '크레딧이 부족합니다'"
+    },
+    {
+      "file": "references/film-20261121/clips/final-2.mp4",
+      "tool": "Gemini 앱 동영상 만들기(Veo), 1280x720 24fps 약 10초(앞 8초 사용)",
+      "account": "보조 계정 1(Gemini 주소 순번 u/2)",
+      "plan": "화면 표시 PRO(같은 계정 Flow 패널, 2026-11-21 15:25 조율 세션 확인) · 사용자 확인 2026-11-21: 유료",
+      "made": "2026-11-21 16:39 KST",
+      "chat": "931c3b2ca959e7bf",
+      "promptKey": "v-f2",
+      "sha256": "65015284fcaa39b035180b602fdc857a936b4e4760ff4432285fcd7a051acf31",
+      "watermark": "오른쪽 아래 작은 Veo 표시(지우지 않음)"
+    },
+    {
+      "file": "references/film-20261121/clips/intro-3.mp4",
+      "tool": "Gemini 앱 동영상 만들기(Veo, image-to-video, 16:9, 10초 중 앞 8초 사용)",
+      "account": "보조 계정 3(u/3)",
+      "time": "2026-11-21 20:14 KST",
+      "chat": "de28979c62cf54a2",
+      "promptKey": "v-i3",
+      "sha256": "c22ca1f535ca4687c2ae372f4cb8313ec71844eaa0d97a98f7e4558df3d0cd51",
+      "check": "여우·토끼 모습 그대로, 글자 없음, 슬롯이 하나씩 빛남, 창밖 달 보름달 그대로(프레임 확인 .tmp/intro-video-20261121/cand-check/)"
+    },
+    {
+      "file": "references/film-20261121/clips/intro-2.mp4",
+      "tool": "Gemini 앱 동영상 만들기(Veo, image-to-video, 16:9, 10초 중 앞 8초 사용)",
+      "account": "보조 계정 3(u/3)",
+      "time": "2026-11-22 06:31 KST",
+      "chat": "b37a057eef0d4f6a",
+      "promptKey": "v-i2",
+      "sha256": "a76c4635ceace8438f9ad023a8340abe0b70045d284c226a4fc4497640285dd3",
+      "check": "악당 「별빛 가림이」 모습 그대로, 글자 없음, 장치·달 그대로. 망원경 덮개를 닫고 돌아서 걸어 나오다 6.5초쯤 망원경 위로 뛰어 왼쪽으로 빠져나감(모습 변형 없음). 프레임 확인 .tmp/retry-20261122/"
+    }
+  ],
+  "voices": {
+    "new": [
+      {
+        "status": 200,
+        "requestId": "wFzxmjRvxusY5H8Jw7c6",
+        "chars": 50,
+        "key": "film-intro-1",
+        "model": "eleven_v4",
+        "provider": "ElevenLabs API",
+        "voice": "Aria(루미) O2KReOFLpoR65nz6C9Se",
+        "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
+        "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
+      },
+      {
+        "status": 200,
+        "requestId": "sbW0CdFQt7vmQjgjU1DW",
+        "chars": 44,
+        "key": "film-intro-2a",
+        "model": "eleven_v4",
+        "provider": "ElevenLabs API",
+        "voice": "Aria(루미) O2KReOFLpoR65nz6C9Se",
+        "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
+        "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
+      },
+      {
+        "status": 200,
+        "requestId": "H6WCAAbLdTPGzcflWCBH",
+        "chars": 34,
+        "key": "film-intro-2b",
+        "model": "eleven_v4",
+        "provider": "ElevenLabs API",
+        "voice": "oki(별빛 가림이) IQt4I2Udet4gAwcFGAlU",
+        "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
+        "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
+      },
+      {
+        "status": 200,
+        "requestId": "J8HVcImsi15SrW0JH1gT",
+        "chars": 42,
+        "key": "film-intro-3",
+        "model": "eleven_v4",
+        "provider": "ElevenLabs API",
+        "voice": "Hun(별여우 연구관) AjALR5PRxl87zOoe9Q31",
+        "normalization": "vf.py norm -16 LUFS, -1.5 dBTP",
+        "asr": "확인 못 함(이 맥에 whisper용 torch 환경 없음)"
+      }
     ],
-    "final-3": [
-     "8c8fcabfce4db547",
-     "0ad3c499b4196c90",
-     "a63d07d04857c61a",
-     "168e23fd5e8724a2"
-    ],
-    "final-1": [
-     "53505057af3b2eab",
-     "d73e69503f406f72",
-     "a197b27cf4b5e033",
-     "a73e82dddafd02dc"
-    ],
-    "intro-3": [
-     "c938a6a3ffeed4b6",
-     "de28979c62cf54a2"
+    "reused": [
+      "public/assets/audio/voices/el-movie-2.mp3",
+      "public/assets/audio/voices/el-movie-4.mp3",
+      "public/assets/audio/voices/el-ending.mp3"
     ]
-   }
-  }
- ],
- "usageRead": {
-  "보조 계정 1(u/2)": "16:38 20% → 16:59 59%(19:02 초기화)",
-  "보조 계정 2(u/1)": "17:44 41% → 17:59 61%(18:17 초기화)",
-  "주 계정": "17:44 79%(쓰지 않음)"
- },
- "stillCameraMoveShots": [
-  "intro-2",
-  "final-1",
-  "final-3"
- ],
- "audio": "영상 소리는 ElevenLabs 대사만(영상 생성기 소리 안 씀). 배경 음악은 앱이 설정에 따라 재생: 인트로 주제 음악(Suno, 권리 장부 M1), 엔딩 마무리 음악. 인트로 -15.9 LUFS, 엔딩 -16.4 LUFS, 최고 -3.4/-3.6 dBFS",
- "finishedAt": "2026-11-21 21:00 KST(인트로 3 실제 영상으로 교체)"
+  },
+  "captions": "_shared/caption-motion-20261118/burn.py(Jua 글꼴, SIL OFL 1.1), 화자 이름표·말 속도 스윕",
+  "motionGraphics": "compose.py(최종): 0.4초 교차 페이드, 인트로 끝 앱 제목 로고(logo.webp)+첫 화면 문구(Jua), 엔딩 끝 앱 별빛 그림(starlight-v3.webp) 반짝임 9개 + 「탐구 완료」 도장 + 「관측 시스템 복구 100%」, 처음·끝 페이드",
+  "encode": "webm VP9 2패스 290kbps + Opus 40k, mp4 H.264 2패스 300kbps + AAC 48k, 1280x720 30fps",
+  "geminiAttempts": [
+    {
+      "shot": "final-3",
+      "account": "보조 계정 1(u/2)",
+      "time": "16:39",
+      "chat": "bec55322db4e3928",
+      "result": "영상 받음 → 쓰지 않음: 4초 뒤 별자리 선이 북두칠성이 아닌 모양으로 바뀜",
+      "file": "references/film-20261121/clips-rejected/final-3-gemini-1.mp4"
+    },
+    {
+      "shot": "final-3",
+      "account": "보조 계정 2(u/1)",
+      "time": "17:44",
+      "chat": "8608629f987ddbaf",
+      "promptKey": "v-f3r",
+      "result": "영상 받음 → 쓰지 않음: 안내선 가운데에 큰 별이 생겨 북극성 위치처럼 보임",
+      "file": "references/film-20261121/clips-rejected/final-3-gemini-2.mp4"
+    },
+    {
+      "shot": "intro-2",
+      "account": "보조 계정 1(u/2)",
+      "time": "17:05, 17:34",
+      "chats": [
+        "e850d9445e65c5fe",
+        "02e5e7537996549a"
+      ],
+      "result": "두 번 모두 영상 없음('Sorry, something went wrong' 등). 사용량 변화 없음"
+    },
+    {
+      "shot": "final-1",
+      "account": "보조 계정 1(u/2)",
+      "time": "17:05, 17:34",
+      "chats": [
+        "8137b057a0937345",
+        "147ea4bb371cdfcb"
+      ],
+      "result": "두 번 모두 영상 없음('I'm having a hard time fulfilling your request' 등)"
+    },
+    {
+      "shot": "intro-3",
+      "account": "보조 계정 2(u/1)",
+      "time": "17:44, 17:59",
+      "chats": [
+        "3f87a47fceedacb2",
+        "b6d64c120069aff3"
+      ],
+      "result": "두 번 모두 영상 없음('encountering an error', 'at full capacity')"
+    },
+    {
+      "account": "보조 계정 3(u/3)",
+      "time": "2026-11-21 19:10-20:48",
+      "log": ".tmp/intro-video-20261121/u3-attempts.md",
+      "result": "인트로 3 두 번째 시도에서 영상 받음 → 적용. 인트로 2·엔딩 1·엔딩 3은 세 번씩(엔딩 3·인트로 2는 실제로 네 번 보냄) 모두 영상 없음: 'unusually high traffic … at full capacity', 'I seem to be encountering an error', 'I'm having a hard time fulfilling your request', 'Sorry, something went wrong', 엔딩 3 한 번은 영상 도구 없이 글 답만. 사용량 0~1%로 한도 문제 아님",
+      "chats": {
+        "intro-2": [
+          "7dbbdda5b06f1e77",
+          "3b008ed096f43c42",
+          "d1d7afc8dc79516f",
+          "adca25cce06a492d"
+        ],
+        "final-3": [
+          "8c8fcabfce4db547",
+          "0ad3c499b4196c90",
+          "a63d07d04857c61a",
+          "168e23fd5e8724a2"
+        ],
+        "final-1": [
+          "53505057af3b2eab",
+          "d73e69503f406f72",
+          "a197b27cf4b5e033",
+          "a73e82dddafd02dc"
+        ],
+        "intro-3": [
+          "c938a6a3ffeed4b6",
+          "de28979c62cf54a2"
+        ]
+      }
+    },
+    {
+      "account": "보조 계정 3(u/3)",
+      "time": "2026-11-22 06:31-07:06",
+      "log": "docs/films-20261121/U3-ATTEMPTS.md, .tmp/intro-video-20261121/gemini/u3-retry-A·B·C.log",
+      "result": "예약 작업 nightsky-film-retry-0630(컷마다 두 번까지). 인트로 2 첫 시도(v-i2)에서 영상 받음 → 적용. 엔딩 3은 v-f3c 'I encountered an error doing what you asked', v-f3s 'I seem to be encountering an error'. 엔딩 1은 v-f1 'I'm having a hard time fulfilling your request', v-f1s 'Sorry, something went wrong'. 두 컷은 임시 판 유지. 사용량 0%로 한도 문제 아님",
+      "chats": {
+        "intro-2": [
+          "b37a057eef0d4f6a"
+        ],
+        "final-3": [
+          "2ab207e6e4d396aa",
+          "36e1cce2b9e96ea0"
+        ],
+        "final-1": [
+          "d0db47d264c311b5",
+          "71f4748e7d5ac981"
+        ]
+      }
+    }
+  ],
+  "usageRead": {
+    "보조 계정 1(u/2)": "16:38 20% → 16:59 59%(19:02 초기화)",
+    "보조 계정 2(u/1)": "17:44 41% → 17:59 61%(18:17 초기화)",
+    "주 계정": "17:44 79%(쓰지 않음)",
+    "2026-11-22 06:30": "보조 계정 1(u/2) 0%, 보조 계정 2(u/1) 42%, 보조 계정 3(u/3) 0%(주간 0%) → 보조 계정 3 사용"
+  },
+  "stillCameraMoveShots": [
+    "final-1",
+    "final-3"
+  ],
+  "audio": "영상 소리는 ElevenLabs 대사만(영상 생성기 소리 안 씀). 배경 음악은 앱이 설정에 따라 재생: 인트로 주제 음악(Suno, 권리 장부 M1), 엔딩 마무리 음악. 인트로 -15.9 LUFS, 엔딩 -16.4 LUFS, 최고 -3.4/-3.6 dBFS",
+  "finishedAt": "2026-11-22 07:00 KST(인트로 2 실제 영상으로 교체)"
 }
