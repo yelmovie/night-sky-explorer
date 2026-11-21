@@ -5,6 +5,8 @@
 import * as THREE from 'three';
 import { Octree } from 'three/addons/math/Octree.js';
 import { Capsule } from 'three/addons/math/Capsule.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { moonSVG } from './drawing.js';
 import { HALF, DOOR_HALF, WALL, slabs, stones, gateS, arriveS, observatoryS, doorXs, slabAt, groundAt, streams, checkpointFor } from './moon-run-course.js';
 
@@ -13,6 +15,7 @@ const GRAVITY = 28, JUMP = 9.5, RADIUS = 0.3, BODY = 1.1, STEPS = 5, GROUND_PUSH
 const TOP_SPEED = GROUND_PUSH / 6;
 const WALL_HEIGHT = 2.3, MOON_SIZE = 1.6, MOON_PX = 160, WATER_DROP = 1.15;
 const ART = '/assets/generated/run-stage/';
+const OBSERVATORY_MODEL = `${ART}observatory.glb`;
 const FONT = '"NanumSquareNeo", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
 const loader = new THREE.TextureLoader();
 async function picture(url, pixel = false) {
@@ -36,6 +39,17 @@ function standing(material, width, height, foot = 0.04) {
   const sprite = new THREE.Sprite(material);
   sprite.scale.set(width, height, 1); sprite.center.set(0.5, foot);
   return sprite;
+}
+/** Frees geometry, materials and every texture they hold (the model's normal and roughness maps too, not only `map`). */
+function release(root) {
+  root.traverse(object => {
+    object.geometry?.dispose();
+    for (const material of [object.material].flat()) {
+      if (!material) continue;
+      for (const value of Object.values(material)) if (value?.isTexture) value.dispose();
+      material.dispose();
+    }
+  });
 }
 const cutout = map => new THREE.SpriteMaterial({ map, transparent: true, alphaTest: 0.35 });
 /** A box whose pictures repeat every `tile` metres instead of stretching. */
@@ -272,16 +286,28 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
   const glowGeometry = new THREE.BufferGeometry(); glowGeometry.setAttribute('position', new THREE.BufferAttribute(glowAt, 3));
   scene.add(new THREE.Points(glowGeometry, new THREE.PointsMaterial({ map: glowTexture, size: 1.9, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })));
 
-  const goalTop = slabAt(observatoryS).top;
+  const goalTop = slabAt(observatoryS).top, standIn = new THREE.Group(); scene.add(standIn);
   if (observatoryArt) {
     const building = standing(cutout(observatoryArt), 7.6 * observatoryArt.image.width / observatoryArt.image.height, 7.6, 0.02);
-    building.position.set(0, goalTop, -observatoryS); scene.add(building);
+    building.position.set(0, goalTop, -observatoryS); standIn.add(building);
   } else {
     const shell = new THREE.MeshLambertMaterial({ color: '#dfe5f0' }), domeSkin = new THREE.MeshLambertMaterial({ color: '#9fb0cf' }), dark = new THREE.MeshLambertMaterial({ color: '#16233f' });
     const tower = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.7, 2.6, 24), shell); tower.position.set(0, goalTop + 1.3, -observatoryS);
     const dome = new THREE.Mesh(new THREE.SphereGeometry(2.6, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), domeSkin); dome.position.set(0, goalTop + 2.6, -observatoryS);
-    scene.add(tower, dome, box(1.3, 1.9, 0.2, dark, 0, goalTop + 0.95, -observatoryS + 2.62), box(0.7, 1.6, 0.4, dark, 0, goalTop + 4.1, -observatoryS + 1.9));
+    standIn.add(tower, dome, box(1.3, 1.9, 0.2, dark, 0, goalTop + 0.95, -observatoryS + 2.62), box(0.7, 1.6, 0.4, dark, 0, goalTop + 4.1, -observatoryS + 1.9));
   }
+  // The Meshy observatory (asset-bank/original/meshy-20261121) loads late and replaces the picture; until then, or if it
+  // fails, the picture or the shapes above stay. Only the look changes: it is not in the octree, and the course ends where
+  // it did. Its door faces the path (+z). The front sits behind the arrival ring, so Lumi never walks into the walls.
+  new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(OBSERVATORY_MODEL).then(({ scene: model }) => {
+    if (stopped) { release(model); return; }
+    // gltfpack keeps a dequantising scale on the inner node, so the outer group is scaled, never the node itself.
+    const size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
+    model.scale.setScalar(7.6 / size.y);
+    const fit = new THREE.Box3().setFromObject(model);
+    model.position.set(-(fit.min.x + fit.max.x) / 2, goalTop - fit.min.y, -(arriveS + 2.1) - fit.max.z);
+    standIn.visible = false; scene.add(model);
+  }).catch(() => {});
   const mat = new THREE.Mesh(new THREE.RingGeometry(1.1, 1.45, 36), new THREE.MeshBasicMaterial({ color: '#a7dcc9', transparent: true, opacity: 0.75 })); mat.rotation.x = -Math.PI / 2; mat.position.set(0, goalTop + 0.03, -arriveS - 0.6); scene.add(mat);
   cell(studentSheet, 0, 0);
   const helperMaterial = cutout(studentSheet);
@@ -423,10 +449,7 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
     dispose() {
       stopped = true; cancelAnimationFrame(raf); resize.disconnect();
       canvas.removeEventListener('webglcontextlost', lose);
-      scene.traverse(object => {
-        object.geometry?.dispose();
-        for (const material of [object.material].flat()) { if (!material) continue; material.map?.dispose(); material.dispose(); }
-      });
+      release(scene);
       for (const texture of textures) texture?.dispose();
       labels.replaceChildren();
       renderer.dispose(); renderer.forceContextLoss(); canvas.remove();

@@ -180,3 +180,11 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 | `films/final.webm`·`final.mp4`·`final.webp` | 장면 그림 3장(Codex) → ffmpeg 카메라 움직임. 대사는 기존 엔딩 음성(`el-movie-2`·`el-movie-4`·`el-ending`), 자막 Jua | 같은 문서 |
 
 Google Flow 영상에는 계정 지역 설정상 필수인 작은 「Veo」 표시가 들어 있다.
+
+## 달빛 길 천문대 3D 모형 (2026-11-21)
+
+| 서비스 파일 | 만든 방법 | 기록 |
+|---|---|---|
+| `generated/run-stage/observatory.glb` | `asset-bank/original/run-stage-20261117/observatory.png`(Codex 내장 이미지 도구)를 입력으로 Meshy 이미지→3D(Meshy 7.1·표준·텍스처 2K·비공개, 작업 ID `01a1fd7b-4eee-7355-9b02-2d8b68e79eb3`, 30크레딧) → `_shared/meshy/pack.mjs` 방식(텍스처 1024px JPEG) + gltfpack 1.3.0 `-si 0.003 -se 0.15 -cc`로 4,553,188면 → 24,050면, 836KB | 원본 `asset-bank/original/meshy-20261121/`(Git 제외), 같은 폴더 `README.md` |
+
+유료 Meshy 계정으로 생성했고 생성 당시 계정의 이용 조건을 따른다. 이 문서가 별도 권리를 부여하지 않는다.
