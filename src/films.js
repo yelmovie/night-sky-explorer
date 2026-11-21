@@ -24,7 +24,12 @@ const base = name => `/assets/films/${name}`;
 
 export function filmMarkup(name) {
   const film = films[name];
-  return `<div class="film-picture"><video playsinline preload="auto" poster="${base(name)}.webp" aria-label="${film.title} 영상 · 대사 자막 포함"><source src="${base(name)}.webm" type="video/webm"><source src="${base(name)}.mp4" type="video/mp4"></video><button class="btn primary film-play" type="button" hidden>영상 재생</button></div><details class="film-transcript"><summary>대사 글로 보기</summary><ol>${film.transcript.map(line => `<li>${line}</li>`).join('')}</ol></details>`;
+  return [
+    `<div class="film-picture"><video playsinline preload="auto" poster="${base(name)}.webp" aria-label="${film.title} 영상 · 대사 자막 포함">`,
+    `<source src="${base(name)}.webm" type="video/webm"><source src="${base(name)}.mp4" type="video/mp4"></video>`,
+    '<button class="btn primary film-play" type="button" hidden>영상 재생</button></div>',
+    `<details class="film-transcript"><summary>대사 글로 보기</summary><ol>${film.transcript.map(line => `<li>${line}</li>`).join('')}</ol></details>`,
+  ].join('');
 }
 
 // host 안의 영상을 재생한다. audible이 false(음소거·목소리 끔)면 소리 없이 자막만 본다.
