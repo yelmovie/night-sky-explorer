@@ -3,30 +3,30 @@
  "createdAt": "2026-11-21",
  "files": {
   "public/assets/films/intro.webm": {
-   "bytes": 1047328,
-   "sha256": "0bd2f8a4b104fe274723f4cceebcee133afe9b6e016ba4a1680a0a6d22804b2d"
+   "bytes": 1116216,
+   "sha256": "953b304bb5e07e818c035dd31d1009a20c08a7de670fbc740986fe1a9529893b"
   },
   "public/assets/films/intro.mp4": {
-   "bytes": 1177325,
-   "sha256": "d79fa87042e7545b8fd4a8e8801daba0db50a21c6b1392294e58276b12734f63",
-   "duration": 23.22
+   "bytes": 1173522,
+   "sha256": "9fbbdd717b879e9640666cd02b0c73b2a46150f4d1e6077ebef4f7e84668a09a",
+   "duration": 27.8
   },
   "public/assets/films/intro.webp": {
-   "bytes": 121770,
-   "sha256": "c88cd11efee6e0d8f7f4b219314eadb58b792763058fda1d511907a3db48c26b"
+   "bytes": 116868,
+   "sha256": "3cdfc963d6939ee8bb47ba42f483ccb6a7e40d3813bbd599bb75f5b65f35e8ff"
   },
   "public/assets/films/final.webm": {
-   "bytes": 1050777,
-   "sha256": "1b3e584a65abd5ffb3733081e29db4f3d4e2bfeaf43d6cd8e2a0227aa31a1ccf"
+   "bytes": 1033898,
+   "sha256": "fd2943e74a85bc239fdd6fe5870a82430361da288f7d394050b9992ff100daea"
   },
   "public/assets/films/final.mp4": {
-   "bytes": 1176791,
-   "sha256": "c788e7b4439fa7f4234cfe4a580d750888490ce180598ef3f2c854053566eb09",
-   "duration": 23.8
+   "bytes": 1118662,
+   "sha256": "73c76f919ee46d74357850f1f6d2ca56a1e9de0f3548986e1b129d25684e2dba",
+   "duration": 26.0
   },
   "public/assets/films/final.webp": {
-   "bytes": 121978,
-   "sha256": "657a73ad08e8e186b92e5fb945ab37532339d92fb5910af5fce9db5c0b325aed"
+   "bytes": 122374,
+   "sha256": "ee391b6072519d260501cf46c84a2d489f9301c0ce63d5910f1721e5f42d8916"
   }
  },
  "stills": [
@@ -174,8 +174,8 @@
   ]
  },
  "captions": "_shared/caption-motion-20261118/burn.py(Jua 글꼴, SIL OFL 1.1), 화자 이름표·말 속도 스윕",
- "motionGraphics": "compose.py: 0.7초 교차 페이드, 제목 drawtext(Jua) 떠오르기·사라지기, 처음·끝 페이드, 분위기 소리 0.35 + 대사 믹스, 리미터",
- "encode": "webm VP9 2패스 340kbps + Opus 40k, mp4 H.264 2패스 360kbps + AAC 48k, 1280x720 30fps",
+ "motionGraphics": "compose.py(최종): 0.4초 교차 페이드, 인트로 끝 앱 제목 로고(logo.webp)+첫 화면 문구(Jua), 엔딩 끝 앱 별빛 그림(starlight-v3.webp) 반짝임 9개 + 「탐구 완료」 도장 + 「관측 시스템 복구 100%」, 처음·끝 페이드",
+ "encode": "webm VP9 2패스 290kbps + Opus 40k, mp4 H.264 2패스 300kbps + AAC 48k, 1280x720 30fps",
  "geminiAttempts": [
   {
    "shot": "final-3",
@@ -235,5 +235,7 @@
   "intro-3",
   "final-1",
   "final-3"
- ]
+ ],
+ "audio": "영상 소리는 ElevenLabs 대사만(영상 생성기 소리 안 씀). 배경 음악은 앱이 설정에 따라 재생: 인트로 주제 음악(Suno, 권리 장부 M1), 엔딩 마무리 음악. 인트로 -15.9 LUFS, 엔딩 -16.4 LUFS, 최고 -3.4/-3.6 dBFS",
+ "finishedAt": "2026-11-21 18:41 KST(앱 1488b62)"
 }
