@@ -22,6 +22,7 @@ import { getStageAction } from './progression.js';
 import { appInfo, standards, learningObjectives, studentGuide, teacherGuide, sources, challenges } from './settingsContent.js';
 import { missionTag, evidenceTag, restorePercent, npc, npcLine, npcConversation, kitMeter, inquiryStyle, evidenceFact, evidenceVisual, introPanel, movieMarkup, mountMovie } from './quest.js';
 import { mountNpcDialogue } from './npc-dialogue.js';
+import { films, filmMarkup, mountFilm } from './films.js';
 import { bonusQuests, openBonus } from './bonus.js';
 import './quest.css';
 import './moon-run.css';
@@ -166,7 +167,8 @@ function dialog(title, body, after, footer = '', back = null) {
     headerClose.remove();
     if (hadFocus) footerClose.focus({ preventScroll: true });
   }
-  if (!element.classList.contains('movie-dialog')) {
+  // 엔딩·인트로 영상 창은 대사가 영상 안에 있으므로 「다시 듣기」를 붙이지 않는다(소리 겹침 방지).
+  if (!element.matches('.movie-dialog,.film-dialog')) {
     const line = voiceForText(element.querySelector('.dialog-body').textContent);
     if (element.querySelector('.npc-conversation')) {
       element.classList.add('npc-scene-dialog');
@@ -221,6 +223,15 @@ function showIntro(step = 0, replay = false) {
   const panel = introPanel(step, state.name), last = step === 2;
   dialog(panel.title, `<div class="story-panel" data-step="${step}">${panel.body}</div><p class="story-dots" aria-label="${step + 1} / 3 장면">${[0, 1, 2].map(index => `<i class="${index === step ? 'on' : ''}"></i>`).join('')}</p>`, element => element.classList.add('story-dialog'), `${last ? '' : button('건너뛰기', replay ? 'close-modal' : 'story-done')}${button(last ? (replay ? '닫기' : '첫 관측실로 출발') : '다음', last ? (replay ? 'close-modal' : 'story-done') : `story-next-${step + 1}-${replay ? 1 : 0}`, 'primary')}`, replay ? null : finishIntro);
 }
+// 인트로 영상(구글 플로우 장면 + 일레븐랩스 대사 + 자막): 끝나거나 건너뛰면 지금의 이야기 화면으로 이어진다.
+function filmOptions(onEnd) { return { audible: !state.settings.muted && state.settings.voice !== false, volume: (state.settings.sfxVolume ?? 100) / 100, sound, onEnd }; }
+function showIntroFilm() {
+  dialog(films.intro.title, filmMarkup('intro'), element => {
+    element.classList.add('concept-dialog', 'film-dialog');
+    const film = mountFilm(element, filmOptions(() => setTimeout(() => { if ($('#dialog')?.open && $('#dialog').classList.contains('film-dialog')) showIntro(0); }, 600)));
+    modalCleanup = () => film.dispose();
+  }, button('건너뛰기', 'story-next-0'));
+}
 function finishIntro() { state.intro = true; persist(); go(canAccess(state, state.resume) ? state.resume : 'map'); }
 function finalReport() {
   track(state, 'reviews');
@@ -231,7 +242,22 @@ function finalReport() {
 let movie = null, mapFinaleOpen = false;
 // 메인 테마는 시작부터 계속, 파이널은 엔딩·인증서·지도 피날레 창에서 나온다.
 function syncMusic() { sound.setMusic(movie || mapFinaleOpen || state.scene === 'results' ? 'finale' : 'main'); }
+// 엔딩 영상: 동작 줄이기를 켰을 때는 한 장면씩 넘기는 기존 엔딩을 그대로 쓴다.
+function showFinalFilm() {
+  const preview = completedCount(state) < 5;
+  sound.play('success');
+  dialog(films.final.title, filmMarkup('final'), element => {
+    element.classList.add('concept-dialog', 'film-dialog');
+    const skip = element.querySelector('#movie-skip');
+    const film = mountFilm(element, filmOptions(() => { skip?.remove(); element.querySelector('#movie-done')?.focus({ preventScroll: true }); }));
+    movie = film;
+    on(skip, 'click', () => film.skip());
+    syncMusic();
+    modalCleanup = () => { film.dispose(); movie = null; setTimeout(syncMusic); };
+  }, `<button class="btn" id="movie-skip">건너뛰기</button>${preview ? button('시연 닫기', 'close-modal', 'primary', 'id="movie-done"') : button('인증서 받기', 'results', 'primary', 'id="movie-done"')}`, preview ? null : () => go('results'));
+}
 function showMovie() {
+  if (!reduced()) return showFinalFilm();
   const preview = completedCount(state) < 5;
   sound.play('success');
   dialog('엔딩 · 연구소 복구', movieMarkup(state), element => {
@@ -288,7 +314,7 @@ function action(name) {
     persist(); sound.sync(); render(); return;
   }
   if (name === 'settings') return settings();
-  if (name === 'start') { if (!state.started) state.name = $('#nickname')?.value.trim() || '별빛 연구원'; state.started = true; if (!state.intro && completedCount(state) === 0) { persist(); return showIntro(0); } state.intro = true; return go(canAccess(state, state.resume) ? state.resume : 'map'); }
+  if (name === 'start') { if (!state.started) state.name = $('#nickname')?.value.trim() || '별빛 연구원'; state.started = true; if (!state.intro && completedCount(state) === 0) { persist(); return reduced() ? showIntro(0) : showIntroFilm(); } state.intro = true; return go(canAccess(state, state.resume) ? state.resume : 'map'); }
   if (name === 'kit' || name === 'notebook') return kit();
   if (name.startsWith('story-next-')) { const [, , step, replay] = name.split('-'); return showIntro(+step, replay === '1'); }
   if (name === 'story-done') return finishIntro();

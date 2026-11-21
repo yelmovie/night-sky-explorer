@@ -171,3 +171,12 @@ Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 s
 | `audio/sfx/hurt-bump-01.mp3` | LowHit_01.wav · Faulkin | https://freesound.org/people/Faulkin/sounds/336495 | 달빛 길에서 닫힌 문에 부딪힐 때(지도 접촉음과 같은 파일) |
 
 발자국은 다른 소리를 끊지 않고 다른 소리에 끊기지도 않으며, 효과음 끄기·음소거·탭 숨김을 따르고 인물 목소리 중에는 절반 크기로 난다.
+
+## 인트로·엔딩 영상 (2026-11-21)
+
+| 서비스 파일 | 만든 방법 | 기록 |
+|---|---|---|
+| `films/intro.webm`·`intro.mp4`·`intro.webp` | 장면 그림 3장(Codex 내장 이미지 도구, GPT 이미지) → 1컷은 Google Flow Veo 3.1 Fast로 영상화, 2컷은 ffmpeg 카메라 움직임. 새 대사 4줄 ElevenLabs(기존 루미·별빛 가림이·별여우 목소리), 자막 Jua(SIL OFL 1.1) | `docs/films-20261121/provenance.json` |
+| `films/final.webm`·`final.mp4`·`final.webp` | 장면 그림 3장(Codex) → ffmpeg 카메라 움직임. 대사는 기존 엔딩 음성(`el-movie-2`·`el-movie-4`·`el-ending`), 자막 Jua | 같은 문서 |
+
+Google Flow 영상에는 계정 지역 설정상 필수인 작은 「Veo」 표시가 들어 있다.
