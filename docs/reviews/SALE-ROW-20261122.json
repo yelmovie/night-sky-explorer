@@ -2,10 +2,10 @@
   "no": 13,
   "name": "별빛 관측 연구소",
   "folder": "13 nightsky",
-  "grade": "초등 3~4학년군(성취기준 코드에서 읽음)",
-  "semester": null,
+  "grade": "4학년",
+  "semester": "2학기",
   "subject": "과학",
-  "unit": "확인 필요(성취기준 묶음 [4과13] 달·태양계·별)",
+  "unit": "밤하늘 관찰",
   "standards": [
     "[4과13-01] 달의 모양과 표면, 달의 위상변화를 관찰하여 밤하늘 관찰에 흥미를 가질 수 있다.",
     "[4과13-02] 태양계 구성원을 알고, 태양과 행성을 조사할 수 있다.",
@@ -107,13 +107,14 @@
   },
   "teacherGuide": {
     "needsConfirm": [
-      "학기",
-      "단원 이름",
       "예상 시간(분)"
     ]
   },
   "files": {
     "teacherGuide": "docs/TEACHER-GUIDE.md",
     "handoff": "docs/DELIVERY-HANDOFF.md"
-  }
+  },
+  "gradeRepo": "초등 3~4학년군(성취기준 코드에서 읽음)",
+  "unitRepo": "확인 필요(성취기준 묶음 [4과13] 달·태양계·별)",
+  "gradeUnitSource": "운영 시트 「이예리 선생님」 탭, 2026-11-22 확인"
 }
