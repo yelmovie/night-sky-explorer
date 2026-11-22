@@ -13,12 +13,12 @@
 
 | 상태 | 줄 수 | 해당 줄 |
 |---|---:|---|
-| 확인됨 | 30 | I1–I7, I9–I19, V1–V3, M1, S1–S2, A1–A4, F1–F2 (I1–I5·I7·V1은 2026-11-21 사용자 확인, V3은 2026-11-21 생성 기록) |
+| 확인됨 | 31 | I1–I7, I9–I20, V1–V3, M1, S1–S2, A1–A4, F1–F2 (I1–I5·I7·V1은 2026-11-21 사용자 확인, V3은 2026-11-21 생성 기록) |
 | 근거 약함 | 1 | I8 `favicon.svg`(직접 작성 SVG라 사용자 확인 범위 밖, 그대로 둠) |
 | 출처 미확인 | 0 | 2026-11-21 사용자 확인 전에는 7줄(I1–I5, I7, V1) |
-| **합계** | **31** | |
+| **합계** | **32** | |
 
-업로드되는 파일 수: 그림 60(아래 I1–I19), 영상 묶음 16(mp4 5·webm 5·끝 장면 webp 5·지도 파이널 mp4 1), 배경음 2, 효과음 16, 음성 143, 글꼴 2(+라이선스 원문 2).
+업로드되는 파일 수: 그림 60(아래 I1–I19), 3D 모형 1(I20), 영상 묶음 16(mp4 5·webm 5·끝 장면 webp 5·지도 파이널 mp4 1), 배경음 2, 효과음 16, 음성 143, 글꼴 2(+라이선스 원문 2).
 
 이번 정리에서 새로 발견한 것:
 
@@ -53,6 +53,7 @@
 | I17 | `ui/badge-{moon,time,planet,light,sky}.webp`(각 160²), `ui/cert-frame.webp`(1400×876), `ui/alert-scene.webp`(1200×675) | `gpt-imagegen` 스킬(Codex 이미지 도구) | 2026-11-17 00:39–00:48 생성, 로그에 7장 저장·실패 0. 원본 `references/generated/ui-art-20261117/` | 생성 당시 계정 이용 조건 | `.tmp/gen-ui.sh`(프롬프트), `.tmp/gen-ui.log`, `.tmp/convert-ui.mjs`, `HANDOFF.md`(121행), 커밋 `47e7485`(「GPT art」) | 확인됨(기록이 Git 밖 `.tmp`에만 있음) |
 | I18 | `reward-cards/card-{1..5}-{1..5}.webp`(640×960), `thumb-*.webp`(96×144) 10개 | ChatGPT 앱 Codex 내장 이미지 도구(`gpt-imagegen`) | 2026-11-18. 원본 `../_scratch/reward-cards-20261118/gen/13/`. 참고 그림: `generated/student.webp`, `map-encounters/hero-redraw.png`, `rabbit.webp`(I4), `rooms/` | 생성 당시 계정 이용 조건 | `public/assets/CREDITS.md`(2026-11-18 절), `../_scratch/reward-cards-20261118/specs/13.json`, `queue.mjs`, `queue.log`, 커밋 `0b92ae6` | 확인됨(캐릭터 디자인은 I4에 기댐) |
 | I19 | `map-encounters/hero-redraw.png`, `ally-redraw.png`, `villain-redraw.png` (각 672×112, 112px 6칸) | Codex 기본 이미지 도구 | 2026-11-14. 공통 프롬프트 원문과 「13은 관측원·달토끼·별 투사기 레퍼런스」 기록 | 생성 당시 계정 이용 조건 | `../_shared/MAP-VILLAINS-HANDOFF-20261114.md`(131–133행)이 가리키는 `../_scratch/redraw-12-15-20261114/README.md`(3·16행), 커밋 `520d583` | 확인됨(기록이 저장소 밖) |
+| I20 | `generated/run-stage/observatory.glb` (3D 모형 1개, 836KB, 달빛 길 도착점 천문대, 2026-11-21 추가) | Meshy 이미지→3D(Meshy 7.1·표준·텍스처 2K·비공개, 30크레딧, 유료 Meshy 계정). 입력 그림은 I15의 `observatory.png`(Codex 내장 이미지 도구). 텍스처 1024px JPEG·gltfpack으로 24,050면까지 줄임 | 2026-11-21 19:16, 작업 ID `01a1fd7b-4eee-7355-9b02-2d8b68e79eb3`, 원본 `asset-bank/original/meshy-20261121/`(Git 제외) | 생성 당시 Meshy 계정 이용 조건(요금제 증빙은 사용자 자료). 입력 그림은 I15 조건 | `public/assets/CREDITS.md`(「달빛 길 천문대 3D 모형」), 커밋 `80e79ef` | 확인됨(2026-11-22 점검에서 줄 추가, 이전 장부에는 없었음) |
 
 ## 영상
 
@@ -60,7 +61,7 @@
 |---|---|---|---|---|---|---|
 | V1 | `concepts/stage-{1..5}.mp4`·`.webm`·끝 장면 `.webp` (15개, 1280×720, 16초, 소리 있음) | HyperFrames로 렌더(`films/`). 그림은 게임 에셋 재사용: 달·태양·별빛·행성(I11·I13·I14) + **`fox.png`·`rabbit.png` 포즈 시트를 잘라 넣음**. 소리는 Kenney CC0 효과음 5종(`.ogg`, 업로드 제외 파일이지만 영상 소리에 들어감). 2026-11-19 자막을 Jua 글꼴로 화면에 입힘 | 2026-11-09 교체(`5bae5a8`), 11-14 재렌더(`500c3e3`), 11-19 자막 입힘(`7ff790b`) | 루미·별여우 그림은 I3·I4 조건. 소리 CC0, 글꼴 OFL 1.1(렌더된 글자 사용 허용) | `films/build.mjs`(2·26·36·37행), `films/REVIEW.md`, `docs/concept-captions-20261118/stage-*.ass`(Fontname Jua), `../_shared/FULLSCREEN-CAPTION-CONCEPTS-20261118.md`, CREDITS(2026-10-22 절) | 확인됨(자체 렌더. 포함된 루미·별여우 그림은 I3·I4 사용자 확인 승계). 만든 도구는 저장소 기록대로 HyperFrames이고 제미나이가 아니다(아래 7번) |
 | V2 | `map-encounters/map-finale.mp4` (640×360, 6초, 무음) | 실제 지도 공격 장면 캡처(`../_scratch/live-map-contact-review/originals/13-attack.png`) 한 장에 FFmpeg로 확대·글자(drawtext)를 얹음. 화면 속 그림은 I9·I10·I19 | 2026-11-14(`33c7ee8`), 같은 날 글꼴을 나눔스퀘어 네오로 다시 만듦(`7a8745c`) | 화면 속 그림·글꼴 조건을 따름 | `../_scratch/stage-villain-dialogue/movies.py`(5–16행), git log | 확인됨(기록이 저장소 밖) |
-| V3 | `films/intro.{webm,mp4,webp}`, `films/final.{webm,mp4,webp}` (인트로 27.8초·엔딩 26.0초, 1280×720, 대사·자막 포함, 2026-11-21) | 장면 그림 6장: Codex 내장 이미지 도구(GPT 이미지, `gpt-imagegen`). 인트로 1컷: Google Flow · Veo 3.1 Fast(그림→영상, 주 계정). 엔딩 2컷: Gemini 앱 동영상 만들기(Veo, 보조 계정 1, 화면 표시 PRO, 사용자 확인 2026-11-21: 유료, 16:39). 인트로 3컷: Gemini 앱 동영상 만들기(Veo, 보조 계정 3, 2026-11-21 20:14, 채팅 `de28979c62cf54a2`, 요금제 표시는 따로 확인 못 함). 인트로 2컷: Gemini 앱 동영상 만들기(Veo, 보조 계정 3, 2026-11-22 06:31, 채팅 `b37a057eef0d4f6a`, 요금제 표시는 따로 확인 못 함). 엔딩 1컷: Gemini 앱 동영상 만들기(Veo, 보조 계정 1, 사용자 확인 2026-11-21: 유료, 2026-11-22 11:53, 채팅 `9b46020147915c03`). 엔딩 3컷: Gemini 앱 동영상 만들기(Veo, 주 계정, 2026-11-21 사용자 확인 「모두 유료 요금제」, 2026-11-22 12:15, 채팅 `f9a8caf48469230d`, 카메라 고정·별자리 그대로 확인). 여섯 장면 모두 실제 영상(시도 기록 `docs/films-20261121/provenance.json` geminiAttempts). 새 대사 4줄: ElevenLabs API(eleven_v4, 기존 Aria·oki·Hun 목소리), 엔딩 대사는 기존 `el-movie-2·4`·`el-ending` 재사용. 자막: Jua(OFL). 영상 소리는 대사만, 배경 음악은 앱의 Suno 곡(M1)을 앱이 재생. 끝 화면에 앱 제목 로고(I2)·별빛 그림(I14) 사용 | 2026-11-21 11:30–11:41 그림 생성, 11:33–11:39 Flow(Aside 세션 `AhMpD7yBVh8uUMTY`), ElevenLabs requestId `wFzxmjRvxusY5H8Jw7c6`·`sbW0CdFQt7vmQjgjU1DW`·`H6WCAAbLdTPGzcflWCBH`·`J8HVcImsi15SrW0JH1gT` | ChatGPT·Google Flow·ElevenLabs 유료 요금제(2026-11-21 사용자 확인 「전부 맞아」, ElevenLabs Creator). Flow 영상에는 계정 지역 설정상 필수인 작은 「Veo」 표시가 오른쪽 아래에 있다(지우지 않음). 캐릭터 디자인은 I3·I4 | `docs/films-20261121/provenance.json`(파일별 SHA-256·생성 시각·프롬프트 키), `prompts.json`, `voice-api-log.jsonl`, `compose.py`·`kb.py`·`burn-*.json`, 원본 `references/film-20261121/` | 확인됨 |
+| V3 | `films/intro.{webm,mp4,webp}`, `films/final.{webm,mp4,webp}` (인트로 27.8초·엔딩 26.0초, 1280×720, 대사·자막 포함, 2026-11-21) | 장면 그림 6장: Codex 내장 이미지 도구(GPT 이미지, `gpt-imagegen`). 인트로 1컷: Google Flow · Veo 3.1 Fast(그림→영상, 주 계정). 엔딩 2컷: Gemini 앱 동영상 만들기(Veo, 보조 계정 1, 화면 표시 PRO, 사용자 확인 2026-11-21: 유료, 16:39). 인트로 3컷: Gemini 앱 동영상 만들기(Veo, 보조 계정 3, 2026-11-21 20:14, 채팅 `de28979c62cf54a2`, 사용자 확인 2026-11-21: 모두 유료 요금제, 보조 계정 1·2·3 포함). 인트로 2컷: Gemini 앱 동영상 만들기(Veo, 보조 계정 3, 2026-11-22 06:31, 채팅 `b37a057eef0d4f6a`, 사용자 확인 2026-11-21: 모두 유료 요금제, 보조 계정 1·2·3 포함). 엔딩 1컷: Gemini 앱 동영상 만들기(Veo, 보조 계정 1, 사용자 확인 2026-11-21: 유료, 2026-11-22 11:53, 채팅 `9b46020147915c03`). 엔딩 3컷: Gemini 앱 동영상 만들기(Veo, 주 계정, 2026-11-21 사용자 확인 「모두 유료 요금제」, 2026-11-22 12:15, 채팅 `f9a8caf48469230d`, 카메라 고정·별자리 그대로 확인). 여섯 장면 모두 실제 영상(시도 기록 `docs/films-20261121/provenance.json` geminiAttempts). 새 대사 4줄: ElevenLabs API(eleven_v4, 기존 Aria·oki·Hun 목소리), 엔딩 대사는 기존 `el-movie-2·4`·`el-ending` 재사용. 자막: Jua(OFL). 영상 소리는 대사만, 배경 음악은 앱의 Suno 곡(M1)을 앱이 재생. 끝 화면에 앱 제목 로고(I2)·별빛 그림(I14) 사용 | 2026-11-21 11:30–11:41 그림 생성, 11:33–11:39 Flow(Aside 세션 `AhMpD7yBVh8uUMTY`), ElevenLabs requestId `wFzxmjRvxusY5H8Jw7c6`·`sbW0CdFQt7vmQjgjU1DW`·`H6WCAAbLdTPGzcflWCBH`·`J8HVcImsi15SrW0JH1gT` | ChatGPT·Google Flow·ElevenLabs 유료 요금제(2026-11-21 사용자 확인 「전부 맞아」, ElevenLabs Creator). Flow 영상에는 계정 지역 설정상 필수인 작은 「Veo」 표시가 오른쪽 아래에 있다(지우지 않음). 캐릭터 디자인은 I3·I4 | `docs/films-20261121/provenance.json`(파일별 SHA-256·생성 시각·프롬프트 키), `prompts.json`, `voice-api-log.jsonl`, `compose.py`·`kb.py`·`burn-*.json`, 원본 `references/film-20261121/` | 확인됨 |
 
 ## 음악
 
@@ -123,3 +124,4 @@
 5. **Suno Premier 증빙** — 2026-11-17 두 곡(M1) 생성 시점의 구독 화면이나 영수증, 두 곡의 Suno 곡 페이지 링크.
 6. **(선택) Qwen3-TTS 모델 라이선스 원문** — A4 29개를 계속 업로드한다면 모델 카드의 Apache-2.0 원문 사본. 업로드 제외 목록에 넣는다면 필요 없다.
 7. **(선택) Freesound 원본 페이지 캡처** — S1 15개는 공용 라이브러리가 CC0 재확인을 기록했지만, 납품처가 원본 화면 증빙을 요구하면 페이지별 캡처.
+8. **Meshy 요금제 증빙** — 2026-11-21 천문대 3D 모형(I20) 생성 시점의 Meshy 유료 구독 화면이나 영수증.
