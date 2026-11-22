@@ -1066,4 +1066,5 @@ html dialog.science-settings-stars .dialog-body label,
 html dialog.science-settings-stars .dialog-body output {color:#243a2c}
 html dialog.science-settings-stars > .science-settings-footer {background:#fffdf3}
 html dialog.science-settings-stars .settings-star-volume {grid-column:1/-1;white-space:nowrap}
+html dialog.science-settings-stars .toggle-row:has(#setting-bgm,#setting-sfx) {grid-column:1/-1} /* 배경 음악·효과음 스위치 줄도 음량 줄처럼 한 줄 전체(2026-11-22) */
 html dialog.science-settings-stars .settings-star-volume output {min-width:3em;text-align:right}
