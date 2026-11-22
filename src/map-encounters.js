@@ -136,7 +136,7 @@ export function mountMapEncounters({
     saved={...saved,[foe.s.id]:n};onSave({...saved});tone('swing',n);
     speak(foe, n===HITS?foe.s.finish??'앗, 물러날게!':foe.s.hit?.[n-1]??(n===1?'앗, 들켰네!':'이번 건 제법인데!'),time+(n===HITS?2750:1800),300);
     live.textContent+=n===HITS?' 세 번 명중! 악당이 물러나요.':` ${n}번 명중. ${HITS-n}번 남았어요.`;
-    if(n===HITS&&requiredFoes>0&&stages.length===requiredFoes&&stages.every(s=>(saved[s.id]??record[s.id])===HITS)){finaleAt=impact+2920;victoryAt=impact+VICTORY_CUE;}
+    if(n===HITS&&requiredFoes>0&&stages.length===requiredFoes&&stages.every(s=>(saved[s.id]??record[s.id])===HITS)){victoryAt=impact+VICTORY_CUE;}
     update({...last,now:time});
   }
   attack.addEventListener('click',hit,{signal});
