@@ -132,3 +132,15 @@ dialog .incident-board .incident-icon { background: none; width: 34px; height: 3
 @media (min-width: 1101px) { .results-layout:has(.cert-v2.has-art) { grid-template-columns: minmax(0, 1.85fr) minmax(280px, 1fr); } }
 .cert-v2.has-art .cert-style { font-size: var(--classroom-small); margin: 4px 0; }
 .cert-v2.has-art .cert-frame footer { font-size: var(--classroom-small); padding: 4px 5% 0; justify-content: center; gap: 2px 18px; }
+
+/* Home = 우당탕 양식(2026-11-22): 가운데 위 로고 + 아래 가운데 버튼 두 개만. 별여우는 오른쪽 아래로 비켜 선다. */
+.experience.home-v2.home-title { display: block; height: 100dvh; min-height: 320px; padding: 0; overflow: hidden; }
+.home-v2.home-title::before { background: linear-gradient(180deg, #08182b40 0%, #08182b08 45%, #08182b80 100%); }
+.home-v2.home-title .hero { position: absolute; inset: 0; z-index: 3; width: auto; margin: 0; padding: 0; text-align: center; pointer-events: none; }
+.home-v2.home-title .hero-title-art { position: absolute; left: 50%; top: clamp(56px, 9vh, 120px); transform: translateX(-50%); width: min(78vw, 1150px, 150dvh); margin: 0; line-height: 0; }
+.home-v2.home-title .hero-logo { display: block; width: 100%; height: auto; max-height: none; margin: 0; object-position: center; }
+.home-v2.home-title .home-cta { position: absolute; left: 50%; bottom: clamp(32px, 7vh, 72px); transform: translateX(-50%); display: flex; flex-wrap: nowrap; justify-content: center; gap: 20px; max-width: none; margin: 0; pointer-events: auto; }
+.home-v2.home-title .home-cta .btn { width: auto; min-width: clamp(180px, 17vw, 220px); min-height: 64px; font-size: 24px; padding: 12px 34px; white-space: nowrap; }
+.home-v2.home-title::after { width: clamp(150px, min(20vw, 36vh), 340px); right: 1.5vw; bottom: 2%; opacity: 1; }
+@media (max-height: 500px) { .home-v2.home-title .home-cta .btn { min-width: 170px; min-height: 52px; font-size: 20px; padding: 8px 24px; } }
+@media (max-width: 600px) { .home-v2.home-title .home-cta { gap: 12px; } .home-v2.home-title .home-cta .btn { min-width: 0; font-size: 20px; padding: 10px 22px; } }

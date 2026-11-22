@@ -1,29 +1,22 @@
-// Optional welcome narration. Playback always begins with a deliberate button press.
-export function mountWelcomeVoice(host, { caption, isMuted, duck = () => {} }) {
+// 설정 창의 「안내 목소리 듣기」 한 줄(2026-11-22 첫 화면에서 옮김). 재생은 늘 버튼을 눌러야 시작한다.
+export function mountWelcomeVoice(host, { isMuted, duck = () => {} }) {
   if (!host) return () => {};
-  const panel = document.createElement('section');
-  panel.className = 'npc-welcome-voice';
-  panel.setAttribute('aria-label', '안내자 환영 인사');
-  panel.style.cssText = 'max-width:480px;margin:12px 0;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.94);color:#193d43;text-align:left;position:relative;z-index:2;';
+  const panel = document.createElement('div');
+  panel.className = 'setting-row settings-welcome-voice';
   const button = document.createElement('button');
   button.type = 'button';
-  button.style.cssText = 'min-width:48px;min-height:48px;padding:8px 16px;border:1px solid #527577;border-radius:12px;background:#fff;color:#193d43;font:inherit;font-weight:700;cursor:pointer;';
+  button.className = 'btn secondary';
   const label = document.createElement('small');
   label.textContent = 'AI 생성 음성';
-  label.style.cssText = 'display:inline-block;margin-left:10px;font-size:var(--classroom-small);color:#496270;';
-  const subtitle = document.createElement('p');
-  subtitle.textContent = caption;
-  subtitle.style.cssText = 'margin:8px 0 0;font-size:var(--classroom-small);line-height:1.55;word-break:keep-all;';
   const status = document.createElement('span');
   status.setAttribute('role', 'status');
-  status.style.cssText = 'display:block;font-size:var(--classroom-small);line-height:1.4;';
-  panel.append(button, label, subtitle, status);
+  panel.append(button, label, status);
   host.append(panel);
   const events = new AbortController();
   const player = new Audio('./assets/audio/voices/el-welcome.mp3');
   player.preload = 'none';
   let active = false, disposed = false, serial = 0;
-  const paint = () => { button.textContent = active ? '안내 음성 멈추기' : '안내 음성 듣기'; button.setAttribute('aria-pressed', String(active)); };
+  const paint = () => { button.textContent = active ? '안내 목소리 멈추기' : '안내 목소리 듣기'; button.setAttribute('aria-pressed', String(active)); };
   function stop() {
     serial++;
     player.pause();
@@ -32,11 +25,11 @@ export function mountWelcomeVoice(host, { caption, isMuted, duck = () => {} }) {
     active = false;
     paint();
   }
-  function fail() { stop(); status.textContent = '음성을 불러오지 못했어요. 위의 글을 읽고 계속할 수 있어요.'; }
+  function fail() { stop(); status.textContent = '음성을 불러오지 못했어요.'; }
   button.addEventListener('click', async () => {
     if (active) { stop(); return; }
     if (disposed || document.hidden || !panel.isConnected) return;
-    if (isMuted()) { status.textContent = '소리를 켜면 안내 음성을 들을 수 있어요.'; return; }
+    if (isMuted()) { status.textContent = '소리와 목소리를 켜면 들을 수 있어요.'; return; }
     status.textContent = '';
     active = true; const request = ++serial;
     duck(true); paint();

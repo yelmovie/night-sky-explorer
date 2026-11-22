@@ -1068,3 +1068,7 @@ html dialog.science-settings-stars > .science-settings-footer {background:#fffdf
 html dialog.science-settings-stars .settings-star-volume {grid-column:1/-1;white-space:nowrap}
 html dialog.science-settings-stars .toggle-row:has(#setting-bgm,#setting-sfx) {grid-column:1/-1} /* 배경 음악·효과음 스위치 줄도 음량 줄처럼 한 줄 전체(2026-11-22) */
 html dialog.science-settings-stars .settings-star-volume output {min-width:3em;text-align:right}
+html dialog.science-settings-stars .science-settings-audio .settings-welcome-voice.setting-row {grid-column:1/-1;justify-content:flex-start;flex-wrap:wrap;align-content:center} /* 「안내 목소리 듣기」 한 줄(2026-11-22 첫 화면에서 옮김) */
+html dialog.science-settings-stars .science-settings-audio .settings-welcome-voice .btn {min-height:44px;padding:6px 18px}
+html dialog.science-settings-stars .settings-welcome-voice small {font-size:15px;color:#3f5a48}
+html dialog.science-settings-stars .settings-welcome-voice [role=status]:empty {display:none}
