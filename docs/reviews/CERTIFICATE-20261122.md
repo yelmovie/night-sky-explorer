@@ -9,3 +9,7 @@
 - A4 가로 PDF1쪽, PNG2400×1697을 직접 열어 확인했다. 날짜와 제작 표기가 아래 별 장식과 겹치지 않는다. 동작을 새로 추가하지 않아 reduced-motion에서도 정적이다.
 - 실제 완료 데이터 fixture를 격리 브라우저에서 재현했다. 전체 새 플레이·실제 태블릿 검사는 이번 인증서 QA 범위 밖이다.
 - 근거 `.tmp/cert-design-20261122/local-release.json`, `shots/local-release.pdf`, `shots/local-release-saved.png`, `compare.png`.
+
+운영 확인: 앱 `3c77582`·문서 `76101b5`를 main에 푸시하고 기존 Worker `night-sky-explorer`에 배포했다. 버전 `999919dc-0862-466d-aabb-2fd0416d23b0`, 공식 주소 `https://night-sky-explorer.yelsam.workers.dev`에서 세 뷰·A4 가로 PDF1쪽·PNG2400×1697을 다시 확인했다. 오류/입력 칸/숫자 요약/겹침0, 제목900, 전체 종이·주요 버튼 표시. 운영 index와 코드/스타일9개·기존 프레임 SHA256이 검증 빌드와 일치한다. `prod.json`, `shots/prod.pdf`, `shots/prod-saved.png`, `compare.png`가 최종 운영 근거다.
+
+운영 추가 확인 `extra.json`: 시스템과 앱의 동작 줄이기에서 실행 중인 인증서 애니메이션0, 사용자 별명이 저장되어 있어도 종이 표시 없음, 설정의 「나의 탐구 결과 보기」 재진입 성공.
