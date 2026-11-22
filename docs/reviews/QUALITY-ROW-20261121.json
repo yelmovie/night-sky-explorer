@@ -73,13 +73,13 @@
  "films": {
   "introSeconds": 27.8,
   "finalSeconds": 26.0,
-  "realVideoShots": 4,
-  "stillCameraShots": 2,
-  "filmsMB": 4.7,
+  "realVideoShots": 6,
+  "stillCameraShots": 0,
+  "filmsMB": 4.67,
   "lazyLoaded": true,
   "range206": true,
   "newVoiceLines": 4,
-  "note": "인트로 2 Gemini 영상 교체(2026-11-22 아침 재시도, 앱 f0c6ca8, Worker 0e4d936c). 남은 임시: 엔딩 1·엔딩 3(11-22 아침 재시도 두 번씩 모두 Gemini 오류, 임시 판 유지)"
+  "note": "여섯 장면 모두 실제 영상(2026-11-22 12:40, 엔딩 1 앱 e8bc811, 엔딩 3 앱 d319d4c, Worker 784dd8ab). 엔딩 3은 카메라 고정·별자리 그대로 확인"
  },
  "codeStructure": {
   "largestCssLines": 1069,
