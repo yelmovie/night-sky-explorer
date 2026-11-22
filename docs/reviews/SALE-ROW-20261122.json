@@ -1,120 +1,127 @@
 {
-  "no": 13,
-  "name": "별빛 관측 연구소",
-  "folder": "13 nightsky",
-  "grade": "4학년",
-  "semester": "2학기",
-  "subject": "과학",
-  "unit": "밤하늘 관찰",
-  "standards": [
-    "[4과13-01] 달의 모양과 표면, 달의 위상변화를 관찰하여 밤하늘 관찰에 흥미를 가질 수 있다.",
-    "[4과13-02] 태양계 구성원을 알고, 태양과 행성을 조사할 수 있다.",
-    "[4과13-03] 별의 정의를 알고, 북극성 주변의 별자리를 관찰할 수 있다."
+ "no": 13,
+ "name": "별빛 관측 연구소",
+ "folder": "13 nightsky",
+ "grade": "4학년",
+ "semester": "2학기",
+ "subject": "과학",
+ "unit": "밤하늘 관찰",
+ "standards": [
+  "[4과13-01] 달의 모양과 표면, 달의 위상변화를 관찰하여 밤하늘 관찰에 흥미를 가질 수 있다.",
+  "[4과13-02] 태양계 구성원을 알고, 태양과 행성을 조사할 수 있다.",
+  "[4과13-03] 별의 정의를 알고, 북극성 주변의 별자리를 관찰할 수 있다."
+ ],
+ "minutes": null,
+ "stages": 10,
+ "thumbnail": "13 nightsky/thumbnails/thumbnail-16x8.png",
+ "appCommit": "d319d4c",
+ "host": "workers",
+ "note": "minutes는 저장소에 없음(40분 수업 확인은 B16 대기). semester·unit 이름도 저장소에 없음. stages는 5장 x 2활동.",
+ "consistency": {
+  "creditLine": {
+   "text": "기획·제작: 옐샘 & ⓒ 아이스크림미디어",
+   "where": [
+    "settings",
+    "certificate",
+    "start"
+   ]
+  },
+  "settings": {
+   "items": [
+    "배경 음악",
+    "배경 음악 음량",
+    "효과음",
+    "효과음 크기",
+    "목소리",
+    "동작 줄이기",
+    "연구 키트 · 나의 관측 기록",
+    "이 탐험을 하는 이유 다시 보기",
+    "엔딩 다시 보기",
+    "나의 탐구 결과 보기",
+    "프롤로그 영상 다시 보기",
+    "앱 정보 · 배움과 보상",
+    "완료한 개념영상 모아 보기",
+    "학생용 가이드",
+    "교사용 가이드(성취기준·장별 학습 근거·교사용 도구)",
+    "이미지·소리·저작권 고지"
+   ],
+   "close": [
+    "footer-close-button",
+    "esc"
+   ],
+   "closeLabel": "닫기 (푸터에 연구 기록 초기화 + 닫기, 머리 X는 푸터 닫기가 있으면 제거됨)",
+   "outsideClickCloses": false
+  },
+  "certificate": {
+   "fields": [
+    "학년",
+    "반",
+    "번",
+    "이름",
+    "날짜",
+    "연구원 별명",
+    "탐구 5/5",
+    "관측 기록 5/5",
+    "연구소 복구 100%",
+    "탐구 스타일"
+   ],
+   "buttons": [
+    "인증서 인쇄 / PDF 저장",
+    "내 관측 기록 보기",
+    "엔딩 영상 다시 보기",
+    "다시 관측하기",
+    "기록 파일 저장"
+   ],
+   "date": "2026. 11. 22. 형식, 완료 날짜 자동",
+   "print": "인쇄하면 인증서만 한 쪽(버튼 0)"
+  },
+  "rewardCards": {
+   "count": 5,
+   "textPx": 18,
+   "lockedText": "악당을 물리치면 열려요"
+  },
+  "modalButtons": {
+   "primarySide": "left",
+   "order": [
+    "취소",
+    "기록 지우기"
+   ],
+   "danger": "기록 지우기(.btn.danger)",
+   "firstFocus": "취소"
+  },
+  "startScreen": {
+   "buttons": [
+    "루미와 출발하기 (저장 후: 탐구 이어 하기, 연구 키트)"
+   ]
+  },
+  "notice": "저작권 고지를 권리 장부에 맞춤(효과음: 버튼 소리 Web Audio 합성 + Freesound·Kenney CC0 녹음, 인트로·엔딩 영상 Google Veo, 요금제 표기 뺌)",
+  "unifiedAt": "2026-11-22 16시, 앱 53077c7·03ae3ab·70b1f8b, Worker 6ba36db6"
+ },
+ "ledger": {
+  "rows": 32,
+  "open": 1,
+  "openItems": [
+   "I8 favicon.svg 근거 약함(직접 작성 SVG)"
   ],
-  "minutes": null,
-  "stages": 10,
-  "thumbnail": "13 nightsky/thumbnails/thumbnail-16x8.png",
-  "appCommit": "d319d4c",
-  "host": "workers",
-  "note": "minutes는 저장소에 없음(40분 수업 확인은 B16 대기). semester·unit 이름도 저장소에 없음. stages는 5장 x 2활동.",
-  "consistency": {
-    "creditLine": {
-      "text": "기획·제작: 옐샘 & ⓒ 아이스크림미디어",
-      "where": [
-        "settings",
-        "certificate",
-        "start"
-      ]
-    },
-    "settings": {
-      "items": [
-        "배경 음악",
-        "효과음",
-        "배경 음악 음량",
-        "효과음 크기",
-        "목소리",
-        "동작 줄이기",
-        "연구 키트 · 나의 관측 기록",
-        "이 탐험을 하는 이유 다시 보기",
-        "엔딩 다시 보기",
-        "나의 탐구 결과 보기",
-        "프롤로그 영상 다시 보기",
-        "앱 정보 · 배움과 보상",
-        "완료한 개념영상 모아 보기",
-        "학생용 가이드",
-        "교사용 가이드(성취기준·장별 학습 근거·교사용 도구)",
-        "이미지·소리·저작권 고지"
-      ],
-      "close": [
-        "footer-close-button",
-        "esc"
-      ],
-      "closeLabel": "닫기 (푸터에 연구 기록 초기화 + 닫기, 머리 X는 푸터 닫기가 있으면 제거됨)"
-    },
-    "certificate": {
-      "fields": [
-        "학년",
-        "반",
-        "번",
-        "이름",
-        "날짜",
-        "연구원 별명",
-        "탐구 5/5",
-        "관측 기록 5/5",
-        "연구소 복구 100%",
-        "탐구 스타일"
-      ],
-      "buttons": [
-        "인증서 출력",
-        "내 관측 기록 보기",
-        "엔딩 영상 다시 보기",
-        "다시 관측하기",
-        "기록 파일 저장"
-      ]
-    },
-    "rewardCards": {
-      "count": 5,
-      "textPx": 18,
-      "lockedText": "악당을 물리치면 열려요"
-    },
-    "modalButtons": {
-      "primarySide": "left",
-      "order": [
-        "취소",
-        "기록 지우기"
-      ]
-    },
-    "startScreen": {
-      "buttons": [
-        "루미와 출발하기 (저장 후: 탐구 이어 하기, 연구 키트)"
-      ]
-    }
-  },
-  "ledger": {
-    "rows": 32,
-    "open": 1,
-    "openItems": [
-      "I8 favicon.svg 근거 약함(직접 작성 SVG)"
-    ],
-    "userPending": [
-      "OpenAI(ChatGPT·Codex) 요금제 증빙",
-      "ElevenLabs 결제 증빙",
-      "Suno Premier 증빙",
-      "Meshy 요금제 증빙",
-      "(선택) Qwen3-TTS 라이선스 원문",
-      "(선택) Freesound 원본 페이지 캡처"
-    ]
-  },
-  "teacherGuide": {
-    "needsConfirm": [
-      "예상 시간(분)"
-    ]
-  },
-  "files": {
-    "teacherGuide": "docs/TEACHER-GUIDE.md",
-    "handoff": "docs/DELIVERY-HANDOFF.md"
-  },
-  "gradeRepo": "초등 3~4학년군(성취기준 코드에서 읽음)",
-  "unitRepo": "확인 필요(성취기준 묶음 [4과13] 달·태양계·별)",
-  "gradeUnitSource": "운영 시트 「이예리 선생님」 탭, 2026-11-22 확인"
+  "userPending": [
+   "OpenAI(ChatGPT·Codex) 요금제 증빙",
+   "ElevenLabs 결제 증빙",
+   "Suno Premier 증빙",
+   "Meshy 요금제 증빙",
+   "(선택) Qwen3-TTS 라이선스 원문",
+   "(선택) Freesound 원본 페이지 캡처"
+  ]
+ },
+ "teacherGuide": {
+  "needsConfirm": [
+   "예상 시간(분)"
+  ]
+ },
+ "files": {
+  "teacherGuide": "docs/TEACHER-GUIDE.md",
+  "handoff": "docs/DELIVERY-HANDOFF.md"
+ },
+ "gradeRepo": "초등 3~4학년군(성취기준 코드에서 읽음)",
+ "unitRepo": "확인 필요(성취기준 묶음 [4과13] 달·태양계·별)",
+ "gradeUnitSource": "운영 시트 「이예리 선생님」 탭, 2026-11-22 확인"
 }
