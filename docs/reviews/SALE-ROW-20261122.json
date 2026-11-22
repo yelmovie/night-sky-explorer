@@ -14,9 +14,9 @@
  "minutes": null,
  "stages": 10,
  "thumbnail": "13 nightsky/thumbnails/thumbnail-16x8.png",
- "appCommit": "d319d4c",
+ "appCommit": "3c77582",
  "host": "workers",
- "note": "minutes는 저장소에 없음(40분 수업 확인은 B16 대기). semester·unit 이름도 저장소에 없음. stages는 5장 x 2활동.",
+ "note": "minutes는 40분 수업 실측 없음(B16 대기). 학년·학기·단원은 공식 운영 시트 기준. stages는 5장 x 2활동.",
  "consistency": {
   "creditLine": {
    "text": "기획·제작: 옐샘 & ⓒ 아이스크림미디어",
@@ -135,5 +135,15 @@
    "science",
    "save-format"
   ]
+ },
+ "releaseVerification": {
+  "date": "2026-11-22",
+  "appCodeCommit": "3c77582",
+  "deploymentSourceCommit": "76101b5",
+  "workerVersion": "999919dc-0862-466d-aabb-2fd0416d23b0",
+  "url": "https://night-sky-explorer.yelsam.workers.dev/",
+  "matchedFiles": 3,
+  "result": "SHA256 MATCH; 최신 운영 유지",
+  "certificate": "손기입 빈칸·A4 가로·PNG2400px·진행 숫자 요약 없음·굵은 제목/PNG 획"
  }
 }
