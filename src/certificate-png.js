@@ -1,3 +1,4 @@
+import {finishCertificateWax} from './certificate-wax.js';
 const LONG_SIDE = 2400;
 function loadImage(src) {
   return new Promise((resolve, reject) => {
@@ -46,6 +47,7 @@ function lines(node) {
   return out.filter((l) => l.text.trim());
 }
 async function drawCertificate(paper) {
+  finishCertificateWax(paper);
   await document.fonts?.ready;
   for (const animation of paper.getAnimations({ subtree: true })) animation.finish();
   const box = paper.getBoundingClientRect();
@@ -64,6 +66,7 @@ async function drawCertificate(paper) {
     ctx.drawImage(img, X(r.left), Y(r.top), r.width * scale, r.height * scale);
   }
   for (const el of paper.querySelectorAll(".cert-content *")) {
+    if(el.closest('[data-cert-export-ignore]'))continue;
     const cs = getComputedStyle(el);
     if (cs.display === "none" || cs.visibility === "hidden") continue;
     const r = el.getBoundingClientRect();
@@ -84,9 +87,11 @@ async function drawCertificate(paper) {
       sides.forEach((side,index)=>{const width=widths[index],style=cs['border'+side+'Style'];if(!width||style==='none')return;ctx.strokeStyle=cs['border'+side+'Color'];ctx.lineWidth=width*scale;ctx.setLineDash(style==='dashed'?[3*width*scale,3*width*scale]:[]);const [x1,y1,x2,y2]=coords[index];ctx.beginPath();ctx.moveTo(X(x1),Y(y1));ctx.lineTo(X(x2),Y(y2));ctx.stroke();ctx.setLineDash([]);});
     }
   }
+  for (const art of paper.querySelectorAll('.cert-wax-art')) { await art.decode();const r=art.getBoundingClientRect();ctx.drawImage(art,X(r.left),Y(r.top),r.width*scale,r.height*scale); }
   const walker = document.createTreeWalker(paper.querySelector(".cert-content"), NodeFilter.SHOW_TEXT);
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     const el = n.parentElement;
+    if(el.closest('[data-cert-export-ignore]'))continue;
     const cs = getComputedStyle(el);
     if (cs.display === "none" || cs.visibility === "hidden") continue;
     ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${parseFloat(cs.fontSize) * scale}px ${cs.fontFamily}`;

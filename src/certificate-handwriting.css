@@ -30,3 +30,9 @@
 }
 
 @media(min-width:900px) and (max-width:1100px){.results-layout:has(#starlight-certificate){grid-template-columns:minmax(0,1fr) 280px;gap:16px}}
+
+/* The central wax seal shares the bottom row with its date and issuer. */
+#starlight-certificate .cert-content{inset:11% 12% 9%;grid-template-rows:6% 12% 23% 23% 7% 8% 21%}
+#starlight-certificate .cert-content footer{display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto;align-items:center;gap:0 2cqw;padding:0}
+#starlight-certificate .cert-content footer .cert-date,#starlight-certificate .cert-content footer .cert-giver{font-size:1.45cqw;line-height:1.4}
+#starlight-certificate .cert-content footer .cert-credit{grid-column:1/-1;font-size:1.05cqw;line-height:1.4;margin-top:.25cqw}
