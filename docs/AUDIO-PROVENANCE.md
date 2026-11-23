@@ -33,3 +33,9 @@
 - 동일 화면 문구와 합성 입력: “오른쪽에서 왼쪽으로 보이는 순서는 화면 방향을 고정한 학습 모형의 순서예요.”
 - 이 맥에 설치된 macOS Speech Synthesis `Yuna (한국어(한국))`, 속도 170으로 기기 내 AIFF 합성 후 FFmpeg로 MP3 변환. 외부 음성 API·학생 음성·마이크를 사용하지 않았다.
 - 로컬 파일 출처·SHA256은 `docs/VOICE-LOCAL-20261123.json`. 기존 인물 음성과 음색이 다르며, 이번 작업에서 외부 배포·납품은 하지 않았다. 기존 음원의 이용허락을 이 새 파일에 적용한 것으로 표시하지 않는다.
+
+## 2026-11-23 공개용 안내
+
+- `audio/voices/el-model-phase-scope.mp3`는 기존 달토끼 기록원 루미와 같은 `Aria – Bright & Youthful Korean` 음성(ID `O2KReOFLpoR65nz6C9Se`)으로 생성했다. ElevenLabs Creator 유료 플랜의 Eleven v4를 사용했다.
+- 화면 문구와 일치하는 한국어 전사, 음량, SHA-256과 [서비스 이용 조건](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform)은 `docs/VOICE-LOCAL-20261123.json`에 기록했다.
+- 앞의 macOS Yuna 파일은 최초 검수 이력으로 보존하며 `dist/.assetsignore`로 Workers 업로드에서 제외한다.

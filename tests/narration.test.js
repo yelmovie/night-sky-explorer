@@ -46,7 +46,7 @@ test('모든 대사 음성 파일의 출처·SHA와 화면 대사 카탈로그�
  const older=[...read('VOICE-PROVENANCE-20261110.json').lines,...read('VOICE-PROVENANCE-20261112.json').lines,...read('NPC-DIALOGUE-20261112.json').lines,...read('VOICE-PROVENANCE-20261117.json').lines];
  const filled=new Set(fill.lines.map(line=>line.key));
  assert.equal(voiceLines.length,new Set(voiceLines.map(line=>line.id)).size);
- // 2026-11-18: 모든 연결 음성은 ElevenLabs(el-*) 파일이다.
+ // 기존 ElevenLabs 대사와 새 모형 안내의 각 출처 기록을 확인한다.
  for(const line of voiceLines){const extra=local.find(x=>x.id===line.id);if(extra){assert.equal('public'+line.src,extra.file);assert.equal(line.text,extra.text);assert.equal(createHash('sha256').update(readFileSync(new URL('../'+extra.file,import.meta.url))).digest('hex'),extra.sha256);}else assert.match(line.src,/\/assets\/audio\/voices\/el-[\w-]+\.mp3$/,line.id);readFileSync(new URL('../public'+line.src,import.meta.url));}
  for(const line of fill.lines){
   const data=readFileSync(new URL('../'+line.file,import.meta.url));

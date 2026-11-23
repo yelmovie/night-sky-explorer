@@ -16,7 +16,9 @@ await clean(dist);
 // Also guard against exFAT sidecars being regenerated after the build.
 // The large PNG originals and the Jua font are never requested (the app loads the WebP copies and NanumSquareNeo),
 // so they stay out of the upload.
-const unusedOriginals = ['assets/observatory.png', 'assets/logo.png', 'assets/rabbit.png', 'assets/fox.png', 'assets/fonts/jua-*.woff2',
+const unusedOriginals = [
+  // 공개용 안내로 교체한 macOS Yuna 검수 음성은 배포 목록에서 제외한다.
+  'assets/audio/voices/local-model-phase-scope.mp3', 'assets/observatory.png', 'assets/logo.png', 'assets/rabbit.png', 'assets/fox.png', 'assets/fonts/jua-*.woff2',
   // 앱이 부르지 않는 옛 파일(2026-11-21 D6 전수 검색): 합성음으로 바뀐 .ogg 효과음, 예전 환영 음성, 다시 녹음 전 힌트 음성,
   // v4로 바뀐 달 표면, -redraw로 바뀐 지도 인물 그림. 이름을 조합해 쓰는 경로(stage-N, card-·thumb-, badge-, 행성 id)는 넣지 않았다.
   'assets/audio/*.ogg', 'assets/audio/npc-welcome.m4a', 'assets/audio/voices/hint-s1a-v2.mp3', 'assets/audio/voices/hint-s2a-v2.mp3', 'assets/audio/voices/hint-s2a-v3.mp3',
