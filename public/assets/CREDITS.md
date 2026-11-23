@@ -188,3 +188,9 @@ Google Flow 영상에는 계정 지역 설정상 필수인 작은 「Veo」 표�
 | `generated/run-stage/observatory.glb` | `asset-bank/original/run-stage-20261117/observatory.png`(Codex 내장 이미지 도구)를 입력으로 Meshy 이미지→3D(Meshy 7.1·표준·텍스처 2K·비공개, 작업 ID `01a1fd7b-4eee-7355-9b02-2d8b68e79eb3`, 30크레딧) → `_shared/meshy/pack.mjs` 방식(텍스처 1024px JPEG) + gltfpack 1.3.0 `-si 0.003 -se 0.15 -cc`로 4,553,188면 → 24,050면, 836KB | 원본 `asset-bank/original/meshy-20261121/`(Git 제외), 같은 폴더 `README.md` |
 
 유료 Meshy 계정으로 생성했고 생성 당시 계정의 이용 조건을 따른다. 이 문서가 별도 권리를 부여하지 않는다.
+
+
+## 2026-11-23 달 방향 모형 안내 (ElevenLabs)
+
+- `audio/voices/el-model-phase-scope.mp3`는 기존 달토끼 기록원 루미와 같은 `Aria – Bright & Youthful Korean` 음성(ID `O2KReOFLpoR65nz6C9Se`)으로 생성했다. ElevenLabs Creator 유료 플랜의 Eleven v4를 사용했다.
+- 화면 문구와 일치하는 한국어 전사, 음량, SHA-256과 [서비스 이용 조건](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform)은 `docs/VOICE-LOCAL-20261123.json`에 기록했다.

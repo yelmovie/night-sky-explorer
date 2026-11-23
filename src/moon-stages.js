@@ -1,10 +1,13 @@
 import {discoveryRoute} from './discovery-route.js';
 import './discovery-route.css';
 import { representativeDays } from './observation-records.js';
-import { moonSVG, dayMoon } from './drawing.js';
-import { learnButton as b, range, imageFor, icon } from './ui.js';
+import { lunarModelVoice } from './lunar-model.js';
+import { moonSVG, dayMoon, phase } from './drawing.js';
+import { learnButton as b, range, imageFor, icon, esc } from './ui.js';
 import './moon-stages.css';
 import { moonSurfaceChoices, phaseChoices, choiceMarkup } from './reflection-chips.js';
+
+const modelScope = () => `<aside class="phase-model-scope"><p>${lunarModelVoice.text}</p><span data-phase-model-voice></span></aside>`;
 
 const comparisonReady = card => card.spots.length >= 2 && card.observation.trim().length >= 3;
 const spotChoices = [[26, 27, '왼쪽 위'], [67, 29, '오른쪽 위'], [32, 68, '왼쪽 아래'], [69, 65, '오른쪽 아래']];
@@ -48,7 +51,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       instruction = '두 곳의 무늬와 밝기를 비교해요.';
       main = `${tabs(['비교 카드 하나', '비교 카드 둘'], d.moon.comparisons.map(comparisonReady))}
         <div class="lunar-surface-stage"><div class="surface-v2" id="surface-moon" aria-label="달 표면의 관찰 위치. 아래 위치 버튼으로도 고를 수 있어요.">${moonSVG()}${card.spots.map((point, j) => `<span class="spot-marker lunar-spot-${j + 1}" style="left:${point.x}%;top:${point.y}%">${j + 1}</span>`).join('')}</div></div>
-        <div class="surface-targets sr-only sr-only-focusable" role="group" aria-label="달 표면 관찰 위치">${spotChoices.map(([x, y, label]) => b(label, `spot-${x}-${y}`, 'chip')).join('')}</div>
+        <div class="surface-targets" role="group" aria-label="달 표면 관찰 위치">${spotChoices.map(([x, y, label]) => b(label, `spot-${x}-${y}`, 'chip')).join('')}</div>
 `;
       tools = `
         <div class="comparison-grid">${[0, 1].map(j => {
@@ -64,7 +67,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       instruction = '여러 날의 달 모습을 모아요.';
       main = `<div class="phase-display"><span class="date-tag" id="day-label">${p.day}일째</span><div id="phase-moon">${dayMoon(p.day)}</div></div>
         <div id="capture-strip">${recordCollection(p.captures, strip)}</div>
-        <p class="model-note">우리나라에서 본 모양을 단순하게 나타냈어요 · 학습용 날짜</p>`;
+        <p class="model-note">우리나라에서 본 모양을 단순하게 나타냈어요 · 학습용 날짜</p>${modelScope()}`;
       tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}<p class="drag-tip slider-tip">막대를 끌면 달이 변해요. 관측 날짜에서 손을 떼면 그 모습이 담겨요.</p>
 
         ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'secondary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}`;
@@ -80,7 +83,7 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
         <div class="prediction-board ${ui.overlayVisible ? 'is-overlay' : ''}">
           <figure class="prediction-card prediction-mine"><h3><i aria-hidden="true"></i>내 예상</h3><div class="prediction-visual" id="prediction-moon">${moonSVG(p.amount, p.side)}</div></figure>
           <figure class="prediction-card prediction-evidence"><h3><i aria-hidden="true"></i>관측 자료</h3><div class="prediction-visual">${p.revealed ? dayMoon(day) : '<div class="unknown-moon"><span aria-hidden="true">?</span><small>예상을 저장하면 나타나요</small></div>'}</div></figure>
-        </div>
+        </div>${modelScope()}${p.reflection && p.original ? `<p class="phase-result" role="status"><b>비교 결과</b> · 처음 예상 ${p.original.amount}% / 관측 약 ${Math.round(phase(day).amount)}%<br>${esc(p.reflection)}<br>결과를 살펴본 뒤 아래 버튼을 눌러요.</p>` : ''}
 `;
       tools = `${range('밝은 부분', 'prediction-amount', 0, 100, p.amount, 1, '%')}
         <div class="choice-grid two">${b('오른쪽', 'side-right', p.side === 'right' ? 'choice-card selected' : 'choice-card', 'aria-label="오른쪽이 밝은 달"')}${b('왼쪽', 'side-left', p.side === 'left' ? 'choice-card selected' : 'choice-card', 'aria-label="왼쪽이 밝은 달"')}</div>

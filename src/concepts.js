@@ -1,3 +1,5 @@
+import { lunarModelVoice } from './lunar-model.js';
+import { mountNarrationControl } from './narration.js';
 import {bindConceptFocus} from './concept-focus.js';
 // 영상 원본: films/ (HyperFrames). 자막 시각 = 영상 장면 경계(films/kit/kit.mjs CUES), tests/concept-films.test.js가 일치를 확인한다.
 export const concepts = {
@@ -36,8 +38,10 @@ export const concepts = {
 export function mountConcept(host, number, { reduced = false, sound, onClose, audible = false, volume = 1, narration = null } = {}) {
   const clip = concepts[number];
   const base = `/assets/concepts/stage-${number}`;
-  host.innerHTML = `<div class="concept-picture"><video playsinline controls preload="metadata" poster="${base}.webp" aria-label="${clip.title} · 개념영상 ${clip.seconds}초"><source src="${base}.webm" type="video/webm"><source src="${base}.mp4" type="video/mp4"></video><img class="concept-end" src="${base}.webp" alt="${clip.title} 정리 장면" hidden></div><p class="concept-caption" role="status" aria-live="polite"></p><div class="concept-dots" aria-hidden="true">${clip.cues.map(() => '<i></i>').join('')}</div><ol class="concept-fallback" hidden>${clip.cues.map(([, text]) => `<li>${text}</li>`).join('')}</ol><button class="btn primary concept-play">${reduced ? '영상 재생' : '다시 보기'}</button>`;
+  host.innerHTML = `${number === 2 ? `<aside class="phase-model-scope"><p>${lunarModelVoice.text}</p><span data-phase-model-voice></span></aside>` : ''}<div class="concept-picture"><video playsinline controls preload="metadata" poster="${base}.webp" aria-label="${clip.title} · 개념영상 ${clip.seconds}초"><source src="${base}.webm" type="video/webm"><source src="${base}.mp4" type="video/mp4"></video><img class="concept-end" src="${base}.webp" alt="${clip.title} 정리 장면" hidden></div><p class="concept-caption" role="status" aria-live="polite"></p><div class="concept-dots" aria-hidden="true">${clip.cues.map(() => '<i></i>').join('')}</div><ol class="concept-fallback" hidden>${clip.cues.map(([, text]) => `<li>${text}</li>`).join('')}</ol><button class="btn primary concept-play">${reduced ? '영상 재생' : '다시 보기'}</button>`;
   const video = host.querySelector('video');
+  const scopeVoiceCleanup=number===2&&narration?mountNarrationControl(host.querySelector('[data-phase-model-voice]'),lunarModelVoice.id,narration,{autoplay:false,compact:true}):()=>{};
+  host.querySelector('[data-phase-model-voice]')?.addEventListener('click',()=>video.pause(),{capture:true});
   // 효과음 설정이 켜져 있을 때만 영상 효과음을 낸다(Kenney 효과음뿐, 음악·대사 없음). 크기는 효과음 크기 설정을 따른다.
   video.muted = !audible;
   video.volume = volume;
@@ -148,7 +152,7 @@ export function mountConcept(host, number, { reduced = false, sound, onClose, au
   caption();
   releaseFocus=bindConceptFocus(host,video,{steps:clip.cues.map(([at],i)=>({at,term:clip.steps[i]})),terms:clip.terms,caption:host.querySelector('.concept-caption'),anchor:host.querySelector('.concept-picture'),controls:false,reduced});
   return () => {
-    releaseFocus();closed = true;clearInterval(duckFade);unsubscribeVoice();if (voiceBusy()) narration.stop();
+    scopeVoiceCleanup();if(narration?.state.id===lunarModelVoice.id)narration.stop();releaseFocus();closed = true;clearInterval(duckFade);unsubscribeVoice();if (voiceBusy()) narration.stop();
     clearTimeout(timer);clearTimeout(holdTimer);clearTimeout(awakeTimer);
     for (const type of ['pointermove', 'pointerdown', 'focusin']) host.removeEventListener(type, wake);
     document.removeEventListener('visibilitychange', visibility);

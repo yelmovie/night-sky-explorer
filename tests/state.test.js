@@ -43,6 +43,7 @@ function studied() {
     s.drafts.planets.records[p.id] = { feature: p.feature, candidate: p.id };
   s.drafts.planets.order = [...solarOrder];
   s.drafts.planets.groups = Object.fromEntries(planets.map((p) => [p.id, p.group]));
+  s.drafts.classification.lightTrial = { prediction: 'darker', observations: ['covered', 'uncovered'], blocked: false };
   s.drafts.classification.viewed = bodies.map((b) => b.id);
   s.drafts.classification.answers = Object.fromEntries(
     bodies.map((b) => [b.id, { kind: b.kind, reason: b.evidence }]),
