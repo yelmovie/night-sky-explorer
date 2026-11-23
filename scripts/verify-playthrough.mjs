@@ -1,3 +1,4 @@
+import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
@@ -5,8 +6,9 @@ import { freshState, SAVE_KEY } from '../src/state.js';
 import { planets, bodies, solarOrder, patternRegions } from '../src/data.js';
 const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
 console.log('Starting browser playthrough');
-const browser = await chromium.launch({ executablePath: process.env.BROWSER_EXECUTABLE || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
-const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, hasTouch: true });
+const browser = await chromium.launch({ executablePath: process.env.BROWSER_EXECUTABLE || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true, args: process.env.WEBGL_DISABLED==='1'?['--disable-webgl']:['--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
+const [width,height]=(process.env.TEST_SIZE||'1280x800').split('x').map(Number);
+const context = await browser.newContext({ viewport: { width, height }, hasTouch: true });
 const page = await context.newPage();
 const touch = await context.newCDPSession(page);
 const errors = [], passed = [];
@@ -73,12 +75,13 @@ async function complete(number) {
   if (number === 5) { await page.locator('.final-report').waitFor(); await page.locator('.dialog-footer [data-action="close-modal"]').click(); }
   pass('Stage ' + number + ': real completion, optional concept, direct continuation');
 }
-await mkdir(new URL('../.cache/classroom-qa/', import.meta.url), { recursive: true });
+const output=resolve(process.env.PLAYTHROUGH_QA_DIR||'.cache/classroom-qa');
+await mkdir(output,{recursive:true});
 try {
   await page.goto(base);
   const initial = freshState(); initial.settings.reducedMotion = true; initial.settings.muted = true;
   await page.evaluate(({ key, state }) => localStorage.setItem(key, JSON.stringify(state)), { key: SAVE_KEY, state: initial });
-  await page.reload(); await click('start');
+  await page.reload(); await click('new-start');
   await page.locator('.story-dialog').waitFor(); await click('story-next-1-0'); await click('story-next-2-0'); await click('story-done');
   assert.equal((await stored()).intro, true);
   pass('Incident intro plays once before the first mission and is saved');
@@ -94,7 +97,7 @@ try {
   await nextActivity(); await scene('s1b');
   assert.equal(await page.evaluate(() => window.scrollY), 0);
   pass('A new mobile activity starts at the top after continuing from the bottom');
-  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setViewportSize({ width, height });
   for (const point of ['26-27', '67-29']) await tapMoon(point);
   await learn('pick-look-same');
   assert.equal((await stored()).drafts.moon.comparisons[0].observation, '', 'a wrong sentence is not recorded');
@@ -132,7 +135,7 @@ try {
     if (!round) { await learn('pick-size-bigger'); assert.equal((await stored()).drafts.phases.predictions[day].reflection, ''); }
     await learn('pick-size-similar'); await learn('pick-side-same-side');
     assert.ok((await stored()).drafts.phases.predictions[day].reflection.length > 3);
-    if (!round) await roundOpens(1);
+    if (!round) { await page.waitForTimeout(1700); assert.equal(await page.locator('[data-learning="round-0"]').getAttribute('aria-pressed'),'true'); assert.match(await page.locator('.phase-result').innerText(),/처음 예상/); await nextActivity(); await roundOpens(1); }
   }
   pass('One tap records each day once; checked sentence choices; comparison preserves the initial prediction');
   await complete(2);
@@ -150,7 +153,7 @@ try {
   assert.equal((await stored()).drafts.planets.records.mercury.feature, planets[0].feature);
   assert.equal((await stored()).scene, 'home');
   assert.equal((await stored()).drafts.planets.selected, 'mercury');
-  await click('start'); await scene('s3a');
+  await click('home-continue'); await scene('s3a');
   for (const planet of planets.slice(1, 6)) {
     await learn('planet-' + planet.id);
     await wipeFog();
@@ -162,9 +165,9 @@ try {
   assert.equal(Object.keys((await stored()).drafts.planets.records).length, 6);
   assert.equal(await page.locator('#planet-candidate').count(), 0);
   pass('Planet feature mistakes remain editable; correct evidence records once and advances; leaving cancels advance');
-  await learn('toggle-three'); await page.locator('#planet-viewer canvas').waitFor();
-  await drag(page.locator('#planet-viewer canvas'), page.locator('#planet-viewer canvas'));
-  await learn('toggle-three'); await nextActivity(); await scene('s3b');
+  await learn('toggle-three');
+  if(process.env.WEBGL_DISABLED==='1'){ await page.locator('.planet-viewport .planet-portrait').waitFor(); await setRange('planet-zoom',1.3); await setRange('planet-rotation',25); pass('WebGL disabled: same-planet 2D view keeps zoom, rotation and records'); }
+  else { await page.locator('#planet-viewer canvas').waitFor(); await drag(page.locator('#planet-viewer canvas'), page.locator('#planet-viewer canvas')); await learn('toggle-three'); } await nextActivity(); await scene('s3b');
   for (const [index, id] of solarOrder.entries()) await drag(page.locator(`[data-piece="${id}"]`), page.locator(`[data-slot="${index}"]`), id === 'sun');
   assert.equal(await page.locator('#stage-next').isEnabled(), true);
   await learn('round-1'); assert.equal(await page.locator('[data-learning="round-1"]').getAttribute('aria-pressed'), 'true');
@@ -180,6 +183,7 @@ try {
   assert.deepEqual((await stored()).drafts.planets.groups, Object.fromEntries(planets.map(planet => [planet.id, planet.group])));
   pass('All nine solar pieces and eight groups use pointer drag, including a touch drag');
   await complete(3);
+  await learn('predict-light-same');
   {
     const art = await page.locator('.light-lab-art').boundingBox(), shield = await page.locator('[data-shield] rect').last().boundingBox();
     await page.mouse.move(shield.x + shield.width / 2, shield.y + shield.height / 2); await page.mouse.down();
@@ -187,6 +191,10 @@ try {
     await page.locator('[data-shield].is-blocking').waitFor();
     assert.equal(await page.locator('[data-shield]').getAttribute('aria-pressed'), 'true');
   }
+  assert.deepEqual((await stored()).drafts.classification.lightTrial.observations,['covered']);
+  await page.locator('[data-shield]').focus();await page.keyboard.press('Enter');
+  assert.deepEqual((await stored()).drafts.classification.lightTrial.observations,['covered','uncovered']);
+  assert.equal((await stored()).drafts.classification.lightTrial.prediction,'same');
   assert.equal(await page.locator('.sky-body').count(), 8);
   for (const body of bodies) {
     await learn('body-' + body.id);
@@ -228,7 +236,7 @@ try {
   assert.equal(await page.locator('#stage-next').isDisabled(), true);
   for (const id of ['Merak', 'Dubhe']) await page.locator(`[data-star="${id}"]`).click();
   await page.locator('[data-star="Caph"]').click();
-  assert.match(await page.locator('#star-observation').textContent(), /다섯 번/);
+  assert.match(await page.locator('#star-observation').textContent(), /약 5배/);
   await page.locator('[data-star="Polaris"]').click();
   assert.deepEqual((await stored()).drafts.pattern.polaris, { pointers: ['Merak', 'Dubhe'], found: true });
   pass('Polaris found by extending the two pointer stars of the Big Dipper about five times');
@@ -259,19 +267,40 @@ try {
   await page.mouse.up();
   assert.ok(Math.abs((await stored()).core.angle - 180) <= 10, 'ring turned by dragging');
   pass('Calibration ring turns by dragging around the dial');
-  await click('restore'); await page.locator('.final-movie').waitFor(); await page.locator('#movie-done').click();
-  assert.equal(await page.locator('.certificate').count(), 1);
-  const finalState = await stored();
-  assert.equal(finalState.core.restored, true); assert.equal(Object.keys(finalState.evidence).length, 5); assert.equal(finalState.settings.adminUnlock, false);
-  await page.locator('.cert-name input').fill('테스트');
-  assert.equal(JSON.stringify(await stored()).includes('테스트'), false);
-  await page.reload(); await page.locator('.certificate').waitFor();
-  assert.equal(await page.locator('.cert-name input').inputValue(), '');
-  pass('Five real records, restored core, certificate, and reload persistence in normal student mode');
+  const beforeStep=(await stored()).core.angle;
+  await page.locator('[data-core-step="-5"]').click();
+  await page.locator('#calibration').focus();await page.keyboard.press('ArrowRight');
+  assert.equal((await stored()).core.angle,beforeStep);
+  pass('One-press ring controls and arrow keys share the drag calibration');
+  await click('settings');await page.locator('#setting-motion').uncheck();await click('close-modal');
+  await click('restore');await page.locator('.film-dialog video').waitFor();
+  assert.equal(await page.locator('dialog[open]').count(),1);
+  await page.waitForFunction(()=>document.querySelector('.film-dialog video')?.ended,null,{timeout:45000});
+  assert.equal(await page.locator('#movie-skip').count(),0);
+  await page.screenshot({path:resolve(output,'ending-natural.png')});
+  await page.locator('#movie-done').click();
+  assert.equal(await page.locator('.certificate').count(),1);
+  const finalState=await stored();
+  assert.equal(finalState.core.restored,true);assert.equal(Object.keys(finalState.evidence).length,5);assert.equal(finalState.settings.adminUnlock,false);
+  assert.equal(await page.locator('.certificate input').count(),0,'latest certificate uses handwriting blanks');
+  await click('movie');await page.locator('.film-dialog video').waitFor();
+  await page.waitForFunction(()=>document.querySelector('.film-dialog video')?.currentTime>0);
+  await page.locator('#movie-skip').click();await page.locator('#movie-done').click();
+  assert.deepEqual((await stored()).evidence,finalState.evidence);
+  const download=page.waitForEvent('download');await click('certificate-png');
+  await (await download).saveAs(resolve(output,'certificate.png'));
+  await page.evaluate(()=>document.body.classList.add('print-certificate'));
+  await page.pdf({path:resolve(output,'certificate.pdf'),format:'A4',landscape:true,printBackground:true});
+  await page.evaluate(()=>document.body.classList.remove('print-certificate'));
+  await page.screenshot({path:resolve(output,'certificate-screen.png')});
+  await page.reload();await page.locator('.certificate').waitFor();
+  assert.equal(await page.locator('dialog[open]').count(),0,'reload does not automatically replay the ending');
+  assert.equal(await page.locator('.certificate input').count(),0);
+  pass('Fresh five-stage completion, one natural ending, manual replay, PNG/PDF and reload persistence');
   assert.deepEqual(errors, []);
-  await writeFile(new URL('../.cache/classroom-qa/playthrough.json', import.meta.url), JSON.stringify({ passed, errors }, null, 2));
+  await writeFile(resolve(output,'playthrough.json'), JSON.stringify({ passed, errors }, null, 2));
   console.log(JSON.stringify({ passed, errors }, null, 2));
 } catch (error) {
-  await page.screenshot({ path: new URL('../.cache/classroom-qa/playthrough-failure.png', import.meta.url).pathname.replace(/^\/(\w:)/, '$1').replaceAll('%20', ' ') });
+  await page.screenshot({ path: resolve(output,'playthrough-failure.png') });
   throw error;
 } finally { await browser.close(); }

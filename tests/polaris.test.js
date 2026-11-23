@@ -59,12 +59,12 @@ test('잠긴 버튼에는 열리는 조건 한 줄이 붙고, 열린 버튼과 s
     s1a: '배율을 바꿔 사진 2장을 담으면 열려요.',
     s2a: '보름 전과 보름 뒤 날을 섞어 달을 6번 담으면 열려요.',
     s3a: '여섯 행성의 특징을 모두 찾아 기록하면 열려요.',
-    s4a: '하늘의 천체를 하나씩 모두 눌러 살펴보면 열려요.',
+    s4a: '여덟 천체를 보고, 예상한 뒤 가림판을 가렸다 치우며 비교하면 열려요.',
     s1b: '비교 카드 두 장에 서로 다른 곳 두 군데를 누르고 문장을 고르면 열려요.',
     s2b: '14일째와 24일째 모두 예상하고, 관측과 비교한 문장을 고르면 열려요.',
     s3b: '행성을 태양에서 가까운 순서대로 모두 놓으면 열려요.',
     s4b: '천체마다 종류와 근거를 골라 모두 맞히면 열려요.',
-    s5b: '두 별 무리 모두 처음 선과 다시 이은 선을 두 개씩 긋고 비교 문장을 고르면 열려요.',
+    s5b: '두 별 무리에서 선을 두 개 이상 저장하고 기준과 비교해요. 다시 잇기는 선택이에요.',
   };
   for (const [scene, text] of Object.entries(expect)) { s.scene = scene; const a = getStageAction(s, 0); assert.equal(a.disabled, true, scene); assert.equal(a.reason, text, scene); }
   s.scene = 's5a'; assert.equal(getStageAction(s, 0).reason, undefined);

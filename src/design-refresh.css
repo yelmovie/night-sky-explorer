@@ -144,3 +144,11 @@ dialog .incident-board .incident-icon { background: none; width: 34px; height: 3
 .home-v2.home-title::after { width: clamp(150px, min(20vw, 36vh), 340px); right: 1.5vw; bottom: 2%; opacity: 1; }
 @media (max-height: 500px) { .home-v2.home-title .home-cta .btn { min-width: 170px; min-height: 52px; font-size: 20px; padding: 8px 24px; } }
 @media (max-width: 600px) { .home-v2.home-title .home-cta { gap: 12px; } .home-v2.home-title .home-cta .btn { min-width: 0; font-size: 20px; padding: 10px 22px; } }
+
+.calibration-step-controls { display: flex; gap: 8px; width: 100%; }
+.calibration-step-controls .btn { flex: 1; min-width: 44px; min-height: 44px; padding: 6px; margin: 0; }
+
+.phase-model-scope { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; min-width: 0; }
+.phase-model-scope p { flex: 1; margin: 0; font-size: var(--classroom-small,18px); line-height: 1.35; }
+.phase-model-scope [data-phase-model-voice] { flex: 0 0 auto; }
+.phase-model-scope .btn { min-width: 44px; min-height: 44px; margin: 0; }

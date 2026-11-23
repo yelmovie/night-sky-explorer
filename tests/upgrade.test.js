@@ -94,6 +94,7 @@ test("여덟 천체를 관찰하고 각각 주장과 빛근원 근거를 연결�
   const s = freshState();
   s.drafts.classification.viewed = bodies.slice(0, 4).map((b) => b.id);
   assert.equal(firstReady(s, 4), false);
+  s.drafts.classification.lightTrial = { prediction: 'darker', observations: ['covered', 'uncovered'], blocked: false };
   s.drafts.classification.viewed = bodies.map((b) => b.id);
   s.drafts.classification.answers = Object.fromEntries(bodies.map((b) => [b.id, { kind: b.kind, reason: b.evidence }]));
   assert.equal(stageReady(s, 4), true);

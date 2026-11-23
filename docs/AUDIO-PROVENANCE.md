@@ -25,3 +25,11 @@
 
 ## Current verification
 - Unit suite and production build passed. Real Chrome AAC playback, manual stop, mute, hidden-tab event, navigation, missing-file fallback, and touch controls passed in `scripts/qa-welcome-voice.mjs` (project 13). No subjective speaker listening performed.
+
+
+## 2026-11-23 로컬 수정 브랜치 — 달 방향 모형 안내
+
+- 추가 파일: `public/assets/audio/voices/local-model-phase-scope.mp3` (기존 ElevenLabs 파일과 영상은 보존).
+- 동일 화면 문구와 합성 입력: “오른쪽에서 왼쪽으로 보이는 순서는 화면 방향을 고정한 학습 모형의 순서예요.”
+- 이 맥에 설치된 macOS Speech Synthesis `Yuna (한국어(한국))`, 속도 170으로 기기 내 AIFF 합성 후 FFmpeg로 MP3 변환. 외부 음성 API·학생 음성·마이크를 사용하지 않았다.
+- 로컬 파일 출처·SHA256은 `docs/VOICE-LOCAL-20261123.json`. 기존 인물 음성과 음색이 다르며, 이번 작업에서 외부 배포·납품은 하지 않았다. 기존 음원의 이용허락을 이 새 파일에 적용한 것으로 표시하지 않는다.

@@ -1,3 +1,6 @@
+import { freshLightTrial, predictLight, observeLight } from './light-trial.js';
+import { mountNarrationControl } from './narration.js';
+import { lunarModelVoice } from './lunar-model.js';
 import { nearestStar } from './star-hit.js';
 import { chapters,planets,solarOrder,bodies,planetGroups } from './data.js';
 import { photoReady,clone,track } from './state.js';
@@ -28,7 +31,7 @@ export function learningView(s,chrome=''){
   return `<main class="experience learning-v2" data-scene="${s.scene}" aria-label="${c.steps[part==='a'?0:1]}" data-standard="${concept.standard}"><div class="room-bg"></div>${chrome}<div class="activity-heading"><p class="lesson-concept"><span>${c.steps[part==='a'?0:1]}</span> <strong>${concept.concept}</strong></p><h1 id="screen-title" tabindex="-1" aria-live="polite">${guide.text}</h1></div><div class="activity-layout"><section class="experiment-zone" aria-label="${v.instruction}">${v.main}</section><aside class="toolbox" aria-label="실험 조작">${v.tools}</aside></div><footer class="activity-footer"><div class="lesson-help">${button('힌트','hint','ghost')}${button(`${icon('book',18)} 기록`,'kit','ghost')}</div><div class="activity-action"><p class="stage-next-reason" id="stage-next-reason" ${next.reason?'':'hidden'}>${next.reason||''}</p>${button(next.label,next.action,'primary',`id="stage-next" aria-describedby="stage-next-reason" ${next.disabled?'disabled':''}`)}</div></footer></main>`;
 }
 
-export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog,on,refresh,sound}=ctx,d=s.drafts,scene=s.scene;const gestures=new AbortController();let viewer=null,disposed=false,advanceTimer=null,roundTimer=null,advancing=false,touchCleanup=()=>{},starDrag=null;
+export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog,on,refresh,sound}=ctx,d=s.drafts,scene=s.scene;const gestures=new AbortController();let scopeVoiceCleanup=()=>{},viewer=null,disposed=false,advanceTimer=null,roundTimer=null,advancing=false,touchCleanup=()=>{},starDrag=null;
   const releaseViewport=mountLessonViewport(root.querySelector('.learning-v2'));
   const $=selector=>root.querySelector(selector),$$=selector=>[...root.querySelectorAll(selector)];
   function commit(){save();refresh();guide();}
@@ -38,6 +41,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     commit();render();
     if(selector){const target=root.querySelector(selector);if(target&&!target.disabled)target.focus({preventScroll:true});else $('#screen-title')?.focus({preventScroll:true});}
   };
+  if(scene.startsWith('s2'))scopeVoiceCleanup=mountNarrationControl($('[data-phase-model-voice]'),lunarModelVoice.id,ctx.narration,{autoplay:false,compact:true});
   const day=()=>round()===0?14:24;
   const prediction=()=>d.phases.predictions[day()];
   const pattern=()=>d.pattern.cases[regions[round()]];
@@ -96,12 +100,14 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if(a==='reveal-phase'){const p=prediction();p.original||={amount:p.amount,side:p.side};p.revealed=true;p.overlay=true;learningUI.overlayVisible=true;redraw();return;}
     if(a==='overlay-phase'){prediction().overlay=true;track(s,'reviews');learningUI.overlayVisible=!learningUI.overlayVisible;redraw();return;}
     if(a.startsWith('planet-')){choosePlanet(a.slice(7));track(s,'observations');redraw();return;}
-    if(a==='toggle-three'){learningUI.three=!learningUI.three;if(learningUI.three)track(s,'observations');commit();render();return;}
+    if(a==='clear-cloud'){learningUI.revealed[d.planets.selected]=true;sound?.play('discover');redraw();return;}
+    if(a==='toggle-three'){learningUI.three=!learningUI.three;learningUI.threeUnavailable=false;if(learningUI.three)track(s,'observations');commit();render();return;}
     if(a==='phase-note'){const p=prediction();dialog(scene==='s2b'?'앞선 달 관측 기록':'모은 달 관측 기록',`<p>북반구에서 본 학습용 모형이에요. 학습용 날짜는 실제 달력과 달라요.</p>${strip(d.phases.captures)}${scene==='s2b'&&p.original?`<p>처음 예상: 밝은 부분 ${p.original.amount}% · ${p.original.side==='right'?'오른쪽':'왼쪽'}</p>`:''}`);return;}
     if(a==='body-note'){const body=selectedBody();dialog(body.name+' · 과학 자료',`<p>${body.info}</p>`);return;}
     if(a==='solar-note'){track(s,'reviews');commit();dialog('내 조사 노트와 태양계 자료',`<p class="order-note">태양 → ${planets.map(v=>v.name).join(' → ')}</p><details><summary>더 알아보기 · 크기와 성분</summary><h3>행성의 상대적인 크기</h3><p>지구를 1로 볼 때 · ${planets.map(v=>`${v.name} ${v.size}`).join(' · ')}</p><p>가장 큰 행성은 목성, 가장 작은 행성은 수성이에요. 게임 속 그림은 크기를 같게 그린 모형이에요.</p><h3>행성을 묶는 참고 자료</h3>${planetGroups.map(g=>`<p><b>${g.name}</b> · ${g.info}<br>${planets.filter(v=>v.group===g.id).map(v=>v.name).join(', ')}</p>`).join('')}</details><h3>직접 조사한 근거</h3>${Object.entries(d.planets.records).map(([id,v])=>`<p><b>${planets.find(x=>x.id===id)?.name}</b> · ${esc(v.feature)}</p>`).join('')}`);return;}
     if(a.startsWith('feature-')){chooseFeature(planets[+a.slice(8)].feature);return;}
     if(a.startsWith('pick-')){pickSentence(a.slice(5));return;}
+    if(a.startsWith('predict-light-')){d.classification.lightTrial ||= freshLightTrial();predictLight(d.classification.lightTrial,a.slice(14));redraw();return;}
     if(a.startsWith('body-')){const id=a.slice(5);learningUI.inspectedBody=id;if(!d.classification.viewed.includes(id)){d.classification.viewed.push(id);sound?.play('discover');track(s,'observations');}redraw();return;}
     if(a.startsWith('bodytab-')){const index=+a.slice(8);learningUI.round=Math.floor(index/4);learningUI.body=index%4;render();return;}
     if(a.startsWith('kind-')){answer().kind=a.slice(5);judgeClassification();return;}
@@ -125,12 +131,13 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   }
   if(scene==='s2a'){on($('#phase-day'),'input',e=>{d.phases.day=+e.target.value;updateDay();commit();});on($('#phase-day'),'change',e=>{const target=snapDay(+e.target.value,discoveryDays,d.phases.captures);if(target!==undefined){d.phases.day=target;captureDay(target);}});}
   if(scene==='s3a'&&$('.planet-fog')){const id=d.planets.selected;requestAnimationFrame(()=>{if(!disposed)mountFogWipe($('.planet-fog'),{signal:gestures.signal,onReveal(){if(disposed||d.planets.selected!==id)return;learningUI.revealed[id]=true;sound?.play('discover');redraw();}});});}
-  if(scene==='s4a')mountShieldDrag($('.light-lab-art'),{blocked:learningUI.lightBlocked,signal:gestures.signal,onChange(value,byKey){learningUI.lightBlocked=value;sound?.play(value?'place':'click');track(s,'reviews');render();if(byKey)document.querySelector('.light-lab [data-shield]')?.focus({preventScroll:true});}});
+  if(scene==='s4a')mountShieldDrag($('.light-lab-art'),{blocked:d.classification.lightTrial?.blocked??learningUI.lightBlocked,signal:gestures.signal,onChange(value,byKey){if(d.classification.lightTrial&&!observeLight(d.classification.lightTrial,value))return notify('가리기 전에 행성이 어떻게 보일지 먼저 예상해 주세요.');learningUI.lightBlocked=value;sound?.play(value?'place':'click');track(s,'reviews');redraw();if(byKey)document.querySelector('.light-lab [data-shield]')?.focus({preventScroll:true});}});
   if(scene==='s2b'){on($('#prediction-amount'),'input',e=>{prediction().amount=+e.target.value;$('#prediction-amount-value').textContent=e.target.value+'%';$('#prediction-moon').innerHTML=moonSVG(prediction().amount,prediction().side);commit();});}
   if(scene==='s3a'){
-    if(learningUI.three)import('./planet.js').then(({mountPlanet})=>{if(disposed)return;viewer=mountPlanet($('#planet-viewer'),planets.find(v=>v.id===d.planets.selected));viewer.setView(learningUI.rotation,learningUI.zoom);}).catch(()=>{if(!disposed)$('#planet-viewer').innerHTML='<p>입체 모형을 열지 못했어. 그림으로도 조사할 수 있어.</p>';});
-    on($('#planet-zoom'),'input',event=>{learningUI.zoom=+event.target.value;$('#planet-zoom-value').textContent=event.target.value+'×';if(viewer)viewer.setView(learningUI.rotation,learningUI.zoom);else if($('.planet-portrait'))$('.planet-portrait').style.transform=`scale(${learningUI.zoom})`;});
-    on($('#planet-rotation'),'input',event=>{learningUI.rotation=+event.target.value;$('#planet-rotation-value').textContent=event.target.value+'°';viewer?.setView(learningUI.rotation,learningUI.zoom);});
+    const fallback=()=>{if(disposed)return;learningUI.three=false;learningUI.threeUnavailable=true;learningUI.revealed[d.planets.selected]=true;redraw();notify('같은 행성의 그림으로 바꿨어요. 관찰과 기록을 계속할 수 있어요.');};
+    if(learningUI.three)import('./planet.js').then(({mountPlanet})=>{if(disposed)return;viewer=mountPlanet($('#planet-viewer'),planets.find(v=>v.id===d.planets.selected),undefined,fallback);if(!viewer.available)return fallback();viewer.setView(learningUI.rotation,learningUI.zoom);}).catch(fallback);
+    on($('#planet-zoom'),'input',event=>{learningUI.zoom=+event.target.value;$('#planet-zoom-value').textContent=event.target.value+'×';if(viewer)viewer.setView(learningUI.rotation,learningUI.zoom);else if($('.planet-portrait'))$('.planet-portrait').style.transform=`scale(${learningUI.zoom}) rotate(${learningUI.rotation}deg)`;});
+    on($('#planet-rotation'),'input',event=>{learningUI.rotation=+event.target.value;$('#planet-rotation-value').textContent=event.target.value+'°';if(viewer)viewer.setView(learningUI.rotation,learningUI.zoom);else if($('.planet-portrait'))$('.planet-portrait').style.transform=`scale(${learningUI.zoom}) rotate(${learningUI.rotation}deg)`;});
   }
   if(scene==='s3b'){
     function selectPiece(id){learningUI.piece=id;$$('[data-piece]').forEach(element=>{const selected=element.dataset.piece===id;element.classList.toggle('selected',selected);element.setAttribute('aria-pressed',selected);});guide();}
@@ -156,11 +163,11 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
       if(p.pointers.length<2){
         const want=['Merak','Dubhe'][p.pointers.length];
         if(id===want){p.pointers.push(id);sound?.play('place');track(s,'observations');}
-        else{track(s,'retries');sound?.play('retry');learningUI.polarisHint=p.pointers.length?'국자 끝에서 방금 고른 별과 짝인 위쪽 별이에요.':'북두칠성은 국자 모양이에요. 손잡이 반대쪽, 국자 끝의 아래 별부터 눌러요.';return;}
+        else{track(s,'retries');sound?.play('retry');learningUI.polarisHint=p.pointers.length?'메라크에서 두베 쪽으로 향해요. 두베를 눌러요.':'손잡이 반대쪽 국자 끝의 메라크부터 눌러요.';return;}
         learningUI.polarisHint='';return;
       }
       if(id==='Polaris'){p.found=true;learningUI.polarisHint='';if(!d.pattern.observed.includes(id))d.pattern.observed.push(id);sound?.play('discover');track(s,'observations');}
-      else{track(s,'retries');sound?.play('retry');learningUI.polarisHint='두베에서 두 별 간격만큼 다섯 번 건너가 봐요. 눈금 5 가까이에 있는 별이에요.';}
+      else{track(s,'retries');sound?.play('retry');learningUI.polarisHint='메라크에서 두베 쪽으로 향해요. 두베에서 두 별 간격의 약 5배, 눈금 5 근처를 찾아요.';}
     };
     const pointerStar=event=>{
       const stars=$$('[data-star]'),id=nearestStar(stars.map(star=>{const r=star.querySelector('circle').getBoundingClientRect();return {id:star.dataset.star,x:r.x+r.width/2,y:r.y+r.height/2,radius:r.width/2};}),event.clientX,event.clientY);
@@ -207,9 +214,9 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   let starResize;
   if($('#star-view')){starResize=new ResizeObserver(()=>{const svg=$('#star-view svg'),scale=svg?.getScreenCTM()?.a;if(scale)$$('[data-star]').forEach(star=>star.querySelector('circle').setAttribute('r',Math.max(10,24/Math.abs(scale))));});starResize.observe($('#star-view'));}
   const autoRound=getStageAction(s,round());
-  if(autoRound&&autoRound.round!==undefined&&scene!=='s3b'&&!advancing){
+  if(autoRound&&autoRound.round!==undefined&&scene!=='s3b'&&scene!=='s2b'&&!advancing){
     roundTimer=setTimeout(()=>{if(disposed||s.scene!==scene||document.querySelector('dialog[open]'))return;notify('좋아! 다음 묶음으로 넘어갈게.');action('round-'+autoRound.round);},1300);
   }
   guide();
-  return ()=>{disposed=true;gestures.abort();clearTimeout(roundTimer);releaseViewport();clearTimeout(advanceTimer);starResize?.disconnect();touchCleanup();viewer?.dispose();};
+  return ()=>{disposed=true;scopeVoiceCleanup();gestures.abort();clearTimeout(roundTimer);releaseViewport();clearTimeout(advanceTimer);starResize?.disconnect();touchCleanup();viewer?.dispose();};
 }

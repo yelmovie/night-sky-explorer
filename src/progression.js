@@ -22,9 +22,9 @@ const lockedReasons = {
   s2b: '14일째와 24일째 모두 예상하고, 관측과 비교한 문장을 고르면 열려요.',
   s3a: '여섯 행성의 특징을 모두 찾아 기록하면 열려요.',
   s3b: '행성을 태양에서 가까운 순서대로 모두 놓으면 열려요.',
-  s4a: '하늘의 천체를 하나씩 모두 눌러 살펴보면 열려요.',
+  s4a: '여덟 천체를 보고, 예상한 뒤 가림판을 가렸다 치우며 비교하면 열려요.',
   s4b: '천체마다 종류와 근거를 골라 모두 맞히면 열려요.',
-  s5b: '두 별 무리 모두 처음 선과 다시 이은 선을 두 개씩 긋고 비교 문장을 고르면 열려요.',
+  s5b: '두 별 무리에서 선을 두 개 이상 저장하고 기준과 비교해요. 다시 잇기는 선택이에요.',
 };
 export function getStageAction(state, round = 0) {
   if (!/^s[1-5][ab]$/.test(state.scene)) return null;
@@ -74,7 +74,7 @@ export function getStageAction(state, round = 0) {
 export function getLearningGuide(state, ui) {
   const round = ui.round || 0, d = state.drafts;
   const next = getStageAction(state, round);
-  if (next && !next.disabled) return { target: '#stage-next', text: next.round === undefined ? `준비됐어요! ‘${next.label}’${hasFinal(next.label) ? '을' : '를'} 눌러요.` : (state.scene === 's3b' ? `이제 ‘${next.label}’${hasFinal(next.label) ? '을' : '를'} 눌러요.` : '잘했어요! 곧 다음 묶음으로 넘어가요.') };
+  if (next && !next.disabled) return { target: '#stage-next', text: next.round === undefined ? `준비됐어요! ‘${next.label}’${hasFinal(next.label) ? '을' : '를'} 눌러요.` : (['s3b','s2b'].includes(state.scene) ? `이제 ‘${next.label}’${hasFinal(next.label) ? '을' : '를'} 눌러요.` : '잘했어요! 곧 다음 묶음으로 넘어가요.') };
   switch (state.scene) {
     case 's1a': {
       const m = d.moon;
@@ -107,7 +107,11 @@ export function getLearningGuide(state, ui) {
         : { target: '.piece-tray', text: '아래에서 놓고 싶은 천체를 골라요.' };
     case 's4a': {
       const body = bodies.find(item => !d.classification.viewed.includes(item.id));
-      if (!body) return { target: '#stage-next', text: '여덟 천체를 모두 살펴봤어요.' };
+      if (!body) {
+        const trial=d.classification.lightTrial;
+        if(!trial?.prediction)return {target:'.light-predictions',text:'태양빛을 가리기 전, 행성의 밝기를 예상해요.'};
+        return {target:'[data-shield]',text:trial.observations.includes('covered')?'가림판을 치우고 반사광이 돌아오는지 비교해요.':'가림판을 눌러 태양빛을 가려요.'};
+      }
       return { target: `[data-learning="body-${body.id}"]`, text: `‘${body.name}’${hasFinal(body.name) ? '을' : '를'} 눌러 빛이 어디서 오는지 봐요.` };
     }
     case 's4b': {
@@ -120,8 +124,8 @@ export function getLearningGuide(state, ui) {
       if (round !== 2) return { target: '#star-view', text: '별을 하나씩 눌러요. 두 구역에서 여섯 개를 살펴봐요.' };
       const p = d.pattern.polaris;
       if (p.found) return { target: '#star-view', text: '북극성을 찾았어요! 여섯 별을 다 살펴봤는지 확인해요.' };
-      if (p.pointers.length < 2) return { target: '#star-view', text: '북두칠성 국자 끝의 두 별을 아래 별부터 차례로 눌러 이어요.' };
-      return { target: '#star-view', text: '이은 선을 두 별 간격의 다섯 배쯤 늘인 곳에서 별을 찾아 눌러요.' };
+      if (p.pointers.length < 2) return { target: '#star-view', text: '국자 끝의 메라크를 누른 뒤 두베를 눌러 이어요.' };
+      return { target: '#star-view', text: '메라크에서 두베 쪽으로, 두베를 지나 두 별 간격의 약 5배를 더 가요.' };
     }
     case 's5b': {
       const card = d.pattern.cases[regions[round]];

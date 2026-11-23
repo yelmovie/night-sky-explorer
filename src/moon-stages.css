@@ -24,7 +24,7 @@
 .learning-v2[data-scene='s1a'] .photo-mini.is-recorded { border-color: #558578; }
 .learning-v2[data-scene='s1b'] .surface-v2 { border-radius: 50%; box-shadow: 0 0 0 4px #10253d, 0 0 0 5px #7898a75e; }
 .learning-v2[data-scene='s1b'] .surface-targets { flex: 0 0 auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0; }
-.learning-v2[data-scene='s1b'] .surface-targets .btn { min-width: 0; min-height: 44px; font-size: var(--classroom-button); padding: 5px; margin: 0; }
+.learning-v2[data-scene='s1b'] .surface-targets .btn { min-width: 44px; min-height: 44px; font-size: var(--classroom-button); padding: 5px; margin: 0; }
 .learning-v2[data-scene='s1b'] .spot-marker { background: #f6d38b; color: #183048; border: 2px solid #fff0c7; box-shadow: 0 0 0 4px #f4cf7540; }
 .learning-v2[data-scene='s1b'] .lunar-spot-2 { background: #a2dfd3; border-color: #dcfff5; box-shadow: 0 0 0 4px #8dddc040; }
 .learning-v2[data-scene='s1b'] .toolbox { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
@@ -129,3 +129,5 @@
 .learning-v2[data-scene='s2b'] .reflection-choices { gap: 6px; }
 .learning-v2[data-scene='s2b'] .reflection-choices .choice-row { gap: 4px; }
 .learning-v2[data-scene='s2b'] .reflection-choices legend { margin-bottom: 2px; }
+
+.learning-v2[data-scene='s2b'] .phase-result { flex: 0 0 auto; margin: 0; padding: 8px; border: 1px solid #c4aa70; border-radius: 12px; background: #f9f1d9; color: #273f4f; font-size: var(--classroom-small); line-height: 1.35; }

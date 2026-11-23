@@ -1,0 +1,13 @@
+{
+  "note": "Local QA branch only; no external voice API or distribution. Existing voice assets retained.",
+  "lines": [
+    {
+      "id": "model-phase-scope",
+      "provider": "macOS local Speech Synthesis",
+      "voice": "Yuna (한국어(한국))",
+      "text": "오른쪽에서 왼쪽으로 보이는 순서는 화면 방향을 고정한 학습 모형의 순서예요.",
+      "file": "public/assets/audio/voices/local-model-phase-scope.mp3",
+      "sha256": "9c7c954380deea513024bb0d8c84325af2b700231a85db6dd9e3350b106852ac"
+    }
+  ]
+}

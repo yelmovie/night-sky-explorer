@@ -1,3 +1,4 @@
+import { freshLightTrial, normalizeLightTrial, lightTrialReady } from './light-trial.js';
 import { normalizeMapHits } from "./map-encounter-progress.js";
 import { solarOrder, requiredPlanets, planets, bodies, patternRegions, starNames } from "./data.js";
 
@@ -48,7 +49,7 @@ export function freshState() {
         selected: "mars", records: {}, feature: "", candidate: "",
         order: Array(9).fill(null), groups: {},
       },
-      classification: { viewed: [], answers: {} },
+      classification: { viewed: [], answers: {}, lightTrial: freshLightTrial() },
       pattern: {
         activeCase: "cassiopeia", observed: [],
         cases: { cassiopeia: patternCase(), dipper: patternCase() },
@@ -120,7 +121,7 @@ export function firstReady(s, n) {
     case 3:
       return requiredPlanets.every((id) => recordReady(planets.find((p) => p.id === id), d.planets.records[id]));
     case 4:
-      return bodies.every((b) => d.classification.viewed.includes(b.id));
+      return bodies.every((b) => d.classification.viewed.includes(b.id)) && lightTrialReady(d.classification.lightTrial);
     case 5: {
       const observed = observedStars(d.pattern.observed);
       const regionStars = Object.values(patternRegions).flatMap((r) => r.stars);
@@ -239,6 +240,7 @@ function normalizeDrafts(s) {
   d.planets.order = Array.from({ length: 9 }, (_, i) => solarOrder.includes(d.planets.order[i]) ? d.planets.order[i] : null);
   d.planets.groups = Object.fromEntries(planets.filter((p) => ["rock", "gas", "ice"].includes(d.planets.groups?.[p.id]))
     .map((p) => [p.id, d.planets.groups[p.id]]));
+  d.classification.lightTrial = normalizeLightTrial(d.classification.lightTrial);
   d.classification.viewed = [...new Set(d.classification.viewed.filter((id) => bodies.some((b) => b.id === id)))];
   d.classification.answers = Object.fromEntries(bodies.map((b) => [b.id, {
     kind: ["star", "planet"].includes(d.classification.answers?.[b.id]?.kind) ? d.classification.answers[b.id].kind : "",
@@ -312,6 +314,7 @@ function restoreDictionaries(s, raw) {
   s.drafts.planets.records = safe(raw.drafts?.planets?.records || {});
   s.drafts.planets.groups = safe(raw.drafts?.planets?.groups || {});
   s.drafts.classification.answers = safe(raw.drafts?.classification?.answers || {});
+  s.drafts.classification.lightTrial = normalizeLightTrial(raw.drafts?.classification?.lightTrial ?? null);
   s.core.connections = Object.fromEntries(stageIds.filter((n) => stageIds.includes(Number(raw.core?.connections?.[n])))
     .map((n) => [n, Number(raw.core.connections[n])]));
 }
@@ -341,7 +344,10 @@ export function restore(raw) {
       probe.drafts.planets.records = safe(ev.data.records || {});
       probe.drafts.planets.groups = safe(ev.data.groups || {});
     }
-    if (n === 4) probe.drafts.classification.answers = safe(ev.data.answers || {});
+    if (n === 4) {
+      probe.drafts.classification.answers = safe(ev.data.answers || {});
+      probe.drafts.classification.lightTrial = normalizeLightTrial(ev.data.lightTrial ?? null);
+    }
     normalizeDrafts(probe);
     if (stageReady(probe, n)) s.evidence[n] = {
       data: clone(probe.drafts[key]), date: ev.date, schemaVersion: 2,

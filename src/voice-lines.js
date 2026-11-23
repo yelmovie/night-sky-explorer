@@ -1,4 +1,6 @@
 // Generated from the verified 2026-11-10 narration manifest. Keep text aligned with the displayed dialogue.
+import { lunarModelVoice } from './lunar-model.js';
+
 export const voiceLines = [
   {
     "id": "welcome",
@@ -683,6 +685,7 @@ export const voiceLines = [
     "speaker": "별빛 가림이",
     "text": "쳇, 북쪽은 그대로 둘게. 난 반대편으로 퇴장!",
     "src": "/assets/audio/voices/el-villain-5-5.mp3"
-  }
+  },
+  lunarModelVoice
 ];
 export const voiceForText = text => voiceLines.find(line => String(text).replace(/\s+/g, " ").includes(line.text.replace(/\s+/g, " ")));

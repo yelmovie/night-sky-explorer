@@ -214,3 +214,6 @@ dialog.film-dialog .film-transcript { position: absolute; z-index: 6; top: 56px;
 dialog.film-dialog .film-transcript summary { cursor: pointer; display: inline-block; padding: 6px 12px; border-radius: 999px; background: #0b1428cc; border: 1px solid #f2c26655; }
 dialog.film-dialog .film-transcript ol { margin: 8px 0 0; padding: 12px 16px 12px 32px; border-radius: 12px; background: #0b1428e6; line-height: 1.5; }
 dialog.film-dialog .dialog-footer .btn { min-height: 48px; }
+
+/* Keep the model scope visible above the original film, including its listen control. */
+dialog.concept-dialog .phase-model-scope { position: absolute; z-index: 5; top: 64px; left: 12px; right: 12px; padding: 8px 12px; border: 1px solid #799aa9; border-radius: 12px; color: #f5f0dc; background: #0b1b30ef; text-align: left; }

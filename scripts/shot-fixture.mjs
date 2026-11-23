@@ -11,6 +11,7 @@ export function completedState(count) {
   for (const [day, side] of [[14, 'right'], [24, 'left']]) Object.assign(d.phases.predictions[day], { amount: 60, side, original: { amount: 60, side }, revealed: true, overlay: true, reflection: '밝은 부분이 생각보다 더 컸어요.' });
   for (const planet of planets) { d.planets.records[planet.id] = { feature: planet.feature, candidate: planet.id }; d.planets.groups[planet.id] = planet.group; }
   d.planets.order = [...solarOrder];
+  d.classification.lightTrial = { prediction: 'darker', observations: ['covered', 'uncovered'], blocked: false };
   d.classification.viewed = bodies.map(body => body.id);
   for (const body of bodies) d.classification.answers[body.id] = { kind: body.kind, reason: body.evidence };
   for (const [id, region] of Object.entries(patternRegions)) {

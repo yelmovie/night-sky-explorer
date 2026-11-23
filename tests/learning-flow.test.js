@@ -87,6 +87,7 @@ test('천체 자동 탐색은 맞힌 항목을 건너뛰고 다른 묶음과 앞
   const state = freshState(), draft = state.drafts.classification;
   draft.answers = Object.fromEntries(bodies.map(body => [body.id, matchingAnswer(body)]));
   draft.viewed = bodies.map(body => body.id);
+  draft.lightTrial = {prediction:'darker',observations:['covered','uncovered'],blocked:false};
   assert.equal(nextBody(draft.answers, bodies[3].id), -1);
   assert.equal(stageReady(state, 4), true);
   draft.answers[bodies[5].id].reason = 'bright';
