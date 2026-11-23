@@ -14,10 +14,10 @@ export const npc = {
   keeper: '나는 기록원 루미야. 네가 만든 관측 기록은 내가 연구 키트에 차곡차곡 보관할게.',
 };
 export const inquiryStyles = {
-  observer: { name: '꼼꼼한 관찰자', text: '확대하고, 여러 지점과 시점을 살피며 관측 기록을 모았어요.' },
-  analyst: { name: '증거 분석가', text: '자료를 다시 열고 겹쳐 비교하며 근거를 확인했어요.' },
-  persistent: { name: '끈질긴 연구원', text: '예상과 다른 결과를 보고 다시 관찰하고 고쳐 나갔어요.' },
-  independent: { name: '스스로 해결한 연구원', text: '힌트를 거의 쓰지 않고 필요한 관찰을 스스로 해냈어요.' },
+  observer: { name: '꼼꼼한 관찰자', text: '확대 관찰과 여러 지점·시점의 비교를 통해 관측 기록을 수집함.' },
+  analyst: { name: '증거 분석가', text: '자료를 다시 열어 겹쳐 비교하며 근거를 확인함.' },
+  persistent: { name: '끈질긴 연구원', text: '예상과 다른 결과를 확인하고 반복 관찰하며 탐구를 보완함.' },
+  independent: { name: '스스로 해결한 연구원', text: '힌트를 거의 사용하지 않고 필요한 관찰을 스스로 수행함.' },
 };
 // Styles describe how a student worked; they are never ranked or graded.
 export function inquiryStyle(stats = {}) {
