@@ -82,18 +82,18 @@ export const kitMeter = s => {
   const count = completedCount(s);
   return `<div class="kit-meter"><span>관측 데이터 확보</span><b>${count} / 5</b><div class="meter" role="progressbar" aria-label="관측 데이터 확보" aria-valuemin="0" aria-valuemax="5" aria-valuenow="${count}"><i style="width:${count * 20}%"></i></div></div>`;
 };
-export function introPanel(step, name) {
+export function introPanel(step) {
   if (step === 0) return {
-    title: '연구소 경보 · 관측 데이터 충돌',
-    body: `<img class="alert-art" src="/assets/ui/alert-scene.webp" alt="관측 장치 화면들이 붉게 깜빡이는 연구소 안, 창밖 밤하늘은 평화로운 그림"/><div class="incident-board" role="list">${chapters.map(chapter => `<p role="listitem"><span class="incident-icon">${recordBadge(chapter.id, 34)}</span><span><b>${chapter.system}</b>${chapter.incident}</span><em>오류</em></p>`).join('')}</div><p class="incident-note">밤하늘에는 아무 문제가 없어요. 고장 난 것은 <b>연구소의 관측 데이터 시스템</b>이에요. 검증된 관측 기록 다섯 개가 모여야 중앙 천문 돔이 열려요.</p>`,
+    title: '연구소에 경보가 울렸어요',
+    body: `<img class="alert-art" src="/assets/ui/alert-scene.webp" alt="창밖은 평화로운 밤하늘이고 연구소 관측 장치만 빨갛게 깜빡여요"/><p class="incident-note">밤하늘은 평소와 같아요. 연구소에서 <b>관측 데이터가 서로 맞지 않아요.</b></p>`,
   };
   if (step === 1) return {
     title: '별여우 연구관의 의뢰',
-    body: `${npcConversation('fox', npc.start, { pose: 'think', emotion: 'thinking', lineId: 'intro-fox' })}<details class="dialogue-extra"><summary>오늘의 역할과 연구 방법</summary><div class="role-card"><small>오늘의 역할</small><strong>신입 별빛 관측 연구원</strong><span>${esc(name)}</span><p>관측하고, 비교하고, 예상하고, 근거를 찾아 기록을 다시 검증해요.</p></div></details>`,
+    body: npcConversation('fox', npc.start, { pose: 'think', emotion: 'thinking', lineId: 'intro-fox' }),
   };
   return {
     title: '연구 키트를 받았어요',
-    body: `${npcConversation('rabbit', npc.keeper, { pose: 'wave', emotion: 'welcoming', lineId: 'intro-lumi' })}<details class="dialogue-extra"><summary>연구 키트에 모을 관측 기록 5개</summary><ol class="quest-steps">${chapters.map(chapter => `<li><b>${missionTag(chapter.id)}</b> ${chapter.title}<small>${evidenceTag(chapter.id)} · ${chapter.record}</small></li>`).join('')}</ol><p class="incident-note">다섯 기록을 모으면 중앙 관측 코어에서 마지막 미션이 열려요.</p></details>`,
+    body: `${npcConversation('rabbit', npc.keeper, { pose: 'wave', emotion: 'welcoming', lineId: 'intro-lumi' })}<details class="dialogue-extra"><summary>모을 기록 보기</summary><ol class="quest-steps">${chapters.map(chapter => `<li>${recordBadge(chapter.id, 34)} <b>${chapter.record}</b></li>`).join('')}</ol><p class="incident-note">기록 다섯 개를 모으면 중앙 관측 코어가 열려요.</p></details>`,
   };
 }
 const movieScenes = [

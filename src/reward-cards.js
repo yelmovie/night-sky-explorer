@@ -309,10 +309,11 @@ export function createRewardCards(config) {
     const count = owned.filter(Boolean).length;
     layer.innerHTML = `<div class="rc-scrim" data-album-close></div>
       <div class="rc-album-panel">
-        <div class="rc-album-head"><strong>${esc(config.setName)}</strong><span>${count}/${total}</span><button type="button" class="rc-album-close" data-album-close aria-label="보관함 닫기">✕</button></div>
+        <div class="rc-album-head"><strong>성취 카드</strong><span>${count}/${total}</span><button type="button" class="rc-album-close" data-album-close aria-label="보관함 닫기">✕</button></div>
         <div class="rc-album-row" style="--n:${total}">${cards.map((card, i) => owned[i]
-          ? `<button type="button" class="rc-album-item" data-album-card="${i}" aria-label="${esc(card.title)} 크게 보기">${cardHtml(i, 'is-mini')}</button>`
-          : `<div class="rc-album-item is-locked" aria-label="아직 못 얻은 카드 ${i + 1}, ${esc(card.stage)}, 악당을 물리치면 열려요"><div class="rc-locked"><i>?</i><span>${esc(card.stage)}</span><small>악당을 물리치면 열려요</small></div></div>`).join('')}</div>
+          ? `<button type="button" class="rc-album-item" data-album-card="${i}" aria-label="${esc(card.title)} 크게 보기">${cardHtml(i, 'is-mini')}<span class="rc-album-name">${esc(card.title)}</span></button>`
+          : `<div class="rc-album-item is-locked"><div class="rc-locked"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-label="잠김" role="img"><path d="M6 10h12v11H6zM8 10V7a4 4 0 0 1 8 0v3"/></svg><span>${esc(card.stage)}</span></div></div>`).join('')}</div>
+        ${count < total ? '<p class="rc-album-guide">악당을 물리치면 카드가 열려요.</p>' : ''}
       </div>`;
     document.body.append(layer);
     setInert(root, true);

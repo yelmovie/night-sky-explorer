@@ -2,7 +2,7 @@ import { track } from './state.js';
 import { moonSVG, dayMoon, icon } from './drawing.js';
 import { button } from './ui.js';
 import { bindDirectionPad, mapKeyDirection, MAP_VECTORS } from './map-controls.js';
-import { pathDays, pathSections, pathGates, doorMatches, judgeDoor, finishPath, pathHelpAfter } from './moon-path.js';
+import { pathDays, pathSections, pathGates, judgeDoor, finishPath, pathHelpAfter } from './moon-path.js';
 
 // Screen layer of the bonus "달빛 길 따라가기": start card, HUD, buttons, the card fallback and the reward.
 // Both ways of playing (running in 3D, or choosing a moon card) ask judgeDoor() and share one progress count.
@@ -50,7 +50,7 @@ function bindRunInput(root, blocked, signal) {
   };
 }
 
-export function openMoonPath(quest, { state, dialog, persist, sound, reduced = false, loadStage = () => import('./moon-run-stage.js') }) {
+export function openMoonPath(quest, { state, dialog, persist, sound, reduced = false, showCompletedCard, loadStage = () => import('./moon-run-stage.js') }) {
   // Each moon drawing carries its own clip ids, so every place that shows the six moons draws them anew.
   const moons = () => pathDays.map(day => `<figure>${dayMoon(day)}<figcaption>${day}일째</figcaption></figure>`).join('');
   const arrows = [['up', '앞으로', '▲'], ['left', '왼쪽으로', '◀'], ['right', '오른쪽으로', '▶'], ['down', '뒤로', '▼']];
@@ -58,19 +58,15 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
   const body = `<div class="moon-run" data-view="intro">
     <section class="moon-run-intro">
       <img class="moon-run-art" src="/assets/generated/run-stage/start-card.webp" alt="" width="1280" height="720" decoding="async" draggable="false">
-      <p class="bonus-lead">루미와 밤 언덕길을 달려 관측소까지 가요. 갈림길마다 표지판에 적힌 날짜의 달이 걸린 문으로 지나가요.</p>
-      <h3>내가 기록한 여섯 날의 달</h3>
-      <div class="moon-run-record">${moons()}</div>
-      <p class="model-note">${NOTE}</p>
-      <p class="moon-run-how">방향 버튼이나 방향키·WASD로 움직이고, 점프 버튼이나 스페이스로 개울을 건너요. 다른 문은 열리지 않으니 다시 고르면 돼요.</p>
-      <p id="bonus-feedback" class="inline-feedback" role="status" data-tone="hint">${state.bonus.path === 'done' ? `이미 ${quest.reward}를 받았어요. 다시 달릴 수 있어요.` : reduced ? '동작 줄이기가 켜져 있어서 달 카드를 고르는 방식을 먼저 권해요.' : '달 모양을 잘 봐 두고 출발해요.'}</p>
-      <div class="moon-run-actions">${reduced ? start('달 카드로 문 고르기', 'cards', 'primary') + start('3D 길로 달리기', 'run', 'secondary') : start('달빛 길 출발', 'run', 'primary') + start('걷지 않고 문 고르기', 'cards', 'secondary')}${button('닫기', 'close-modal', 'ghost')}</div>
+      <p class="bonus-lead">표지판의 날짜와 같은 달이 걸린 문으로 가요.</p>
+      <div class="moon-run-actions">${reduced ? start('달 카드로 문 고르기', 'cards', 'primary') + start('3D 길로 달리기', 'run', 'secondary') : start('달빛 길 출발', 'run', 'primary') + start('달 카드로 문 고르기', 'cards', 'secondary')}</div>
+      <details class="moon-run-reference"><summary>내가 관측한 달</summary><div class="moon-run-record">${moons()}</div><p class="model-note">${NOTE}</p></details>
     </section>
     <section class="moon-run-game">
       <div class="moon-run-stage" tabindex="-1" aria-label="달빛 길 3D 화면. 방향키와 스페이스로 루미를 움직여요."><div class="moon-run-labels" aria-hidden="true"></div><p class="moon-run-loading">달빛 길을 준비하고 있어요…</p></div>
       <div class="moon-run-cards"></div>
       <div class="moon-run-hud">
-        <ol class="moon-run-progress" aria-label="지나갈 달 문 여섯 개">${pathDays.map(day => `<li data-day="${day}">${day}</li>`).join('')}</ol>
+        <ol class="moon-run-progress" aria-label="달 문 진행">${pathDays.map(day => `<li data-day="${day}"><span class="sr-only">${day}일째</span></li>`).join('')}</ol>
         <p class="moon-run-target"><span></span><b></b></p>
         <figure class="moon-run-prev" hidden><div></div><figcaption></figcaption></figure>
       </div>
@@ -104,7 +100,11 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
       if (passing) tipTimer = setTimeout(() => { if (view === 'run') tip(''); }, 4200);
     }
     function hud() {
-      root.querySelectorAll('.moon-run-progress li').forEach((item, index) => { item.dataset.state = index < current ? 'done' : index === current ? 'now' : ''; });
+      root.querySelectorAll('.moon-run-progress li').forEach((item, index) => {
+        item.dataset.state = index < current ? 'done' : index === current ? 'now' : '';
+        if (index === current) item.setAttribute('aria-current', 'step');
+        else item.removeAttribute('aria-current');
+      });
       const gate = gates[current], target = find('.moon-run-target'), prev = find('.moon-run-prev');
       target.firstElementChild.textContent = gate ? `${pathSections[gate.section].name} · ${pathSections[gate.section].focus}` : '여섯 문을 모두 지났어요';
       target.lastElementChild.textContent = gate ? `다음 문 · ${gate.day}일째 달` : '관측소로 달려가요';
@@ -114,16 +114,16 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
     /** The one place a door is judged, for the 3D path and for the cards. */
     function tryDoor(gateIndex, doorIndex) {
       const gate = gates[gateIndex];
-      if (gateIndex !== current || !gate) return { ok: false, reveal: false, answer: -1 };
-      const result = judgeDoor(gate, doorIndex, misses), answer = gate.doors.findIndex(door => doorMatches(door, gate.day));
+      if (gateIndex !== current || !gate) return { ok: false };
+      const result = judgeDoor(gate, doorIndex, misses);
       if (result.ok) {
         current++; misses = 0; sound.play('discover'); switchButton.hidden = true; hud();
-        tip(gates[current] ? `${gate.day}일째 달의 문이 열렸어요! 다음은 ${gates[current].day}일째 달이에요.` : `${gate.day}일째 달의 문이 열렸어요! 관측소가 보여요.`, 'success', view === 'run');
+        tip(`${gate.day}일째 달의 문이 열렸어요!`, 'success', view === 'run');
       } else {
         misses++; track(state, 'retries'); persist(); sound.play('retry'); tip(result.hint);
         if (view === 'run' && misses >= pathHelpAfter) switchButton.hidden = false;
       }
-      return { ...result, answer };
+      return result;
     }
     function stopRun() { stage?.dispose(); stage = null; input?.clear(); input = null; }
     function cleanup() { events.abort(); clearTimeout(timer); clearTimeout(tipTimer); stopRun(); delete element.ownerDocument.defaultView.__moonRun; }
@@ -132,14 +132,12 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
       if (fresh) persist();
       stopRun(); sound.play('success'); show('done');
       find('.moon-run-reward span').textContent = fresh ? `${quest.reward}를 연구 키트에 담았어요.` : `${quest.reward}는 이미 연구 키트에 있어요.`;
-      // The list behind this dialog is not redrawn until the next screen change, so mark its card here.
-      const card = element.ownerDocument.querySelector('.bonus-card[data-action="bonus-path"]');
-      if (card) { card.classList.add('is-done'); card.querySelector('small').innerHTML = `${icon('check', 16)} ${quest.reward} 획득`; }
+      showCompletedCard?.();
       find('.moon-run-done h3').focus({ preventScroll: true });
     }
-    function drawCards(lit = -1) {
+    function drawCards() {
       const gate = gates[current];
-      cards.innerHTML = `<p class="moon-run-question">${gate.day}일째 달이 걸린 문은 어느 것일까요?</p><div class="moon-run-doors">${gate.doors.map((door, index) => `<button type="button" class="moon-run-door ${index === lit ? 'is-lit' : ''}" data-door="${index}"><span class="sr-only">${index + 1}번 문 · </span>${moonSVG(door.amount, door.side)}</button>`).join('')}</div>`;
+      cards.innerHTML = `<div class="moon-run-doors" role="group" aria-label="달이 걸린 문 고르기">${gate.doors.map((door, index) => `<button type="button" class="moon-run-door" data-door="${index}"><span class="sr-only">${index + 1}번 문 · </span>${moonSVG(door.amount, door.side)}</button>`).join('')}</div>`;
     }
     function startCards(message = '') {
       stopRun(); show('cards'); switchButton.hidden = true; hud(); drawCards();
@@ -190,7 +188,6 @@ export function openMoonPath(quest, { state, dialog, persist, sound, reduced = f
       if (door && view === 'cards') {
         const result = tryDoor(current, +door.dataset.door);
         if (result.ok) { if (current >= gates.length) finish(); else { drawCards(); cards.querySelector('button')?.focus({ preventScroll: true }); } return; }
-        if (result.reveal) drawCards(result.answer);
         const again = cards.querySelector(`[data-door="${door.dataset.door}"]`);
         again.classList.add('is-wrong'); again.focus({ preventScroll: true });
       }

@@ -99,15 +99,6 @@ dialog.concept-dialog .concept-fallback { position: absolute; z-index: 4; left: 
 .concept-card small { display: block; color: #b5d4d2; }
 .challenge-choices { display: grid; gap: 14px; }
 .ending-art { width: 100%; max-height: 48dvh; object-fit: contain; border-radius: 16px; }
-.core-board { position: absolute; inset: 135px 30px 40px; display: grid; grid-template-columns: 1fr 1.25fr .85fr; gap: 22px; max-width: 1500px; margin: auto; }
-.core-board > section { background: #102c43e8; padding: 18px; border: 1px solid #75939f; border-radius: 20px; overflow: auto; }
-.core-board h2 { font-family: var(--heading-font); font-size: 26px; font-weight: 400; }
-.core-board .record-chip { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px; margin-bottom: 14px; font-size: var(--classroom-body); }
-.core-board .record-chip.selected { border: 3px solid #9bdfc9; }
-.core-sockets-v3 .socket { width: 100%; min-height: 75px; padding: 10px; display: flex; align-items: center; gap: 12px; margin-bottom: 14px; text-align: left; }
-.core-sockets-v3 .socket small { display: block; font-size: var(--classroom-small); }
-.core-sockets-v3 .socket.connected { border-color: #9bdfc9; background: #254c4b; }
-.core-board .toolbox { align-self: center; font-size: var(--classroom-body); }
 .report-page .report-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 25px; }
 .pattern-report { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: center; }
 .pattern-report .star-chart { width: 120px; height: 100px; }
@@ -156,7 +147,6 @@ dialog.concept-dialog .concept-fallback { position: absolute; z-index: 4; left: 
   .learning-v2 .sky-body > span:not(.star-orb) { display: none; }
   .learning-v2 .viewer-toolbar { grid-template-columns: auto 1fr; }
   .learning-v2 .viewer-toolbar > :nth-child(4), .learning-v2 .viewer-toolbar > :nth-child(5) { display: none; }
-  .core-board { gap: 12px; inset-inline: 20px; }
 }
 @media (min-width: 701px) and (max-height: 700px) {
   .learning-v2 .activity-layout { top: 112px; bottom: 105px; }
@@ -187,7 +177,6 @@ dialog.concept-dialog .concept-fallback { position: absolute; z-index: 4; left: 
   .concept-library { grid-template-columns: 1fr; }
   .core-v3 { height: auto; padding: 110px 18px 30px; overflow: visible; }
   .core-v3 .activity-heading { position: relative; top: auto; left: auto; transform: none; width: auto; margin-bottom: 20px; }
-  .core-board { position: relative; inset: auto; grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after { animation: none !important; transition: none !important; }

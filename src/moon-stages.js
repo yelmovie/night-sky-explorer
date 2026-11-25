@@ -34,14 +34,14 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
           <div class="scope-lens"><div id="scope-moon">${moonSVG()}</div><div class="crosshair"></div></div>
           <img class="scope-housing" src="${imageFor('telescope-frame')}" alt="" draggable="false"/>
         </div></div>
-        <p id="focus-status" class="feedback sr-only" role="status">시야와 초점을 조절해 보세요.</p>
+        <span class="scope-gesture" aria-hidden="true">${icon('hand', 28)}</span>
 `;
       tools = `
         ${range('배율', 'moon-zoom', 1, 3, m.zoom, .1, '×')}${range('초점', 'moon-focus', 0, 100, m.focus)}
         ${b(`${icon('camera')} <span>사진 담기</span>`, 'capture-moon', 'secondary', 'id="capture-moon"')}
         <div class="photo-grid">${[0, 1].map(j => {
           const photo = m.photos[j];
-          return `<div class="photo-mini ${photo ? 'is-recorded' : 'is-empty'}">${photo ? moonSVG() : `<span class="photo-placeholder" aria-hidden="true">${icon('camera', 24)}</span>`}<span><b>${j + 1}번</b><small>${photo ? photo.zoom + '× ✓' : '촬영 전'}</small></span></div>`;
+          return `<div class="photo-mini ${photo ? 'is-recorded' : 'is-empty'}" aria-label="${j + 1}번 사진 ${photo ? '저장됨' : '촬영 전'}">${photo ? moonSVG() : `<span class="photo-placeholder" aria-hidden="true">${icon('camera', 24)}</span>`}<b>${photo ? photo.zoom + '×' : j + 1}</b></div>`;
         }).join('')}</div>
 `;
       break;
@@ -56,9 +56,9 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       tools = `
         <div class="comparison-grid">${[0, 1].map(j => {
           const point = card.spots[j];
-          return `<div class="observation-card lunar-detail lunar-detail-${j + 1}"><span class="lunar-detail-label"><b>${j + 1}</b> 확대</span><div class="surface-crop ${point ? '' : 'is-empty'}">${point ? surfaceDetail(point) : '<span>위치를<br>골라요</span>'}</div></div>`;
+          return `<div class="observation-card lunar-detail lunar-detail-${j + 1}"><span class="lunar-detail-label" aria-label="${j+1}번 확대"><b>${j + 1}</b></span><div class="surface-crop ${point ? '' : 'is-empty'}">${point ? surfaceDetail(point) : icon('fit', 28)}</div></div>`;
         }).join('')}</div>
-        ${card.spots.length >= 2 ? choiceMarkup(moonSurfaceChoices(), ui.picks?.['s1b-' + i], card.observation) : '<p class="drawing-tip">달 위의 서로 다른 두 곳을 눌러 확대해요.</p>'}
+        ${card.spots.length >= 2 ? choiceMarkup(moonSurfaceChoices(), ui.picks?.['s1b-' + i], card.observation) : ''}
 `;
       break;
     }
@@ -67,27 +67,36 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
       instruction = '여러 날의 달 모습을 모아요.';
       main = `<div class="phase-display"><span class="date-tag" id="day-label">${p.day}일째</span><div id="phase-moon">${dayMoon(p.day)}</div></div>
         <div id="capture-strip">${recordCollection(p.captures, strip)}</div>
-        <p class="model-note">우리나라에서 본 모양을 단순하게 나타냈어요 · 학습용 날짜</p>${modelScope()}`;
-      tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}<p class="drag-tip slider-tip">막대를 끌면 달이 변해요. 관측 날짜에서 손을 떼면 그 모습이 담겨요.</p>
-
+        ${modelScope()}`;
+      tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}
         ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'secondary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}`;
       break;
     }
     case 's2b': {
       const day = i === 0 ? 14 : 24, p = d.phases.predictions[day];
+      const result = p.reflection && p.original ? `<p class="phase-result" role="status"><b>처음 예상 ${p.original.amount}% · 관측 약 ${Math.round(phase(day).amount)}%</b><br>${esc(p.reflection)}</p>` : '';
       instruction = `${day}일째 달을 예상하고 비교해요.`;
       main = `${tabs(['14일째 예상', '24일째 예상'], [14, 24].map(day => {
         const prediction = d.phases.predictions[day];
         return prediction.revealed && prediction.overlay && prediction.reflection.trim().length >= 3;
       }))}
-        <div class="prediction-board ${ui.overlayVisible ? 'is-overlay' : ''}">
+        <div class="prediction-board ${ui.overlayVisible ? 'is-overlay' : ''} ${p.revealed ? '' : 'is-predicting'}">
           <figure class="prediction-card prediction-mine"><h3><i aria-hidden="true"></i>내 예상</h3><div class="prediction-visual" id="prediction-moon">${moonSVG(p.amount, p.side)}</div></figure>
-          <figure class="prediction-card prediction-evidence"><h3><i aria-hidden="true"></i>관측 자료</h3><div class="prediction-visual">${p.revealed ? dayMoon(day) : '<div class="unknown-moon"><span aria-hidden="true">?</span><small>예상을 저장하면 나타나요</small></div>'}</div></figure>
-        </div>${modelScope()}${p.reflection && p.original ? `<p class="phase-result" role="status"><b>비교 결과</b> · 처음 예상 ${p.original.amount}% / 관측 약 ${Math.round(phase(day).amount)}%<br>${esc(p.reflection)}<br>결과를 살펴본 뒤 아래 버튼을 눌러요.</p>` : ''}
+          ${p.revealed ? `<figure class="prediction-card prediction-evidence"><h3><i aria-hidden="true"></i>관측 자료</h3><div class="prediction-visual">${dayMoon(day)}</div></figure>` : ''}
+        </div>${modelScope()}
 `;
-      tools = `${range('밝은 부분', 'prediction-amount', 0, 100, p.amount, 1, '%')}
-        <div class="choice-grid two">${b('오른쪽', 'side-right', p.side === 'right' ? 'choice-card selected' : 'choice-card', 'aria-label="오른쪽이 밝은 달"')}${b('왼쪽', 'side-left', p.side === 'left' ? 'choice-card selected' : 'choice-card', 'aria-label="왼쪽이 밝은 달"')}</div>
-        <div class="phase-comparison-actions">${!p.revealed ? b('예상 저장 · 관측', 'reveal-phase', 'secondary') : b(ui.overlayVisible ? '나란히 보기' : '겹쳐서 비교', 'overlay-phase', 'secondary')}${b('관측 기록', 'phase-note', 'secondary')}</div>${p.revealed ? choiceMarkup(phaseChoices(day, p.original), ui.picks?.['s2b-' + i], p.reflection) : ''}`;
+      const adjust = `<div class="prediction-adjust">${range('밝은 부분', 'prediction-amount', 0, 100, p.amount, 1, '%')}
+        <div class="choice-grid two" role="group" aria-label="밝은 쪽 고르기">${['left','right'].map(side => {
+          const label = side === 'left' ? '왼쪽' : '오른쪽';
+          return b(`${moonSVG(50, side)} ${label}`, 'side-' + side, p.side === side ? 'choice-card selected' : 'choice-card', `aria-pressed="${p.side === side}" aria-label="${label}이 밝은 달"`);
+        }).join('')}</div></div>`;
+      const reference = b(`${icon('book')} 관측 기록`, 'phase-note', 'secondary');
+      const choices = choiceMarkup(phaseChoices(day, p.original), ui.picks?.['s2b-' + i], p.reflection, {compact: true});
+      tools = p.revealed
+        ? `${result ? `${result}<details class="prediction-review"><summary>다시 비교하기</summary>${choices}</details>` : choices}
+          <div class="phase-comparison-actions">${b(ui.overlayVisible ? '나란히 보기' : '겹쳐서 비교', 'overlay-phase', 'secondary')}${reference}</div>
+          <details class="prediction-disclosure"><summary>내 모형 더 조절하기</summary>${adjust}</details>`
+        : `${adjust}${b('예상 저장 · 관측', 'reveal-phase', 'secondary')}${reference}`;
       break;
     }
     default: return null;

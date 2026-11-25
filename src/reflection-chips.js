@@ -23,16 +23,16 @@ export function phaseChoices(day, original) {
     key: 'size',
     title: '밝은 부분의 크기는?',
     options: [
-      { id: 'bigger', text: '밝은 부분이 내 예상보다 컸어요.', ok: diff > 5, hint: '겹친 그림을 봐. 관측 자료의 밝은 부분이 정말 더 클까?' },
-      { id: 'similar', text: '밝은 부분의 크기가 예상과 비슷했어요.', ok: Math.abs(diff) <= 15, hint: '두 그림의 밝은 부분 넓이를 다시 비교해 봐.' },
-      { id: 'smaller', text: '밝은 부분이 내 예상보다 작았어요.', ok: diff < -5, hint: '겹친 그림을 봐. 관측 자료의 밝은 부분이 정말 더 작을까?' },
+      { id: 'bigger', label: '더 커요', text: '밝은 부분이 내 예상보다 컸어요.', ok: diff > 5, hint: '겹친 그림을 봐. 관측 자료의 밝은 부분이 정말 더 클까?' },
+      { id: 'similar', label: '비슷해요', text: '밝은 부분의 크기가 예상과 비슷했어요.', ok: Math.abs(diff) <= 15, hint: '두 그림의 밝은 부분 넓이를 다시 비교해 봐.' },
+      { id: 'smaller', label: '더 작아요', text: '밝은 부분이 내 예상보다 작았어요.', ok: diff < -5, hint: '겹친 그림을 봐. 관측 자료의 밝은 부분이 정말 더 작을까?' },
     ],
   }, {
     key: 'side',
     title: '밝은 쪽 방향은?',
     options: [
-      { id: 'same-side', text: '밝은 쪽 방향이 예상과 같았어요.', ok: original?.side === actual.side, hint: '관측 자료에서 오른쪽과 왼쪽 중 어디가 밝은지 다시 봐.' },
-      { id: 'other-side', text: '밝은 쪽 방향이 예상과 반대였어요.', ok: original?.side !== actual.side, hint: '관측 자료에서 오른쪽과 왼쪽 중 어디가 밝은지 다시 봐.' },
+      { id: 'same-side', label: '같아요', text: '밝은 쪽 방향이 예상과 같았어요.', ok: original?.side === actual.side, hint: '관측 자료에서 오른쪽과 왼쪽 중 어디가 밝은지 다시 봐.' },
+      { id: 'other-side', label: '반대예요', text: '밝은 쪽 방향이 예상과 반대였어요.', ok: original?.side !== actual.side, hint: '관측 자료에서 오른쪽과 왼쪽 중 어디가 밝은지 다시 봐.' },
     ],
   }];
 }
@@ -45,16 +45,16 @@ export function patternChoices(region, lines = []) {
     key: 'match',
     title: '내 선과 기준선은?',
     options: [
-      { id: 'all', text: '내 선이 기준선과 모두 같았어요.', ok: mine.length > 0 && same === mine.length, hint: '노란 점선과 내 선을 하나씩 겹쳐 봐.' },
-      { id: 'some', text: '일부 선은 같고 일부는 달랐어요.', ok: same > 0 && same < mine.length, hint: '노란 점선과 내 선을 하나씩 겹쳐 봐.' },
-      { id: 'none', text: '내 선은 기준선과 모두 달랐어요.', ok: mine.length > 0 && same === 0, hint: '노란 점선과 내 선을 하나씩 겹쳐 봐.' },
+      { id: 'all', label: '모두 같아요', text: '내 선이 기준선과 모두 같았어요.', ok: mine.length > 0 && same === mine.length, hint: '노란 점선과 내 선을 하나씩 겹쳐 봐.' },
+      { id: 'some', label: '일부만 같아요', text: '일부 선은 같고 일부는 달랐어요.', ok: same > 0 && same < mine.length, hint: '노란 점선과 내 선을 하나씩 겹쳐 봐.' },
+      { id: 'none', label: '모두 달라요', text: '내 선은 기준선과 모두 달랐어요.', ok: mine.length > 0 && same === 0, hint: '노란 점선과 내 선을 하나씩 겹쳐 봐.' },
     ],
   }, {
     key: 'idea',
     title: '선을 다르게 이으면?',
     options: [
-      { id: 'stay', text: '선이 달라도 별의 위치는 그대로예요.', ok: true },
-      { id: 'move', text: '선을 다르게 이으면 별의 위치도 바뀌어요.', ok: false, hint: '선을 지워도 별은 같은 자리에 있었어. 다시 생각해 봐.' },
+      { id: 'stay', label: '별은 그대로예요', text: '선이 달라도 별의 위치는 그대로예요.', ok: true },
+      { id: 'move', label: '별이 옮겨져요', text: '선을 다르게 이으면 별의 위치도 바뀌어요.', ok: false, hint: '선을 지워도 별은 같은 자리에 있었어. 다시 생각해 봐.' },
     ],
   }];
 }
@@ -75,11 +75,12 @@ export function choiceFeedback(groups, picks = {}) {
   return { tone: 'hint', text: groups.length > 1 ? '두 줄에서 하나씩 골라요.' : '알맞은 문장을 골라요.' };
 }
 
-export function choiceMarkup(groups, picks = {}, saved = '') {
-  const status = choiceFeedback(groups, picks);
-  const done = saved && !Object.keys(picks).length;
-  return `<div class="reflection-choices" role="group" aria-label="관찰 문장 고르기">${groups.map(group => `<fieldset class="choice-row"><legend>${group.title}</legend>${group.options.map(option => {
-    const picked = picks[group.key] === option.id;
-    return `<button type="button" class="btn sentence-chip ${picked ? option.ok ? 'is-right' : 'is-wrong' : ''}" data-learning="pick-${group.key}-${option.id}" aria-pressed="${picked}">${option.text}</button>`;
-  }).join('')}</fieldset>`).join('')}<p id="reflection-feedback" class="inline-feedback" role="status" data-tone="${done ? 'success' : status.tone}">${done ? `기록됨 · ${saved}` : status.text}</p></div>`;
+export function choiceMarkup(groups, picks = {}, saved = '', { compact = false } = {}) {
+  const hasPicks = Object.keys(picks).length > 0;
+  const incorrect = groups.some(group => group.options.some(option => option.id === picks[group.key] && !option.ok));
+  const message = incorrect ? choiceFeedback(groups, picks).text : '';
+  return `<div class="reflection-choices${compact ? ' compact-choices' : ''}" role="group" aria-label="관찰 문장 고르기">${groups.map(group => `<fieldset class="choice-row"><legend>${group.title}</legend>${group.options.map(option => {
+    const picked = hasPicks ? picks[group.key] === option.id : option.ok && saved.includes(option.text);
+    return `<button type="button" class="btn sentence-chip ${picked ? option.ok ? 'is-right' : 'is-wrong' : ''}" data-learning="pick-${group.key}-${option.id}" aria-pressed="${picked}">${option.label || option.text}</button>`;
+  }).join('')}</fieldset>`).join('')}<p id="reflection-feedback" class="inline-feedback" role="status" data-tone="hint" ${message?'':'hidden'}>${message}</p></div>`;
 }

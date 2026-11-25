@@ -84,7 +84,7 @@ async function drive(page, hands, { until = state => state.arrived, wrongAt = -1
     if (state.onFloor && here && (!next || next.top > here.top + 0.1)) await hands.jump();
     tips.add(await tipText(page));
     // Each wrong door shows a new hint line, so the hint lines seen so far count the misses.
-    if (gate === wrongAt) misses = [...tips].filter(text => /어느 쪽이 밝은지|이 밝아요|커졌는지|보다 밝은 부분|가늘|가느/.test(text)).length;
+    if (gate === wrongAt) misses = [...tips].filter(text => /어느 쪽이 밝은지|보름 전후|커졌는지|밝은 부분만 비교/.test(text)).length;
     await sleep(25);
   }
   await hands.steer({});
@@ -145,7 +145,8 @@ async function fingers(page) {
   const hands = keyboard(page);
   const tried = await drive(page, hands, { wrongAt: 0, wrongTimes: 2, until: state => state.passed >= 1 });
   assert.ok(tried.tips.some(text => /어느 쪽이 밝은지/.test(text)), '첫 힌트는 밝은 쪽을 묻는다');
-  assert.ok(tried.tips.some(text => /3일째 달은 오른쪽이 밝아요/.test(text)), '두 번째 힌트는 밝은 쪽을 알려 준다');
+  assert.ok(tried.tips.some(text => /보름 전후/.test(text)), '두 번째 힌트는 달 모양 변화를 떠올리게 한다');
+  assert.equal(await page.locator('.moon-run-moon.is-lit').count(), 0);
   const saved = await stored(page);
   assert.ok(saved.stats.retries >= before + 2, '다른 문은 다시 생각한 횟수로 남는다');
   assert.equal(saved.bonus.path, '', '문 하나로는 완료가 기록되지 않는다');
@@ -192,7 +193,7 @@ async function fingers(page) {
 }
 
 if (process.env.TEST_ONLY !== 'live') {
-  // 3. Card way (shown first when motion is reduced): a wrong card, the lit answer after three misses, then all six.
+  // 3. Card way (shown first when motion is reduced): three misses without a marked answer, then all six.
   {
     const page = await open(finished(s => { s.settings.reducedMotion = true; }));
     await page.click('[data-action="bonus-path"]');
@@ -202,14 +203,14 @@ if (process.env.TEST_ONLY !== 'live') {
     assert.equal(await page.locator('.moon-run-canvas').count(), 0);
     const first = await doorsOf(page, 0);
     for (let i = 0; i < 3; i++) await page.click(`.moon-run-door[data-door="${first.wrong}"]`);
-    assert.match(await tipText(page), /루미가 알맞은 문에 등불을 켰어요/);
-    assert.equal(await page.locator(`.moon-run-door.is-lit[data-door="${first.right}"]`).count(), 1);
+    assert.match(await tipText(page), /보름 전후/);
+    assert.equal(await page.locator('.moon-run-door.is-lit').count(), 0);
     assert.equal((await stored(page)).bonus.path, '');
     await shot(page, 'cards-1280x800');
     for (let gate = 0; gate < 6; gate++) { const doors = await doorsOf(page, gate); await page.click(`.moon-run-door[data-door="${doors.right}"]`); }
     assert.equal(await view(page), 'done');
     assert.equal((await stored(page)).bonus.path, 'done');
-    console.log('PASS cards (reduced motion): wrong, lit answer, six gates, saved');
+    console.log('PASS cards (reduced motion): neutral hints, six gates, saved');
     await page.context().close();
   }
   // 4. No WebGL: the bonus falls back to cards, and the other bonuses and the rest of the page still work.

@@ -1,5 +1,5 @@
 dialog.classroom-dialog.npc-scene-dialog {
-  --dialogue-width: 90vw;
+  --dialogue-width: min(88vw, 920px);
   --dialogue-bottom: max(24px, env(safe-area-inset-bottom));
   --dialogue-panel-height: 150px;
   --dialogue-controls: 44px;
@@ -74,15 +74,14 @@ dialog.npc-scene-dialog[open] { display: block; }
 .npc-scene-dialog .dialogue-extra summary { justify-content: end; min-height: 44px; padding: 0 14px; font-size: var(--classroom-small); color: #e8f1ef; background: #163247df; border: 1px solid #9db5bd77; border-radius: 12px; }
 .npc-scene-dialog .dialogue-extra[open] { max-height: calc(100dvh - var(--dialogue-panel-height) - 150px); padding: 0 16px 16px; overflow-y: auto; background: #122f44f7; box-shadow: 0 8px 24px #020b1680; }
 .npc-scene-dialog .dialogue-extra[open] summary { position: sticky; top: 0; margin: 0 -16px 12px; background: #173b50; }
-.npc-scene-dialog .dialogue-extra .role-card { margin: 4px 0 8px; }
-.npc-scene-dialog .dialogue-extra .role-card p, .npc-scene-dialog .dialogue-extra li, .npc-scene-dialog .dialogue-extra p { font-size: var(--classroom-small); }
+.npc-scene-dialog .dialogue-extra :is(li, p) { font-size: var(--classroom-small); }
 .npc-scene-dialog .incident-note { margin-top: 8px !important; }
 .npc-scene-dialog .story-dots { position: absolute; top: 78px; left: 5%; margin: 0 !important; }
 .npc-scene-dialog .dialog-footer { position: absolute; left: calc((100vw - var(--dialogue-width)) / 2 + 26px); right: calc((100vw - var(--dialogue-width)) / 2 + 26px); bottom: calc(var(--dialogue-bottom) + 14px); z-index: 4; display: flex; align-items: center; justify-content: flex-start; flex-wrap: nowrap; gap: 12px; padding: 0; border: 0; background: transparent; }
 .npc-scene-dialog .dialog-footer .btn { min-width: 0; min-height: 44px; margin: 0; padding: 8px 14px; font-size: var(--classroom-button); }
 .npc-scene-dialog .dialog-footer > .btn { order: 1; background: transparent; box-shadow: none; border: 1px solid #b2a58b; color: #465a63; }
 .npc-scene-dialog .dialog-footer > .primary { order: 3; margin-left: auto; min-width: 112px; border-color: #aa8749; background: #f2d697; color: #213f50; font-weight: 800; }
-.npc-scene-dialog .dialog-footer > .primary::after { content: ' ▾'; margin-left: 8px; }
+.npc-scene-dialog .dialog-footer > .primary::after { content: ''; width: 7px; height: 7px; margin-left: 8px; border: solid currentColor; border-width: 2px 2px 0 0; rotate: 45deg; }
 .npc-scene-dialog .npc-dialogue-voice { order: 0; flex: 0 0 auto; margin: 0; }
 .npc-scene-dialog .npc-dialogue-voice .btn { min-width: 0; padding: 7px 10px; color: #46616e; background: transparent; border: 0; box-shadow: none; font-size: var(--classroom-small); }
 .npc-scene-dialog .npc-dialogue-voice [role="status"] { position: absolute; left: 0; bottom: 48px; color: #6f5650; font-size: var(--classroom-small) !important; }
@@ -98,35 +97,38 @@ dialog.npc-scene-dialog[open] { display: block; }
   .npc-scene-dialog .dialogue-utterance { font-size: 22px; }
   .npc-scene-dialog .dialogue-extra { width: min(440px, 72vw); }
   .npc-scene-dialog .dialog-footer { gap: 8px; }
-  .npc-scene-dialog .dialog-footer .btn { font-size: 14px; padding-left: 10px; padding-right: 10px; }
+  .npc-scene-dialog .dialog-footer .btn { padding-inline: 10px; }
 }
 @media (max-height: 600px) {
   dialog.classroom-dialog.npc-scene-dialog { --dialogue-width: 92vw; --dialogue-bottom: max(10px, env(safe-area-inset-bottom)); --dialogue-panel-height: 146px; --dialogue-portrait-height: min(42dvh, 220px); }
   .npc-scene-dialog .dialog-heading { inset: 10px 4% auto; }
-  .npc-scene-dialog .dialog-heading h2 { font-size: 17px; }
-  .npc-scene-dialog .dialog-heading .icon-button { width: 40px; height: 40px; min-width: 40px; min-height: 40px; padding: 8px; }
+  .npc-scene-dialog .dialog-heading h2 { font-size: var(--classroom-small); }
+  .npc-scene-dialog .dialog-heading .icon-button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; padding: 8px; }
   .dialogue-cast { left: 8%; right: 8%; }
   .dialogue-character { width: 28vw; }
   .dialogue-text { padding: 17px 24px calc(var(--dialogue-controls) + 17px); border-radius: 10px; }
-  .dialogue-speaker { top: -19px; left: 20px; padding: 6px 14px; font-size: 15px; }
-  .npc-scene-dialog .dialogue-utterance { font-size: 17px; line-height: 1.5; }
+  .dialogue-speaker { top: -22px; left: 20px; padding: 6px 14px; font-size: var(--classroom-small); }
+  .npc-scene-dialog .dialogue-utterance { font-size: var(--classroom-body); line-height: 1.45; }
   .dialogue-reading-cue { display: none; }
   .npc-scene-dialog .dialogue-extra { top: 10px; right: calc(4% + 52px); width: min(300px, 40vw); }
-  .npc-scene-dialog .dialogue-extra summary { min-height: 38px; font-size: 13px; }
+  .npc-scene-dialog .dialogue-extra summary { min-height: 44px; font-size: var(--classroom-small); }
   .npc-scene-dialog .dialogue-extra[open] { max-height: calc(100dvh - var(--dialogue-panel-height) - 100px); }
   .npc-scene-dialog .story-dots { top: 58px; left: 4%; }
   .npc-scene-dialog .dialog-footer { left: calc((100vw - var(--dialogue-width)) / 2 + 20px); right: calc((100vw - var(--dialogue-width)) / 2 + 20px); bottom: calc(var(--dialogue-bottom) + 9px); gap: 8px; }
-  .npc-scene-dialog .dialog-footer .btn { min-height: 38px; padding: 6px 9px; font-size: 13px; }
+  .npc-scene-dialog .dialog-footer .btn { min-height: 44px; padding: 6px 9px; }
   .npc-scene-dialog .dialog-footer > .primary { min-width: 90px; }
 }
 @media (max-width: 600px) and (min-height: 601px) {
   dialog.classroom-dialog.npc-scene-dialog { --dialogue-width: 94vw; --dialogue-panel-height: 280px; --dialogue-portrait-height: 31dvh; }
   .dialogue-text { padding: 20px 19px calc(var(--dialogue-controls) + 24px); }
-  .npc-scene-dialog .dialogue-utterance { font-size: 19px; }
+  .npc-scene-dialog .dialogue-utterance { font-size: var(--classroom-body); }
   .dialogue-reading-cue { display: none; }
   .npc-scene-dialog .dialog-footer { left: 7%; right: 7%; flex-wrap: wrap; gap: 6px; }
   .npc-scene-dialog .dialog-footer > .primary { min-width: 100px; }
   .npc-scene-dialog .dialogue-extra { top: 86px; width: 90vw; }
+}
+@media (max-width: 400px) and (min-height: 601px) {
+  .npc-scene-dialog:not(.story-dialog) .dialogue-text { padding-bottom: calc(var(--dialogue-controls) * 2 + 24px); }
 }
 .npc-dialogue-open .home-v2::after { visibility: hidden; }
 @media(max-width:600px) and (min-height:601px){

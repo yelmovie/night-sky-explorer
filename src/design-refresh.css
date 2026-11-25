@@ -34,13 +34,13 @@
 #app .btn.primary:disabled { filter: saturate(.25) brightness(.8); box-shadow: none; opacity: .7; }
 
 /* Secondary on dark surfaces: glass, never flat grey. Cream tool cards keep their own style. */
-:is(dialog, .report-page, .core-board .record-bank, .home-cta, .results-actions, .floating-controls, .activity-footer, .page-bottom) .btn:not(.primary):not(.sentence-chip):not(.choice-card),
+:is(dialog, .report-page, .home-cta, .results-actions, .floating-controls, .activity-footer, .page-bottom) .btn:not(.primary):not(.sentence-chip):not(.choice-card),
 #app .floating-controls .icon-button {
   background: var(--ui-glass); color: var(--ui-text); border: 1px solid var(--ui-line);
   box-shadow: 0 6px 18px #02081a40, inset 0 1px 0 #ffffff1f; backdrop-filter: blur(10px);
   transition: background-color var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast) var(--ease-out);
 }
-:is(dialog, .report-page, .core-board .record-bank, .home-cta, .results-actions, .floating-controls, .activity-footer, .page-bottom) .btn:not(.primary):not(.sentence-chip):not(.choice-card):hover:not(:disabled),
+:is(dialog, .report-page, .home-cta, .results-actions, .floating-controls, .activity-footer, .page-bottom) .btn:not(.primary):not(.sentence-chip):not(.choice-card):hover:not(:disabled),
 #app .floating-controls .icon-button:hover { background: var(--ui-glass-hover); border-color: var(--ui-line-strong); }
 :is(dialog, .report-page, .floating-controls, .activity-footer) .btn:not(.primary):active:not(:disabled) { transform: scale(.97); }
 #app .floating-controls .icon-button { border-radius: 50%; width: 52px; height: 52px; color: var(--ui-gold-1); }
@@ -53,7 +53,7 @@ dialog:not(.npc-scene-dialog) {
   box-shadow: 0 30px 90px #02081acc, inset 0 1px 0 #ffffff1a;
   color: var(--ui-text);
 }
-dialog:not(.npc-scene-dialog)[open] { animation: popup-in var(--dur-slow) var(--ease-out); }
+dialog:not(.npc-scene-dialog, .moon-run-dialog)[open] { animation: popup-in var(--dur-slow) var(--ease-out); }
 dialog::backdrop { background: var(--ui-scrim); backdrop-filter: none; }
 /* Exception: concept films keep a dark room around the picture. */
 :is(.concept-dialog, .movie-dialog)::backdrop { background: #020817d9; }
@@ -87,24 +87,15 @@ dialog .bonus-chips .btn.choice-card.selected { background: #fff0c8; border-colo
 dialog .bonus-chips.name-chips .btn { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 dialog .bonus-chips.name-chips .planet-image { width: 26px; height: 26px; }
 
-/* Intro alert: picture first, then a compact two-column list. */
-dialog .incident-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-dialog .incident-board p { margin: 0; padding: 8px 10px; border-radius: var(--ui-radius-sm); font-size: var(--classroom-small); line-height: 1.35; }
-dialog .incident-board p:last-child { grid-column: 1 / -1; }
-dialog .incident-board .incident-icon { background: none; width: 34px; height: 34px; padding: 0; }
 .reward-symbol { background: none !important; box-shadow: none !important; }
-.core-final .socket:not(.connected) .record-badge { filter: grayscale(.75) brightness(.7) drop-shadow(0 3px 6px #02081a88); }
 .core-final .record-chip.used .record-badge { filter: grayscale(.6) brightness(.75); }
 .kit-item:not(.is-done) .record-badge { filter: grayscale(.8) brightness(.65); }
 
 /* One instruction per screen: the task pill already says what to do on the telescope. */
 /* Core: the dial itself turns (touch and keyboard), so the duplicate slider and repeated note stay for screen readers only. */
-.core-final .record-bank .record-chip { grid-template-columns: 40px 1fr auto; align-items: center; }
-.core-final .socket { grid-template-columns: 40px 1fr auto; align-items: center; }
 .kit-item summary .record-badge, .final-report summary .record-badge { width: 40px; height: 40px; }
 
 /* Home: no home/back buttons on the home screen itself; welcome voice card matches the glass UI. */
-#app:has(.home-v2) .floating-controls nav:first-child { visibility: hidden; }
 .npc-welcome-voice { background: var(--ui-glass) !important; color: var(--ui-text) !important; border: 1px solid var(--ui-line); border-radius: var(--ui-radius-md) !important; backdrop-filter: blur(10px); box-shadow: 0 10px 26px #02081a55; }
 .npc-welcome-voice > button { background: transparent !important; color: var(--ui-gold-1) !important; border: 1px solid var(--ui-line-strong) !important; border-radius: 999px !important; }
 .npc-welcome-voice small, .npc-welcome-voice [role='status'] { color: var(--ui-sub) !important; }
@@ -137,7 +128,7 @@ dialog .incident-board .incident-icon { background: none; width: 34px; height: 3
 .experience.home-v2.home-title { display: block; height: 100dvh; min-height: 320px; padding: 0; overflow: hidden; }
 .home-v2.home-title::before { background: linear-gradient(180deg, #08182b40 0%, #08182b08 45%, #08182b80 100%); }
 .home-v2.home-title .hero { position: absolute; inset: 0; z-index: 3; width: auto; margin: 0; padding: 0; text-align: center; pointer-events: none; }
-.home-v2.home-title .hero-title-art { position: absolute; left: 50%; top: clamp(56px, 9vh, 120px); transform: translateX(-50%); width: min(78vw, 1150px, 150dvh); margin: 0; line-height: 0; }
+.home-v2.home-title .hero-title-art { position: absolute; left: 50%; top: clamp(66px, 12dvh, 132px); transform: translateX(-50%); width: min(68vw, 1000px, 148dvh); margin: 0; line-height: 0; }
 .home-v2.home-title .hero-logo { display: block; width: 100%; height: auto; max-height: none; margin: 0; object-position: center; }
 .home-v2.home-title .home-cta { position: absolute; left: 50%; bottom: clamp(32px, 7vh, 72px); transform: translateX(-50%); display: flex; flex-wrap: nowrap; justify-content: center; gap: 20px; max-width: none; margin: 0; pointer-events: auto; }
 .home-v2.home-title .home-cta .btn { width: auto; min-width: clamp(180px, 17vw, 220px); min-height: 64px; font-size: 24px; padding: 12px 34px; white-space: nowrap; }
@@ -152,3 +143,178 @@ dialog .incident-board .incident-icon { background: none; width: 34px; height: 3
 .phase-model-scope p { flex: 1; margin: 0; font-size: var(--classroom-small,18px); line-height: 1.35; }
 .phase-model-scope [data-phase-model-voice] { flex: 0 0 auto; }
 .phase-model-scope .btn { min-width: 44px; min-height: 44px; margin: 0; }
+
+/* The illustration is the screen. Only controls and reading surfaces get a fill. */
+.home-v2.home-title .home-cta {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  bottom: max(30px, 6dvh);
+}
+.home-v2.home-title .home-cta .primary { display: inline-flex; align-items: center; justify-content: center; gap: 12px; }
+#app .home-v2.home-title .home-cta .ghost {
+  min-height: 44px;
+  min-width: 0;
+  padding: 6px 16px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  font-size: var(--classroom-button);
+  text-shadow: 0 2px 5px #020817, 0 1px 3px #020817;
+}
+#app .home-v2.home-title .home-cta .ghost:hover { background: var(--ui-glass); }
+@media (max-width: 600px) {
+  .home-v2.home-title .hero-title-art { width: 94vw; top: max(85px, 18dvh); }
+}
+
+@media screen {
+  .report-page {
+    padding: 72px clamp(16px, 4vw, 68px) 32px;
+    background: linear-gradient(#10233b55, #142a4080), url('/assets/observatory.webp') center / cover fixed;
+  }
+  .report-page h1 {
+    margin: 0 0 12px;
+    color: var(--ui-text);
+    font-size: var(--classroom-title);
+    text-shadow: 0 2px 8px #031326;
+  }
+  .results-v2 .results-head { margin-bottom: 16px; }
+  .results-side { gap: 10px; }
+  .certificate-actions, .results-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .certificate-actions .btn { min-height: 48px; font-size: var(--classroom-button); }
+  .results-actions .btn { width: auto; min-height: 44px; padding: 6px 10px; font-size: var(--classroom-button); }
+  .privacy-note {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ui-text);
+    text-shadow: 0 2px 6px #020817;
+  }
+  .bonus-list {
+    padding: 12px 0 0;
+    border: 0;
+    background: none;
+  }
+  .bonus-list h2 { color: var(--ui-text); font-size: var(--classroom-body); text-shadow: 0 2px 6px #020817; }
+  .bonus-list .bonus-card {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr) 20px;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    margin-bottom: 6px;
+    padding: 8px 12px;
+    border: 1px solid var(--ui-line);
+    border-radius: var(--ui-radius-sm);
+    background: var(--ui-glass);
+    color: var(--ui-text);
+  }
+  .bonus-card > svg { color: var(--ui-gold-2); }
+  .bonus-card.is-done > svg:last-child { color: var(--quest-mint); }
+  .bonus-list .bonus-card b { font-size: var(--classroom-button); }
+  .report-page .report-grid { display: grid; grid-template-columns: 1fr; gap: 6px; width: min(100%, 820px); margin-inline: auto; }
+  .report-page .report-card {
+    padding: 0;
+    border: 1px solid var(--ui-line);
+    border-radius: var(--ui-radius-sm);
+    background: var(--ui-glass-strong);
+    color: var(--ui-text);
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  .report-card summary {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) auto 20px;
+    align-items: center;
+    gap: 12px;
+    min-height: 52px;
+    padding: 6px 12px;
+    list-style: none;
+    cursor: pointer;
+    font-size: var(--classroom-button);
+  }
+  .report-card summary::-webkit-details-marker { display: none; }
+  .report-card summary::after {
+    content: '';
+    grid-column: -2;
+    justify-self: center;
+    width: 8px;
+    height: 8px;
+    border: solid var(--ui-sub);
+    border-width: 0 2px 2px 0;
+    rotate: 45deg;
+  }
+  .report-card[open] summary::after { rotate: 225deg; }
+  .report-card :is(small, .report-record p) { color: var(--ui-sub); }
+  .report-card small { font-size: var(--classroom-small); }
+  .report-card .report-record p { font-size: var(--classroom-body); }
+  .records-section { width: min(100%, 820px); }
+  @media (min-width: 860px) and (max-width: 1100px) {
+    .results-v2 .results-layout { grid-template-columns: minmax(0, 1.5fr) minmax(270px, 1fr); }
+  }
+}
+
+dialog.classroom-dialog.hint-dialog {
+  width: min(520px, calc(100vw - 24px));
+  margin: auto auto max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-glass-strong);
+  backdrop-filter: none;
+}
+.hint-dialog .hint-story { gap: 12px; }
+.hint-dialog .hint-story::before { width: 64px; height: 86px; flex: none; }
+.hint-dialog .hint-story p { margin: 0; font-size: var(--classroom-body); }
+dialog.story-dialog .alert-art { aspect-ratio: 16 / 7; margin-bottom: 0; border: 0; }
+dialog.story-dialog .incident-note { padding-inline: 0; border: 0; background: none; }
+.npc-scene-dialog .quest-steps li { display: flex; align-items: center; gap: 8px; }
+.npc-scene-dialog .world-change { display: flex; align-items: center; gap: 10px; padding-inline: 0; border: 0; background: none; }
+#app:has(.npc-scene-dialog[open]) .floating-controls { visibility: hidden; }
+dialog.npc-scene-dialog .dialog-footer { background: none; }
+dialog.npc-scene-dialog .dialog-footer .btn:not(.primary) {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ui-ink);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+dialog.npc-scene-dialog .dialog-footer .btn:not(.primary):hover { background: #20354c14; }
+
+dialog.bonus-observation-dialog .bonus-board figure { border: 0; background: transparent; }
+dialog.bonus-observation-dialog .bonus-board .bonus-missing { border: 1px dashed var(--ui-gold-2); }
+.bonus-observation-dialog :is(.moon-unknown, .bonus-board svg) { width: min(106px, 100%); aspect-ratio: 1; }
+.moon-unknown {
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  border: 1px dashed var(--ui-line-strong);
+  border-radius: 50%;
+  background: var(--ui-glass-strong);
+  font-size: var(--classroom-title);
+}
+.bonus-observation-dialog .bonus-controls .choice-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  font-size: var(--classroom-button);
+}
+.bonus-observation-dialog .bonus-controls .choice-card svg { display: block; width: 28px; height: 28px; }
+.bonus-observation-dialog .bonus-lead { font-size: var(--classroom-body); }
+dialog.bonus-observation-dialog .bonus-chips .btn.choice-card { min-height: 44px; }
+.bonus-observation-dialog .inline-feedback:empty { display: none; }
+
+html dialog.science-settings-stars {
+  width: min(680px, calc(100vw - 28px));
+  max-height: min(700px, 90dvh);
+}
+html .science-settings-stars .science-settings-body summary { font-size: var(--classroom-small); }
+html .science-settings-stars .settings-shortcuts .science-settings-actions { margin-block: 8px; }
+html .science-settings-stars .science-settings-audio :is(.toggle-row, .setting-row):is(label,div) {
+  border: 0;
+  border-bottom: 1px solid var(--settings-line);
+  border-radius: 0;
+  background: transparent;
+  font-size: var(--classroom-small);
+}

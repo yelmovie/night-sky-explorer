@@ -96,10 +96,12 @@ try{
 
     await seed(page,'s5a',4,s=>{s.drafts.pattern.polaris={pointers:[],found:false};});
     await learn(page,'round-2');assert.match(await page.locator('#star-observation').innerText(),/메라크.*두베/);
+    assert.match(await page.locator('[data-star="Polaris"]').getAttribute('aria-label'), /^\d+번 별 관찰$/);
     await page.locator('[data-star="Dubhe"]').focus();await page.keyboard.press('Enter');assert.match(await page.locator('#star-observation').innerText(),/메라크/);
     for(const id of ['Merak','Dubhe']){await page.locator(`[data-star="${id}"]`).focus();await page.keyboard.press('Enter');}
     assert.match(await page.locator('#star-observation').innerText(),/약 5배/);
-    results.push({width,test:'named pointer stars and approximate five-gap direction'});
+    assert.equal(await page.locator('.pointer-tick').count(), 0);
+    results.push({width,test:'named landmarks and spacing clue without exposing the target star'});
     await context.close();
   }
   assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);

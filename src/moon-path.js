@@ -10,7 +10,7 @@ export const pathSections = [
   { name: '적용', focus: '밝은 부분의 크기를 비교해요' },
   { name: '도전', focus: '밝은 쪽과 크기를 함께 봐요' },
 ];
-/** After this many misses at one gate Lumi lights the right door. */
+/** After this many misses the running route offers the card controls. */
 export const pathHelpAfter = 3;
 // A "different size" door shows another study day with the same bright side.
 // Each differs from the answer by more than 30 points of lit area, so two
@@ -21,7 +21,6 @@ const layouts = [
   ['answer', 'size'], ['size', 'answer'],
   ['size', 'answer', 'mirror'], ['mirror', 'size', 'answer'],
 ];
-const sideName = side => (side === 'right' ? '오른쪽' : '왼쪽');
 function door(kind, day) {
   const answer = phase(day);
   if (kind === 'mirror') return { kind, amount: answer.amount, side: answer.side === 'right' ? 'left' : 'right' };
@@ -43,26 +42,16 @@ export function doorMatches(candidate, day) {
 /** misses: wrong doors already tried at this gate. Hints follow the other bonus: bright side first, then size. */
 export function judgeDoor(gate, doorIndex, misses = 0) {
   const candidate = gate.doors[doorIndex], answer = phase(gate.day);
-  if (doorMatches(candidate, gate.day)) return { ok: true, reason: '', hint: '', reveal: false };
+  if (doorMatches(candidate, gate.day)) return { ok: true, reason: '', hint: '' };
   const reason = candidate && candidate.side === answer.side ? 'size' : 'side';
-  const reveal = misses + 1 >= pathHelpAfter;
-  let hint;
+  const retry = misses > 0;
   if (reason === 'side') {
-    hint = misses < 1
-      ? `어느 쪽이 밝은지 먼저 봐요. 내 기록의 ${gate.day}일째 달은 어느 쪽이 밝았나요?`
-      : `${gate.day}일째 달은 ${sideName(answer.side)}이 밝아요. 밝은 쪽이 같은 문을 찾아봐요.`;
-  } else if (gate.prev === null) {
-    hint = misses < 1
-      ? `밝은 쪽은 맞아요. ${gate.day}일째에는 밝은 부분이 얼마나 가늘었는지 떠올려 봐요.`
-      : `${gate.day}일째 달은 밝은 부분이 가느다래요.`;
-  } else {
-    const bigger = answer.amount > phase(gate.prev).amount;
-    hint = misses < 1
-      ? `밝은 쪽은 맞아요. 밝은 부분이 ${gate.prev}일째보다 커졌는지 작아졌는지 봐요.`
-      : `${gate.day}일째 달은 ${gate.prev}일째보다 밝은 부분이 ${bigger ? '커요' : '작아요'}.`;
+    return { ok: false, reason, hint: retry ? '보름 전후에 밝은 쪽이 어떻게 바뀌었는지 떠올려요.' : '문의 달에서 어느 쪽이 밝은지 먼저 봐요.' };
   }
-  if (reveal) hint += ' 루미가 알맞은 문에 등불을 켰어요.';
-  return { ok: false, reason, hint, reveal };
+  const hint = retry || gate.prev === null
+    ? '둥근 달 전체에서 밝은 부분만 비교해요.'
+    : `밝은 부분이 ${gate.prev}일째보다 커졌는지 작아졌는지 비교해요.`;
+  return { ok: false, reason, hint };
 }
 /** Records the reward once. Returns true only for a new record. Mission completion is untouched. */
 export function finishPath(state, passed) {

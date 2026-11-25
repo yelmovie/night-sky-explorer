@@ -1,0 +1,316 @@
+/* Keep the illustrated rooms behind objects, with contrast only where controls need it. */
+#app .learning-v2 .experiment-zone,
+#app .learning-v2[data-scene^='s5'] .experiment-zone {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 4px;
+}
+
+#app .learning-v2 .room-bg {
+  background-image: linear-gradient(180deg, #08142ab3 0%, #08142a14 24%, #08142a08 72%, #08142ab3 100%), var(--room-image);
+}
+
+#app .learning-v2 .activity-heading .lesson-concept {
+  display: block;
+  padding: 0;
+  margin: 0 auto;
+  background: none;
+  border: 0;
+  font-size: var(--classroom-small);
+}
+
+#app .learning-v2 .lesson-concept span {
+  display: inline-block;
+  padding: 0;
+  background: none;
+  color: var(--ui-gold-1);
+}
+
+#app .learning-v2 .activity-heading h1 {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  font-size: var(--classroom-title);
+  line-height: 1.24;
+  text-shadow: 0 2px 4px #020817, 0 0 12px #020817;
+  text-wrap: balance;
+}
+#app .learning-v2 #screen-title:focus { outline: none; }
+
+#app .learning-v2 :is(.experiment-zone, .toolbox) .model-note {
+  font-size: var(--classroom-small);
+  color: var(--ui-text);
+  text-shadow: 0 1px 4px #020817, 0 0 6px #020817;
+  text-wrap: balance;
+}
+
+#app .learning-v2 .toolbox {
+  padding: 12px;
+  gap: 8px;
+  border: 1px solid var(--ui-line);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-glass);
+  color: var(--ui-text);
+  box-shadow: none;
+  backdrop-filter: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-line-strong) transparent;
+}
+
+#app .learning-v2 :is(.toolbox, .experiment-zone) :is(.range-label, .range-label output, .flow-progress, .reference-name, .choice-row legend) {
+  margin-block: 0;
+  color: var(--ui-text);
+  font-size: var(--classroom-small);
+}
+
+#app .learning-v2 .toolbox .btn.secondary,
+#app .learning-v2 .toolbox .btn.chip,
+#app .learning-v2 .stage-next-reason {
+  color: var(--ui-text);
+  background: var(--ui-glass-hover);
+  border-color: var(--ui-line-strong);
+  box-shadow: none;
+}
+
+#app .learning-v2 :is(.case-tab, .lesson-help .btn, .activity-action .btn, .planet-choice, .surface-targets .btn, .body-tabs .btn, .chart-actions .btn, .toolbox .btn) {
+  min-height: 44px;
+  font-size: var(--classroom-button);
+}
+
+#app .learning-v2 :is(.toolbox .inline-feedback, .phase-result, .phase-model-scope p) {
+  font-size: var(--classroom-small);
+  line-height: 1.35;
+}
+
+#app .learning-v2 .inline-feedback[hidden] { display: none; }
+#app .learning-v2 .activity-action .btn:disabled {
+  color: var(--ui-text);
+  border-color: var(--ui-line);
+  background: var(--ui-glass);
+  box-shadow: none;
+  opacity: .65;
+}
+
+/* Highlight the manipulation surface or the full set of alternatives. */
+#app .learning-v2 .is-next {
+  outline: 2px solid var(--ui-gold-1);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+#app .learning-v2 button.is-next:not(:disabled):not(.sky-body) {
+  background: var(--ui-gold-1);
+  color: var(--ui-ink);
+  border-color: var(--ui-gold-1);
+  outline-offset: 2px;
+}
+
+#app .learning-v2 :is(.reflection-choices, .feature-choices, .reason-choices, .prediction-adjust, .light-predictions, .claim-tray).is-next {
+  outline-offset: 4px;
+  border-radius: var(--ui-radius-sm);
+}
+
+#app .learning-v2 :is(#scope-drag, #surface-moon, #star-view, .planet-fog).is-next { outline-offset: -3px; }
+#app .learning-v2 #scope-drag.is-next {
+  outline: none;
+  filter: drop-shadow(0 0 9px #f7d17b99);
+  animation: none;
+}
+
+.learning-v2 .scope-gesture {
+  place-self: end center;
+  position: absolute;
+  inset-block-end: 70px;
+  z-index: 1;
+  display: none;
+  color: var(--ui-gold-1);
+  background: var(--ui-glass);
+  border-radius: 50%;
+  padding: 6px;
+  pointer-events: none;
+}
+
+.learning-v2 .experiment-zone:has(#scope-drag.is-next) .scope-gesture { display: grid; }
+#app .learning-v2 .photo-mini { background: var(--ui-glass-hover); color: var(--ui-text); border-color: var(--ui-line); }
+#app .learning-v2 .photo-mini b { color: inherit; }
+#app .learning-v2 .photo-placeholder { color: var(--ui-gold-1); }
+#app .learning-v2 .lunar-detail { background: none; box-shadow: none; }
+#app .learning-v2 .surface-crop.is-empty { color: var(--ui-gold-1); background: var(--ui-glass-hover); }
+
+#app .learning-v2 .discovery-route { padding: 0; border: 0; background: none; }
+#app .learning-v2 .discovery-stops { gap: 8px; }
+#app .learning-v2 .discovery-stops button { padding-inline: 4px; font-size: var(--classroom-button); }
+#app .learning-v2 .phase-model-scope { color: var(--ui-text); text-shadow: 0 2px 4px #020817, 0 0 6px #020817; }
+#app .learning-v2 .phase-model-scope p { text-wrap: pretty; }
+
+#app .learning-v2[data-scene='s2b'] :is(.prediction-board, .prediction-card) { border: 0; background: none; min-height: 0; }
+#app .learning-v2[data-scene='s2b'] .prediction-board.is-predicting { grid-template-columns: minmax(0, 1fr); }
+#app .learning-v2[data-scene='s2b'] :is(.prediction-card, .prediction-board.is-overlay) { container-type: size; }
+#app .learning-v2[data-scene='s2b'] .prediction-visual {
+  width: max(1px, min(100cqw - 10px, 100cqh - 34px));
+  min-height: 0;
+  height: auto;
+  aspect-ratio: 1;
+}
+#app .learning-v2 .prediction-adjust { display: grid; gap: 4px; }
+#app .learning-v2 .prediction-adjust .btn { display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; padding-inline: 6px; }
+#app .learning-v2 .prediction-adjust .btn > .moon-art { width: 24px; height: 24px; flex: none; }
+#app .learning-v2 :is(.prediction-disclosure, .prediction-review) summary {
+  display: list-item;
+  align-content: center;
+  min-height: 44px;
+  font-size: var(--classroom-small);
+  cursor: pointer;
+}
+
+#app .learning-v2 .compact-choices .choice-row { display: flex; flex-flow: row wrap; }
+#app .learning-v2 .compact-choices .choice-row .btn { flex: 1 1 4em; width: auto !important; justify-content: center; text-align: center; }
+#app .learning-v2 .compact-choices .choice-row legend { margin-block-end: 4px; }
+
+#app .learning-v2[data-scene='s3a'] .planet-exhibit { background: none; }
+#app .learning-v2 .planet-choice,
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body {
+  position: relative;
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-glass);
+  border-color: var(--ui-line);
+}
+
+#app .learning-v2 .planet-choice.selected,
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body.selected {
+  color: var(--ui-text);
+  border-color: var(--ui-gold-1);
+  background: var(--ui-glass-hover);
+  box-shadow: none;
+}
+
+#app .learning-v2 :is(.planet-choice, .all-bodies .sky-body) > svg:last-child:not(:first-child) {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  color: #a0e7c5;
+}
+
+#app .learning-v2 .planet-viewport .fog-tip {
+  inset: 50% auto auto 50%;
+  bottom: auto;
+  padding: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: none;
+}
+
+#app .learning-v2[data-scene='s3a'] .planet-utilities { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 6px; }
+#app .learning-v2[data-scene='s3a'] .planet-utilities .btn { padding-inline: 5px; }
+
+#app .learning-v2[data-scene='s3b'] .toolbox {
+  justify-content: space-between;
+  background: none;
+  border: 0;
+  padding: 0 6px;
+}
+#app .learning-v2[data-scene='s3b'] .toolbox .inline-feedback { flex: 0 1 auto; }
+
+#app .learning-v2[data-scene='s3b'] .order-slots .answer-target {
+  min-height: clamp(66px, 16cqh, 112px);
+  background: var(--ui-glass);
+  border-radius: var(--ui-radius-md);
+}
+#app .learning-v2[data-scene='s3b'] .order-slots .answer-target.is-correct { background: #1d4a3fd9; }
+
+#app .learning-v2[data-scene='s3b'] :is(.order-slots, .piece-tray, .group-targets) :is(small, strong, .group-cue, .placed-planets > span > span) {
+  font-size: var(--classroom-small);
+}
+
+.distance-rows { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); gap: 8px; }
+.distance-row { display: flex; align-items: center; gap: 6px; padding: 8px; border: 1px solid var(--ui-line); border-radius: var(--ui-radius-sm); font-size: var(--classroom-small); }
+.distance-row .planet-image { width: 26px; height: 26px; flex: none; }
+.distance-row b { margin-inline-start: auto; }
+.data-source a { color: var(--ui-gold-1); }
+
+#app .learning-v2[data-scene='s4a'] .sky-body strong { font-size: var(--classroom-body); }
+#app .learning-v2[data-scene='s4a'] .sky-bodies.all-bodies {
+  grid-template-rows: repeat(2, minmax(0, min(154px, 24cqh)));
+  align-content: center;
+}
+#app .learning-v2[data-scene='s4a'] .all-bodies .sky-body {
+  justify-content: center;
+  min-height: 44px;
+}
+#app .learning-v2[data-scene='s4a'] .body-fact {
+  display: block;
+  flex: none;
+  align-self: center;
+  margin: 0;
+  padding: 6px 10px;
+  border: 0;
+  background: var(--ui-glass);
+  color: var(--ui-text);
+  text-align: center;
+}
+#app .learning-v2[data-scene='s4a'] .body-fact b { color: var(--ui-gold-1); font-size: var(--classroom-body); }
+#app .learning-v2[data-scene='s4a'] .body-fact p { display: inline; color: var(--ui-text); font-size: var(--classroom-body); }
+#app .learning-v2[data-scene='s4a'] .light-lab { padding: 0; border: 0; background: none; }
+#app .learning-v2[data-scene='s4a'] .light-lab .light-lab-art { height: auto; max-height: 204px; aspect-ratio: 360 / 218; }
+#app .learning-v2 .light-predictions { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+#app .learning-v2 .light-predictions .btn { grid-area: auto; min-width: 0; padding: 5px; font-size: var(--classroom-button); }
+#app .learning-v2 .light-shield.is-parked rect:last-of-type { animation: none; }
+#app .learning-v2 .light-shield.is-next { outline: none; }
+#app .learning-v2 .light-shield.is-next rect:last-of-type { stroke: var(--ui-gold-1); stroke-width: 4; filter: drop-shadow(0 0 6px #f7d17b); }
+#app .learning-v2[data-scene='s4b'] .classification-exhibit { background: none; border: 0; }
+#app .learning-v2[data-scene='s4b'] .claim-target { max-width: 180px; }
+
+#app .learning-v2[data-scene='s5a'] .activity-layout.single-stage {
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+}
+#app .learning-v2[data-scene='s5a'] #star-observation { padding: 0; font-size: inherit; line-height: inherit; }
+#app .learning-v2[data-scene^='s5'] #star-view {
+  border: 0;
+  background: radial-gradient(ellipse at center, #07182ac4 0%, #07182a8c 48%, transparent 86%);
+}
+#app .learning-v2[data-scene='s5a'] .experiment-zone > .flow-progress { align-self: center; text-shadow: 0 1px 4px #020817; }
+
+@container (max-height: 580px) {
+  #app .learning-v2 .activity-heading h1 { font-size: var(--classroom-body); }
+  #app .learning-v2 .toolbox { gap: 6px; padding: 8px; }
+  #app .learning-v2 .case-tabs { margin-bottom: 2px; }
+  #app .learning-v2[data-scene='s3a'] .model-note { margin-top: 2px; }
+  #app .learning-v2[data-scene='s3a'] .toolbox .feature-choices .choice-card { min-height: 44px; padding-block: 4px; }
+  #app .learning-v2[data-scene='s4a'] .light-lab .light-lab-art { max-height: 154px; }
+}
+
+@container (max-width: 520px) {
+  #app .learning-v2[data-layout='portrait'] .activity-heading { padding-top: 56px; }
+  #app .learning-v2[data-layout='portrait'] .activity-heading h1 { font-size: var(--classroom-body); }
+  #app .learning-v2 .lesson-help { gap: 4px; }
+  #app .learning-v2 .lesson-help .btn { padding-inline: 6px; }
+  #app .learning-v2 .activity-action .btn { padding-inline: 6px; }
+  #app .learning-v2 .case-tab { padding-inline: 6px; }
+  #app .learning-v2:is([data-scene='s1b'], [data-scene='s2b'], [data-scene='s3a'], [data-scene='s4a'], [data-scene='s4b'], [data-scene='s5b']) .activity-layout { grid-template-rows: minmax(0, 1fr) auto; }
+  #app .learning-v2[data-scene='s1b'] .toolbox { display: flex; padding: 8px; gap: 4px; }
+  #app .learning-v2[data-scene='s1b'] .comparison-grid { width: min(100%, 160px); align-self: center; }
+  #app .learning-v2[data-scene='s1b'] .lunar-detail { position: relative; }
+  #app .learning-v2[data-scene='s1b'] .lunar-detail-label { position: absolute; left: 3px; top: 3px; z-index: 1; }
+  #app .learning-v2[data-scene='s1b'] .surface-crop { width: min(100%, 46px); }
+  #app .learning-v2[data-scene='s2b'] .toolbox { display: flex; }
+  #app .learning-v2[data-scene='s3a'] .toolbox { display: flex; }
+  #app .learning-v2[data-scene='s3a'] .toolbox .feature-choices .choice-card { min-height: 44px; padding-block: 4px; }
+  #app .learning-v2[data-scene='s4a'] .light-lab { display: block; }
+  #app .learning-v2[data-scene='s4a'] .light-lab .light-lab-art { max-height: 174px; }
+  #app .learning-v2[data-layout='portrait'][data-scene='s4a'] .sky-bodies.all-bodies {
+    grid-template: repeat(4, minmax(44px, 1fr)) / repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    align-content: stretch;
+  }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body { flex-direction: row; justify-content: flex-start; padding: 3px 7px; }
+  #app .learning-v2[data-scene='s4a'] .all-bodies .sky-body > :first-child { width: min(36px, 40%); flex: none; }
+  #app .learning-v2[data-scene='s4b'] .reason-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

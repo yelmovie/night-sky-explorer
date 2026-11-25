@@ -285,7 +285,7 @@ try {
           if (['settings', 'teacher', 'reset'].includes(item.variant)) await click('settings');
           if (item.variant === 'teacher') await page.getByText('교사용 가이드', { exact: true }).click();
           if (item.variant === 'reset') await click('reset');
-          if (item.variant === 'intro') await click('start');
+          if (item.variant === 'intro') await click('new-start');
           if (['kit', 'report', 'hint', 'bonus-cloudy', 'bonus-planet'].includes(item.variant)) await click(item.variant);
           if (item.variant === 'repair') await page.locator('.map-repair > summary').click();
           if (item.variant === 'repair-complete') {

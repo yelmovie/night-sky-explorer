@@ -33,6 +33,8 @@ function fixture({ scene, draft }) {
     if (scene.endsWith('b')) {
       const preserve = { 1: ['moon', 'photos'], 2: ['phases', 'captures'], 3: ['planets', 'records'], 4: ['classification', 'viewed'], 5: ['pattern', 'observed'] }[scene[1]];
       state.drafts[preserve[0]][preserve[1]] = observed[preserve[0]][preserve[1]];
+      if (scene === 's4b') state.drafts.classification.lightTrial = observed.classification.lightTrial;
+      if (scene === 's5b') state.drafts.pattern.polaris = { pointers: ['Merak', 'Dubhe'], found: true };
     }
   }
   Object.assign(state, { scene, resume: scene, started: true, intro: true });
@@ -54,8 +56,8 @@ async function settleMedia() {
 function inspectStage() {
   const stage = document.querySelector('.learning-v2'), issues = [], keys = new Set();
   if (!stage) return { issues: [{ type: 'missing-stage' }] };
-  const concept = stage.querySelector('.lesson-concept');
-  if (!concept || !concept.checkVisibility()) issues.push({ type: 'missing-visible-science-concept' });
+  const labelText = stage.querySelector('.lesson-concept');
+  if (!labelText || !labelText.checkVisibility()) issues.push({ type: 'missing-activity-label' });
   const label = el => el?.getAttribute?.('aria-label') || el?.id || el?.textContent?.trim().replace(/\s+/g, ' ').slice(0, 70) || el?.tagName;
   const add = (type, el, detail = '') => {
     const item = { type, element: label(el), detail }, key = JSON.stringify(item);

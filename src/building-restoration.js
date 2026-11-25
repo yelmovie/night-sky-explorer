@@ -6,7 +6,6 @@ const facades = [[1, [[100,242],[101,199],[108,178],[130,166],[144,160],[174,150
   [5, [[619,347],[624,303],[637,289],[628,278],[642,267],[660,259],[676,269],[684,287],[688,317],[678,343],[661,355],[633,358]], [[632,323,7,15],[647,329,7,12],[672,319,7,13]], [654,285,'beam']],
   [0, [[329,239],[340,167],[363,155],[389,128],[405,109],[428,99],[451,102],[472,116],[485,144],[519,160],[538,184],[537,219],[512,250],[457,268],[382,258]], [[411,195,8,20],[426,192,8,21],[449,193,8,20],[494,208,9,19],[515,199,8,17]], [441,132,'core']]];
 const meeting = [438,222,false];
-const night = true;
 const clamp01 = value => Math.min(1, Math.max(0, value));
 
 function line(ctx, points, color, width) {
@@ -70,14 +69,13 @@ export function buildingReveal(reduced, ids=[]) {
 export function paintRestoredBuildings(ctx,{width,height,completed,progress=()=>1}) {
   const count=facades.reduce((n,[id])=>n+(completed(id)?progress(id):0),0);
   ctx.save();ctx.scale(width/850,height/478);
-  if(count<facades.length){ctx.fillStyle=`rgba(14,36,49,${(night ? .19 : .105)*(1-count/facades.length)})`;ctx.fillRect(0,0,850,478);}
   let active=0;
   for(const [id,shape,lights,[x,y,kind]] of facades){
     const on=completed(id),amount=on?progress(id):0;
     ctx.save();ctx.beginPath();shape.forEach(([px,py],i)=>i?ctx.lineTo(px,py):ctx.moveTo(px,py));ctx.closePath();ctx.clip();
     const shade=ctx.createLinearGradient(x,y-64,x,y+70);
-    shade.addColorStop(0,`rgba(21,44,56,${(night ? .55 : .49)*(1-amount)})`);
-    shade.addColorStop(1,`rgba(27,43,48,${(night ? .73 : .62)*(1-amount)})`);
+    shade.addColorStop(0,`rgba(21,44,56,${.26*(1-amount)})`);
+    shade.addColorStop(1,`rgba(27,43,48,${.38*(1-amount)})`);
     ctx.fillStyle=shade;ctx.fillRect(0,0,850,478);
     if(amount>0){
       ctx.globalAlpha=amount;

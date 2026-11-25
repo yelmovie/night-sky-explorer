@@ -151,21 +151,6 @@ html:has(.learning-v2), body:has(.learning-v2) { height: 100%; overflow: hidden;
   .learning-v2 .activity-heading h1 { font-size: 20px; }
   .learning-v2 .experiment-zone, .learning-v2 .toolbox { padding: 10px; }
 }
-/* The final mission keeps its existing accessible panel layout. */
-.core-v3.core-final { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 20px; min-height: 600px; padding: 22px 24px 24px; }
-.core-v3.core-final .activity-heading { position: relative; inset: auto; transform: none; width: min(calc(100% - 290px), 1120px); margin: 0 auto; }
-.core-v3.core-final .core-board { position: relative; inset: auto; width: 100%; height: 100%; min-height: 0; margin: 0 auto; align-self: stretch; }
-.core-v3.core-final .core-board > section, .core-v3.core-final .calibration-panel { height: 100%; min-height: 0; max-height: 100%; overflow: auto; }
-.core-v3.core-final .calibration-panel { justify-content: flex-start; }
-.core-v3.core-final .record-chip > svg { width: 26px; height: 26px; flex-shrink: 0; }
-.core-v3.core-final .record-chip > span, .core-v3.core-final .socket > span { overflow-wrap: anywhere; }
-@media (max-height: 520px), (max-width: 700px), (max-width: 900px) and (orientation: portrait) {
-  .core-v3.core-final { height: auto; min-height: 100dvh; overflow: visible; padding: 88px 16px 24px; }
-  .core-v3.core-final .activity-heading { width: 100%; }
-  .core-v3.core-final .core-board { grid-template-columns: 1fr; }
-  .core-v3.core-final .core-board, .core-v3.core-final .core-board > section, .core-v3.core-final .calibration-panel { height: auto; max-height: none; overflow: visible; }
-  #app:has(.core-v3.core-final) .floating-controls { position: absolute; }
-}
 /* Short landscape screens (1024x600): the 18px floor can make the sentence panels taller than the room left,
    so those panels scroll instead of hiding their last line. */
 @media (max-height: 700px) {

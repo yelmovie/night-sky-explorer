@@ -71,21 +71,21 @@ test('문 순서를 섞어도 문 구성과 정답은 같다', () => {
   });
 });
 
-test('다른 문은 열리지 않고 힌트는 밝은 쪽, 크기 순서로 구체적이 된다', () => {
+test('다른 문은 열리지 않고 여러 번 틀려도 정답 표시 없이 관찰 단서를 준다', () => {
   const gates = pathGates();
   const pick = (gate, kind) => gate.doors.findIndex(door => door.kind === kind);
-  assert.deepEqual(judgeDoor(gates[1], pick(gates[1], 'answer'), 0), { ok: true, reason: '', hint: '', reveal: false });
+  assert.deepEqual(judgeDoor(gates[1], pick(gates[1], 'answer'), 0), { ok: true, reason: '', hint: '' });
   const side1 = judgeDoor(gates[1], pick(gates[1], 'mirror'), 0);
   assert.equal(side1.ok, false); assert.equal(side1.reason, 'side'); assert.match(side1.hint, /어느 쪽/); assert.doesNotMatch(side1.hint, /오른쪽|왼쪽/);
   const side2 = judgeDoor(gates[1], pick(gates[1], 'mirror'), 1);
-  assert.match(side2.hint, /7일째 달은 오른쪽이 밝/);
+  assert.match(side2.hint, /보름 전후/);
   const size1 = judgeDoor(gates[2], pick(gates[2], 'size'), 0);
   assert.equal(size1.reason, 'size'); assert.match(size1.hint, /7일째보다/); assert.doesNotMatch(size1.hint, /커요|작아요/);
-  assert.match(judgeDoor(gates[2], pick(gates[2], 'size'), 1).hint, /10일째 달은 7일째보다 밝은 부분이 커요/);
-  assert.match(judgeDoor(gates[5], pick(gates[5], 'size'), 1).hint, /25일째 달은 21일째보다 밝은 부분이 작아요/);
-  assert.match(judgeDoor(gates[4], pick(gates[4], 'mirror'), 1).hint, /21일째 달은 왼쪽이 밝/);
+  assert.match(judgeDoor(gates[2], pick(gates[2], 'size'), 1).hint, /밝은 부분만 비교/);
   const third = judgeDoor(gates[4], pick(gates[4], 'mirror'), pathHelpAfter - 1);
-  assert.equal(third.ok, false); assert.equal(third.reveal, true);
+  assert.equal(third.ok, false);
+  assert.equal('reveal' in third, false);
+  assert.doesNotMatch(third.hint, /오른쪽|왼쪽|정답/);
   assert.equal(judgeDoor(gates[4], 9, 0).ok, false);
 });
 

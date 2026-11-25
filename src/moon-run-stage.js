@@ -146,7 +146,7 @@ class Runner {
 
 /**
  * host: element that receives the canvas. labels: element laid over it for the door moons.
- * onDoor(gateIndex, doorIndex) -> { ok, reveal, answer } is the only place a result is decided.
+ * onDoor(gateIndex, doorIndex) -> { ok } is the only place a result is decided.
  */
 export async function createMoonRun({ host, labels, gates, reduced = false, read, onDoor, onNear = () => {}, onFall = () => {}, onArrive = () => {}, onLost = () => {}, onCue = () => {} }) {
   let renderer;
@@ -236,10 +236,8 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
       const center = new THREE.Vector3(x, top + WALL_HEIGHT + 1.35, z + WALL + 0.12);
       const ring = new THREE.Mesh(new THREE.CircleGeometry(MOON_SIZE / 2 + 0.16, 40), gold), back = new THREE.Mesh(new THREE.CircleGeometry(MOON_SIZE / 2 + 0.06, 40), plaqueBack);
       ring.position.copy(center); back.position.copy(center).z += 0.01;
-      const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.22, 14, 10), lampLight);
-      lamp.position.set(x, top + WALL_HEIGHT + 2.55, z + WALL + 0.12); lamp.visible = false;
-      plaques.add(ring, back, box(0.14, 0.55, 0.14, trim, x, top + WALL_HEIGHT + 0.7, z + WALL), lamp);
-      return { x, panel, lamp, open: false, slide: 0, shake: 0, wait: 0, item: label(index, moonSVG(door.amount, door.side), 'moon-run-moon', center, MOON_SIZE, MOON_PX) };
+      plaques.add(ring, back, box(0.14, 0.55, 0.14, trim, x, top + WALL_HEIGHT + 0.7, z + WALL));
+      return { x, panel, open: false, slide: 0, shake: 0, wait: 0, item: label(index, moonSVG(door.amount, door.side), 'moon-run-moon', center, MOON_SIZE, MOON_PX) };
     });
     // The date stands on a tall signpost at each end of the wall, off the path, level with the moons.
     // Like the moons, it shows only on the gate Lumi is facing, so a later date never stands beside this one.
@@ -357,14 +355,12 @@ export async function createMoonRun({ host, labels, gates, reduced = false, read
     const result = onDoor(gate.index, doorIndex);
     if (result.ok) {
       door.open = true; door.item.el.classList.add('is-open'); current = gate.index + 1;
-      for (const other of gate.doors) { other.lamp.visible = false; other.item.el.classList.remove('is-lit'); }
       if (reduced) door.panel.visible = false;
       runner.hop();
       return;
     }
     runner.flinch(); door.shake = 0.45;
     door.item.el.classList.remove('is-wrong'); void door.item.el.offsetWidth; door.item.el.classList.add('is-wrong');
-    if (result.reveal && gate.doors[result.answer]) { gate.doors[result.answer].lamp.visible = true; gate.doors[result.answer].item.el.classList.add('is-lit'); }
   }
   const view = new THREE.Vector3();
   function placeLabels() {

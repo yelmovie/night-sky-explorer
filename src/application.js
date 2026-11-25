@@ -22,7 +22,7 @@ import { concepts, mountConcept } from './concepts.js';
 import { nextTask, hints } from './companion.js';
 import { getStageAction } from './progression.js';
 import { appInfo, standards, learningObjectives, studentGuide, teacherGuide, sources, challenges } from './settingsContent.js';
-import { missionTag, evidenceTag, restorePercent, npc, npcLine, npcConversation, kitMeter, inquiryStyle, evidenceFact, evidenceVisual, introPanel, movieMarkup, mountMovie } from './quest.js';
+import { evidenceTag, npc, npcLine, npcConversation, kitMeter, inquiryStyle, evidenceFact, evidenceVisual, introPanel, movieMarkup, mountMovie } from './quest.js';
 import { mountNpcDialogue } from './npc-dialogue.js';
 import { films, filmMarkup, mountFilm } from './films.js';
 import { bonusQuests, openBonus } from './bonus.js';
@@ -80,11 +80,20 @@ const on = (element, type, handler) => element?.addEventListener(type, handler, 
 const reduced = () => state.settings.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches;
 function persist() { if (studentSnapshot) return; if (!session.save(state)) { notify(session.warning); showSaveWarning(); } }
 function showSaveWarning() { if (!session.warning || document.querySelector('#save-warning')) return; const note = document.createElement('aside'); note.id = 'save-warning'; note.setAttribute('role', 'alert'); note.innerHTML = `<span>${esc(session.warning)}</span><button class="btn" type="button">기록 파일 저장</button>`; note.querySelector('button').onclick = () => action('export'); document.body.append(note); }
-function notify(message) { const toast = document.querySelector('#toast'); toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 3800); }
+function dismissNotice() { clearTimeout(toastTimer); document.querySelector('#toast').classList.remove('show'); }
+function notify(message) { const toast = document.querySelector('#toast'); toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(dismissNotice, 3800); }
 // 설정 창에서 스위치를 바꾸면 화면을 다시 그리지 않고 헤더 소리 버튼의 그림·이름만 맞춘다.
 function syncSoundButton() { const toggle = app.querySelector('.floating-controls [data-action="sound"]'); if (!toggle) return; const audible = anyAudible(); toggle.innerHTML = icon(audible ? 'sound' : 'mute'); toggle.setAttribute('aria-label', audible ? '소리 끄기' : '소리 켜기'); toggle.setAttribute('aria-pressed', String(!audible)); }
-function controls() { return `<header class="floating-controls"><nav aria-label="화면 이동">${button(icon('home'), 'home', 'icon-button', 'aria-label="홈"')}${button(icon('back'), 'back', 'icon-button', 'aria-label="이전"')}</nav><nav aria-label="연구 키트와 설정">${state.scene === 'map' ? button(icon('book'), 'kit', 'icon-button', 'aria-label="연구 키트 열기" title="연구 키트 열기"') : ''}${state.scene === 'map' && mapScreen ? mapScreen.rewardSlotsHtml(state.mapHits) : ''}${button(icon(anyAudible() ? 'sound' : 'mute'), 'sound', 'icon-button', `aria-label="${anyAudible() ? '소리 끄기' : '소리 켜기'}" aria-pressed="${!anyAudible()}"`)}${button(icon('settings'), 'settings', 'icon-button', 'aria-label="설정"')}</nav></header>${state.settings.adminUnlock ? '<div class="preview-ribbon">교사 시연 · 자동저장 안 함 · 설정에서 시연 종료</div>' : ''}`; }
-function home() { return `<main class="experience home-v2 home-title"><div class="room-bg home-background"></div><section class="hero"><h1 class="hero-title-art" id="screen-title" tabindex="-1"><img class="hero-logo" src="/assets/logo.webp" alt="별빛 관측 연구소" width="1200" height="400"/></h1><div class="home-cta">${button(state.started ? '새로 시작' : '시작하기', 'new-start', 'primary')}${button('이어 하기', 'home-continue', 'secondary', state.started ? '' : 'disabled')}</div></section><img class="home-character" src="/assets/home-fox.webp" alt="별여우 연구관"/><p class="home-credit">${appInfo.credit}</p></main>`; }
+function controls() {
+  const nav = state.scene === 'home' ? '' : `<nav aria-label="화면 이동">${button(icon('home'), 'home', 'icon-button', 'aria-label="홈"')}${button(icon('back'), 'back', 'icon-button', 'aria-label="이전"')}</nav>`;
+  return `<header class="floating-controls">${nav}<nav class="right" aria-label="연구 키트와 설정">${state.scene === 'map' ? button(icon('book'), 'kit', 'icon-button', 'aria-label="연구 키트 열기" title="연구 키트 열기"') : ''}${state.scene === 'map' && mapScreen ? mapScreen.rewardSlotsHtml(state.mapHits) : ''}${button(icon(anyAudible() ? 'sound' : 'mute'), 'sound', 'icon-button', `aria-label="${anyAudible() ? '소리 끄기' : '소리 켜기'}" aria-pressed="${!anyAudible()}"`)}${button(icon('settings'), 'settings', 'icon-button', 'aria-label="설정"')}</nav></header>${state.settings.adminUnlock ? '<div class="preview-ribbon">교사 시연 · 자동저장 안 함 · 설정에서 시연 종료</div>' : ''}`;
+}
+function home() {
+  const start = state.started
+    ? button(`이어 하기 ${icon('arrow')}`, 'home-continue', 'primary') + button('새로 시작', 'new-start', 'ghost')
+    : button(`시작하기 ${icon('arrow')}`, 'new-start', 'primary');
+  return `<main class="experience home-v2 home-title"><div class="room-bg home-background"></div><section class="hero"><h1 class="hero-title-art" id="screen-title" tabindex="-1"><img class="hero-logo" src="/assets/logo.webp" alt="별빛 관측 연구소" width="1200" height="400"/></h1><div class="home-cta">${start}</div></section><p class="home-credit">${appInfo.credit}</p></main>`;
+}
 function recordMarkup(number, data) {
   if (!data) return '<p>관측을 마치면 이곳에 기록이 남아요.</p>';
   if (number === 1) return `<div class="record-strip">${(data.photos || [data.photo]).filter(Boolean).map(photo => `<div>${moonSVG()}<small>${photo.zoom}배 관측</small></div>`).join('')}</div>${(data.comparisons || [data]).map((card, index) => `<p><b>비교 ${index + 1}</b> · ${esc(card.observation)}</p>`).join('')}`;
@@ -99,36 +108,54 @@ const activeCore = () => completedCount(state) < 5 ? previewCore : state.core;
 const coreConnected = core => chapters.filter(chapter => core.connections[chapter.id] === chapter.id).length;
 const coreAligned = core => Math.abs(core.angle - CORE_TARGET) <= 10;
 function calibrationStatus(core) {
-  if (core.restored) return '보정 완료 · 연구소가 정상으로 돌아왔어요.';
-  if (coreConnected(core) < 5) return `다섯 채널을 모두 연결하면 보정 링이 풀려요. (${coreConnected(core)}/5)`;
-  return coreAligned(core) ? '정렬 완료! 데이터 흐름이 하나로 맞춰졌어요.' : '링을 끌거나 아래 버튼·방향키로 돌려 바늘을 금빛 기준에 맞춰요.';
+  return coreAligned(core) ? '정렬 완료' : '바늘을 금빛 눈금에 맞춰요.';
 }
 function replayMarkup() {
-  if (!lastReplay) return '<p class="replay-empty">기록을 채널에 연결하면 그 기록의 핵심 장면이 여기서 재생돼요.</p>';
   const chapter = chapters[lastReplay - 1], data = state.evidence[lastReplay]?.data;
-  return `<figure class="replay-card">${evidenceVisual(lastReplay, data)}<figcaption><small>${evidenceTag(lastReplay)} · 핵심 장면</small><b>${chapter.record}</b><span>${evidenceFact(lastReplay, data) || '시연 기록'}</span><em>${chapter.system} 연결 완료</em></figcaption></figure>`;
+  return `<figure class="replay-card">${evidenceVisual(lastReplay, data)}<figcaption><b>${chapter.record}</b><span>${evidenceFact(lastReplay, data) || '시연 기록'}</span></figcaption></figure>`;
 }
-function coreView() {
-  const preview = completedCount(state) < 5, core = activeCore(), connected = coreConnected(core), locked = connected < 5 || core.restored, ready = connected === 5 && coreAligned(core);
+function coreConnectionBoard(core, preview) {
   const chips = [3, 1, 5, 2, 4].map(number => {
     const used = core.connections[number] === number;
-    return button(`${recordBadge(number, 40)} <span><small>${evidenceTag(number)}</small>${chapters[number - 1].record}</span>${used ? icon('check', 18) : ''}`, 'record-' + number, `record-chip ${selectedRecord === number ? 'selected' : ''} ${used ? 'used' : ''}`, `aria-pressed="${selectedRecord === number}" ${core.restored || used ? 'disabled' : ''}`);
+    return button(`${recordBadge(number, 40)}<span>${chapters[number - 1].record}</span>`, 'record-' + number, `record-chip ${selectedRecord === number ? 'selected' : ''} ${used ? 'used' : ''}`, `aria-pressed="${selectedRecord === number}" ${used ? 'disabled' : ''}`);
   }).join('');
   const sockets = chapters.map(chapter => {
     const value = core.connections[chapter.id], ok = value === chapter.id;
-    return button(`${recordBadge(chapter.id, 40)}<span><b>${chapter.system}</b><small>${ok ? chapter.record : value ? '다른 기록이 연결됐어요 · 다시 골라요' : '기록 대기 중'}</small></span>${ok ? icon('check', 22) : ''}`, 'socket-' + chapter.id, `socket ${ok ? 'connected' : value ? 'needs-review' : ''} ${lastReplay === chapter.id ? 'just-connected' : ''}`, core.restored ? 'disabled' : '');
+    return button(`<span class="socket-indicator" aria-hidden="true">${ok ? icon('check', 22) : ''}</span><b>${chapter.system}</b>`, 'socket-' + chapter.id, `socket ${ok ? 'connected' : value ? 'needs-review' : ''} ${lastReplay === chapter.id ? 'just-connected' : ''}`, ok ? `aria-label="${chapter.system} 연결 완료" disabled` : '');
   }).join('');
-  return `<main class="experience core-v3 core-final"><div class="room-bg"></div><div class="activity-heading"><p>마지막 탐구 · 중앙 관측 코어 재가동${preview ? ' · 교사 시연' : ''}</p><h1 id="screen-title" tabindex="-1">${core.restored ? '중앙 관측 코어가 다시 깨어났어요.' : connected === 5 ? '보정 링을 돌려 데이터 흐름을 맞춰요.' : '연구 키트의 기록을 알맞은 채널에 연결해요.'}</h1></div><div class="core-board"><section class="record-bank"><h2>연구 키트</h2>${chips}<p class="bank-note sr-only">기록을 고른 뒤 가운데 채널을 눌러요.</p>${preview ? '' : button(`${icon('book')} 최종 보고서 다시 보기`, 'report', 'ghost')}</section><section class="core-sockets-v3"><div class="core-meter"><span>중앙 코어 연결</span><b>${connected * 20}%</b><div class="meter" role="progressbar" aria-label="중앙 코어 연결" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${connected * 20}"><i style="width:${connected * 20}%"></i></div></div>${sockets}<div id="core-replay" class="core-replay" aria-live="polite">${replayMarkup()}</div></section><aside class="toolbox calibration-panel"><h2>마지막 보정 링</h2><div class="calibration ${locked && !core.restored ? 'is-locked' : ''} ${ready || core.restored ? 'is-aligned' : ''}" id="calibration" role="slider" tabindex="${locked ? -1 : 0}" aria-label="보정 링: 돌려서 바늘을 아래 기준에 맞춰요" aria-valuemin="0" aria-valuemax="360" aria-valuenow="${core.angle}" aria-disabled="${locked}"><img class="calibration-art" src="${conceptArt.coreDial.src}" alt="" aria-hidden="true"/><div id="calibration-pointer" style="transform:rotate(${core.angle}deg)"></div><span class="calibration-target"></span>${locked && !core.restored ? `<span class="calibration-lock">${icon('lock', 28)}</span>` : ''}</div><div class="calibration-step-controls" role="group" aria-label="한 번 눌러 보정 링 돌리기"><button type="button" class="btn secondary" data-core-step="-5" ${locked ? 'disabled' : ''}>왼쪽 5°</button><button type="button" class="btn secondary" data-core-step="5" ${locked ? 'disabled' : ''}>오른쪽 5°</button></div><div class="sr-only sr-only-focusable">${range('보정 링', 'core-angle', 0, 360, core.angle, 5, '°')}</div><p id="calibration-status" role="status">${calibrationStatus(core)}</p>${core.restored ? button('엔딩 영상 다시 보기', 'movie') + button('내 인증서 보기', 'results', 'primary') : button(preview ? '복구 장면 시연' : '중앙 코어 재가동', 'restore', 'primary', `id="restore-core" ${ready ? '' : 'disabled'}`)}${preview ? '<p class="bank-note">시연은 학생의 완료 기록을 만들지 않아요.</p>' : ''}</aside></div></main>`;
+  return `<div class="core-board" data-pick="${selectedRecord ? 'channel' : 'record'}">
+    <section class="record-bank"><h2>관측 기록</h2>${chips}</section>
+    <section class="core-sockets-v3"><h2>연결 채널</h2>${sockets}</section>
+    <div class="core-board-footer">${lastReplay ? `<div id="core-replay" class="core-replay" aria-live="polite">${replayMarkup()}</div>` : ''}${preview ? '' : button(`${icon('book')} 관측 보고서`, 'report', 'ghost')}</div>
+  </div>`;
+}
+function coreCalibration(core, preview) {
+  return `<section class="toolbox calibration-panel" aria-label="보정 링">
+    <div class="calibration ${coreAligned(core) ? 'is-aligned' : ''}" id="calibration" role="slider" tabindex="0" aria-label="보정 링" aria-describedby="calibration-status" aria-valuemin="0" aria-valuemax="360" aria-valuenow="${core.angle}"><img class="calibration-art" src="${conceptArt.coreDial.src}" alt=""/><div id="calibration-pointer" style="transform:rotate(${core.angle}deg)"></div><span class="calibration-target"></span></div>
+    <div class="calibration-step-controls" role="group" aria-label="보정 링 돌리기"><button type="button" class="btn secondary" data-core-step="-5">왼쪽 5°</button><button type="button" class="btn secondary" data-core-step="5">오른쪽 5°</button></div>
+    <div class="sr-only sr-only-focusable">${range('보정 링', 'core-angle', 0, 360, core.angle, 5, '°')}</div>
+    <p id="calibration-status" role="status">${calibrationStatus(core)}</p>
+    ${button(preview ? '복구 장면 시연' : '중앙 코어 재가동', 'restore', 'primary', `id="restore-core" ${coreAligned(core) ? '' : 'disabled'}`)}
+  </section>`;
+}
+function coreView() {
+  const preview = completedCount(state) < 5, core = activeCore(), connected = coreConnected(core);
+  const title = core.restored ? '중앙 코어가 깨어났어요' : connected === 5 ? '보정 링을 돌려요' : selectedRecord ? '이 기록을 연결할 채널을 골라요' : '관측 기록을 하나 골라요';
+  const content = core.restored ? `<div class="core-finished">${button('내 인증서 보기', 'results', 'primary')}${button('엔딩 영상 다시 보기', 'movie', 'ghost')}</div>` : connected === 5 ? coreCalibration(core, preview) : coreConnectionBoard(core, preview);
+  return `<main class="experience core-v3 core-final"><div class="room-bg"></div><div class="activity-heading"><p>중앙 관측 코어 · ${connected}/5 연결</p><h1 id="screen-title" tabindex="-1">${title}</h1></div>${content}</main>`;
 }
 function recordCards() {
-  return chapters.map(chapter => `<article class="report-card ${state.evidence[chapter.id] ? 'is-done' : ''}"><p class="report-tag">${evidenceTag(chapter.id)} · ${state.evidence[chapter.id] ? '확인 완료' : '기록 전'}</p><h2>${chapter.record}</h2>${recordMarkup(chapter.id, state.evidence[chapter.id]?.data)}${state.evidence[chapter.id] ? button('개념영상 다시 보기', 'concept-' + chapter.id) : ''}</article>`).join('');
+  return chapters.map(chapter => {
+    const record = state.evidence[chapter.id];
+    return `<details class="report-card ${record ? 'is-done' : ''}"><summary>${recordBadge(chapter.id, 40)}<b>${chapter.record}</b>${record ? '' : '<small>기록 전</small>'}</summary><div class="report-record">${recordMarkup(chapter.id, record?.data)}${record ? button('개념영상 다시 보기', 'concept-' + chapter.id) : ''}</div></details>`;
+  }).join('');
 }
 function resultsView() {
   const actual = state.core.restored && completedCount(state) === 5;
   if (!actual) return `<main class="report-page"><h1 id="screen-title" tabindex="-1">쌓여 가는 나의 연구 기록</h1>${kitMeter(state)}<div class="report-grid">${recordCards()}</div><div class="report-actions">${button('기록 파일 저장', 'export')}${button('탐구 지도로', 'map', 'primary')}</div></main>`;
   const style = inquiryStyle(state.stats), date = new Date(state.evidence[5].date).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' });
   const blank=(field,label)=>`<span class="cert-field"><span class="cert-blank" data-cert-blank="${field}" aria-label="${label} 적는 빈칸"></span><span>${label}</span></span>`;
-  return `<main class="report-page results-v2"><header class="results-head"><p>탐구 완료 · 관측 시스템 복구</p><h1 id="screen-title" tabindex="-1">너의 관측이 연구소를 밝혔어요.</h1></header><div class="results-layout"><section class="certificate cert-v2 has-art cert-paper" id="starlight-certificate" aria-label="별빛 관측 연구원 인증서"><img class="cert-background" src="/assets/ui/cert-frame.webp" alt=""><div class="cert-frame cert-content"><p class="cert-kicker">과학 세상 · 별빛 관측 연구소</p><h2 class="cert-title">별빛 관측 연구원 인증서</h2><div class="cert-fields"><div class="cert-school-row">${blank('school','학교')}${blank('grade','학년')}${blank('class','반')}${blank('number','번')}</div><div class="cert-name-row"><span>이름</span><span class="cert-blank" data-cert-blank="name" aria-label="이름 적는 빈칸"></span></div></div><p class="cert-text">위 연구원은 「별빛 관측 연구소」에서 발생한 관측 데이터 오류를 <b>달 관찰 → 변화 기록 → 행성 조사 → 증거 판별 → 별자리 관찰</b>의 과정을 통해 해결하고, 연구 결과를 성공적으로 검증하였으므로<br>이 인증서를 수여함.</p><dl class="cert-stats"><div><dt>탐구 스타일</dt><dd>${style.name}</dd></div></dl><p class="cert-style">${style.text}</p><footer><span class="cert-date">${date}</span><span class="cert-stamp"></span><span class="cert-giver">별빛 관측 연구소</span><small class="cert-credit">${appInfo.credit}</small></footer></div></section><aside class="results-side"><p class="privacy-note">인쇄한 뒤 학교·반·번호·이름을 직접 적어요.</p><div class="results-actions">${button(`${icon('download')} 인증서 인쇄 / PDF 저장`, 'print', 'primary')}${button('PNG 저장','certificate-png','primary')}${button(`${icon('book')} 내 관측 기록 보기`, 'records')}${button('엔딩 영상 다시 보기', 'movie')}${button(`${icon('map')} 다시 관측하기`, 'map')}</div><section class="bonus-list"><h2>추가 탐구 <small>선택 도전</small></h2>${Object.entries(bonusQuests).map(([id, quest]) => `<button class="bonus-card ${state.bonus[id] === 'done' ? 'is-done' : ''}" data-action="bonus-${id}"><b>${quest.title}</b><span>${quest.text}</span><small>${state.bonus[id] === 'done' ? `${icon('check', 16)} ${quest.reward} 획득` : `보상 · ${quest.reward}`}</small></button>`).join('')}</section></aside></div><section id="my-records" class="records-section" tabindex="-1"><h2>내 관측 기록 다섯 가지</h2><div class="report-grid">${recordCards()}</div></section><div class="report-actions">${button('기록 파일 저장', 'export')}</div></main>`;
+  return `<main class="report-page results-v2"><header class="results-head"><h1 id="screen-title" tabindex="-1">너의 관측이 연구소를 밝혔어요</h1></header><div class="results-layout"><section class="certificate cert-v2 has-art cert-paper" id="starlight-certificate" aria-label="별빛 관측 연구원 인증서"><img class="cert-background" src="/assets/ui/cert-frame.webp" alt=""><div class="cert-frame cert-content"><p class="cert-kicker">과학 세상 · 별빛 관측 연구소</p><h2 class="cert-title">별빛 관측 연구원 인증서</h2><div class="cert-fields"><div class="cert-school-row">${blank('school','학교')}${blank('grade','학년')}${blank('class','반')}${blank('number','번')}</div><div class="cert-name-row"><span>이름</span><span class="cert-blank" data-cert-blank="name" aria-label="이름 적는 빈칸"></span></div></div><p class="cert-text">위 연구원은 「별빛 관측 연구소」에서 발생한 관측 데이터 오류를 <b>달 관찰 → 변화 기록 → 행성 조사 → 증거 판별 → 별자리 관찰</b>의 과정을 통해 해결하고, 연구 결과를 성공적으로 검증하였으므로<br>이 인증서를 수여함.</p><dl class="cert-stats"><div><dt>탐구 스타일</dt><dd>${style.name}</dd></div></dl><p class="cert-style">${style.text}</p><footer><span class="cert-date">${date}</span><span class="cert-stamp"></span><span class="cert-giver">별빛 관측 연구소</span><small class="cert-credit">${appInfo.credit}</small></footer></div></section><aside class="results-side" aria-label="인증서 저장과 추가 탐구"><div class="certificate-actions">${button(`${icon('download')} 인증서 이미지 저장`, 'certificate-png', 'primary')}${button('인쇄 / PDF 저장', 'print', 'secondary')}</div><p class="privacy-note">인쇄한 뒤 학교와 이름을 적어요.</p><div class="results-actions">${button(`${icon('book')} 내 관측 기록`, 'records')}${button(`${icon('map')} 탐구 지도`, 'map')}${button('엔딩 다시 보기', 'movie')}</div><section class="bonus-list"><h2>추가 탐구</h2>${Object.entries(bonusQuests).map(([id, quest]) => `<button type="button" class="bonus-card ${state.bonus[id] === 'done' ? 'is-done' : ''}" data-action="bonus-${id}">${icon(quest.icon)}<b>${quest.title}</b>${state.bonus[id] === 'done' ? `<span class="sr-only">${quest.reward} 획득</span>${icon('check')}` : icon('arrow')}</button>`).join('')}</section></aside></div><section id="my-records" class="records-section" tabindex="-1"><h2>내 관측 기록</h2><div class="report-grid">${recordCards()}</div></section><div class="report-actions">${button('기록 파일 저장', 'export')}</div></main>`;
 }
 function refresh() {
   const next = getStageAction(state, learningUI.round), nextButton = $('#stage-next');
@@ -167,10 +194,11 @@ function dialog(title, body, after, footer = '', back = null) {
   // One way out: when the footer already has a close button, the header X is the same action twice.
   // Full-screen views (concept film, moon run, ending movie) keep their X as the exit.
   const footerClose = element.querySelector('.dialog-footer [data-action="close-modal"]'), headerClose = element.querySelector('.dialog-heading [data-action="close-modal"]');
-  if (footerClose && headerClose && !element.matches('.concept-dialog,.moon-run-dialog,.movie-dialog')) {
+  const storyForward = element.querySelector('.story-panel') && element.querySelector('[data-action="story-done"]');
+  if ((footerClose || storyForward) && headerClose && !element.matches('.concept-dialog,.moon-run-dialog,.movie-dialog')) {
     const hadFocus = document.activeElement === headerClose;
     headerClose.remove();
-    if (hadFocus) footerClose.focus({ preventScroll: true });
+    if (hadFocus) (footerClose || element.querySelector('.dialog-footer .primary'))?.focus({ preventScroll: true });
   }
   // 엔딩·인트로 영상 창은 대사가 영상 안에 있으므로 「다시 듣기」를 붙이지 않는다(소리 겹침 방지).
   if (!element.matches('.movie-dialog,.film-dialog')) {
@@ -179,7 +207,7 @@ function dialog(title, body, after, footer = '', back = null) {
       element.classList.add('npc-scene-dialog');
       modalCleanup = mountNpcDialogue(element, narration, { reduced: reduced(), typewriter: element.classList.contains('story-dialog') });
     }
-    if (line) modalVoiceCleanup = mountNarrationControl(element.querySelector('.dialog-footer'), line.id, narration);
+    if (line) modalVoiceCleanup = mountNarrationControl(element.querySelector('.dialog-footer'), line.id, narration, { compact: element.classList.contains('npc-scene-dialog') });
   }
 }
 function showConcept(number, back = null, returnLabel = '탐구로 돌아가기') {
@@ -193,12 +221,12 @@ function kit() {
   track(state, 'reviews'); persist();
   const count = completedCount(state), bonus = Object.entries(bonusQuests).filter(([id]) => state.bonus[id] === 'done');
   const line = count === 5 ? (state.core.restored ? '연구소가 다시 밝아졌어! 네 기록은 언제든 여기서 다시 볼 수 있어.' : '다섯 기록이 모두 모였어! 중앙 관측 코어로 가져가자.') : '네가 만든 관측 기록을 여기에 보관하고 있어. 기록을 눌러 다시 볼 수 있어.';
-  dialog('연구 키트 · 관측 자료 모음', `${npcLine('rabbit', line, count === 5 ? 'cheer' : 'write')}${kitMeter(state)}<div class="kit-list">${chapters.map(chapter => { const done = !!state.evidence[chapter.id]; return `<details class="kit-item ${done ? 'is-done' : ''}"><summary><span class="kit-check">${recordBadge(chapter.id, 40)}</span><span class="kit-name"><small>${evidenceTag(chapter.id)} · ${missionTag(chapter.id)}</small>${chapter.record}</span><em>${done ? '확인 완료' : '기록 전'}</em></summary><div class="kit-record">${recordMarkup(chapter.id, state.evidence[chapter.id]?.data)}${done ? button('개념영상 보기', 'concept-' + chapter.id) : ''}</div></details>`; }).join('')}</div>${bonus.length ? `<p class="kit-bonus">${icon('spark', 18)} 보너스 보상 · ${bonus.map(([, quest]) => quest.reward).join(' · ')}</p>` : ''}`);
+  dialog('연구 키트', `${npcLine('rabbit', line, count === 5 ? 'cheer' : 'write')}${kitMeter(state)}<div class="kit-list">${chapters.map(chapter => { const done = !!state.evidence[chapter.id]; return `<details class="kit-item ${done ? 'is-done' : ''}"><summary><span class="kit-check">${recordBadge(chapter.id, 40)}</span><span class="kit-name">${chapter.record}</span><em>${done ? `<span class="sr-only">완료</span>${icon('check', 18)}` : '기록 전'}</em></summary><div class="kit-record">${recordMarkup(chapter.id, state.evidence[chapter.id]?.data)}${done ? button('개념영상 보기', 'concept-' + chapter.id) : ''}</div></details>`; }).join('')}</div>${bonus.length ? `<p class="kit-bonus">${icon('spark', 18)} 보너스 보상 · ${bonus.map(([, quest]) => quest.reward).join(' · ')}</p>` : ''}`);
 }
 const paragraphs = values => values.map(value => `<p>${esc(value)}</p>`).join('');
 function settings(openLibrary = false) {
   const unlocked=state.core.restored||state.settings.adminUnlock;
-  dialog('설정', `<div data-science-settings><div class="science-settings-body"><section class="science-settings-audio" aria-label="소리와 화면 설정"><label class="toggle-row"><b>배경 음악</b><input id="setting-bgm" type="checkbox" role="switch" ${state.settings.bgm ? 'checked' : ''}/></label><label class="settings-star-volume setting-row" for="setting-volume"><b>배경 음악 음량</b><input type="range" id="setting-volume" min="0" max="100" step="5" value="${state.settings.bgmVolume}"><output id="setting-volume-value" for="setting-volume">${state.settings.bgmVolume}%</output></label><label class="toggle-row"><b>효과음</b><input id="setting-sfx" type="checkbox" role="switch" ${state.settings.sfx ? 'checked' : ''}/></label><label class="settings-star-volume setting-row" for="setting-sfx-volume"><b>효과음 크기</b><input type="range" id="setting-sfx-volume" min="0" max="100" step="5" value="${state.settings.sfxVolume}"><output id="setting-sfx-volume-value" for="setting-sfx-volume">${state.settings.sfxVolume}%</output></label><label class="toggle-row"><b>목소리</b><input id="setting-voice" type="checkbox" role="switch" ${state.settings.voice ? 'checked' : ''}/></label><label class="toggle-row"><b>동작 줄이기</b><input id="setting-motion" type="checkbox" role="switch" ${state.settings.reducedMotion ? 'checked' : ''}/></label></section><section class="science-settings-actions" aria-label="바로 가기">${button('연구 키트 · 나의 관측 기록','kit','secondary')}${button('이 탐험을 하는 이유 다시 보기','story-replay','secondary')}${button('엔딩 다시 보기','movie','secondary',unlocked?'':'disabled aria-describedby="star-settings-end"')}${button('나의 탐구 결과 보기','results','secondary',state.core.restored?'':'disabled aria-describedby="star-settings-end"')}${unlocked?'':'<p id="star-settings-end">다섯 관측 기록을 모아 중앙 코어를 복구하면 볼 수 있어요.</p>'}</section><p class="film-replay">${button('프롤로그 영상 다시 보기', 'film-intro')}</p><details><summary>앱 정보 · 배움과 보상</summary><p>밤하늘을 직접 관찰하고, 예상과 근거를 비교해요.</p><p>다섯 기록을 모아 연구소를 복구하고 나의 탐구 인증서를 받아요. 지도에 나타나는 악당을 모두 물리치면 지도 피날레 영상도 열려요.</p><p>처음 예상·관측한 근거·수정한 생각이 연구 노트에 남아요.</p><p>별빛 관측 연구소 v${appInfo.version} · ${appInfo.credit}</p><details><summary>완료한 개념영상 모아 보기</summary><div class="concept-library">${chapters.map(chapter => `<button class="concept-card" data-action="library-${chapter.id}" ${state.evidence[chapter.id] ? '' : 'disabled'}><img src="/assets/concepts/stage-${chapter.id}.webp" alt=""/><span>${concepts[chapter.id].title}<small>${state.evidence[chapter.id] ? `${concepts[chapter.id].seconds}초 · 다시 보기` : '관측을 마치면 열려요'}</small></span></button>`).join('')}</div></details></details><details><summary>학생용 가이드</summary>${paragraphs(studentGuide)}</details><details><summary>교사용 가이드</summary>${paragraphs(teacherGuide)}<details><summary>성취기준</summary><p>2022 개정 교육과정과 연계한 탐구 보조 활동이에요. 이 게임만으로 성취기준 전체 달성을 판단하지 않으며, 수업·토론·후속 평가와 함께 활용해 주세요.</p>${standards.map(([code, text]) => `<p>${code} ${text}</p>`).join('')}</details><details><summary>장별 학습 근거와 오개념</summary><p>교사 현장 검수 전이에요. 기록의 존재와 설명의 과학적 타당성은 구분해 확인해 주세요.</p>${learningObjectives.map(item => `<section><h3>${item.chapter}장 · ${chapters[item.chapter-1].place}</h3><p>${item.standardCodes.join(', ')} · ${item.objective}</p><p><b>살펴볼 기록</b> · ${item.evidence}</p><p><b>함께 확인해요</b> · ${item.misconception}</p><p>${item.boundary}</p></section>`).join('')}</details><details><summary>교사용 도구</summary><p>모든 단계를 임시로 체험해요. 시연 중 조작은 자동저장하지 않고, 시연 종료·새로고침 시 원래 학생 기록으로 돌아가요.</p>${button(state.settings.adminUnlock ? '시연 종료 · 학생 기록으로 돌아가기' : '모든 단계 한 번에 열기', 'unlock', 'secondary', `aria-pressed="${state.settings.adminUnlock}"`)}</details></details><details><summary>이미지·소리·저작권 고지</summary><p>배경과 캐릭터는 제공·생성된 AI 그림이며, 실제 관측사진이 아닌 학습용 모형이에요.</p><p>배경 음악은 Suno로 만든 곡이에요. 버튼을 누를 때 나는 짧은 소리는 자체 Web Audio 합성이고, 지도 전투·성취 카드·장 열림·발자국 같은 효과음은 Freesound·Kenney의 CC0 녹음이에요. 개념영상은 게임 그림과 직접 작성한 도형으로 HyperFrames에서 제작했고, 영상 효과음은 Kenney(CC0)예요. 인트로·엔딩 영상은 게임 그림을 바탕으로 Google Veo(Flow·Gemini)로 만들었어요. 캐릭터 대사와 안내 음성은 ElevenLabs로 만든 AI 생성 음성이에요.</p><p>상세 출처와 라이선스는 assets/CREDITS.md에 기록돼 있어요.</p><details><summary>자료 출처 모아 보기</summary>${sources.map(([name, source]) => `<p><b>${name}</b> · ${source}</p>`).join('')}</details><p>${appInfo.credit}</p><p>자체 제작 화면·일러스트·음원의 복제·재배포·전용·상업적 이용은 별도 이용 조건을 따라요.</p><p>외부 공개 자료의 권리는 각 원저작자에게 있으며 각 자료의 공개 라이선스와 이용 조건을 따라요.</p></details></div></div>`, element => {
+  dialog('설정', `<div data-science-settings><div class="science-settings-body"><section class="science-settings-audio" aria-label="소리와 화면 설정"><label class="toggle-row"><b>배경 음악</b><input id="setting-bgm" type="checkbox" role="switch" ${state.settings.bgm ? 'checked' : ''}/></label><label class="settings-star-volume setting-row" for="setting-volume"><b>배경 음악 음량</b><input type="range" id="setting-volume" min="0" max="100" step="5" value="${state.settings.bgmVolume}"><output id="setting-volume-value" for="setting-volume">${state.settings.bgmVolume}%</output></label><label class="toggle-row"><b>효과음</b><input id="setting-sfx" type="checkbox" role="switch" ${state.settings.sfx ? 'checked' : ''}/></label><label class="settings-star-volume setting-row" for="setting-sfx-volume"><b>효과음 크기</b><input type="range" id="setting-sfx-volume" min="0" max="100" step="5" value="${state.settings.sfxVolume}"><output id="setting-sfx-volume-value" for="setting-sfx-volume">${state.settings.sfxVolume}%</output></label><label class="toggle-row"><b>목소리</b><input id="setting-voice" type="checkbox" role="switch" ${state.settings.voice ? 'checked' : ''}/></label><label class="toggle-row"><b>동작 줄이기</b><input id="setting-motion" type="checkbox" role="switch" ${state.settings.reducedMotion ? 'checked' : ''}/></label></section><details class="settings-shortcuts"><summary>관측 기록과 영상</summary><section class="science-settings-actions" aria-label="바로 가기">${button('연구 키트','kit','secondary')}${button('이야기 다시 보기','story-replay','secondary')}${button('엔딩 다시 보기','movie','secondary',unlocked?'':'disabled aria-describedby="star-settings-end"')}${button('탐구 결과','results','secondary',state.core.restored?'':'disabled aria-describedby="star-settings-end"')}${unlocked?'':'<p id="star-settings-end">다섯 관측 기록을 모아 중앙 코어를 복구하면 볼 수 있어요.</p>'}${button('프롤로그 영상', 'film-intro', 'secondary')}</section></details><details><summary>앱 정보</summary><p>밤하늘을 직접 관찰하고, 예상과 근거를 비교해요.</p><p>다섯 기록을 모아 연구소를 복구하고 나의 탐구 인증서를 받아요. 지도에 나타나는 악당을 모두 물리치면 지도 피날레 영상도 열려요.</p><p>처음 예상·관측한 근거·수정한 생각이 연구 노트에 남아요.</p><p>별빛 관측 연구소 v${appInfo.version} · ${appInfo.credit}</p><details><summary>완료한 개념영상 모아 보기</summary><div class="concept-library">${chapters.map(chapter => `<button class="concept-card" data-action="library-${chapter.id}" ${state.evidence[chapter.id] ? '' : 'disabled'}><img src="/assets/concepts/stage-${chapter.id}.webp" alt=""/><span>${concepts[chapter.id].title}<small>${state.evidence[chapter.id] ? `${concepts[chapter.id].seconds}초 · 다시 보기` : '관측을 마치면 열려요'}</small></span></button>`).join('')}</div></details></details><details><summary>학생용 가이드</summary>${paragraphs(studentGuide)}</details><details><summary>교사용 가이드</summary>${paragraphs(teacherGuide)}<details><summary>성취기준</summary><p>2022 개정 교육과정과 연계한 탐구 보조 활동이에요. 이 게임만으로 성취기준 전체 달성을 판단하지 않으며, 수업·토론·후속 평가와 함께 활용해 주세요.</p>${standards.map(([code, text]) => `<p>${code} ${text}</p>`).join('')}</details><details><summary>장별 학습 근거와 오개념</summary><p>교사 현장 검수 전이에요. 기록의 존재와 설명의 과학적 타당성은 구분해 확인해 주세요.</p>${learningObjectives.map(item => `<section><h3>${item.chapter}장 · ${chapters[item.chapter-1].place}</h3><p>${item.standardCodes.join(', ')} · ${item.objective}</p><p><b>살펴볼 기록</b> · ${item.evidence}</p><p><b>함께 확인해요</b> · ${item.misconception}</p><p>${item.boundary}</p></section>`).join('')}</details><details><summary>교사용 도구</summary><p>모든 단계를 임시로 체험해요. 시연 중 조작은 자동저장하지 않고, 시연 종료·새로고침 시 원래 학생 기록으로 돌아가요.</p>${button(state.settings.adminUnlock ? '시연 종료 · 학생 기록으로 돌아가기' : '모든 단계 한 번에 열기', 'unlock', 'secondary', `aria-pressed="${state.settings.adminUnlock}"`)}</details></details><details><summary>이미지·소리·저작권 고지</summary><p>배경과 캐릭터는 제공·생성된 AI 그림이며, 실제 관측사진이 아닌 학습용 모형이에요.</p><p>배경 음악은 Suno로 만든 곡이에요. 버튼을 누를 때 나는 짧은 소리는 자체 Web Audio 합성이고, 지도 전투·성취 카드·장 열림·발자국 같은 효과음은 Freesound·Kenney의 CC0 녹음이에요. 개념영상은 게임 그림과 직접 작성한 도형으로 HyperFrames에서 제작했고, 영상 효과음은 Kenney(CC0)예요. 인트로·엔딩 영상은 게임 그림을 바탕으로 Google Veo(Flow·Gemini)로 만들었어요. 캐릭터 대사와 안내 음성은 ElevenLabs로 만든 AI 생성 음성이에요.</p><p>상세 출처와 라이선스는 assets/CREDITS.md에 기록돼 있어요.</p><details><summary>자료 출처 모아 보기</summary>${sources.map(([name, source]) => `<p><b>${name}</b> · ${source}</p>`).join('')}</details><p>${appInfo.credit}</p><p>자체 제작 화면·일러스트·음원의 복제·재배포·전용·상업적 이용은 별도 이용 조건을 따라요.</p><p>외부 공개 자료의 권리는 각 원저작자에게 있으며 각 자료의 공개 라이선스와 이용 조건을 따라요.</p></details></div></div>`, element => {
     element.classList.add('science-settings-stars');
     modalCleanup = mountWelcomeVoice(element.querySelector('.science-settings-audio'), { isMuted: voiceOff, duck: value => sound.setDucked(value, 'welcome') });
     element.querySelector('.dialog-footer').classList.add('science-settings-footer');
@@ -218,15 +246,15 @@ function settings(openLibrary = false) {
 }
 function showHint() {
   const sequence = hints(state), index = Math.min(hintLevel, sequence.length - 1);
-  dialog('루미의 탐구 힌트', `<div class="hint-story"><img src="/assets/rabbit.webp" alt="달토끼 루미"/><div><p class="hint-step">도움 ${index + 1} / ${sequence.length}</p><p>${sequence[index]}</p></div></div>`, null, `${index < sequence.length - 1 ? button('힌트 하나 더', 'more-hint') : ''}${button('직접 해 보기', 'close-modal', 'primary')}`);
+  dialog('루미의 탐구 힌트', `<div class="hint-story"><img src="/assets/rabbit.webp" alt="달토끼 루미"/><div><p>${sequence[index]}</p></div></div>`, element => element.classList.add('hint-dialog'), `${index < sequence.length - 1 ? button('힌트 하나 더', 'more-hint') : ''}${button('직접 해 보기', 'close-modal', 'primary')}`);
 }
 function reward(number) {
   const chapter = chapters[number - 1];
-  dialog(`${evidenceTag(number)} 확보!`, `${npcConversation('fox', chapter.npc, { pose: number === 5 ? 'cheer' : 'point', emotion: number === 5 ? 'happy' : 'encouraging', lineId: 'reward-' + number })}<details class="dialogue-extra"><summary>${chapter.record} · 연구소의 변화</summary><section class="reward-summary"><div class="reward-symbol">${recordBadge(number, 72)}</div><p class="reward-kicker">${missionTag(number)} 완료 · ${chapter.title}</p><h3>${chapter.record}</h3>${kitMeter(state)}</section><div class="world-change"><b>${icon('spark', 18)} 연구소 변화</b><p>${chapter.worldChange}</p></div></details>`, null, `${button(`개념영상 ${concepts[number].seconds}초 보기 (선택)`, 'reward-video-' + number)}${button('지도에서 변화 보기', 'continue-stage-' + number, 'primary')}`);
+  dialog(`${evidenceTag(number)} 확보!`, `${npcConversation('fox', chapter.npc, { pose: number === 5 ? 'cheer' : 'point', emotion: number === 5 ? 'happy' : 'encouraging', lineId: 'reward-' + number })}<details class="dialogue-extra"><summary>${chapter.record} · 연구소의 변화</summary><div class="world-change">${recordBadge(number, 52)}<p>${chapter.worldChange}</p></div></details>`, null, `${button('개념영상 보기', 'reward-video-' + number)}${button('탐구 지도로', 'continue-stage-' + number, 'primary')}`);
   on($('#dialog .dialogue-extra'), 'toggle', event => { if (event.target.open) narration.play('change-' + number); });
 }
 function showIntro(step = 0, replay = false) {
-  const panel = introPanel(step, state.name), last = step === 2;
+  const panel = introPanel(step), last = step === 2;
   dialog(panel.title, `<div class="story-panel" data-step="${step}">${panel.body}</div><p class="story-dots" aria-label="${step + 1} / 3 장면">${[0, 1, 2].map(index => `<i class="${index === step ? 'on' : ''}"></i>`).join('')}</p>`, element => element.classList.add('story-dialog'), `${last ? '' : button('건너뛰기', replay ? 'close-modal' : 'story-done')}${button(last ? (replay ? '닫기' : '첫 관측실로 출발') : '다음', last ? (replay ? 'close-modal' : 'story-done') : `story-next-${step + 1}-${replay ? 1 : 0}`, 'primary')}`, replay ? null : finishIntro);
 }
 // 인트로 영상(구글 플로우 장면 + 일레븐랩스 대사 + 자막): 끝나거나 건너뛰면 지금의 이야기 화면으로 이어진다.
@@ -243,12 +271,13 @@ function showIntroFilm(replay = false) {
     modalCleanup = () => film.dispose();
   }, replay ? button('닫기', 'close-modal') : button('건너뛰기', 'story-next-0'));
 }
-function finishIntro() { state.intro = true; persist(); go(canAccess(state, state.resume) ? state.resume : 'map'); }
+const resumeScene = () => state.resume !== 'home' && canAccess(state, state.resume) ? state.resume : 'map';
+function finishIntro() { state.intro = true; persist(); go(resumeScene()); }
 function finalReport() {
   track(state, 'reviews');
   const first = !state.core.reportSeen;
   state.core.reportSeen = true; persist();
-  dialog('최종 관측 보고서', `${npcLine('fox', npc.report, 'map')}<div class="final-report">${chapters.map(chapter => `<details><summary>${recordBadge(chapter.id)}<span class="report-name">${chapter.record}<small>${evidenceFact(chapter.id, state.evidence[chapter.id]?.data)}</small></span><em class="verified">${icon('check', 16)} 확인</em></summary><div class="report-record">${recordMarkup(chapter.id, state.evidence[chapter.id]?.data)}</div></details>`).join('')}</div><p class="bank-note">항목을 누르면 내가 만든 실제 기록을 다시 볼 수 있어요.</p>`, null, button(first ? '중앙 코어 연결 시작' : '코어로 돌아가기', 'close-modal', 'primary'));
+  dialog('최종 관측 보고서', `${npcLine('fox', npc.report, 'map')}<div class="final-report">${chapters.map(chapter => `<details><summary>${recordBadge(chapter.id)}<span class="report-name">${chapter.record}<small>${evidenceFact(chapter.id, state.evidence[chapter.id]?.data)}</small></span><em class="verified">${icon('check', 16)} 확인</em></summary><div class="report-record">${recordMarkup(chapter.id, state.evidence[chapter.id]?.data)}</div></details>`).join('')}</div>`, null, button(first ? '중앙 코어 연결 시작' : '코어로 돌아가기', 'close-modal', 'primary'));
 }
 let movie = null, mapFinaleOpen = false;
 // 메인 테마는 시작부터 계속, 파이널은 엔딩·인증서·지도 피날레 창에서 나온다.
@@ -335,7 +364,7 @@ function action(name) {
     return dialog('기존 탐구 기록을 지우고 새로 시작할까요?', '<p>별명·진행·보상·관찰 기록이 새로 시작해요. 이전 기록은 이 브라우저에 복구용으로 보관하고 소리 설정은 남아요.</p>', element => element.querySelector('[data-action="close-modal"]').focus(), `${button('취소', 'close-modal', 'primary')}${button('기록 지우고 시작', 'confirm-new-start', 'danger')}`);
   }
   if (name === 'confirm-new-start') { if (!resetRecords()) return; render(); }
-  if (name === 'new-start' || name === 'confirm-new-start' || name === 'home-continue') { state.started = true; if (!state.intro && completedCount(state) === 0) { persist(); return reduced() || state.introFilm ? showIntro(0) : showIntroFilm(); } state.intro = true; return go(canAccess(state, state.resume) ? state.resume : 'map'); }
+  if (name === 'new-start' || name === 'confirm-new-start' || name === 'home-continue') { state.started = true; if (!state.intro && completedCount(state) === 0) { persist(); return reduced() || state.introFilm ? showIntro(0) : showIntroFilm(); } state.intro = true; return go(resumeScene()); }
   if (name === 'kit' || name === 'notebook') return kit();
   if (name.startsWith('story-next-')) { const [, , step, replay] = name.split('-'); return showIntro(+step, replay === '1'); }
   if (name === 'story-done') return finishIntro();
@@ -368,18 +397,23 @@ function action(name) {
   if (name === 'reset' && studentSnapshot) return notify('시연을 끝낸 뒤 학생 기록을 초기화할 수 있어요.');
   if (name === 'reset') return dialog('연구 기록을 초기화할까요?', '<p>별명·진행·보상·관찰 기록이 새로 시작해요. 이전 기록은 이 브라우저에 복구용으로 보관하고 소리 설정은 남아요.</p>', element => element.querySelector('[data-action="close-modal"]').focus(), `${button('취소', 'close-modal', 'primary')}${button('기록 지우기', 'confirm-reset', 'danger')}`);
   if (name === 'confirm-reset') { if (resetRecords()) render(); return; }
-  if (name.startsWith('record-')) { const number = +name.split('-')[1]; if (activeCore().connections[number] === number) return; selectedRecord = selectedRecord === number ? null : number; render(); return; }
+  if (name.startsWith('record-')) {
+    const number = +name.split('-')[1];
+    if (activeCore().connections[number] === number) return;
+    dismissNotice();
+    selectedRecord = selectedRecord === number ? null : number;
+    return renderAndFocus();
+  }
   if (name.startsWith('socket-')) {
     const core = activeCore(), socket = +name.split('-')[1];
     if (core.restored) return;
-    if (!selectedRecord) return notify('왼쪽 연구 키트에서 기록을 먼저 골라 주세요.');
+    if (!selectedRecord) return notify('관측 기록을 먼저 골라요.');
     if (selectedRecord !== socket) {
-      track(state, 'retries'); selectedRecord = null; persist(); render(); sound.play('retry');
+      track(state, 'retries'); selectedRecord = null; persist(); renderAndFocus(); sound.play('retry');
       return notify(`${chapters[socket - 1].system}에는 다른 기록이 필요해요. 고른 기록이 어느 관측실에서 만들어졌는지 다시 봐요.`);
     }
-    core.connections[socket] = socket; lastReplay = socket; selectedRecord = null; sound.play('discover'); persist(); render();
-    if (coreConnected(core) === 5) notify('다섯 채널이 모두 연결됐어요! 이제 보정 링을 돌려요.');
-    return;
+    core.connections[socket] = socket; lastReplay = socket; selectedRecord = null; sound.play('discover'); persist();
+    return renderAndFocus();
   }
   if (name === 'restore') {
     const core = activeCore();
@@ -483,7 +517,7 @@ function render() {
     if (completedCount(state)>0 || state.settings.adminUnlock) mapScreen.mountRepair($('#world'), { state, save: persist, kind: 'focus', preview: state.settings.adminUnlock, available: chapters.filter(c => state.settings.adminUnlock || state.evidence[c.id]).map(c => ({ id: c.id - 1, label: c.place })) });
     cleanup = () => world.dispose();
   }
-  if (state.scene === 'core') mountCalibration();
+  if ($('#calibration')) mountCalibration();
   syncFeedbackVoice(app.querySelector('#planet-feedback, #classification-feedback'));
   refresh(); sound.sync(); syncMusic();
   if (state.scene === 'core' && completedCount(state) === 5 && !state.core.restored && !state.core.reportSeen) finalReport();
@@ -519,7 +553,8 @@ function mountCalibration() {
     dial.setAttribute('aria-valuenow', core.angle);
     const ready = !locked() && coreAligned(core);
     dial.classList.toggle('is-aligned', ready);
-    $('#calibration-status').textContent = calibrationStatus(core);
+    const status = $('#calibration-status'), text = calibrationStatus(core);
+    if (status.textContent !== text) status.textContent = text;
     if ($('#restore-core')) $('#restore-core').disabled = !ready;
     if (keep) persist();
   };

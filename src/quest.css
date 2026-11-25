@@ -34,27 +34,11 @@
 dialog.story-dialog { width: min(clamp(520px, 50vw, 800px), calc(100vw - 32px)); max-height: min(92dvh, 860px); padding-top: 0; }
 dialog.story-dialog .dialog-body { padding-top: 0; }
 dialog.story-dialog .alert-art { aspect-ratio: 16 / 4; margin-bottom: 10px; }
-dialog.story-dialog .incident-board { grid-template-columns: minmax(0, 1fr); gap: 6px; }
-dialog.story-dialog .incident-board p { padding: 6px 12px; }
-dialog.story-dialog .incident-board p:last-child { grid-column: auto; }
 .story-dialog .dialog-heading h2 { color: #ffd98a; }
-.incident-board { display: grid; gap: 10px; margin: 0; }
-.incident-board p { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; margin: 0 !important; padding: 10px 14px; border-radius: 14px; background: #2a1f24; border: 1px solid #b7816b; animation: quest-rise .35s ease both; }
-.incident-board p:nth-child(2) { animation-delay: .08s; } .incident-board p:nth-child(3) { animation-delay: .16s; }
-.incident-board p:nth-child(4) { animation-delay: .24s; } .incident-board p:nth-child(5) { animation-delay: .32s; }
-.incident-board b { display: block; color: #ffe2b0; font-size: var(--classroom-small); }
-.incident-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #3d2a2c; color: #ffc59a; }
-.incident-board em { font-style: normal; padding: 3px 10px; border-radius: 999px; border: 1px solid #f0a37f; color: #ffc59a; font-size: var(--classroom-small); font-weight: 800; }
 .incident-note { margin: 16px 0 0 !important; padding: 12px 16px; border-left: 4px solid var(--quest-gold); background: #10283c; border-radius: 0 12px 12px 0; }
-.role-card { display: grid; gap: 4px; margin-top: 18px; padding: 18px 22px; border-radius: 18px; background: linear-gradient(135deg, #fff9ec, #f1e6cc); color: var(--quest-ink); text-align: center; box-shadow: 0 6px 0 #a8a18f; }
-.role-card small { color: #6a7a86; font-size: var(--classroom-small); font-weight: 700; }
-.role-card strong { font-family: var(--heading-font); font-weight: 400; font-size: clamp(26px, 2.4vw, 36px); color: #1f4258; }
-.role-card span { font-weight: 800; color: #8a5a1a; }
-.role-card p { margin: 6px 0 0 !important; color: #3d4f60 !important; }
 .quest-steps { display: grid; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; counter-reset: none; }
 .quest-steps li { padding: 10px 14px; border-radius: 12px; background: #163a52; border: 1px solid #6f8f9c; font-size: var(--classroom-small); }
 .quest-steps li b { color: var(--quest-gold); margin-right: 6px; }
-.quest-steps li small { display: block; color: #b5d4d2; font-size: var(--classroom-small); }
 .story-dots { display: flex; justify-content: center; gap: 8px; margin: 16px 0 0 !important; }
 .story-dots i { width: 28px; height: 7px; border-radius: 7px; background: #4f6877; }
 .story-dots i.on { background: var(--quest-gold); }
@@ -79,51 +63,162 @@ dialog.story-dialog .incident-board p:last-child { grid-column: auto; }
 .kit-bonus { margin-top: 14px !important; color: var(--quest-gold); }
 
 /* Mission reward and world change */
-.reward-kicker { margin: 0 0 4px !important; color: var(--quest-mint); font-weight: 800; letter-spacing: .03em; font-size: var(--classroom-small) !important; }
 .world-change { margin-top: 18px; padding: 14px 18px; border-radius: 16px; background: linear-gradient(135deg, #1d4a53, #173a52); border: 1px solid #8fd5d2a6; animation: quest-glow 1.6s ease 1; }
 .world-change b { display: inline-flex; align-items: center; gap: 6px; color: var(--quest-teal); font-size: var(--classroom-small); }
 .world-change p { margin: 4px 0 0 !important; }
 
-/* Final mission */
-.core-final .core-board { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, .9fr); }
-.core-final .core-board > section, .core-final .calibration-panel { display: flex; flex-direction: column; min-height: 0; }
-.core-final .core-board > section > *, .core-final .calibration-panel > * { flex-shrink: 0; }
-.core-final .calibration-panel { overflow: auto; max-height: 100%; align-self: stretch; justify-content: center; }
-.core-final .record-chip > span, .core-final .socket > span { display: grid; gap: 2px; min-width: 0; text-align: left; line-height: 1.3; }
-.core-final .record-bank .record-chip { display: grid; grid-template-columns: 26px 1fr auto; text-align: left; gap: 10px; min-height: 64px; margin-bottom: 10px; }
-.core-final .record-chip span small, .core-final .socket span small { display: block; font-size: var(--classroom-small); color: #a9c6c9; letter-spacing: .03em; }
-.core-final .record-chip.selected { border: 3px solid var(--quest-mint); background: #23495a; box-shadow: 0 0 0 4px #a7dcc933; }
-.core-final .record-chip.used { opacity: .55; }
-.core-final .record-chip.used svg:last-child { color: var(--quest-mint); }
-.core-final .bank-note { margin: 4px 0 10px; color: #c9dbdc; font-size: var(--classroom-small); }
-.core-final .record-bank .btn.ghost { margin-top: auto; }
-.core-meter { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; margin-bottom: 14px; }
-.core-meter span { color: #cfe3e2; font-size: var(--classroom-small); font-weight: 700; }
-.core-meter b { color: var(--quest-gold); font-family: var(--heading-font); font-weight: 400; font-size: 26px; }
-.core-meter .meter { grid-column: 1 / -1; height: 12px; }
-.core-final .core-sockets-v3 .socket { display: grid !important; grid-template-columns: 44px 1fr auto; align-items: center; gap: 12px; min-height: 66px; margin-bottom: 10px; padding: 8px 14px; text-align: left; border-style: dashed; }
-.core-final .socket b { display: block; font-size: var(--classroom-body); color: #fff6de; }
-.core-final .socket-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #0b1d2d; border: 1px solid #6f8f9c; color: #a9c6c9; }
-.core-final .socket.connected { border-style: solid; border-color: var(--quest-mint); background: #1f4a4b; }
-.core-final .socket.connected .socket-icon { background: var(--quest-mint); color: #0d2236; border-color: var(--quest-mint); }
-.core-final .socket.needs-review { border-color: #e7a77f; }
-.core-final .socket.just-connected { animation: quest-glow 1.2s ease 1; }
-.core-replay { margin-top: auto; min-height: 96px; padding: 10px 12px; border-radius: 14px; background: #0b1d2dcc; border: 1px solid #456577; }
-.replay-empty { margin: 0; color: #a9c6c9; font-size: var(--classroom-small); }
-.replay-card { display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: center; margin: 0; animation: quest-rise .5s ease both; }
-.replay-card figcaption { display: grid; gap: 2px; font-size: var(--classroom-small); color: #e3ecea; }
-.replay-card small { color: var(--quest-mint); letter-spacing: .03em; font-size: var(--classroom-small); }
-.replay-card b { color: #fff6de; }
-.replay-card em { font-style: normal; color: var(--quest-gold); font-weight: 700; }
-.calibration-panel h2 { color: var(--quest-ink); }
-.core-final .calibration { position: relative; width: min(210px, 26vh); touch-action: none; cursor: grab; transition: box-shadow .3s ease; border-radius: 50%; }
-.core-final .calibration:focus-visible { outline: 3px solid #2f7f8c; outline-offset: 4px; }
+/* Core controls sit directly over the observatory. Only the active step is in view. */
+.core-v3.core-final {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 16px;
+  height: auto;
+  min-height: 100dvh;
+  padding: 20px 20px 28px;
+}
+.core-final .activity-heading {
+  position: relative;
+  inset: auto;
+  transform: none;
+  width: min(calc(100% - 260px), 800px);
+  margin: 0 auto;
+}
+.core-final .activity-heading h1 { margin: 0; }
+.core-final .room-bg { position: fixed; }
+.core-final .core-board {
+  align-self: center;
+  width: min(100%, 870px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px clamp(16px, 5vw, 72px);
+}
+.core-board > section {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.core-board h2 {
+  margin: 0 0 4px;
+  color: var(--ui-text);
+  font-size: var(--classroom-body);
+  text-shadow: 0 2px 6px #020817;
+}
+.core-board .record-chip, .core-board .socket {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 48px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--ui-line);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-glass-strong);
+  color: var(--ui-text);
+  font-size: var(--classroom-button);
+  text-align: left;
+  box-shadow: none;
+}
+.core-board .record-chip .record-badge { width: 32px; height: 32px; }
+.core-board .socket { border-style: dashed; }
+.core-board[data-pick='record'] .record-chip:not(:disabled),
+.core-board[data-pick='channel'] .socket:not(:disabled) { border-color: var(--ui-gold-2); }
+.core-board .record-chip.selected { border: 2px solid var(--quest-mint); background: #23495a; }
+.core-board .socket.connected { border-style: solid; border-color: var(--quest-mint); }
+.core-board :is(.record-chip.used, .socket.connected):disabled { opacity: .78; }
+.core-board .socket.needs-review { border-color: #e7a77f; }
+.core-board .socket.just-connected { animation: quest-glow 1.2s ease 1; }
+.socket-indicator {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-inline: auto;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--ui-sub);
+}
+.socket.connected .socket-indicator { color: var(--quest-mint); }
+.core-board-footer {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.core-board-footer:empty { display: none; }
+.core-board-footer > .btn { margin-left: auto; min-height: 44px; font-size: var(--classroom-button); }
+.core-replay {
+  flex: 1 1 270px;
+  min-width: 0;
+  padding: 6px 10px;
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-glass);
+}
+.replay-card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin: 0;
+  animation: quest-rise .5s ease both;
+}
+.replay-card .ev-visual { min-height: 44px; }
+.replay-card .ev-visual > * { min-width: 0; max-height: 48px; }
+.replay-card figcaption { display: grid; font-size: var(--classroom-small); }
+.core-final .calibration-panel, .core-finished {
+  display: grid;
+  align-self: center;
+  justify-self: center;
+  justify-items: center;
+  gap: 10px;
+  width: min(100%, 410px);
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.core-final .calibration {
+  position: relative;
+  width: clamp(150px, min(40dvh, 56vw), 320px);
+  min-height: 0;
+  margin: 0 auto 6px;
+  touch-action: none;
+  cursor: grab;
+  border-radius: 50%;
+}
+.core-final .calibration:focus-visible { outline: 3px solid var(--quest-mint); outline-offset: 4px; }
 .core-final .calibration.is-turning { cursor: grabbing; }
-.core-final .calibration.is-locked { cursor: not-allowed; filter: grayscale(.7) brightness(.75); }
 .core-final .calibration.is-aligned { box-shadow: 0 0 0 6px #f5cf7b55, 0 0 34px #f5cf7b99; }
-.calibration-lock { position: absolute; inset: 0; display: grid; place-items: center; z-index: 2; color: #fff6de; pointer-events: none; }
-#calibration-status { min-height: 3em; margin: 8px 0 12px; color: #3d4f60; font-size: var(--classroom-small); line-height: 1.45; }
-.calibration-panel .btn { width: 100%; margin-bottom: 8px; }
+.core-final .calibration-panel .btn.secondary {
+  border: 1px solid var(--ui-line);
+  background: var(--ui-glass-strong);
+  color: var(--ui-text);
+  box-shadow: none;
+}
+#calibration-status {
+  margin: 0;
+  color: var(--ui-text);
+  font-size: var(--classroom-body);
+  text-align: center;
+  text-shadow: 0 2px 6px #020817, 0 1px 3px #020817;
+}
+@media (max-width: 850px) {
+  .core-v3.core-final { padding: 70px 16px 24px; }
+  .core-final .activity-heading { width: 100%; }
+  #app:has(.core-v3.core-final) .floating-controls { position: absolute; }
+}
+@media (max-width: 480px) {
+  .core-final .core-board { column-gap: 8px; }
+  .core-board .record-chip, .core-board .socket { gap: 6px; padding-inline: 6px; grid-template-columns: 23px minmax(0, 1fr); }
+  .core-board .record-chip .record-badge { width: 23px; height: 23px; }
+}
 
 /* Final report */
 .final-report { display: grid; gap: 10px; margin-top: 16px; }
@@ -229,8 +324,6 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
 .bonus-card.is-done { border-color: var(--quest-mint); }
 .records-section { max-width: 1360px; margin: 34px auto 0; outline: none; }
 .records-section > h2 { font-family: var(--heading-font); font-weight: 400; font-size: 28px; color: #fff2c4; margin-bottom: 14px; }
-.report-tag { margin: 0 0 4px !important; font-size: var(--classroom-small) !important; font-weight: 800; letter-spacing: .04em; color: #8a99a5 !important; }
-.report-card.is-done .report-tag { color: #2f7f8c !important; }
 
 /* Bonus quests */
 .bonus-lead { margin-bottom: 12px !important; }
@@ -259,8 +352,8 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
 @keyframes quest-flash { 0% { opacity: 0; } 35% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes quest-progress { from { width: 0; } to { width: 100%; } }
 
-.reduce-motion .incident-board p, .reduce-motion .world-change, .reduce-motion .replay-card, .reduce-motion .socket.just-connected { animation: none !important; }
-@media (prefers-reduced-motion: reduce) { .incident-board p, .world-change, .replay-card, .socket.just-connected, .movie-scene { animation: none !important; transition: none !important; } }
+.reduce-motion .world-change, .reduce-motion .replay-card, .reduce-motion .socket.just-connected { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .world-change, .replay-card, .socket.just-connected, .movie-scene { animation: none !important; transition: none !important; } }
 .is-stepwise .movie-scene * { animation: none !important; }
 .is-stepwise .scene-dome .movie-dome, .is-stepwise .movie-flash { opacity: 1; }
 .is-stepwise .movie-flash { opacity: 0; }
@@ -268,15 +361,10 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
 
 /* Responsive */
 @media (max-width: 1100px) {
-  .core-final .core-board { inset: 120px 18px 26px; gap: 14px; }
   .results-layout { grid-template-columns: 1fr; }
   .cert-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-height: 640px) and (orientation: landscape) {
-  .core-final .core-board { inset: 104px 16px 16px; }
-  .core-final .record-bank .record-chip { min-height: 52px; margin-bottom: 6px; }
-  .core-final .core-sockets-v3 .socket { min-height: 52px; margin-bottom: 6px; }
-  .core-final .calibration { width: min(150px, 24vh); }
   .core-replay { min-height: 76px; }
   .movie-caption { bottom: 82px; }
   .movie-title { margin-bottom: max(22dvh, 140px); padding: 14px 24px; }
@@ -286,7 +374,6 @@ dialog.movie-dialog { width: 100vw; height: 100dvh; max-width: none; max-height:
   .kit-button span { display: none; }
 }
 @media (max-width: 900px) and (orientation: portrait) {
-  .core-final .core-board { position: static; grid-template-columns: 1fr; }
   .movie-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .movie-card:last-child { grid-column: 1 / -1; }
   .bonus-planet, .bonus-board { grid-template-columns: 1fr; }

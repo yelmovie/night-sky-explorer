@@ -235,8 +235,11 @@ try {
   await roundOpens(2);
   assert.equal(await page.locator('#stage-next').isDisabled(), true);
   for (const id of ['Merak', 'Dubhe']) await page.locator(`[data-star="${id}"]`).click();
-  await page.locator('[data-star="Caph"]').click();
   assert.match(await page.locator('#star-observation').textContent(), /약 5배/);
+  assert.match(await page.locator('[data-star="Polaris"]').getAttribute('aria-label'), /^\d+번 별 관찰$/);
+  await page.locator('[data-star="Caph"]').click();
+  assert.match(await page.locator('#star-observation').textContent(), /방향과 두 별 사이 간격/);
+  assert.equal(await page.locator('#stage-next').isDisabled(), true);
   await page.locator('[data-star="Polaris"]').click();
   assert.deepEqual((await stored()).drafts.pattern.polaris, { pointers: ['Merak', 'Dubhe'], found: true });
   pass('Polaris found by extending the two pointer stars of the Big Dipper about five times');
