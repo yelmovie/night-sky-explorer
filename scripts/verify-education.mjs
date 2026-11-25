@@ -40,7 +40,7 @@ try {
   assert.deepEqual((await stored()).drafts.phases.captures, [3]);
   assert.equal(await page.locator('[data-learning="seek-day-7"].is-next').count(), 1);
   assert.match(await page.locator('#screen-title').textContent(), /날짜를 눌러/);
-  assert.equal(await page.locator('#phase-moon image').getAttribute('href'), '/assets/generated/moon-surface-v4.webp');
+  assert.equal(await page.locator('#phase-moon image').getAttribute('href'), '/assets/generated/lunar-observation/near-side.webp');
   checks.push('Tapping a date records it, then next-date guidance and the Moon art agree');
   await seed('s4a', state => { state.drafts.classification.viewed = []; });
   await learn('body-sun');

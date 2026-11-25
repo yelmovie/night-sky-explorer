@@ -1,5 +1,9 @@
 # 도구·자료·라이선스 기록
 
+## 2026-11-25 달 위상 관측 모형
+
+`generated/lunar-observation/moon.glb`는 사용자가 제공한 Meshy 구체의 정점을 둥글게 보정하고 다시 삼각형으로 연결한 교육용 모형이다. `surface.webp`는 NASA Scientific Visualization Studio의 [CGI Moon Kit](https://svs.gsfc.nasa.gov/4720) 색상 지도(`lroc_color_2k.jpg`, Lunar Reconnaissance Orbiter Camera 및 Lunar Orbiter Laser Altimeter 자료)를 웹용으로 변환한 것이다. `near-side.webp`는 같은 지도를 달의 위도·경도 0°를 중심으로 정사영한 그림이다. 관측 방향을 고정한 평균 29.53일 주기로 햇빛 각도를 계산하며, 실제 관측 시각별 기울기와 칭동은 생략했다.
+
 ## 2026-11-18 캐릭터 음성 통일 (ElevenLabs)
 
 지금 게임에서 재생하는 대사 음성은 모두 ElevenLabs 유료 요금제(상업 이용 가능)의 `eleven_v4`로 만든 AI 생성 음성(`audio/voices/el-*.mp3`)이다. 별여우 연구관은 `Hun 훈`, 달토끼 기록원 루미(내레이션 포함)는 `Aria – Bright & Youthful Korean`, 지도 악당 별빛 가림이는 `oki - casual and fun` 라이브러리 음성을 쓴다. 실제 인물의 목소리를 복제하지 않았다. 줄마다 대사·생성 ID·받아쓰기 검수·음량·SHA-256은 `docs/VOICE-FILL-20261118.json`에 있다. 아래 2026-11-10 Momo/Qwen3-TTS 음성과 2026-11-17 로컬 복제 음성은 더 이상 재생하지 않는다.
@@ -95,7 +99,7 @@ OpenAI built-in `image_gen`으로 달 표면, 태양, 별빛, 코어 보정 장�
 
 ## 과학·폰트·고지
 
-교육 내용 참고는 NASA Science 행성·태양계·달위상·태양 자료다. URL·자료 한계·변환은 `docs/SOURCES.md`를 따른다. NASA 촬영 이미지를 썼다는 뜻이 아니다.
+교육 내용 참고는 NASA Science 행성·태양계·달위상·태양 자료다. URL·자료 한계·변환은 `docs/SOURCES.md`와 위 달 위상 관측 모형 항목에 기록했다.
 
 Jua의 한국어368,172B·라틴16,620B WOFF2와 OFL1.1 원문4,474B를 함께 self-host한다. 명칭이 비슷한 다른 주아체의 약관으로 대신하지 않는다.
 

@@ -4,18 +4,18 @@ import { lunarModelVoice } from './lunar-model.js';
 import { nearestStar } from './star-hit.js';
 import { chapters,planets,solarOrder,bodies,planetGroups } from './data.js';
 import { photoReady,clone,track } from './state.js';
-import { moonSVG,dayMoon } from './drawing.js';
+import { lunarPhaseSVG, observedMoonSVG } from './drawing.js';
 import { button,esc,icon,token } from './ui.js';
 import { learningUI } from './learning-ui.js';
 import { mountLessonViewport } from './stage-viewport.js';
 import { mountTouchDrag } from './touch-drag.js';
 import { getStageAction, getLearningGuide } from './progression.js';
 import { pageConcepts } from './curriculum.js';
-import { renderMoonStage } from './moon-stages.js';
+import { phaseIllumination, phaseRecordCollection, phaseRecordStrip, renderMoonStage } from './moon-stages.js';
 import { renderSpaceStage } from './space-stages.js';
 import { moonSurfaceChoices, phaseChoices, patternChoices, composeReflection } from './reflection-chips.js';
 import { mountFogWipe, mountShieldDrag, snapDay } from './stage-gestures.js';
-import { discoveryDays } from './discovery-route.js';
+import { discoveryDays, discoveryStopLabel } from './discovery-route.js';
 import { recordPhase, recordPlanet, nextPlanet, classificationFeedback, nextBody, solarFeedback, connectStars } from './learning-flow.js';
 import './activity-design.css';
 
@@ -37,10 +37,9 @@ function solarReference(records) {
     ${writtenRecords ? `<details><summary>직접 조사한 근거</summary>${writtenRecords}</details>` : ''}`;
 }
 const tabs=(names,done=[])=>`<div class="case-tabs" role="group" aria-label="활동 묶음">${names.map((n,i)=>`<button class="case-tab ${round()===i?'active':''}" data-learning="round-${i}" aria-pressed="${round()===i}">${n} ${done[i]?'✓':''}</button>`).join('')}</div>`;
-const strip=days=>`<div class="record-strip">${[...days].sort((a,b)=>a-b).map(d=>`<div>${dayMoon(d)}<small>${d}일째</small></div>`).join('')}</div>`;
 const title=t=>`<h2 class="tool-title">${t}</h2>`;
 const feedback=(id,status)=>`<p id="${id}" class="inline-feedback" role="status" data-tone="${status.tone}">${status.text}</p>`;
-function content(s,scene){const i=round(),helpers={tabs,title,strip,feedback,token};return renderMoonStage(s,scene,i,learningUI,helpers)||renderSpaceStage(s,scene,i,learningUI,helpers);}
+function content(s,scene){const i=round(),helpers={tabs,title,feedback,token};return renderMoonStage(s,scene,i,learningUI,helpers)||renderSpaceStage(s,scene,i,learningUI,helpers);}
 export function learningView(s,chrome=''){
   const n=+s.scene[1],part=s.scene.at(-1),c=chapters[n-1],v=content(s,s.scene),next=getStageAction(s,round());
   const concept=pageConcepts[s.scene],guide=getLearningGuide(s,learningUI);
@@ -108,7 +107,24 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if(sentence){sound?.play('success');track(s,'reviews');}
     redraw();
   }
-  function captureDay(day){const added=recordPhase(d.phases,day);if(added){sound?.play('capture');track(s,'observations');}redraw();}
+  function captureDay(day){
+    const captureButton = $('#capture-phase');
+    const restoreFocus = document.activeElement === captureButton;
+    if (recordPhase(d.phases, day)) {
+      sound?.play('capture');
+      track(s, 'observations');
+      $('#capture-strip').innerHTML = phaseRecordCollection(d.phases.captures);
+      const stop = $(`[data-learning="seek-day-${day}"]`);
+      if (stop) {
+        stop.classList.add('discovered');
+        stop.setAttribute('aria-label', discoveryStopLabel(day, true));
+        stop.querySelector('span').textContent = '✓';
+      }
+    }
+    updateDay();
+    commit();
+    if (restoreFocus && captureButton.disabled) $('#screen-title').focus({ preventScroll: true });
+  }
   function guide(){
     const next=getLearningGuide(s,learningUI);
     const target=$(next.target);
@@ -127,7 +143,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if(a.startsWith('pan-')){pan(...{up:[0,-8],down:[0,8],left:[-8,0],right:[8,0]}[a.slice(4)]);return;}
     if(a==='capture-moon'){const m=d.moon;if(!photoReady(m))return;if(round()===1&&!m.photos[0])return notify('먼저 전체 모습 사진을 한 장 담아 줘.');if(m.photos.some((p,j)=>j!==round()&&Math.abs(p.zoom-m.zoom)<.09))return notify('이번에는 배율을 조금 바꾸어서 촬영해 줘.');m.photos[round()]={x:m.x,y:m.y,zoom:m.zoom,focus:m.focus};track(s,'observations');if(round()===0)learningUI.round=1;redraw();return;}
     if(a.startsWith('spot-')){const [,x,y]=a.split('-');spot(+x,+y);return;}
-    if(a.startsWith('seek-day-')){const value=Number(a.split('-').at(-1));d.phases.day=value;if(d.phases.captures.includes(value))redraw();else captureDay(value);return;}
+    if(a.startsWith('seek-day-')){const value=Number(a.split('-').at(-1));d.phases.day=value;captureDay(value);return;}
     if(a.startsWith('day-')){d.phases.day=Number(a.split('-').at(-1));redraw();return;}
     if(a==='capture-phase'){captureDay(d.phases.day);return;}
     if(a.startsWith('side-')){
@@ -140,7 +156,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
     if(a.startsWith('planet-')){choosePlanet(a.slice(7));track(s,'observations');redraw();return;}
     if(a==='clear-cloud'){learningUI.revealed[d.planets.selected]=true;sound?.play('discover');redraw();return;}
     if(a==='toggle-three'){learningUI.three=!learningUI.three;learningUI.threeUnavailable=false;if(learningUI.three)track(s,'observations');commit();render();return;}
-    if(a==='phase-note'){const p=prediction();dialog(scene==='s2b'?'앞선 달 관측 기록':'모은 달 관측 기록',`<p>북반구에서 본 학습용 모형이에요. 학습용 날짜는 실제 달력과 달라요.</p>${strip(d.phases.captures)}${scene==='s2b'&&p.original?`<p>처음 예상: 밝은 부분 ${p.original.amount}% · ${p.original.side==='right'?'오른쪽':'왼쪽'}</p>`:''}`);return;}
+    if(a==='phase-note'){const p=prediction();dialog(scene==='s2b'?'앞선 달 관측 기록':'모은 달 관측 기록',`<p>북반구에서 본 학습용 모형이에요. 학습용 날짜는 실제 달력과 달라요.</p>${phaseRecordStrip(d.phases.captures)}${scene==='s2b'&&p.original?`<p>처음 예상: 밝은 부분 ${p.original.amount}% · ${p.original.side==='right'?'오른쪽':'왼쪽'}</p>`:''}`);return;}
     if(a==='body-note'){
       const body=selectedBody();
       dialog(body.name+' · 관측 기록',`<p>${body.look}</p><p>‘밝게 보인다’는 점과 빛이 어디서 오는지를 따로 생각해 봐요.</p>`);
@@ -164,14 +180,30 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
   if(scene==='s1a'){updateScope();for(const [id,key,unit]of[['moon-zoom','zoom','×'],['moon-focus','focus','']])on($('#'+id),'input',e=>{d.moon[key]=+e.target.value;$('#'+id+'-value').textContent=e.target.value+unit;updateScope();commit();});let drag=null;on($('#scope-drag'),'pointerdown',e=>{drag=[e.clientX,e.clientY];e.currentTarget.setPointerCapture(e.pointerId);});on($('#scope-drag'),'pointermove',e=>{if(!drag)return;const r=e.currentTarget.getBoundingClientRect();pan((e.clientX-drag[0])/r.width*100,(e.clientY-drag[1])/r.height*100);drag=[e.clientX,e.clientY];});for(const type of ['pointerup','pointercancel'])on($('#scope-drag'),type,()=>drag=null);on($('#scope-drag'),'keydown',e=>{const v={ArrowUp:[0,-8],ArrowDown:[0,8],ArrowLeft:[-8,0],ArrowRight:[8,0]}[e.key];if(v){e.preventDefault();pan(...v);}});}
   if(scene==='s1b'){on($('#surface-moon'),'click',e=>{const r=e.currentTarget.getBoundingClientRect();spot((e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100);});}
   function updateDay(){
-    $('#phase-day').value=d.phases.day;
-    $('#phase-day-value').textContent=d.phases.day+'일째';
-    $('#day-label').textContent=d.phases.day+'일째';
-    $('#phase-moon').innerHTML=dayMoon(d.phases.day);
-    if($('#capture-phase'))$('#capture-phase').disabled=d.phases.captures.includes(d.phases.day);
-    $$('.discovery-stops button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.learning===`seek-day-${d.phases.day}`)));
+    const day = d.phases.day;
+    const illumination = phaseIllumination(day);
+    const slider = $('#phase-day');
+    slider.value = day;
+    slider.setAttribute('aria-valuetext', `${day}일째, ${illumination}`);
+    $('#phase-day-value').textContent = day + '일째';
+    $('#day-label').textContent = day + '일째';
+    $('#phase-count').textContent = illumination;
+    $('#phase-moon-image').innerHTML = observedMoonSVG(day);
+    viewer?.setDay(day);
+    $('#capture-phase').disabled = d.phases.captures.includes(day);
+    $$('.discovery-stops button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.learning===`seek-day-${day}`)));
   }
-  if(scene==='s2a'){on($('#phase-day'),'input',e=>{d.phases.day=+e.target.value;updateDay();commit();});on($('#phase-day'),'change',e=>{const target=snapDay(+e.target.value,discoveryDays,d.phases.captures);if(target!==undefined){d.phases.day=target;captureDay(target);}});}
+  if(scene==='s2a'){
+    updateDay();
+    import('./lunar-globe.js').then(({mountLunarGlobe})=>{
+      if(!disposed) viewer = mountLunarGlobe($('#phase-moon'), d.phases.day);
+    }).catch(()=>{});
+    on($('#phase-day'),'input',e=>{d.phases.day=+e.target.value;updateDay();commit();});
+    on($('#phase-day'),'change',e=>{
+      const target=snapDay(+e.target.value,discoveryDays,d.phases.captures);
+      if(target!==undefined){d.phases.day=target;captureDay(target);}
+    });
+  }
   if(scene==='s3a'&&$('.planet-fog')){const id=d.planets.selected;requestAnimationFrame(()=>{if(!disposed)mountFogWipe($('.planet-fog'),{signal:gestures.signal,onReveal(){if(disposed||d.planets.selected!==id)return;learningUI.revealed[id]=true;sound?.play('discover');redraw();}});});}
   if(scene==='s4a')mountShieldDrag($('.light-lab-art'),{blocked:d.classification.lightTrial?.blocked??learningUI.lightBlocked,signal:gestures.signal,onChange(value,byKey){if(d.classification.lightTrial&&!observeLight(d.classification.lightTrial,value))return notify('가리기 전에 행성이 어떻게 보일지 먼저 예상해 주세요.');learningUI.lightBlocked=value;sound?.play(value?'place':'click');track(s,'reviews');redraw();if(byKey)document.querySelector('.light-lab [data-shield]')?.focus({preventScroll:true});}});
   if(scene==='s2b'){
@@ -184,7 +216,7 @@ export function mountLearning(root,ctx){const {state:s,save,render,notify,dialog
       prediction().amount=+e.target.value;
       (learningUI.predictionAdjusted||={})[round()]=true;
       $('#prediction-amount-value').textContent=e.target.value+'%';
-      $('#prediction-moon').innerHTML=moonSVG(prediction().amount,prediction().side);
+      $('#prediction-moon').innerHTML=lunarPhaseSVG(prediction().amount,prediction().side);
       commit();
     });
   }

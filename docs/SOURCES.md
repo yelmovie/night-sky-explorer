@@ -14,6 +14,7 @@
 - [NASA · About the Planets](https://science.nasa.gov/solar-system/planets/): 태양과 8개 행성, 행성 순서와 주요 외형 특징.
 - [NASA · Solar System Facts](https://science.nasa.gov/solar-system/solar-system-facts/): 태양계 구성과 태양의 위치.
 - [NASA · Moon Phases](https://science.nasa.gov/moon/moon-phases/): 달의 밝은 부분 변화. 이 앱의 시점은 29.53일 주기를 단순화한 학습 시퀀스이며 실제 날짜의 관측 예보가 아니다.
+- [NASA SVS · CGI Moon Kit](https://svs.gsfc.nasa.gov/4720): 달 위상 관측·비교 화면의 표면 색상 지도. 달의 북쪽을 위로 두고 지구를 향한 평균 방향을 화면 중앙에 고정했다.
 - [NASA · Sun Facts](https://science.nasa.gov/sun/facts/): 태양은 별이며 스스로 빛을 내는 천체라는 비교 자료.
 - [HYG v4.1 · David Nash / Astronomy Nexus](https://github.com/astronexus/HYG-Database/blob/main/hyg/README.md): `src/stars.json`의 13개 별 RA(시간), Dec(도), 겉보기 등급, HIP 식별자. 좌표 기준은 J2000.
 
@@ -32,7 +33,7 @@ HYG v4.1 데이터는 David Nash의 **[CC BY-SA 4.0](https://creativecommons.org
 - 사용자가 제공한 원본: `references/images/backgrounds/chatgpt_generated_31.png`, `branding/chatgpt_generated_41.png`, `characters/chatgpt_generated_42.png`, `characters/chatgpt_generated_43.png`.
 - 위 4개를 `public/assets`에 서비스 복사하고 원본은 보존했다. 포즈 시트는 CSS 표시 영역으로 사용한다.
 - 새 지도·학생·달토끼·행성8종·망원경 프레임·복구돔은 OpenAI built-in image_gen 생성물13종이다. 원본·SHA256·생성일·서비스 파일은 `references/generated/manifest.json`, 프롬프트는 `ASSET_PRODUCTION_V2.md`·`planet-generation-prompts.json`에 있다.
-- 지도와 보행 그림을 Canvas로 합성하고, 달 표면·위상은 SVG 모형, 선택3D 행성은 절차적 학습 텍스처를 쓴다. NASA 촬영 사진이나 검증된 실제 지표 지도라고 표시하지 않는다.
+- 지도와 보행 그림을 Canvas로 합성한다. 1장 달 표면 관찰은 SVG 학습 그림을, 2장 달 위상 관찰은 NASA 색상 지도를 입힌 3D 구체와 같은 방향의 평면 모형을 쓴다. 선택 3D 행성에는 절차적으로 그린 학습 텍스처를 쓴다.
 - Jua는 한국어·라틴 WOFF2를 self-host한다. Woowahan Brothers Corp.(2017), SIL Open Font License1.1 원문은 `public/assets/fonts/Jua-OFL.txt`에 동봉했다.
 - 제공된 로고·배경·NPC의 외부 배포 권리는 확인하지 않았다. 현재 범위는 로컬 MVP다.
 - Three.js: MIT, Vite: MIT. 의존성의 상세 고지는 각 패키지 LICENSE에 있다.

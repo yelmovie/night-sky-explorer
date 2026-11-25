@@ -1,6 +1,7 @@
 import stars from "./stars.json" with { type: "json" };
 import { starNames, referenceLines } from "./data.js";
 import { conceptArt } from "./concept-assets.js";
+import { lunarPhaseAngle } from "./lunar-model.js";
 export const esc = (s) =>
   String(s ?? "").replace(
     /[&<>"']/g,
@@ -38,7 +39,7 @@ export function icon(name, size = 22) {
 let uid = 0;
 // The generated surface stays fixed; only the mathematical illumination mask changes.
 // moonHref lets offline renderers embed the same asset without fetching a browser URL.
-export function moonSVG(amount = 100, side = "right", cls = "", extra = "", { moonHref = conceptArt.moon.src } = {}) {
+export function moonSVG(amount = 100, side = "right", cls = "", extra = "", { surface = conceptArt.moon, moonHref = surface.src, nightSide = true, label } = {}) {
   const id = `moon${uid++}`,
     f = Math.max(0, Math.min(1, amount / 100)),
     k = 2 * f - 1;
@@ -55,14 +56,34 @@ export function moonSVG(amount = 100, side = "right", cls = "", extra = "", { mo
     pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(2)} ${p[1]}`).join(" ") +
     "Z";
   const mirror = side === "left" ? ' transform="translate(100 0) scale(-1 1)"' : "";
-  return `<svg class="moon-art ${cls}" viewBox="0 0 100 100" role="img" aria-label="밝은 부분 ${Math.round(f * 100)}%, ${side === "right" ? "오른쪽" : "왼쪽"} 달 학습 모형" ${extra}><defs><clipPath id="${id}disk"><circle cx="50" cy="50" r="48"/></clipPath><clipPath id="${id}light"><path d="${path}"${mirror}/></clipPath><svg id="${id}surface" x="2" y="2" width="96" height="96" viewBox="${conceptArt.moon.viewBox}" preserveAspectRatio="none"><image href="${esc(moonHref)}" width="${conceptArt.moon.width}" height="${conceptArt.moon.height}"/></svg></defs><circle cx="50" cy="50" r="49" fill="#202b46"/><g clip-path="url(#${id}disk)"><use href="#${id}surface" opacity=".1"/><g clip-path="url(#${id}light)"><use href="#${id}surface"/></g></g></svg>`;
+  const description = label ?? `밝은 부분 ${Math.round(f * 100)}%, ${side === "right" ? "오른쪽" : "왼쪽"} 달 학습 모형`;
+  const darkDisk = nightSide ? `<circle cx="50" cy="50" r="49" fill="#202b46"/>` : '';
+  const darkSurface = nightSide ? `<use href="#${id}surface" opacity=".1"/>` : '';
+  const litSurface = f > 0 ? `<g clip-path="url(#${id}light)"><use href="#${id}surface"/></g>` : '';
+  return `<svg class="moon-art ${cls}" viewBox="0 0 100 100" role="img" aria-label="${esc(description)}" ${extra}><defs><clipPath id="${id}disk"><circle cx="50" cy="50" r="48"/></clipPath><clipPath id="${id}light"><path d="${path}"${mirror}/></clipPath><svg id="${id}surface" x="2" y="2" width="96" height="96" viewBox="${surface.viewBox}" preserveAspectRatio="none"><image href="${esc(moonHref)}" width="${surface.width}" height="${surface.height}"/></svg></defs>${darkDisk}<g clip-path="url(#${id}disk)">${darkSurface}${litSurface}</g></svg>`;
 }
 export function phase(day) {
-  const angle = (day / 29.53) * Math.PI * 2;
+  const angle = lunarPhaseAngle(day);
   return {
     amount: (1 - Math.cos(angle)) * 50,
     side: day <= 14.765 ? "right" : "left",
   };
+}
+export function litPercentage(amount) {
+  if (amount === 0 || amount === 100) return `${amount}%`;
+  return amount < 1 ? '1% 미만' : `약 ${Math.round(amount)}%`;
+}
+
+const lunarNearSide = {
+  src: '/assets/generated/lunar-observation/near-side.webp', width: 768, height: 768, viewBox: '0 0 768 768',
+};
+export function lunarPhaseSVG(amount, side) {
+  const label = amount === 0 ? '밝은 부분 0%, 삭 때의 달 학습 모형' : `밝은 부분 ${litPercentage(amount)}, ${side === 'right' ? '오른쪽' : '왼쪽'} 달 학습 모형`;
+  return moonSVG(amount, side, '', '', { surface: lunarNearSide, nightSide: false, label });
+}
+export function observedMoonSVG(day) {
+  const { amount, side } = phase(day);
+  return lunarPhaseSVG(amount, side);
 }
 export function dayMoon(day, cls = "", options = {}) {
   const p = phase(day);

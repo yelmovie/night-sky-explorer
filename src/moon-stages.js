@@ -2,7 +2,7 @@ import {discoveryRoute} from './discovery-route.js';
 import './discovery-route.css';
 import { representativeDays } from './observation-records.js';
 import { lunarModelVoice } from './lunar-model.js';
-import { moonSVG, dayMoon, phase } from './drawing.js';
+import { moonSVG, lunarPhaseSVG, observedMoonSVG, phase, litPercentage } from './drawing.js';
 import { learnButton as b, range, imageFor, icon, esc } from './ui.js';
 import './moon-stages.css';
 import { moonSurfaceChoices, phaseChoices, choiceMarkup } from './reflection-chips.js';
@@ -18,10 +18,12 @@ function surfaceDetail(point) {
   return moonSVG().replace('viewBox="0 0 100 100"', `viewBox="${point.x - 17} ${point.y - 17} 34 34"`);
 }
 
-const recordCollection = (days, strip) => `<section class="lunar-records" aria-label="날짜순 달 관측 기록">${strip(representativeDays(days))}</section>`;
+export const phaseRecordStrip = days => `<div class="record-strip">${[...days].sort((a,b) => a-b).map(day => `<div>${observedMoonSVG(day)}<small>${day}일째</small></div>`).join('')}</div>`;
+export const phaseRecordCollection = days => `<section class="lunar-records" aria-label="날짜순 달 관측 기록">${phaseRecordStrip(representativeDays(days))}</section>`;
+export const phaseIllumination = day => day === 0 ? '삭 · 밝은 부분 0%' : `보이는 면 중 밝은 부분 ${litPercentage(phase(day).amount)}`;
 
 export function renderMoonStage(s, scene, i, ui, helpers) {
-  const { tabs, strip } = helpers;
+  const { tabs } = helpers;
   const d = s.drafts;
   let main, tools, instruction;
 
@@ -65,8 +67,11 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
     case 's2a': {
       const p = d.phases;
       instruction = '여러 날의 달 모습을 모아요.';
-      main = `<div class="phase-display"><span class="date-tag" id="day-label">${p.day}일째</span><div id="phase-moon">${dayMoon(p.day)}</div></div>
-        <div id="capture-strip">${recordCollection(p.captures, strip)}</div>
+      main = `<div class="phase-display">
+        <header class="lunar-readout"><span class="date-tag" id="day-label">${p.day}일째</span><span id="phase-count">${phaseIllumination(p.day)}</span></header>
+        <div id="phase-moon"><div id="phase-moon-image">${observedMoonSVG(p.day)}</div></div>
+        </div>
+        <div id="capture-strip">${phaseRecordCollection(p.captures)}</div>
         ${modelScope()}`;
       tools = `${discoveryRoute(p.captures, p.day)}${range('관찰 시점', 'phase-day', 0, 29, p.day, 1, '일째')}
         ${b(`${icon('camera')} <span>이 모습 기록</span>`, 'capture-phase', 'secondary', `id="capture-phase" ${p.captures.includes(p.day) ? 'disabled' : ''}`)}`;
@@ -81,14 +86,14 @@ export function renderMoonStage(s, scene, i, ui, helpers) {
         return prediction.revealed && prediction.overlay && prediction.reflection.trim().length >= 3;
       }))}
         <div class="prediction-board ${ui.overlayVisible ? 'is-overlay' : ''} ${p.revealed ? '' : 'is-predicting'}">
-          <figure class="prediction-card prediction-mine"><h3><i aria-hidden="true"></i>내 예상</h3><div class="prediction-visual" id="prediction-moon">${moonSVG(p.amount, p.side)}</div></figure>
-          ${p.revealed ? `<figure class="prediction-card prediction-evidence"><h3><i aria-hidden="true"></i>관측 자료</h3><div class="prediction-visual">${dayMoon(day)}</div></figure>` : ''}
+          <figure class="prediction-card prediction-mine"><h3><i aria-hidden="true"></i>내 예상</h3><div class="prediction-visual" id="prediction-moon">${lunarPhaseSVG(p.amount, p.side)}</div></figure>
+          ${p.revealed ? `<figure class="prediction-card prediction-evidence"><h3><i aria-hidden="true"></i>관측 자료</h3><div class="prediction-visual">${observedMoonSVG(day)}</div></figure>` : ''}
         </div>${modelScope()}
 `;
       const adjust = `<div class="prediction-adjust">${range('밝은 부분', 'prediction-amount', 0, 100, p.amount, 1, '%')}
         <div class="choice-grid two" role="group" aria-label="밝은 쪽 고르기">${['left','right'].map(side => {
           const label = side === 'left' ? '왼쪽' : '오른쪽';
-          return b(`${moonSVG(50, side)} ${label}`, 'side-' + side, p.side === side ? 'choice-card selected' : 'choice-card', `aria-pressed="${p.side === side}" aria-label="${label}이 밝은 달"`);
+          return b(`${lunarPhaseSVG(50, side)} ${label}`, 'side-' + side, p.side === side ? 'choice-card selected' : 'choice-card', `aria-pressed="${p.side === side}" aria-label="${label}이 밝은 달"`);
         }).join('')}</div></div>`;
       const reference = b(`${icon('book')} 관측 기록`, 'phase-note', 'secondary');
       const choices = choiceMarkup(phaseChoices(day, p.original), ui.picks?.['s2b-' + i], p.reflection, {compact: true});

@@ -11,7 +11,7 @@ import './flow.css';
 import './concept-art.css';
 import { chapters, planets, solarOrder, bodies, patternRegions } from './data.js';
 import { freshState, clone, load, save, canAccess, firstReady, stageOpen, completedCount, completeStage, coreReady, track } from './state.js';
-import { esc, icon, moonSVG, dayMoon, starChart } from './drawing.js';
+import { esc, icon, moonSVG, observedMoonSVG, starChart } from './drawing.js';
 import { button, range, celestialImage, planetImage, token, recordBadge } from './ui.js';
 import { conceptArt } from './concept-assets.js';
 import { learningUI } from './learning-ui.js';
@@ -97,7 +97,7 @@ function home() {
 function recordMarkup(number, data) {
   if (!data) return '<p>관측을 마치면 이곳에 기록이 남아요.</p>';
   if (number === 1) return `<div class="record-strip">${(data.photos || [data.photo]).filter(Boolean).map(photo => `<div>${moonSVG()}<small>${photo.zoom}배 관측</small></div>`).join('')}</div>${(data.comparisons || [data]).map((card, index) => `<p><b>비교 ${index + 1}</b> · ${esc(card.observation)}</p>`).join('')}`;
-  if (number === 2) return `<div class="record-strip">${[...data.captures].sort((first, second) => first - second).map(day => `<div>${dayMoon(day)}<small>${day}일째</small></div>`).join('')}</div>${data.predictions ? [14, 24].map(day => `<p><b>${day}일째 예상 비교</b> · ${esc(data.predictions[day].reflection)}</p>`).join('') : `<p>${esc(data.reflection)}</p>`}`;
+  if (number === 2) return `<div class="record-strip">${[...data.captures].sort((first, second) => first - second).map(day => `<div>${observedMoonSVG(day)}<small>${day}일째</small></div>`).join('')}</div>${data.predictions ? [14, 24].map(day => `<p><b>${day}일째 예상 비교</b> · ${esc(data.predictions[day].reflection)}</p>`).join('') : `<p>${esc(data.reflection)}</p>`}`;
   if (number === 3) return `<p>${Object.keys(data.records).map(id => planets.find(planet => planet.id === id)?.name).join(' · ')} 조사</p><div class="record-planet-strip" aria-label="태양에서 가까운 순서">${solarOrder.map(id => `<span>${token(id)}</span>`).join('')}</div><p>그림의 크기와 간격은 실제 비율과 달라요.</p>`;
   if (number === 4) return `<p>${bodies.filter(body => data.answers[body.id]?.kind === body.kind && data.answers[body.id]?.reason === body.evidence).length}개 천체의 이름과 빛의 근원을 연결했어요.</p><div class="record-light-pair"><figure>${celestialImage('sun','태양 모형')}<figcaption>태양 · 별</figcaption></figure><figure>${planetImage('venus','금성 모형')}<figcaption>금성 · 행성</figcaption></figure></div><p>별은 스스로 빛나요. 달과 행성은 태양빛을 반사해요.</p>${data.lightTrial?.prediction ? `<p><b>가림판 실험</b> · 내 예상: ${data.lightTrial.prediction==='darker'?'어두워짐':'그대로 밝음'}<br>가림: ${data.lightTrial.observations.includes('covered')?'반사광이 사라짐':'미관측'} · 치움: ${data.lightTrial.observations.includes('uncovered')?'반사광이 돌아옴':'미관측'}</p>` : ''}`;
   if (!data.cases) return `<p>${esc(data.reflection)}</p>`;
